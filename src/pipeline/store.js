@@ -69,11 +69,15 @@ class Store {
     this._write('meta');
   }
 
-  getEvents({ domain, region, since } = {}) {
+  getEvents({ domain, region, since, severity } = {}) {
     let out = this.state.events;
     if (domain) {
       const d = String(domain).toLowerCase();
       out = out.filter((e) => e.domain === d);
+    }
+    if (severity) {
+      const s = String(severity).toLowerCase();
+      out = out.filter((e) => e.severity === s);
     }
     if (region) {
       const r = String(region).toLowerCase();

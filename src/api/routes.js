@@ -26,10 +26,10 @@ function apiRoutes(store) {
     res.json(store.snapshot());
   });
 
-  // Filtered queries: ?domain=conflict&region=middle%20east&since=2026-09-27T00:00:00Z
+  // Filtered queries: ?domain=conflict&severity=high&region=middle%20east&since=2026-09-27T00:00:00Z
   router.get('/events', (req, res) => {
-    const { domain, region, since } = req.query;
-    res.json({ events: store.getEvents({ domain, region, since }) });
+    const { domain, region, since, severity } = req.query;
+    res.json({ events: store.getEvents({ domain, region, since, severity }) });
   });
 
   // Server-sent events: 'snapshot' on connect, 'update' after every sweep.

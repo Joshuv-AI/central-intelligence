@@ -11,7 +11,12 @@ const sse = require('./lib/sse');
 
 const store = new Store(config.dataDir, config.feedLimit);
 store.load();
-store.saveAll(); // ensure all four state files exist from first boot
+try {
+  store.saveAll(); // ensure all four state files exist from first boot
+} catch (err) {
+  // A state dir that can't be written must never take the API down.
+  console.error('[boot] FATAL: cannot write state dir', config.dataDir, err.message);
+}
 
 const app = express();
 app.disable('x-powered-by');

@@ -8,11 +8,17 @@ services:
       # proxies to the container's 3001.
       - "80:3001"
     volumes:
-      # JSON state store survives container rebuilds.
-      - ./data:/app/data
+      # JSON state store survives container rebuilds. Named (not bind)
+      # volume: Docker seeds it with the image's /app/data ownership
+      # (app user), so the non-root process can always write — a bind
+      # mount would arrive root-owned from the host and break writes.
+      - ci-data:/app/data
     environment:
       PORT: "3001"
       DATA_DIR: /app/data
       # TIER1_MS / TIER2_MS / TIER3_MS / FETCH_TIMEOUT_MS can be overridden here.
     restart: unless-stopped
     # Caddy (Phase 0) reverse-proxies 443 -> this container.
+
+volumes:
+  ci-data:

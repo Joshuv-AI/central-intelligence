@@ -16,7 +16,7 @@ module.exports = {
   },
 
   // Per-source fetch timeout (ms). A slow source never blocks the sweep.
-  fetchTimeoutMs: parseInt(process.env.FETCH_TIMEOUT_MS || '25000', 10),
+  fetchTimeoutMs: parseInt(process.env.FETCH_TIMEOUT_MS || '60000', 10),
 
   // Max items kept in the public feed.
   feedLimit: parseInt(process.env.FEED_LIMIT || '200', 10),

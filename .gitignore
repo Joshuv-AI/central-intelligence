@@ -1,5 +1,8 @@
 node_modules/
+frontend/node_modules/
 npm-debug.log*
+# Generated frontend build (rebuilt in the Docker image; never committed)
+frontend/dist/
 data/*.json
 data/*.tmp
 .env

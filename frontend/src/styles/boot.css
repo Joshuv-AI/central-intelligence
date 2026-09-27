@@ -1,0 +1,50 @@
+/* Boot ritual layer — mirrors the inline critical CSS, adds JS-driven staging. */
+#boot { transition: opacity 0.9s ease; }
+#boot.done { opacity: 0; pointer-events: none; }
+#boot .boot-word span { animation-delay: var(--d, 0s); }
+
+/* Calm error state: never a blank page. */
+#error-state {
+  position: fixed;
+  z-index: 120;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(400px, 88vw);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-deep);
+  padding: 32px 30px;
+  text-align: center;
+}
+#error-state h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  margin: 12px 0 10px;
+}
+#error-state p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--frost);
+  margin: 0 0 22px;
+}
+.btn-ghost {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--glacier);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 10px 26px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--glacier);
+  background: rgba(127, 206, 240, 0.08);
+}

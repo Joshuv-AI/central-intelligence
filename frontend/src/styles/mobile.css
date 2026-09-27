@@ -1,0 +1,95 @@
+/* Mobile (<=768px): shrunken-globe-first.
+   Globe occupies the top ~42vh; the panel becomes a bottom sheet;
+   the rail becomes a bottom icon bar. Pure CSS — no JS breakpoint logic. */
+@media (max-width: 768px) {
+  #globe-container {
+    top: 0;
+    bottom: auto;
+    height: 42vh;
+  }
+
+  /* Status pill: compact — wordmark and extras hidden to clear the search. */
+  .status-pill { top: 10px; left: 10px; padding: 7px 12px 7px 8px; gap: 8px; max-width: calc(100vw - 250px); overflow: hidden; }
+  .status-word { display: none; }
+  .status-meta { font-size: 10px; white-space: nowrap; }
+  .status-meta .meta-extra, .status-meta .src-word { display: none; }
+  #search-input { width: 90px; }
+  #search-input:focus { width: 130px; }
+
+  #top-right { top: 10px; right: 10px; }
+  #search-results { width: min(320px, calc(100vw - 20px)); position: fixed; top: 56px; right: 10px; }
+
+  /* Rail → bottom icon bar. */
+  #rail {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    flex-direction: row;
+    width: auto;
+    padding: 6px 10px;
+    gap: 2px;
+  }
+  .rail-tip { display: none; }
+  .rail-btn { width: 44px; height: 44px; }
+
+  /* Rail stays above the sheet: panels switch without closing. */
+  #rail { z-index: 75; }
+
+  /* Panel → floating bottom sheet above the icon bar. */
+  #panel {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: calc(66px + env(safe-area-inset-bottom));
+    width: auto;
+    max-width: none;
+    max-height: 52vh;
+    border-radius: 18px;
+    transform: translateY(calc(100% + 80px));
+    background: var(--deep-ice);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* Ticker yields to the open sheet (its feed lives in the sheet anyway). */
+  #panel.open ~ #ticker { opacity: 0; pointer-events: none; }
+  #panel.open { transform: translateY(0); }
+  #sheet-handle {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 2px;
+    cursor: grab;
+    touch-action: none;
+    flex: none;
+  }
+  #sheet-handle span {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(127, 206, 240, 0.35);
+  }
+  #panel-head { padding: 8px 16px 12px; }
+  #panel-body { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+
+  /* Ticker floats above the icon bar. */
+  #ticker {
+    bottom: calc(70px + env(safe-area-inset-bottom));
+    max-width: calc(100vw - 32px);
+    padding: 7px 14px;
+  }
+  #ticker-text { font-size: 10.5px; }
+
+  /* Detail card: pinned near bottom of the globe area. */
+  #detail-card {
+    width: calc(100vw - 24px);
+    left: 12px !important;
+    right: 12px;
+    top: auto !important;
+    bottom: calc(74px + env(safe-area-inset-bottom));
+    transform: none;
+  }
+  #hover-tip { display: none !important; }
+
+  #error-state { padding: 26px 22px; }
+}

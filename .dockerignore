@@ -1,0 +1,7 @@
+# Keep the build context lean. The image rebuilds the frontend itself
+# (stage 1) and never needs local dependencies or runtime state.
+node_modules
+frontend/node_modules
+frontend/dist
+data
+.git

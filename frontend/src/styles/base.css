@@ -1,0 +1,61 @@
+/* Base layout — fullscreen globe, near-zero permanent chrome. */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--polar-night);
+  color: var(--ice-white);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { position: fixed; inset: 0; }
+
+#globe-container {
+  position: absolute;
+  inset: 0;
+  background: var(--polar-night);
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+#globe-container.ready { opacity: 1; }
+#globe-container canvas { display: block; }
+
+/* Cesium container reset — we run a stripped viewer, no widgets. */
+.cesium-viewer,
+.cesium-viewer-cesiumWidgetContainer,
+.cesium-widget,
+.cesium-widget canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.cesium-widget-credits { display: none !important; }
+
+button {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+button:focus-visible, input:focus-visible {
+  outline: 1px solid var(--glacier);
+  outline-offset: 2px;
+}
+
+::selection { background: rgba(127, 206, 240, 0.3); }
+
+/* Slim scrollbars for panels. */
+#panel-body::-webkit-scrollbar,
+#search-results::-webkit-scrollbar { width: 6px; }
+#panel-body::-webkit-scrollbar-thumb,
+#search-results::-webkit-scrollbar-thumb {
+  background: rgba(127, 206, 240, 0.25);
+  border-radius: 3px;
+}

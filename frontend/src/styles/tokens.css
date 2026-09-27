@@ -1,0 +1,46 @@
+/* Central Intelligence — Glacial Calm design tokens. */
+:root {
+  --polar-night: #050b16;
+  --deep-ice: #0a1526;
+  --glacier: #7fcef0;
+  --glacier-deep: #3e9cc9;
+  --ice-white: #edf7fe;
+  --frost: #9cc8e2;
+  --aurora: #34e0c8;
+  --gold: #ffd166;
+  --amber: #ffb020;
+  --ember: #ff5a5a;
+
+  --glass: rgba(10, 21, 38, 0.72);
+  --glass-soft: rgba(10, 21, 38, 0.55);
+  --hairline: rgba(127, 206, 240, 0.18);
+  --hairline-soft: rgba(127, 206, 240, 0.1);
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --radius: 14px;
+  --panel-w: 340px;
+  --rail-w: 56px;
+  --shadow-deep: 0 18px 60px rgba(0, 0, 0, 0.55);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.sev-low { --sev: var(--glacier); }
+.sev-moderate { --sev: var(--gold); }
+.sev-high { --sev: var(--amber); }
+.sev-critical { --sev: var(--ember); }
+
+.micro {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--frost);
+}
+
+.mono { font-family: var(--font-mono); }
+
+.hidden { display: none !important; }

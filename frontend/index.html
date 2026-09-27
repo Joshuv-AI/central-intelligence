@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Central Intelligence — a fused global intelligence picture on one quiet globe." />
+    <meta name="theme-color" content="#050B16" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Central Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Critical first-paint styles so the boot ritual shows before JS loads. */
+      html, body { margin: 0; padding: 0; background: #050B16; height: 100%; overflow: hidden; }
+      #boot {
+        position: fixed; inset: 0; z-index: 200; background: #050B16;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 26px; transition: opacity 900ms ease; font-family: 'Space Grotesk', sans-serif;
+      }
+      #boot.done { opacity: 0; pointer-events: none; }
+      #boot .boot-line {
+        width: 0; height: 1px; background: linear-gradient(90deg, transparent, #7FCEF0, transparent);
+        animation: bootSweep 1.1s cubic-bezier(.4,0,.2,1) forwards;
+      }
+      @keyframes bootSweep { to { width: min(420px, 70vw); } }
+      #boot .boot-word { display: flex; gap: .32em; overflow: hidden; }
+      #boot .boot-word span {
+        color: #EDF7FE; font-size: clamp(20px, 4vw, 34px); font-weight: 600;
+        letter-spacing: .32em; text-indent: .32em; opacity: 0; transform: translateY(110%);
+        animation: bootRise .7s cubic-bezier(.2,.7,.2,1) forwards;
+      }
+      @keyframes bootRise { to { opacity: 1; transform: translateY(0); } }
+      #boot .boot-caption {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .3em;
+        text-indent: .3em; color: #9CC8E2; opacity: 0; animation: bootFade .8s ease .9s forwards;
+      }
+      #boot .boot-shimmer {
+        position: absolute; inset: 0; pointer-events: none; opacity: 0;
+        background: radial-gradient(ellipse 60% 40% at 50% 60%, rgba(52,224,200,.08), transparent 70%);
+        animation: bootFade 1.4s ease 1.1s forwards;
+      }
+      @keyframes bootFade { to { opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) {
+        #boot .boot-line, #boot .boot-word span, #boot .boot-caption, #boot .boot-shimmer { animation: none; opacity: 1; transform: none; width: min(420px, 70vw); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Boot ritual: black → glacier line sweep → wordmark stagger → caption → shimmer. -->
+    <div id="boot" aria-hidden="true">
+      <div class="boot-shimmer"></div>
+      <div class="boot-line"></div>
+      <div class="boot-word" id="boot-word"></div>
+      <div class="boot-caption">ENTERING THE SYSTEM</div>
+    </div>
+
+    <div id="app">
+      <div id="globe-container" aria-label="Global intelligence globe"></div>
+
+      <!-- Top-left status pill -->
+      <button id="status-pill" class="status-pill" aria-label="System status — open system detail">
+        <svg class="ring-mark" viewBox="0 0 32 32" width="20" height="20" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" fill="none" stroke="#7FCEF0" stroke-width="1.4" opacity="0.9"/>
+          <circle cx="16" cy="16" r="8.5" fill="none" stroke="#7FCEF0" stroke-width="1" opacity="0.55"/>
+          <circle cx="16" cy="16" r="4" fill="none" stroke="#7FCEF0" stroke-width="1" opacity="0.35"/>
+          <circle cx="16" cy="16" r="1.6" fill="#7FCEF0"/>
+        </svg>
+        <span class="status-word">CENTRAL&nbsp;INTELLIGENCE</span>
+        <span class="live-dot" id="live-dot" title="Live connection"></span>
+        <span class="status-meta mono" id="status-meta">—</span>
+      </button>
+
+      <!-- Top-right search + region -->
+      <div id="top-right">
+        <div id="search-wrap">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="search-input" type="text" placeholder="Search signals…" autocomplete="off" spellcheck="false" aria-label="Search events" />
+          <div id="search-results" class="hidden" role="listbox"></div>
+        </div>
+        <div id="region-wrap">
+          <button id="region-pill" class="pill" aria-haspopup="listbox" aria-label="Region focus">
+            <span id="region-label">WORLD</span>
+            <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <div id="region-menu" class="hidden" role="listbox"></div>
+        </div>
+      </div>
+
+      <!-- Left icon rail -->
+      <nav id="rail" aria-label="Panels">
+        <button class="rail-btn" data-panel="layers" aria-label="Layers">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 3 3 8l9 5 9-5-9-5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m3 12 9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" opacity=".55"/><path d="m3 16 9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" opacity=".3"/></svg>
+          <span class="rail-tip">Layers</span>
+        </button>
+        <button class="rail-btn" data-panel="connections" aria-label="Connections">
+          <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="6" cy="6" r="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 8l8 8" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>
+          <span class="rail-tip">Connections</span>
+        </button>
+        <button class="rail-btn" data-panel="feed" aria-label="Feed">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span class="rail-tip">Feed</span>
+        </button>
+        <button class="rail-btn" data-panel="regions" aria-label="Regions">
+          <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 3.8 5.2 3.8 8.5s-1.3 6.2-3.8 8.5c-2.5-2.3-3.8-5.2-3.8-8.5S9.5 5.8 12 3.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".7"/></svg>
+          <span class="rail-tip">Regions</span>
+        </button>
+        <button class="rail-btn" data-panel="guide" aria-label="Guide">
+          <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9.6 9.4c.2-1.2 1.2-2 2.5-2 1.4 0 2.5.9 2.5 2.1 0 1.7-2.4 1.9-2.4 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12.1" cy="16.6" r="1.1" fill="currentColor"/></svg>
+          <span class="rail-tip">Guide</span>
+        </button>
+      </nav>
+
+      <!-- Docked panel (one at a time) / bottom sheet on mobile -->
+      <aside id="panel" class="hidden" aria-label="Panel">
+        <div id="sheet-handle" aria-hidden="true"><span></span></div>
+        <div id="panel-head">
+          <div>
+            <div class="micro" id="panel-kicker">PANEL</div>
+            <h2 id="panel-title">Layers</h2>
+          </div>
+          <button id="panel-close" aria-label="Close panel">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div id="panel-body"></div>
+      </aside>
+
+      <!-- Floating detail card (marker click) -->
+      <div id="detail-card" class="hidden" role="dialog" aria-label="Event detail"></div>
+
+      <!-- Hover preview tooltip (desktop) -->
+      <div id="hover-tip" class="hidden"></div>
+
+      <!-- Bottom ticker -->
+      <button id="ticker" class="hidden" aria-label="Latest signals — open feed">
+        <span class="ticker-dot" id="ticker-dot"></span>
+        <span class="mono" id="ticker-text"></span>
+      </button>
+
+      <!-- Calm error state -->
+      <div id="error-state" class="hidden" role="alert">
+        <div class="micro">SIGNAL INTERRUPTED</div>
+        <h2>The system is unreachable</h2>
+        <p id="error-detail">Could not load the intelligence snapshot. The globe will wait.</p>
+        <button id="error-retry" class="btn-ghost">Retry</button>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

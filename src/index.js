@@ -2,6 +2,8 @@
 // One process: Express API + tiered intel scheduler + SSE push.
 // No alerting, no briefings, no bots, no LLM calls — by design.
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const config = require('./config');
 const { Store } = require('./pipeline/store');
 const { startScheduler } = require('./pipeline/scheduler');
@@ -25,14 +27,25 @@ app.use(express.json({ limit: '256kb' }));
 app.use('/api', apiRoutes(store));
 app.use('/proxy', proxyRoutes());
 
-app.get('/', (req, res) => {
-  res.json({
-    name: 'central-intelligence-backend',
-    version: '0.1.0',
-    license: 'AGPL-3.0-only',
-    endpoints: ['GET /api/health', 'GET /api/snapshot', 'GET /api/events', 'GET /api/stream', '/proxy/*'],
+// Serve the built frontend (Vite dist is copied to ./public in the Docker
+// image). Absent during local backend-only dev — the API works without it.
+const publicDir = path.join(__dirname, '..', 'public');
+if (fs.existsSync(path.join(publicDir, 'index.html'))) {
+  app.use(express.static(publicDir, { index: false, maxAge: '1h' }));
+  // SPA fallback: every non-API route serves the frontend (it is now the root page).
+  app.get(/^(?!\/(api|proxy)(\/|$)).*$/, (req, res) => {
+    res.sendFile(path.join(publicDir, 'index.html'));
   });
-});
+} else {
+  app.get('/', (req, res) => {
+    res.json({
+      name: 'central-intelligence-backend',
+      version: '0.1.0',
+      license: 'AGPL-3.0-only',
+      endpoints: ['GET /api/health', 'GET /api/snapshot', 'GET /api/events', 'GET /api/stream', '/proxy/*'],
+    });
+  });
+}
 
 app.use((req, res) => res.status(404).json({ error: 'not_found' }));
 // eslint-disable-next-line no-unused-vars

@@ -1,0 +1,249 @@
+/* Central Intelligence — frontend entry.
+   Fullscreen Cesium globe + minimal chrome. Backend contract:
+   GET /api/snapshot, /api/events, /api/health, /api/stream (SSE). */
+import './styles/tokens.css';
+import './styles/base.css';
+import './styles/boot.css';
+import './styles/chrome.css';
+import './styles/panels.css';
+import './styles/cards.css';
+import './styles/mobile.css';
+
+import * as Cesium from 'cesium';
+import { createViewer, getViewer } from './globe/viewer.js';
+import {
+  initMarkers, syncEvents, syncConnections, applyFilters,
+  pickAt, pulseAt, highlightEvent, eventScreenPos,
+} from './globe/markers.js';
+import { flyToPoint, flyToRegion, flyChain } from './globe/camera.js';
+import { fetchSnapshot } from './data/api.js';
+import { connectStream } from './data/sse.js';
+import { store, on, emit, REGIONS } from './data/store.js';
+import { buildBootWord, runBoot } from './ui/boot.js';
+import { initRail } from './ui/rail.js';
+import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from './ui/panels.js';
+import { initStatus } from './ui/status.js';
+import { initSearch, closeSearch } from './ui/search.js';
+import { initTicker } from './ui/ticker.js';
+import { initCards, openEventCard, closeEventCard, isCardOpen } from './ui/cards.js';
+
+buildBootWord();
+
+/* ————————— snapshot lifecycle ————————— */
+let refreshing = false;
+
+function applySnapshot(snap) {
+  store.setSnapshot(snap);
+  syncEvents(store.events);
+  syncConnections(store.connections);
+  hideError();
+}
+
+async function refreshSnapshot() {
+  if (refreshing) return;
+  refreshing = true;
+  try {
+    const snap = await fetchSnapshot();
+    applySnapshot(snap);
+  } catch (err) {
+    console.warn('[snapshot] refresh failed:', err.message);
+  } finally {
+    refreshing = false;
+  }
+}
+
+/* ————————— error state ————————— */
+function showError(err) {
+  const el = document.getElementById('error-state');
+  const detail = document.getElementById('error-detail');
+  if (detail) {
+    detail.textContent =
+      `Could not load the intelligence snapshot (${err && err.message ? err.message : 'network error'}). ` +
+      'The globe will wait — retry when ready.';
+  }
+  if (el) el.classList.remove('hidden');
+}
+
+function hideError() {
+  const el = document.getElementById('error-state');
+  if (el) el.classList.add('hidden');
+}
+
+/* ————————— globe picking ————————— */
+function initGlobeClick() {
+  const viewer = getViewer();
+  const canvas = viewer.scene.canvas;
+  let downX = 0;
+  let downY = 0;
+
+  canvas.addEventListener('pointerdown', (ev) => {
+    downX = ev.clientX;
+    downY = ev.clientY;
+  });
+  canvas.addEventListener('pointerup', (ev) => {
+    // Ignore drags — only true clicks select markers.
+    if (Math.hypot(ev.clientX - downX, ev.clientY - downY) > 6) return;
+    let hit = null;
+    try {
+      hit = pickAt(ev.clientX, ev.clientY);
+    } catch (err) {
+      console.warn('[pick] failed:', err.message);
+      return;
+    }
+    if (!hit) {
+      closeEventCard();
+      return;
+    }
+    if (hit.type === 'cluster') {
+      zoomToCluster(hit);
+    } else if (hit.type === 'event') {
+      openEventCard(hit.eventId, ev.clientX, ev.clientY);
+    } else if (hit.type === 'connection') {
+      emit('focus-connection', { connectionId: hit.connectionId });
+    }
+  });
+}
+
+function zoomToCluster(hit) {
+  const viewer = getViewer();
+  if (!viewer || !hit.position) return;
+  const carto = Cesium.Cartographic.fromCartesian(hit.position);
+  const lon = Cesium.Math.toDegrees(carto.longitude);
+  const lat = Cesium.Math.toDegrees(carto.latitude);
+  const height = Math.max(viewer.camera.positionCartographic.height * 0.42, 1_200_000);
+  flyToPoint(lon, lat, { height, duration: 1.1 }).catch(() => {});
+}
+
+/* ————————— cross-module focus actions ————————— */
+function initFocusHandlers() {
+  on('focus-event', async ({ eventId, openCard }) => {
+    const e = store.eventById(eventId);
+    if (!e) return;
+    if (Number.isFinite(e.lat) && Number.isFinite(e.lon)) {
+      try {
+        await flyToPoint(e.lon, e.lat, { height: 3_500_000, duration: 1.2 });
+      } catch { /* flight cancelled — still pulse */ }
+      pulseAt(e.lon, e.lat, e.severity);
+      if (openCard) {
+        const p = eventScreenPos(eventId) || { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        openEventCard(eventId, p.x, p.y);
+      }
+    } else if (openCard) {
+      // Non-geographic: card only, centered.
+      openEventCard(eventId, window.innerWidth / 2, window.innerHeight / 2);
+    }
+  });
+
+  on('focus-connection', async ({ connectionId }) => {
+    const c = store.connectionById(connectionId);
+    if (!c) return;
+    closeEventCard();
+    openPanel('connections', { focusId: connectionId });
+    try {
+      await flyChain(c.chain || [], {
+        onStep: (step) => { if (step.eventId) highlightEvent(step.eventId); },
+      });
+    } catch { /* cancelled */ }
+  });
+}
+
+/* ————————— region pill ————————— */
+function initRegionMenu() {
+  const pill = document.getElementById('region-pill');
+  const menu = document.getElementById('region-menu');
+  if (!pill || !menu) return;
+
+  menu.innerHTML = REGIONS.map((r) =>
+    `<button class="region-item" data-region="${r.id}" role="option">${r.label}</button>`
+  ).join('');
+
+  pill.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    menu.classList.toggle('hidden');
+  });
+  menu.addEventListener('click', (ev) => {
+    const item = ev.target.closest('.region-item');
+    if (!item) return;
+    store.region = item.dataset.region;
+    syncRegionPill();
+    menu.classList.add('hidden');
+    emit('region-changed', { region: store.region });
+    emit('filters');
+    applyFilters();
+    flyToRegion(store.region).catch(() => {});
+  });
+  document.addEventListener('pointerdown', (ev) => {
+    if (!menu.classList.contains('hidden') && !ev.target.closest('#region-wrap')) {
+      menu.classList.add('hidden');
+    }
+  });
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') menu.classList.add('hidden');
+  });
+  on('region-changed', syncRegionPill);
+  syncRegionPill();
+}
+
+/* ————————— ESC → clean globe ————————— */
+function initEsc() {
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key !== 'Escape') return;
+    if (isCardOpen()) closeEventCard();
+    else if (isPanelOpen()) closePanel();
+    else closeSearch();
+  });
+}
+
+/* ————————— boot ————————— */
+async function init() {
+  createViewer(document.getElementById('globe-container'));
+  initMarkers();
+
+  initRail();
+  initPanels();
+  initStatus();
+  initSearch();
+  initTicker();
+  initCards();
+  initRegionMenu();
+  initGlobeClick();
+  initEsc();
+  initFocusHandlers();
+
+  document.getElementById('error-retry').addEventListener('click', async () => {
+    hideError();
+    await refreshSnapshot();
+    if (!store.lastSnapshotAt) showError(new Error('still unreachable'));
+  });
+
+  try {
+    const snap = await fetchSnapshot();
+    applySnapshot(snap);
+  } catch (err) {
+    console.error('[boot] snapshot failed:', err.message);
+    showError(err);
+  }
+
+  connectStream({
+    onSnapshot: (snap) => applySnapshot(snap),
+    onUpdate: () => refreshSnapshot(),
+    onStatus: (connected, reconnecting) =>
+      emit('stream-status', { connected, reconnecting }),
+  });
+}
+
+const appReady = init().catch((err) => {
+  console.error('[boot] init failed:', err);
+  showError(err);
+});
+
+runBoot(appReady).then(() => {
+  const globe = document.getElementById('globe-container');
+  if (globe) globe.classList.add('ready');
+});
+
+// Read-only diagnostics handle (data already rendered in the DOM).
+window.__ci = {
+  store,
+  version: '0.1.0',
+};

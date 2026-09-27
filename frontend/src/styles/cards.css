@@ -1,0 +1,136 @@
+/* Floating detail card (marker click) + hover preview tooltip. */
+#detail-card {
+  position: fixed;
+  z-index: 80;
+  width: 300px;
+  max-width: calc(100vw - 32px);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--hairline);
+  border-left: 2px solid var(--sev, var(--glacier));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-deep);
+  padding: 16px 18px 14px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  pointer-events: none;
+}
+#detail-card.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#detail-card .card-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--frost);
+}
+#detail-card .card-close:hover { color: var(--ice-white); }
+.card-kind {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sev, var(--glacier));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.card-kind .kind-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sev, var(--glacier)); flex: none; }
+.card-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  margin: 0 0 10px;
+  padding-right: 20px;
+}
+.card-fields { display: flex; flex-direction: column; gap: 7px; margin-bottom: 4px; }
+.card-field { display: flex; gap: 10px; font-size: 12.5px; line-height: 1.5; }
+.card-field .k {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  color: var(--frost);
+  text-transform: uppercase;
+  width: 52px;
+  flex: none;
+  padding-top: 2px;
+}
+.card-field .v { color: var(--ice-white); overflow-wrap: anywhere; }
+.card-field .v.dim { color: var(--frost); }
+.card-summary {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--frost);
+  margin: 8px 0 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-links { margin-top: 10px; border-top: 1px solid var(--hairline-soft); padding-top: 10px; }
+.card-links .micro { display: block; margin-bottom: 8px; font-size: 9.5px; }
+.card-conn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--glacier);
+  padding: 7px 8px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+.card-conn:hover { background: rgba(127, 206, 240, 0.08); }
+.card-src {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--glacier);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(127, 206, 240, 0.3);
+  padding-bottom: 1px;
+}
+.card-src:hover { border-color: var(--glacier); }
+
+/* Hover preview tooltip (desktop, lightweight). */
+#hover-tip {
+  position: fixed;
+  z-index: 75;
+  max-width: 260px;
+  background: rgba(10, 21, 38, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 9px;
+  padding: 8px 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+#hover-tip.open { opacity: 1; }
+#hover-tip .tip-title {
+  font-size: 12px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+#hover-tip .tip-sub {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  color: var(--sev, var(--frost));
+  text-transform: uppercase;
+  margin-top: 4px;
+}

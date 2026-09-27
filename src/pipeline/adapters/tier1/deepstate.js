@@ -19,7 +19,8 @@ const ENDPOINTS = [
 function tryFetch(url, ms = 20000) {
   let timer__t;
   const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), ms); });
-  return Promise.race([fetch(url, { headers: { "User-Agent": UA, Accept: "application/json" }, }, timer__dl)])
+  timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
+  return Promise.race([fetch(url, { headers: { "User-Agent": UA, Accept: "application/json" }, }), timer__dl])
     .then((res) => {
       if (!res.ok) return null;
       return res.json().catch(() => null);

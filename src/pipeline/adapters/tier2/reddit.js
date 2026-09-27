@@ -16,12 +16,13 @@ const INTEL_KEYWORDS = /\b(war|conflict|missile|airstrike|sanctions?|nuclear|cyb
 async function fetchWithTimeout(url, opts = {}) {
   let t__t;
   const t__dl = new Promise((_, t__rej) => { t__t = setTimeout(() => t__rej(new Error('timeout')), TIMEOUT); });
+  t__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
   try {
     const res = await Promise.race([httpFetch(url, {
       method: opts.method || 'GET',
       headers: { 'User-Agent': UA, ...(opts.headers || {}) },
       body: opts.body,
-    }, t__dl)]);
+    }), t__dl]);
     if (!res.ok) return null;
     return opts.text ? await res.text() : await res.json();
   } catch {

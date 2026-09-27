@@ -17,6 +17,7 @@ const TIMEOUT_MS = 20_000;
 async function postJson(url, body) {
   let timer__t;
   const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), TIMEOUT_MS); });
+  timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
   try {
     const res = await Promise.race([fetch(url, {
       method: "POST",
@@ -25,7 +26,7 @@ async function postJson(url, body) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    }, timer__dl)]);
+    }), timer__dl]);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } finally {

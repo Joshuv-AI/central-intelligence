@@ -31,7 +31,8 @@ const COORDS = {
 function timedFetch(url, ms = 20000) {
   let timer__t;
   const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), ms); });
-  return Promise.race([fetch(url, { headers: { "User-Agent": UA }, }, timer__dl)])
+  timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
+  return Promise.race([fetch(url, { headers: { "User-Agent": UA }, }), timer__dl])
     .finally(() => clearTimeout(timer__t));
 }
 

@@ -37,8 +37,9 @@ function channels() {
 async function fetchHTML(url) {
   let timer__t;
   const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), TIMEOUT_MS); });
+  timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
   try {
-    const res = await Promise.race([fetch(url, { headers: { 'User-Agent': UA } }, timer__dl)]);
+    const res = await Promise.race([fetch(url, { headers: { 'User-Agent': UA } }), timer__dl]);
     if (!res.ok) return null;
     return await res.text();
   } catch { return null; } finally { clearTimeout(timer__t); }

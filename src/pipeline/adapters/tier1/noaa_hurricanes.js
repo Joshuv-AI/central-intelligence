@@ -70,10 +70,11 @@ module.exports = {
   async fetch() {
     let timer__t;
     const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), TIMEOUT_MS); });
+    timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
     try {
       const r = await Promise.race([fetch(NHC_JSON, {
         headers: { 'User-Agent': 'Central-Intelligence/1.0', Accept: 'application/json' },
-      }, timer__dl)]);
+      }), timer__dl]);
       clearTimeout(timer__t);
       if (!r.ok) return [];
       const raw = await r.json();

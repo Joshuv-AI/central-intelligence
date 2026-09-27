@@ -12,9 +12,10 @@ async function getJSON(url) {
   try {
     let t__t;
     const t__dl = new Promise((_, t__rej) => { t__t = setTimeout(() => t__rej(new Error('timeout')), TIMEOUT_MS); });
+    t__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
     const res = await Promise.race([fetch(url, {
       headers: { 'User-Agent': UA, Accept: 'application/json' },
-    }, t__dl)]);
+    }), t__dl]);
     clearTimeout(t__t);
     if (!res.ok) return null;
     return await res.json();

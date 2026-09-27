@@ -17,8 +17,9 @@ const HIGH_SEV = /(ebola|marburg|h5n1|h7n9|mers|nipah|lassa|plague|cholera|anthr
 async function fetchText(url) {
   let t__t;
   const t__dl = new Promise((_, t__rej) => { t__t = setTimeout(() => t__rej(new Error('timeout')), TIMEOUT_MS); });
+  t__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
   try {
-    const res = await Promise.race([fetch(url, { headers: { "User-Agent": UA, Accept: "text/html" } }, t__dl)]);
+    const res = await Promise.race([fetch(url, { headers: { "User-Agent": UA, Accept: "text/html" } }), t__dl]);
     if (!res.ok) return null;
     return await res.text();
   } catch { return null; } finally { clearTimeout(t__t); }

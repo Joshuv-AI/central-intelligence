@@ -29,8 +29,9 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 async function fetchJson(url) {
   let timer__t;
   const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), TIMEOUT_MS); });
+  timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
   try {
-    const res = await Promise.race([fetch(url, { headers: { 'User-Agent': UA }, }, timer__dl)]);
+    const res = await Promise.race([fetch(url, { headers: { 'User-Agent': UA }, }), timer__dl]);
     clearTimeout(timer__t);
     if (!res.ok) return null;
     return await res.json();

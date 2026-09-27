@@ -12,10 +12,11 @@ const MAX_EVENTS = 25;
 async function osFetch(path, key) {
   let t__t;
   const t__dl = new Promise((_, t__rej) => { t__t = setTimeout(() => t__rej(new Error('timeout')), TIMEOUT_MS); });
+  t__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
   try {
     const res = await Promise.race([fetch(`${BASE}${path}`, {
       headers: { Authorization: key, "User-Agent": UA, Accept: "application/json" },
-    }, t__dl)]);
+    }), t__dl]);
     if (!res.ok) return null;
     return await res.json();
   } catch {

@@ -59,12 +59,13 @@ async function fetchBatch(apiKey) {
   if (apiKey) payload.registrationkey = apiKey;
   let timer__t;
   const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), TIMEOUT_MS); });
+  timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
   try {
     const res = await Promise.race([fetch(apiKey ? V2_BASE : V1_BASE, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'User-Agent': UA },
       body: JSON.stringify(payload),
-    }, timer__dl)]);
+    }), timer__dl]);
     clearTimeout(timer__t);
     if (!res.ok) return null;
     return await res.json();

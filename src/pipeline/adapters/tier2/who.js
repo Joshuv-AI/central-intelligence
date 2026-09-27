@@ -20,11 +20,12 @@ module.exports = {
     try {
       let timer__t;
       const timer__dl = new Promise((_, timer__rej) => { timer__t = setTimeout(() => timer__rej(new Error('timeout')), TIMEOUT_MS); });
+      timer__dl.catch(() => {}); // guard: a fired deadline must never reject unobserved (Node 24 crashes the process on unhandled rejection)
       let data;
       try {
         const res = await Promise.race([fetch(DON_API, {
           headers: { "User-Agent": "Central-Intelligence/1.0" },
-        }, timer__dl)]);
+        }), timer__dl]);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         data = await res.json();
       } finally {

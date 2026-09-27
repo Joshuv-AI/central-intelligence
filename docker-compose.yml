@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    image: central-intelligence-backend:0.1.0
+    container_name: ci-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      # JSON state store survives container rebuilds.
+      - ./data:/app/data
+    environment:
+      PORT: "3001"
+      DATA_DIR: /app/data
+      # TIER1_MS / TIER2_MS / TIER3_MS / FETCH_TIMEOUT_MS can be overridden here.
+    restart: unless-stopped
+    # Caddy (Phase 0) reverse-proxies 443 -> this container.

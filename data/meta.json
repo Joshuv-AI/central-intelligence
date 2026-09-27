@@ -1,0 +1,337 @@
+{
+  "sources": {
+    "acled": {
+      "name": "acled",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "gdelt": {
+      "name": "gdelt",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "gdelt_disasters": {
+      "name": "gdelt_disasters",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "deepstate": {
+      "name": "deepstate",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "telegram": {
+      "name": "telegram",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "cisa_kev": {
+      "name": "cisa_kev",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "gdacs": {
+      "name": "gdacs",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "tsunamis": {
+      "name": "tsunamis",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "noaa_hurricanes": {
+      "name": "noaa_hurricanes",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "gps_jamming": {
+      "name": "gps_jamming",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "solar": {
+      "name": "solar",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "noaa_swpc": {
+      "name": "noaa_swpc",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "infrastructure": {
+      "name": "infrastructure",
+      "tier": 1,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "nvd_cve": {
+      "name": "nvd_cve",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "cloudflare_radar": {
+      "name": "cloudflare_radar",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "ripe_ris": {
+      "name": "ripe_ris",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "opensanctions": {
+      "name": "opensanctions",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "ofac": {
+      "name": "ofac",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "promed": {
+      "name": "promed",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "reliefweb": {
+      "name": "reliefweb",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "who": {
+      "name": "who",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "noaa_disasters": {
+      "name": "noaa_disasters",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "noaa_spc": {
+      "name": "noaa_spc",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "bluesky": {
+      "name": "bluesky",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "reddit": {
+      "name": "reddit",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "trends": {
+      "name": "trends",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "openaq": {
+      "name": "openaq",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "safecast": {
+      "name": "safecast",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "epa": {
+      "name": "epa",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "kiwisdr": {
+      "name": "kiwisdr",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "csg_tracker": {
+      "name": "csg_tracker",
+      "tier": 2,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "fred": {
+      "name": "fred",
+      "tier": 3,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "bls": {
+      "name": "bls",
+      "tier": 3,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "eia": {
+      "name": "eia",
+      "tier": 3,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "treasury": {
+      "name": "treasury",
+      "tier": 3,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "comtrade": {
+      "name": "comtrade",
+      "tier": 3,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    },
+    "gscpi": {
+      "name": "gscpi",
+      "tier": 3,
+      "status": "pending",
+      "count": 0,
+      "ms": 0,
+      "error": null,
+      "lastRun": null
+    }
+  }
+}

@@ -1,0 +1,99 @@
+// Central Intelligence — JSON state store on disk.
+// Four files, nothing else: events, connections, feed, meta.
+// No database until load proves one is needed (simplicity guardrail).
+//
+// Writes are atomic (temp file + rename) so a crash mid-sweep can never
+// leave a half-written file. If a sweep fails, the last good state stays.
+const fs = require('fs');
+const path = require('path');
+
+const FILES = ['events.json', 'connections.json', 'feed.json', 'meta.json'];
+
+class Store {
+  constructor(dir, feedLimit = 200) {
+    this.dir = dir;
+    this.feedLimit = feedLimit;
+    this.state = { events: [], connections: [], feed: [], meta: {} };
+  }
+
+  load() {
+    fs.mkdirSync(this.dir, { recursive: true });
+    for (const file of FILES) {
+      const key = path.basename(file, '.json');
+      try {
+        const raw = fs.readFileSync(path.join(this.dir, file), 'utf8');
+        this.state[key] = JSON.parse(raw);
+      } catch {
+        // Missing or corrupt file -> start empty. Never crash on state.
+      }
+    }
+    if (!Array.isArray(this.state.events)) this.state.events = [];
+    if (!Array.isArray(this.state.connections)) this.state.connections = [];
+    if (!Array.isArray(this.state.feed)) this.state.feed = [];
+    if (!this.state.meta || typeof this.state.meta !== 'object') this.state.meta = {};
+    return this.state;
+  }
+
+  _write(key) {
+    const file = path.join(this.dir, `${key}.json`);
+    const tmp = `${file}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(this.state[key], null, 2));
+    fs.renameSync(tmp, file);
+  }
+
+  saveAll() {
+    for (const file of FILES) this._write(path.basename(file, '.json'));
+  }
+
+  // Replace every event previously contributed by `source` with `events`.
+  replaceSourceEvents(source, events) {
+    const rest = this.state.events.filter((e) => e.source !== source);
+    this.state.events = rest.concat(events);
+    this._write('events');
+  }
+
+  pushFeed(items) {
+    this.state.feed = items
+      .concat(this.state.feed)
+      .slice(0, this.feedLimit);
+    this._write('feed');
+  }
+
+  setConnections(connections) {
+    this.state.connections = connections;
+    this._write('connections');
+  }
+
+  patchMeta(patch) {
+    Object.assign(this.state.meta, patch);
+    this._write('meta');
+  }
+
+  getEvents({ domain, region, since } = {}) {
+    let out = this.state.events;
+    if (domain) {
+      const d = String(domain).toLowerCase();
+      out = out.filter((e) => e.domain === d);
+    }
+    if (region) {
+      const r = String(region).toLowerCase();
+      out = out.filter((e) => e.region && e.region.toLowerCase().includes(r));
+    }
+    if (since) {
+      const t = new Date(since).getTime();
+      if (!Number.isNaN(t)) out = out.filter((e) => new Date(e.time).getTime() >= t);
+    }
+    return out.slice().sort((a, b) => new Date(b.time) - new Date(a.time));
+  }
+
+  snapshot() {
+    return {
+      markers: this.state.events,
+      connections: this.state.connections,
+      feed: this.state.feed,
+      meta: this.state.meta,
+    };
+  }
+}
+
+module.exports = { Store };

@@ -4,7 +4,9 @@ services:
     image: central-intelligence-backend:0.1.0
     container_name: ci-backend
     ports:
-      - "3001:3001"
+      # Public HTTP for now; Caddy (with the domain) takes 80/443 later and
+      # proxies to the container's 3001.
+      - "80:3001"
     volumes:
       # JSON state store survives container rebuilds.
       - ./data:/app/data

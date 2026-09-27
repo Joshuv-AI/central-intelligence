@@ -1,0 +1,49 @@
+#!/bin/bash
+# ci-deploy: build and start Central Intelligence, or serve diagnostics on :80 if it fails.
+# Called once by cloud-init at first boot, and by ci-pull (cron) whenever git main changes.
+# Exit 0 = app healthy. Exit 1 = diagnostic fallback server running on :80.
+set -u
+REPO=/opt/central-intelligence
+LOG=/var/log/ci-build.log
+DIAG=/usr/local/bin/ci-diagnostic-server.py
+DIAG_PID=/var/run/ci-diagnostic.pid
+
+log() { echo "[ci-deploy] $(date -u +%FT%TZ) $*" >> "$LOG"; }
+
+# Stop any diagnostic server (it holds port 80).
+if [ -f "$DIAG_PID" ]; then
+  kill "$(cat "$DIAG_PID")" 2>/dev/null || true
+  rm -f "$DIAG_PID"
+fi
+pkill -f ci-diagnostic-server.py 2>/dev/null || true
+
+cd "$REPO" || { log "FATAL: $REPO missing"; exit 1; }
+
+# Clean slate: frees port 80 even if a broken container holds it.
+docker compose down >> "$LOG" 2>&1 || true
+sleep 2
+
+log "starting docker compose up -d --build"
+if docker compose up -d --build >> "$LOG" 2>&1; then
+  log "build OK, waiting for app health (localhost:3001/api/health)"
+  for _ in $(seq 1 30); do
+    if curl -sf -m 5 http://localhost:3001/api/health >/dev/null 2>&1; then
+      log "HEALTHY - app is serving"
+      docker compose ps >> "$LOG" 2>&1 || true
+      exit 0
+    fi
+    sleep 10
+  done
+  log "UNHEALTHY after 5 min - container up but app not responding"
+else
+  log "BUILD FAILED"
+fi
+
+# Fallback: free port 80 and serve diagnostics so the failure is visible remotely.
+docker compose down >> "$LOG" 2>&1 || true
+sleep 2
+log "starting diagnostic server on :80"
+nohup python3 "$DIAG" >>/var/log/ci-diagnostic.log 2>&1 &
+echo $! > "$DIAG_PID"
+log "diagnostic server pid $(cat "$DIAG_PID")"
+exit 1

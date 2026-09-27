@@ -1,0 +1,20 @@
+#!/bin/bash
+# ci-pull: every 5 min, pull origin/main and redeploy on change.
+# ci-deploy handles killing the diagnostic fallback and rebuilding.
+set -u
+REPO=/opt/central-intelligence
+LOG=/var/log/ci-pull.log
+cd "$REPO" || exit 0
+git fetch -q origin main 2>/dev/null || { echo "[ci-pull] $(date -u +%FT%TZ) fetch failed" >> "$LOG"; exit 0; }
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse origin/main)
+if [ "$LOCAL" != "$REMOTE" ]; then
+  echo "[ci-pull] $(date -u +%FT%TZ) new commit ${REMOTE:0:12}, deploying" >> "$LOG"
+  git reset -q --hard origin/main >> "$LOG" 2>&1
+  # Refresh the deploy scripts themselves, then deploy.
+  install -m 0755 "$REPO/ops/ci-deploy" /usr/local/bin/ci-deploy 2>/dev/null || true
+  install -m 0755 "$REPO/ops/ci-pull" /usr/local/bin/ci-pull 2>/dev/null || true
+  install -m 0755 "$REPO/ops/ci-diagnostic-server.py" /usr/local/bin/ci-diagnostic-server.py 2>/dev/null || true
+  /usr/local/bin/ci-deploy >> "$LOG" 2>&1
+  echo "[ci-pull] $(date -u +%FT%TZ) deploy exit $?" >> "$LOG"
+fi

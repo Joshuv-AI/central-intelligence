@@ -1,10 +1,20 @@
 /* Cesium viewer — keyless by constraint (no Ion token):
-   EllipsoidTerrainProvider + CartoDB dark basemap, all Ion widgets off. */
+   EllipsoidTerrainProvider + keyless dark basemap, all Ion widgets off.
+   Basemap: Esri World Dark Gray Canvas (free, no key, no quota).
+   CARTO Dark Matter remains available at build time via VITE_CARTO_KEY — build
+   with a free key from https://carto.com/basemaps/apikey and the viewer uses
+   CARTO instead (CARTO began watermarking keyless tiles "API KEY
+   REQUIRED" in late August 2026). */
 import * as Cesium from 'cesium';
 // widgets.css is injected by vite-plugin-cesium (link tag in index.html).
 
-const CARTO_DARK =
-  'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+// NOTE: Esri tile order is {z}/{y}/{x} — y before x, unlike most providers.
+const ESRI_BASE = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+const ESRI_REF = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}';
+const ESRI_CREDIT = '© Esri, HERE, Garmin, FAO, NOAA, USGS';
+
+const CARTO_DARK = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+const CARTO_CREDIT = '© OpenStreetMap contributors © CARTO';
 
 let viewer = null;
 
@@ -38,17 +48,33 @@ export function createViewer(container) {
   viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#050B16');
   viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#12283f');
   viewer.scene.globe.enableLighting = false;
-  viewer.scene.globe.enableLighting = false;
   viewer.scene.fog.enabled = false;
 
-  // CartoDB dark basemap with required attribution.
-  const carto = new Cesium.UrlTemplateImageryProvider({
-    url: CARTO_DARK,
-    subdomains: 'abcd',
-    credit: new Cesium.Credit('© OpenStreetMap contributors © CARTO', true),
-    maximumLevel: 12,
-  });
-  viewer.imageryLayers.addImageryProvider(carto);
+  // Basemap: Esri Dark Gray Canvas by default (keyless). With a free CARTO
+  // key set (VITE_CARTO_KEY), use CARTO Dark Matter instead.
+  const cartoKey = (import.meta.env.VITE_CARTO_KEY || '').trim();
+  if (cartoKey) {
+    const carto = new Cesium.UrlTemplateImageryProvider({
+      url: `${CARTO_DARK}?key=${encodeURIComponent(cartoKey)}`,
+      subdomains: 'abcd',
+      credit: new Cesium.Credit(CARTO_CREDIT, true),
+      maximumLevel: 12,
+    });
+    viewer.imageryLayers.addImageryProvider(carto);
+  } else {
+    const base = new Cesium.UrlTemplateImageryProvider({
+      url: ESRI_BASE,
+      credit: new Cesium.Credit(ESRI_CREDIT, true),
+      maximumLevel: 16,
+    });
+    viewer.imageryLayers.addImageryProvider(base);
+    // Reference layer: subtle place labels over the dark canvas.
+    const ref = new Cesium.UrlTemplateImageryProvider({
+      url: ESRI_REF,
+      maximumLevel: 16,
+    });
+    viewer.imageryLayers.addImageryProvider(ref);
+  }
 
   // Gentle initial view.
   viewer.camera.setView({

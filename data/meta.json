@@ -7,7 +7,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -18,12 +18,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 14526,
+      "ms": 15274,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.320Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.204Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "gdelt_disasters": {
@@ -31,12 +31,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 32045,
+      "ms": 35730,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.323Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.209Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "deepstate": {
@@ -44,12 +44,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 7974,
+      "ms": 8543,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.324Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.215Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "telegram": {
@@ -57,10 +57,10 @@
       "tier": 1,
       "status": "ok",
       "count": 60,
-      "ms": 6843,
+      "ms": 18827,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.325Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.221Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -70,10 +70,10 @@
       "tier": 1,
       "status": "ok",
       "count": 43,
-      "ms": 6370,
+      "ms": 5141,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.337Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.235Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -83,10 +83,10 @@
       "tier": 1,
       "status": "ok",
       "count": 30,
-      "ms": 7120,
+      "ms": 5714,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.341Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.242Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -96,10 +96,10 @@
       "tier": 1,
       "status": "ok",
       "count": 27,
-      "ms": 4516,
+      "ms": 4729,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.347Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.247Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -109,12 +109,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 5725,
+      "ms": 4861,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.353Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.253Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "noaa_hurricanes": {
@@ -122,10 +122,10 @@
       "tier": 1,
       "status": "ok",
       "count": 5,
-      "ms": 4593,
+      "ms": 4306,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.357Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.256Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -133,14 +133,14 @@
     "gps_jamming": {
       "name": "gps_jamming",
       "tier": 1,
-      "status": "ok",
+      "status": "stale",
       "count": 1,
-      "ms": 5142,
+      "ms": 4956,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
       "lastOk": "2026-09-28T21:32:03.361Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 0,
+      "consecutiveEmpty": 1,
       "backoffUntil": null
     },
     "solar": {
@@ -148,10 +148,10 @@
       "tier": 1,
       "status": "ok",
       "count": 1,
-      "ms": 4861,
+      "ms": 4762,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.380Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.261Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -161,10 +161,10 @@
       "tier": 1,
       "status": "ok",
       "count": 1,
-      "ms": 4943,
+      "ms": 4840,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.383Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.264Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -174,10 +174,10 @@
       "tier": 1,
       "status": "ok",
       "count": 28,
-      "ms": 5604,
+      "ms": 5350,
       "error": null,
-      "lastRun": "2026-09-28T21:31:31.247Z",
-      "lastOk": "2026-09-28T21:32:03.387Z",
+      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastOk": "2026-09-28T21:35:08.268Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -187,10 +187,10 @@
       "tier": 2,
       "status": "ok",
       "count": 25,
-      "ms": 4172,
+      "ms": 4327,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.239Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.276Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -202,7 +202,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -213,12 +213,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 20004,
+      "ms": 4647,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.248Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.280Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "opensanctions": {
@@ -228,7 +228,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -239,10 +239,10 @@
       "tier": 2,
       "status": "ok",
       "count": 1,
-      "ms": 6301,
+      "ms": 5661,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.252Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.284Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -252,10 +252,10 @@
       "tier": 2,
       "status": "ok",
       "count": 25,
-      "ms": 4931,
+      "ms": 4231,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.262Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.287Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -265,12 +265,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 3483,
+      "ms": 3790,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.268Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.290Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "who": {
@@ -278,23 +278,23 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 4418,
+      "ms": 4073,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.274Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.294Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "noaa_disasters": {
       "name": "noaa_disasters",
       "tier": 2,
       "status": "ok",
-      "count": 20,
-      "ms": 16724,
+      "count": 21,
+      "ms": 5652,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.278Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.297Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -304,12 +304,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 4742,
+      "ms": 5186,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.286Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.300Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "bluesky": {
@@ -317,12 +317,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 7176,
+      "ms": 7255,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.290Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.303Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "reddit": {
@@ -332,7 +332,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -343,10 +343,10 @@
       "tier": 2,
       "status": "ok",
       "count": 10,
-      "ms": 5350,
+      "ms": 4962,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.292Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.306Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -358,7 +358,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -369,12 +369,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 10019,
+      "ms": 10001,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.295Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.309Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 2,
       "backoffUntil": null
     },
     "epa": {
@@ -382,10 +382,10 @@
       "tier": 2,
       "status": "ok",
       "count": 15,
-      "ms": 10012,
+      "ms": 11819,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.298Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.312Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -395,10 +395,10 @@
       "tier": 2,
       "status": "ok",
       "count": 15,
-      "ms": 4812,
+      "ms": 4769,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.301Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.315Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -408,10 +408,10 @@
       "tier": 2,
       "status": "ok",
       "count": 12,
-      "ms": 4490,
+      "ms": 4652,
       "error": null,
-      "lastRun": "2026-09-28T21:32:26.233Z",
-      "lastOk": "2026-09-28T21:32:46.305Z",
+      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastOk": "2026-09-28T21:35:39.318Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -423,7 +423,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:33:26.234Z",
+      "lastRun": "2026-09-28T21:36:27.446Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -434,10 +434,10 @@
       "tier": 3,
       "status": "ok",
       "count": 5,
-      "ms": 2974,
+      "ms": 1689,
       "error": null,
-      "lastRun": "2026-09-28T21:33:26.234Z",
-      "lastOk": "2026-09-28T21:33:33.718Z",
+      "lastRun": "2026-09-28T21:36:27.446Z",
+      "lastOk": "2026-09-28T21:36:31.045Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -449,7 +449,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:33:26.234Z",
+      "lastRun": "2026-09-28T21:36:27.446Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -460,10 +460,10 @@
       "tier": 3,
       "status": "ok",
       "count": 4,
-      "ms": 4544,
+      "ms": 2063,
       "error": null,
-      "lastRun": "2026-09-28T21:33:26.234Z",
-      "lastOk": "2026-09-28T21:33:33.722Z",
+      "lastRun": "2026-09-28T21:36:27.446Z",
+      "lastOk": "2026-09-28T21:36:31.048Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -473,10 +473,10 @@
       "tier": 3,
       "status": "ok",
       "count": 4,
-      "ms": 7472,
+      "ms": 3569,
       "error": null,
-      "lastRun": "2026-09-28T21:33:26.234Z",
-      "lastOk": "2026-09-28T21:33:33.726Z",
+      "lastRun": "2026-09-28T21:36:27.446Z",
+      "lastOk": "2026-09-28T21:36:31.051Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -486,10 +486,10 @@
       "tier": 3,
       "status": "ok",
       "count": 2,
-      "ms": 3418,
+      "ms": 2482,
       "error": null,
-      "lastRun": "2026-09-28T21:33:26.234Z",
-      "lastOk": "2026-09-28T21:33:33.730Z",
+      "lastRun": "2026-09-28T21:36:27.446Z",
+      "lastOk": "2026-09-28T21:36:31.054Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -497,11 +497,15 @@
   },
   "lastSweep": {
     "tier": 3,
-    "at": "2026-09-28T21:33:33.733Z",
+    "at": "2026-09-28T21:36:31.057Z",
     "ok": 4,
     "failed": 2
   },
   "deltaPrev": {
+    "gpsjam-2026-09-28-54.5-17.5": {
+      "severity": "high",
+      "time": "2026-09-28T21:31:36.446Z"
+    },
     "telegram:intelslava/95386": {
       "severity": "high",
       "time": "2026-09-28T15:48:58.000Z"
@@ -702,10 +706,6 @@
       "severity": "low",
       "time": "2026-09-28T12:15:13.000Z"
     },
-    "telegram:CIG_telegram/84673": {
-      "severity": "low",
-      "time": "2026-09-28T17:25:56.000Z"
-    },
     "telegram:CIG_telegram/84674": {
       "severity": "low",
       "time": "2026-09-28T17:30:23.000Z"
@@ -721,6 +721,10 @@
     "telegram:CIG_telegram/84679": {
       "severity": "low",
       "time": "2026-09-28T17:44:04.000Z"
+    },
+    "telegram:CIG_telegram/84680": {
+      "severity": "low",
+      "time": "2026-09-28T17:52:39.000Z"
     },
     "telegram:MiddleEastOSINT/599": {
       "severity": "low",
@@ -1162,10 +1166,6 @@
       "severity": "critical",
       "time": "2026-09-28T21:00:00.000Z"
     },
-    "gpsjam-2026-09-28-54.5-17.5": {
-      "severity": "high",
-      "time": "2026-09-28T21:31:36.446Z"
-    },
     "solar-f107-2026-09-28": {
       "severity": "low",
       "time": "2026-09-28T20:00:00"
@@ -1570,6 +1570,10 @@
       "severity": "moderate",
       "time": "2026-09-01T00:00:00.000Z"
     },
+    "usgs_gauge_08067500": {
+      "severity": "high",
+      "time": "2026-09-28T21:35:32.516Z"
+    },
     "trends-us-d6beb83a": {
       "severity": "high",
       "time": "2026-09-28T19:10:00.000Z"
@@ -1582,6 +1586,10 @@
       "severity": "moderate",
       "time": "2026-09-28T20:50:00.000Z"
     },
+    "trends-us-3332944f": {
+      "severity": "moderate",
+      "time": "2026-09-28T20:20:00.000Z"
+    },
     "trends-us-668eb660": {
       "severity": "moderate",
       "time": "2026-09-28T19:40:00.000Z"
@@ -1593,10 +1601,6 @@
     "trends-us-80ef53a6": {
       "severity": "moderate",
       "time": "2026-09-28T21:10:00.000Z"
-    },
-    "trends-us-3332944f": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:20:00.000Z"
     },
     "trends-us-cd7b9638": {
       "severity": "moderate",
@@ -1612,123 +1616,123 @@
     },
     "epa-tri-2024-28139rvsbrrailr-0000108883": {
       "severity": "high",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-99352sdprtpobox-0000091203": {
       "severity": "high",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-99352sdprtpobox-0007439921": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-11101cnsld3854v-0001332214": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-7163wngvty157mi-0000107211": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-17049hpmcgparte-0008001589": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-12832nrtnconese-n120": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-75418vlntrhighw-0001928434": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-45805bpchmforta-0000115071": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-16323mnychtwomi-n982": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-71301drwdt1kopp-0008001589": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-68508ckfml200so-0007664417": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-49464blmrf83009-0007664417": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-70634wstvcpobox-0000108316": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "epa-tri-2024-3633wsssns81nrt-0000110543": {
       "severity": "moderate",
-      "time": "2026-09-28T21:32:36.248Z"
+      "time": "2026-09-28T21:35:39.257Z"
     },
     "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-0": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-1": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-30-mhz-sdr-cyprus-2": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-30-mhz-sdr-doha-qatar-3": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-4": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-5": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-feline-0-30mhz-sdr-waterfall-bay-6": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-30-mhz-sdr-vr2kj-hong-kong-7": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-8": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-9": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-vk3sol-strathbogie-rx-3-victoria-10": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-peter-ea8bfk-fuerteventura-canar-11": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14": {
       "severity": "low",
-      "time": "2026-09-28T21:32:31.073Z"
+      "time": "2026-09-28T21:35:32.226Z"
     },
     "csg-fleet-totals-2026-09-08": {
       "severity": "low",
@@ -1840,6 +1844,37 @@
     }
   },
   "baselines": {
+    "gps_jamming": {
+      "samples": [
+        {
+          "t": 1790631123393,
+          "n": 1
+        },
+        {
+          "t": 1790631166309,
+          "n": 1
+        },
+        {
+          "t": 1790631213734,
+          "n": 1
+        },
+        {
+          "t": 1790631308273,
+          "n": 1
+        },
+        {
+          "t": 1790631339322,
+          "n": 1
+        },
+        {
+          "t": 1790631391058,
+          "n": 1
+        }
+      ],
+      "mean": 1,
+      "std": 0,
+      "anomalous": false
+    },
     "telegram": {
       "samples": [
         {
@@ -1852,6 +1887,18 @@
         },
         {
           "t": 1790631213734,
+          "n": 60
+        },
+        {
+          "t": 1790631308273,
+          "n": 60
+        },
+        {
+          "t": 1790631339322,
+          "n": 60
+        },
+        {
+          "t": 1790631391058,
           "n": 60
         }
       ],
@@ -1872,6 +1919,18 @@
         {
           "t": 1790631213734,
           "n": 43
+        },
+        {
+          "t": 1790631308273,
+          "n": 43
+        },
+        {
+          "t": 1790631339322,
+          "n": 43
+        },
+        {
+          "t": 1790631391058,
+          "n": 43
         }
       ],
       "mean": 43,
@@ -1890,6 +1949,18 @@
         },
         {
           "t": 1790631213734,
+          "n": 30
+        },
+        {
+          "t": 1790631308273,
+          "n": 30
+        },
+        {
+          "t": 1790631339322,
+          "n": 30
+        },
+        {
+          "t": 1790631391058,
           "n": 30
         }
       ],
@@ -1910,6 +1981,18 @@
         {
           "t": 1790631213734,
           "n": 27
+        },
+        {
+          "t": 1790631308273,
+          "n": 27
+        },
+        {
+          "t": 1790631339322,
+          "n": 27
+        },
+        {
+          "t": 1790631391058,
+          "n": 27
         }
       ],
       "mean": 27,
@@ -1929,28 +2012,21 @@
         {
           "t": 1790631213734,
           "n": 5
+        },
+        {
+          "t": 1790631308273,
+          "n": 5
+        },
+        {
+          "t": 1790631339322,
+          "n": 5
+        },
+        {
+          "t": 1790631391058,
+          "n": 5
         }
       ],
       "mean": 5,
-      "std": 0,
-      "anomalous": false
-    },
-    "gps_jamming": {
-      "samples": [
-        {
-          "t": 1790631123393,
-          "n": 1
-        },
-        {
-          "t": 1790631166309,
-          "n": 1
-        },
-        {
-          "t": 1790631213734,
-          "n": 1
-        }
-      ],
-      "mean": 1,
       "std": 0,
       "anomalous": false
     },
@@ -1966,6 +2042,18 @@
         },
         {
           "t": 1790631213734,
+          "n": 1
+        },
+        {
+          "t": 1790631308273,
+          "n": 1
+        },
+        {
+          "t": 1790631339322,
+          "n": 1
+        },
+        {
+          "t": 1790631391058,
           "n": 1
         }
       ],
@@ -1986,6 +2074,18 @@
         {
           "t": 1790631213734,
           "n": 1
+        },
+        {
+          "t": 1790631308273,
+          "n": 1
+        },
+        {
+          "t": 1790631339322,
+          "n": 1
+        },
+        {
+          "t": 1790631391058,
+          "n": 1
         }
       ],
       "mean": 1,
@@ -2005,6 +2105,18 @@
         {
           "t": 1790631213734,
           "n": 28
+        },
+        {
+          "t": 1790631308273,
+          "n": 28
+        },
+        {
+          "t": 1790631339322,
+          "n": 28
+        },
+        {
+          "t": 1790631391058,
+          "n": 28
         }
       ],
       "mean": 28,
@@ -2019,6 +2131,18 @@
         },
         {
           "t": 1790631213734,
+          "n": 25
+        },
+        {
+          "t": 1790631308273,
+          "n": 25
+        },
+        {
+          "t": 1790631339322,
+          "n": 25
+        },
+        {
+          "t": 1790631391058,
           "n": 25
         }
       ],
@@ -2035,6 +2159,18 @@
         {
           "t": 1790631213734,
           "n": 1
+        },
+        {
+          "t": 1790631308273,
+          "n": 1
+        },
+        {
+          "t": 1790631339322,
+          "n": 1
+        },
+        {
+          "t": 1790631391058,
+          "n": 1
         }
       ],
       "mean": 1,
@@ -2049,6 +2185,18 @@
         },
         {
           "t": 1790631213734,
+          "n": 25
+        },
+        {
+          "t": 1790631308273,
+          "n": 25
+        },
+        {
+          "t": 1790631339322,
+          "n": 25
+        },
+        {
+          "t": 1790631391058,
           "n": 25
         }
       ],
@@ -2065,10 +2213,22 @@
         {
           "t": 1790631213734,
           "n": 20
+        },
+        {
+          "t": 1790631308273,
+          "n": 20
+        },
+        {
+          "t": 1790631339322,
+          "n": 21
+        },
+        {
+          "t": 1790631391058,
+          "n": 21
         }
       ],
-      "mean": 20,
-      "std": 0,
+      "mean": 20.25,
+      "std": 0.43,
       "anomalous": false
     },
     "trends": {
@@ -2079,6 +2239,18 @@
         },
         {
           "t": 1790631213734,
+          "n": 10
+        },
+        {
+          "t": 1790631308273,
+          "n": 10
+        },
+        {
+          "t": 1790631339322,
+          "n": 10
+        },
+        {
+          "t": 1790631391058,
           "n": 10
         }
       ],
@@ -2095,6 +2267,18 @@
         {
           "t": 1790631213734,
           "n": 15
+        },
+        {
+          "t": 1790631308273,
+          "n": 15
+        },
+        {
+          "t": 1790631339322,
+          "n": 15
+        },
+        {
+          "t": 1790631391058,
+          "n": 15
         }
       ],
       "mean": 15,
@@ -2109,6 +2293,18 @@
         },
         {
           "t": 1790631213734,
+          "n": 15
+        },
+        {
+          "t": 1790631308273,
+          "n": 15
+        },
+        {
+          "t": 1790631339322,
+          "n": 15
+        },
+        {
+          "t": 1790631391058,
           "n": 15
         }
       ],
@@ -2125,6 +2321,18 @@
         {
           "t": 1790631213734,
           "n": 12
+        },
+        {
+          "t": 1790631308273,
+          "n": 12
+        },
+        {
+          "t": 1790631339322,
+          "n": 12
+        },
+        {
+          "t": 1790631391058,
+          "n": 12
         }
       ],
       "mean": 12,
@@ -2136,9 +2344,21 @@
         {
           "t": 1790631213734,
           "n": 5
+        },
+        {
+          "t": 1790631308273,
+          "n": 5
+        },
+        {
+          "t": 1790631339322,
+          "n": 5
+        },
+        {
+          "t": 1790631391058,
+          "n": 5
         }
       ],
-      "mean": 0,
+      "mean": 5,
       "std": 0,
       "anomalous": false
     },
@@ -2147,9 +2367,21 @@
         {
           "t": 1790631213734,
           "n": 4
+        },
+        {
+          "t": 1790631308273,
+          "n": 4
+        },
+        {
+          "t": 1790631339322,
+          "n": 4
+        },
+        {
+          "t": 1790631391058,
+          "n": 4
         }
       ],
-      "mean": 0,
+      "mean": 4,
       "std": 0,
       "anomalous": false
     },
@@ -2158,9 +2390,21 @@
         {
           "t": 1790631213734,
           "n": 4
+        },
+        {
+          "t": 1790631308273,
+          "n": 4
+        },
+        {
+          "t": 1790631339322,
+          "n": 4
+        },
+        {
+          "t": 1790631391058,
+          "n": 4
         }
       ],
-      "mean": 0,
+      "mean": 4,
       "std": 0,
       "anomalous": false
     },
@@ -2169,9 +2413,21 @@
         {
           "t": 1790631213734,
           "n": 2
+        },
+        {
+          "t": 1790631308273,
+          "n": 2
+        },
+        {
+          "t": 1790631339322,
+          "n": 2
+        },
+        {
+          "t": 1790631391058,
+          "n": 2
         }
       ],
-      "mean": 0,
+      "mean": 2,
       "std": 0,
       "anomalous": false
     }
@@ -2410,14 +2666,14 @@
   ],
   "status": {
     "direction": "RISK-ON",
-    "hot24": 14,
+    "hot24": 15,
     "critical24": 1,
     "anomalies": [],
-    "at": "2026-09-28T21:33:34.245Z"
+    "at": "2026-09-28T21:36:31.595Z"
   },
-  "lastBrain": "2026-09-28T21:33:34.245Z",
+  "lastBrain": "2026-09-28T21:36:31.595Z",
   "deltaSummary": {
-    "new": 15,
+    "new": 0,
     "escalated": 0,
     "deescalated": 0,
     "resolved": 0

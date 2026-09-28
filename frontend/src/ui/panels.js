@@ -15,6 +15,7 @@ import { satellitesEnabled, satelliteCount, setSatellites } from '../globe/satel
 import { firesEnabled, fireCount, setFires } from '../globe/fires/index.js';
 import { militaryEnabled, civilEnabled, flightCount, setMilitary, setCivil } from '../globe/flights/index.js';
 import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/index.js';
+import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -167,7 +168,16 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>`;
   }
-  html += `<span class="micro">Imagery: NOAA nowCOAST</span></div>`;
+  html += `<span class="micro">Imagery: NOAA nowCOAST</span>`;
+  const cycOn = cyclonesEnabled();
+  html += `
+    <div class="layer-row ${cycOn ? '' : 'off'}" data-cyclones="storms">
+      <span class="layer-swatch" style="background:#ff2d2d"></span>
+      <span class="layer-name">Cyclones</span>
+      <span class="layer-count" data-cyclone-count>${cycloneCount() || ''}</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">Storms: NOAA NHC</span></div>`;
   if (nonGeo > 0) {
     html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
@@ -248,6 +258,20 @@ function renderLayers(el) {
       row.classList.toggle('off', !on);
     });
   });
+  const cycRow = el.querySelector('[data-cyclones="storms"]');
+  if (cycRow) {
+    cycRow.addEventListener('click', async () => {
+      cycRow.classList.add('busy');
+      try {
+        const on = await setCyclones(!cyclonesEnabled());
+        cycRow.classList.toggle('off', !on);
+        const countEl = cycRow.querySelector('[data-cyclone-count]');
+        if (countEl) countEl.textContent = cycloneCount() || '';
+      } finally {
+        cycRow.classList.remove('busy');
+      }
+    });
+  }
 }
 
 /* ————————— Connections ————————— */

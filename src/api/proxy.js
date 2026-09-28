@@ -8,18 +8,20 @@
 // Upstream: api.adsb.lol (ODbL 1.0 — attribution shown in the Layers panel).
 const express = require('express');
 
-const UPSTREAM = 'https://api.adsb.lol';
+const ADSB_UPSTREAM = 'https://api.adsb.lol';
+const NHC_UPSTREAM = 'https://www.nhc.noaa.gov';
 const CACHE_MS = 15 * 1000;
+const NHC_CACHE_MS = 5 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 12 * 1000;
 
 // key -> { at, status, body, contentType }
 const cache = new Map();
 
-async function fetchUpstream(path) {
+async function fetchUpstream(base, path) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
   try {
-    const res = await fetch(UPSTREAM + path, {
+    const res = await fetch(base + path, {
       signal: ctrl.signal,
       headers: { 'User-Agent': 'central-intelligence/1.0 (live-layer proxy)' },
     });
@@ -34,17 +36,17 @@ async function fetchUpstream(path) {
   }
 }
 
-function cachedProxy(path) {
+function cachedProxy(base, path, cacheMs = CACHE_MS) {
   return async (req, res) => {
-    const key = path;
+    const key = base + path;
     const now = Date.now();
     const hit = cache.get(key);
-    if (hit && now - hit.at < CACHE_MS) {
+    if (hit && now - hit.at < cacheMs) {
       res.status(hit.status).type(hit.contentType).send(hit.body);
       return;
     }
     try {
-      const up = await fetchUpstream(path);
+      const up = await fetchUpstream(base, path);
       if (up.status === 200) cache.set(key, { at: now, ...up });
       res.status(up.status).type(up.contentType).send(up.body);
     } catch (err) {
@@ -62,7 +64,7 @@ function proxyRoutes() {
   const router = express.Router();
 
   // Military aircraft snapshot.
-  router.get('/adsblol/mil', cachedProxy('/v2/mil'));
+  router.get('/adsblol/mil', cachedProxy(ADSB_UPSTREAM, '/v2/mil'));
 
   // Civil aircraft near a point: ?lat=..&lon=..&dist=.. (dist in NM, default 250).
   router.get('/adsblol/near', (req, res) => {
@@ -75,8 +77,11 @@ function proxyRoutes() {
     }
     if (!Number.isFinite(dist) || dist <= 0) dist = 250;
     dist = Math.min(dist, 250);
-    return cachedProxy(`/v2/lat/${lat}/lon/${lon}/dist/${dist}`)(req, res);
+    return cachedProxy(ADSB_UPSTREAM, `/v2/lat/${lat}/lon/${lon}/dist/${dist}`)(req, res);
   });
+
+  // NHC active tropical cyclones (CurrentStorms.json has no CORS at source).
+  router.get('/nhc/storms', cachedProxy(NHC_UPSTREAM, '/CurrentStorms.json', NHC_CACHE_MS));
 
   router.use((req, res) => {
     res.status(404).json({ error: 'proxy_not_found', path: req.originalUrl });

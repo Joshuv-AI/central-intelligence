@@ -1,5 +1,69 @@
 [
   {
+    "id": "feed-new-usgs_gauge_08067500",
+    "time": "2026-09-28T21:35:32.516Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "FLOOD: Trinity River at Liberty, TX — 36.49 ft",
+    "eventId": "usgs_gauge_08067500",
+    "url": "https://waterdata.usgs.gov/nwis/uv?site_no=08067500",
+    "source": "noaa_disasters"
+  },
+  {
+    "id": "feed-conn-fusion-405637c41463",
+    "time": "2026-09-28T21:35:09.218Z",
+    "severity": "high",
+    "kind": "connection",
+    "text": "CORRELATION · PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W… → PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domes…",
+    "connectionId": "fusion-405637c41463",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-b39a6a7974d6",
+    "time": "2026-09-28T21:35:09.218Z",
+    "severity": "high",
+    "kind": "connection",
+    "text": "CORRELATION · PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domes… → PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human expo…",
+    "connectionId": "fusion-b39a6a7974d6",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-e0eb539182ea",
+    "time": "2026-09-28T21:35:09.218Z",
+    "severity": "high",
+    "kind": "connection",
+    "text": "CORRELATION · PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human expo… → PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W…",
+    "connectionId": "fusion-e0eb539182ea",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-790b16786f21",
+    "time": "2026-09-28T21:35:09.218Z",
+    "severity": "high",
+    "kind": "connection",
+    "text": "CORRELATION · PRO/RUS> Зарубежное эпидобозрение – полиомиелит (WPV1) - Афгани… → PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W…",
+    "connectionId": "fusion-790b16786f21",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-2d775d28f53f",
+    "time": "2026-09-28T21:35:09.218Z",
+    "severity": "high",
+    "kind": "connection",
+    "text": "CORRELATION · PRO/RUS> Зарубежное эпидобозрение – лихорадка Западного Нила (Е… → PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W…",
+    "connectionId": "fusion-2d775d28f53f",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-929a0d864eec",
+    "time": "2026-09-28T21:35:09.218Z",
+    "severity": "high",
+    "kind": "connection",
+    "text": "CORRELATION · PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W… → PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domes…",
+    "connectionId": "fusion-929a0d864eec",
+    "url": null
+  },
+  {
     "id": "feed-new-CVE-2026-88773",
     "time": "2026-09-27T17:16:56.507",
     "severity": "critical",

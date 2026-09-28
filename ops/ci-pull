@@ -1,17 +1,42 @@
 #!/bin/bash
-# ci-pull: every 5 min, pull origin/main and redeploy on change.
-# ci-deploy handles killing the diagnostic fallback and rebuilding.
+# ci-pull: every 5 min, check GitHub API for new commits and redeploy on change.
+# Uses the API (not git fetch) because outbound git HTTPS is blocked in this env.
 set -u
 REPO=/opt/central-intelligence
 LOG=/var/log/ci-pull.log
-cd "$REPO" || exit 0
-git fetch -q origin main 2>/dev/null || { echo "[ci-pull] $(date -u +%FT%TZ) fetch failed" >> "$LOG"; exit 0; }
-LOCAL=$(git rev-parse HEAD)
-REMOTE=$(git rev-parse origin/main)
-if [ "$LOCAL" != "$REMOTE" ]; then
-  echo "[ci-pull] $(date -u +%FT%TZ) new commit ${REMOTE:0:12}, deploying" >> "$LOG"
-  git reset -q --hard origin/main >> "$LOG" 2>&1
-  # Refresh the deploy scripts themselves, then deploy.
+SHA_FILE=/var/lib/ci-deployed-sha
+API_URL="https://api.github.com/repos/Joshuv-AI/central-intelligence/commits/main"
+
+REMOTE_SHA=$(curl -s -m 15 "$API_URL" 2>/dev/null | grep -o '"sha": "[0-9a-f]*"' | head -1 | cut -d'"' -f4)
+if [ -z "$REMOTE_SHA" ]; then
+  echo "[ci-pull] $(date -u +%FT%TZ) API check failed" >> "$LOG"
+  exit 0
+fi
+
+LOCAL_SHA=$(cat "$SHA_FILE" 2>/dev/null || echo "none")
+
+if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
+  echo "[ci-pull] $(date -u +%FT%TZ) new commit ${REMOTE_SHA:0:12} (was ${LOCAL_SHA:0:12}), deploying" >> "$LOG"
+  TMPDIR=$(mktemp -d)
+  curl -sL -m 60 "https://github.com/Joshuv-AI/central-intelligence/archive/$REMOTE_SHA.tar.gz" -o "$TMPDIR/repo.tar.gz" 2>/dev/null
+  if [ -f "$TMPDIR/repo.tar.gz" ]; then
+    tar xzf "$TMPDIR/repo.tar.gz" -C "$TMPDIR" 2>/dev/null
+    EXTRACTED=$(ls -d $TMPDIR/central-intelligence-* 2>/dev/null | head -1)
+    if [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED" ]; then
+      rsync -a --exclude='.git' "$EXTRACTED/" "$REPO/" 2>/dev/null
+      echo "$REMOTE_SHA" > "$SHA_FILE"
+      echo "[ci-pull] $(date -u +%FT%TZ) extracted ${REMOTE_SHA:0:12}" >> "$LOG"
+    else
+      echo "[ci-pull] $(date -u +%FT%TZ) extraction failed" >> "$LOG"
+      rm -rf "$TMPDIR"
+      exit 0
+    fi
+  else
+    echo "[ci-pull] $(date -u +%FT%TZ) download failed" >> "$LOG"
+    rm -rf "$TMPDIR"
+    exit 0
+  fi
+  rm -rf "$TMPDIR"
   install -m 0755 "$REPO/ops/ci-deploy" /usr/local/bin/ci-deploy 2>/dev/null || true
   install -m 0755 "$REPO/ops/ci-pull" /usr/local/bin/ci-pull 2>/dev/null || true
   install -m 0755 "$REPO/ops/ci-diagnostic-server.py" /usr/local/bin/ci-diagnostic-server.py 2>/dev/null || true

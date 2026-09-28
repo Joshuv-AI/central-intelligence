@@ -1,6 +1,7 @@
 /* Cesium viewer — keyless by constraint (no Ion token):
    Esri World Imagery (satellite) + Boundaries & Places overlay, all keyless;
-   Esri Terrain3D for real relief (async upgrade from the ellipsoid).
+   Re:Earth quantized-mesh terrain for real relief (async upgrade from the
+   ellipsoid) — same terrain God's Eye View uses, keyless, CC BY 4.0.
    All Ion widgets off. */
 import * as Cesium from 'cesium';
 // widgets.css is injected by vite-plugin-cesium (link tag in index.html).
@@ -10,8 +11,8 @@ const ESRI_IMAGERY = 'https://server.arcgisonline.com/ArcGIS/rest/services/World
 const ESRI_IMAGERY_CREDIT = 'Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community';
 const ESRI_PLACES = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
 const ESRI_PLACES_CREDIT = 'Esri, HERE, Garmin, (c) OpenStreetMap contributors, and the GIS user community';
-const ESRI_TERRAIN = 'https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer';
-const ESRI_TERRAIN_CREDIT = 'Sources: Vantor, Airbus DS, USGS, NGA, NASA, CGIAR, GEBCO, N Robinson, NCEAS, NLS, OS, NMA, Geodatastyrelsen and the GIS User Community';
+const REEARTH_TERRAIN = 'https://terrain.reearth.land/cesium-mesh/ellipsoid';
+const REEARTH_TERRAIN_CREDIT = 'Terrain: Re:Earth, Mapterhorn, EGM2008 (NGA), Protomaps, © OpenStreetMap contributors';
 
 let viewer = null;
 let stopIdleSpin = null;
@@ -71,18 +72,17 @@ export function createViewer(container) {
   });
   viewer.imageryLayers.addImageryProvider(ref);
 
-  // Real 3D terrain (Esri Terrain3D, keyless) — resolves async; the globe
-  // starts on the smooth ellipsoid and upgrades when it arrives.
-  if (Cesium.ArcGISTiledElevationTerrainProvider) {
-    Cesium.ArcGISTiledElevationTerrainProvider.fromUrl(ESRI_TERRAIN)
-      .then((terrainProvider) => {
-        if (viewer && !viewer.isDestroyed()) {
-          viewer.terrainProvider = terrainProvider;
-          viewer.scene.globe.credit = new Cesium.Credit(ESRI_TERRAIN_CREDIT, true);
-        }
-      })
-      .catch((err) => console.warn('[globe] terrain unavailable, staying on ellipsoid:', err));
-  }
+  // Real 3D terrain (Re:Earth quantized mesh — same terrain God's Eye View
+  // uses; keyless, CC BY 4.0, CORS-open) — resolves async; the globe starts
+  // on the smooth ellipsoid and upgrades when it arrives.
+  Cesium.CesiumTerrainProvider.fromUrl(REEARTH_TERRAIN)
+    .then((terrainProvider) => {
+      if (viewer && !viewer.isDestroyed()) {
+        viewer.terrainProvider = terrainProvider;
+        viewer.scene.globe.credit = new Cesium.Credit(REEARTH_TERRAIN_CREDIT, true);
+      }
+    })
+    .catch((err) => console.warn('[globe] terrain unavailable, staying on ellipsoid:', err));
 
   // Gentle initial view.
   viewer.camera.setView({

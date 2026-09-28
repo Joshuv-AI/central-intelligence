@@ -15,6 +15,13 @@ let civOn = false;
 let pollTimer = 0;
 let preRenderRemove = null;
 let occluder = null;
+// Source heartbeat for the dock: last successful poll + last error, per feed.
+const feedStatus = {
+  military: { lastOk: 0, lastErr: '' },
+  civil: { lastOk: 0, lastErr: '' },
+};
+/** Heartbeat for the Live Source Dock: { lastOk, lastErr } per feed. */
+export function flightStatus() { return feedStatus; }
 
 // hex -> { billboard, lat, lon, track, gs, alt, lastUpdate }
 const aircraft = new Map();
@@ -115,7 +122,11 @@ function cullHorizon() {
 
 async function poll() {
   const jobs = [];
-  if (milOn) jobs.push(fetch('/proxy/adsblol/mil').then((r) => r.json()).then((d) => ({ d, military: true })));
+  if (milOn) jobs.push(
+    fetch('/proxy/adsblol/mil').then((r) => r.json())
+      .then((d) => ({ d, military: true, ok: true }))
+      .catch((err) => ({ military: true, ok: false, err }))
+  );
   if (civOn) {
     const cam = viewer.scene.camera;
     const carto = Cesium.Ellipsoid.WGS84.cartesianToCartographic(cam.positionWC);
@@ -124,31 +135,37 @@ async function poll() {
     jobs.push(
       fetch(`/proxy/adsblol/near?lat=${lat.toFixed(2)}&lon=${lon.toFixed(2)}&dist=250`)
         .then((r) => r.json())
-        .then((d) => ({ d, military: false }))
+        .then((d) => ({ d, military: false, ok: true }))
+        .catch((err) => ({ military: false, ok: false, err }))
     );
   }
   if (!jobs.length) return;
-  try {
-    const results = await Promise.all(jobs);
-    const seen = new Set();
-    for (const { d, military } of results) {
-      for (const ac of d.ac || []) {
-        if (!ac.hex) continue;
-        seen.add(ac.hex);
-        upsert(ac, military);
-      }
+  const results = await Promise.all(jobs);
+  const seen = new Set();
+  for (const { d, military, ok, err } of results) {
+    const key = military ? 'military' : 'civil';
+    if (ok) {
+      feedStatus[key].lastOk = Date.now();
+      feedStatus[key].lastErr = '';
+    } else {
+      feedStatus[key].lastErr = String((err && err.message) || err || 'fetch failed');
+      console.warn(`[flights] ${key} poll failed:`, err);
+      continue;
     }
-    // Drop aircraft that vanished from both feeds.
-    for (const [hex, a] of aircraft) {
-      if (!seen.has(hex)) {
-        billboards.remove(a.billboard);
-        aircraft.delete(hex);
-      }
+    for (const ac of d.ac || []) {
+      if (!ac.hex) continue;
+      seen.add(ac.hex);
+      upsert(ac, military);
     }
-    cullHorizon();
-  } catch (err) {
-    console.warn('[flights] poll failed:', err);
   }
+  // Drop aircraft that vanished from both feeds.
+  for (const [hex, a] of aircraft) {
+    if (!seen.has(hex)) {
+      billboards.remove(a.billboard);
+      aircraft.delete(hex);
+    }
+  }
+  cullHorizon();
 }
 
 function startLoop() {
@@ -184,6 +201,12 @@ function stopLoop() {
 export function militaryEnabled() { return milOn; }
 export function civilEnabled() { return civOn; }
 export function flightCount() { return aircraft.size; }
+/** Per-feed aircraft count for the dock (true = military, false = civil). */
+export function flightCountBy(military) {
+  let n = 0;
+  for (const a of aircraft.values()) if (!!a.military === military) n++;
+  return n;
+}
 
 export async function setMilitary(on) {
   milOn = on;

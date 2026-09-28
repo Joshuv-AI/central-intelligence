@@ -18,6 +18,10 @@ let timer = 0;
 let refreshTimer = 0;
 let enabled = false;
 let dotImage = null;
+// Source heartbeat for the dock.
+const srcStatus = { lastOk: 0, lastErr: '' };
+/** Heartbeat for the Live Source Dock: { lastOk, lastErr }. */
+export function satelliteStatus() { return srcStatus; }
 
 function makeDotImage() {
   const c = document.createElement('canvas');
@@ -51,14 +55,22 @@ function parseTLE(text, group) {
 
 async function loadTLEs() {
   const all = [];
+  let okGroups = 0;
   for (const group of GROUPS) {
     try {
       const res = await fetch(TLE_URL(group));
       if (!res.ok) throw new Error('celestrak ' + res.status);
       all.push(...parseTLE(await res.text(), group));
+      okGroups++;
     } catch (err) {
       console.warn(`[satellites] ${group} unavailable:`, err);
     }
+  }
+  if (okGroups > 0) {
+    srcStatus.lastOk = Date.now();
+    srcStatus.lastErr = '';
+  } else if (all.length === 0) {
+    srcStatus.lastErr = 'CelesTrak unreachable';
   }
   return all;
 }

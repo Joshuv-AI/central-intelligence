@@ -58,13 +58,30 @@ export function fireCount() {
   return dataSource ? dataSource.entities.values.length : 0;
 }
 
+// Source heartbeat for the dock.
+const srcStatus = { lastOk: 0, lastErr: '' };
+/** Heartbeat for the Live Source Dock: { lastOk, lastErr }. */
+export function fireStatus() { return srcStatus; }
+
+/** load() with heartbeat tracking; rethrows so callers keep their handling. */
+async function refresh() {
+  try {
+    await load();
+    srcStatus.lastOk = Date.now();
+    srcStatus.lastErr = '';
+  } catch (err) {
+    srcStatus.lastErr = String((err && err.message) || err || 'fetch failed');
+    throw err;
+  }
+}
+
 export async function setFires(on) {
   enabled = on;
   if (!viewer) return enabled;
   if (on) {
     if (!dataSource) {
       try {
-        await load();
+        await refresh();
       } catch (err) {
         console.warn('[fires] perimeters unavailable:', err);
         enabled = false;
@@ -75,7 +92,7 @@ export async function setFires(on) {
     }
     if (!refreshTimer) {
       refreshTimer = setInterval(() => {
-        load().catch((err) => console.warn('[fires] refresh failed:', err));
+        refresh().catch((err) => console.warn('[fires] refresh failed:', err));
       }, REFRESH_MS);
     }
   } else if (dataSource) {

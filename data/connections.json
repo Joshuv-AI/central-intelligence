@@ -49,7 +49,7 @@
       "gdacs_TC_1001321",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.674Z"
   },
   {
     "id": "fusion-79e6e3f41d77",
@@ -77,7 +77,7 @@
         "role": "cause",
         "title": "Tropical Cyclone — Japan",
         "severity": "moderate",
-        "time": "2026-09-28T21:25:58",
+        "time": "2026-09-28T21:55:33",
         "lat": 28.1,
         "lon": 133.2,
         "region": "Japan",
@@ -101,7 +101,59 @@
       "gdacs_TC_1001327",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.674Z"
+  },
+  {
+    "id": "fusion-579967c1141d",
+    "title": "Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_TC_1001330",
+        "role": "cause",
+        "title": "Tropical Cyclone — Unknown region",
+        "severity": "moderate",
+        "time": "2026-09-28T21:54:52",
+        "lat": 36.5,
+        "lon": -48.7,
+        "region": null,
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/TC?eventid=1001330&episodeid=2"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_TC_1001330",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T22:05:01.674Z"
   },
   {
     "id": "fusion-40fc3523554a",
@@ -153,59 +205,7 @@
       "gdacs_TC_1001323",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
-  },
-  {
-    "id": "fusion-579967c1141d",
-    "title": "Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_TC_1001330",
-        "role": "cause",
-        "title": "Tropical Cyclone — Unknown region",
-        "severity": "moderate",
-        "time": "2026-09-28T20:42:19",
-        "lat": 36.5,
-        "lon": -48.7,
-        "region": null,
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/TC?eventid=1001330&episodeid=2"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_TC_1001330",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.674Z"
   },
   {
     "id": "fusion-6121ab3c4bfa",
@@ -257,7 +257,7 @@
       "gdacs_TC_1001329",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.674Z"
   },
   {
     "id": "fusion-28fb2b595824",
@@ -309,7 +309,7 @@
       "gdacs_EQ_1568526",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.674Z"
   },
   {
     "id": "fusion-467b9b862a09",
@@ -361,7 +361,7 @@
       "gdacs_EQ_1568519",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.674Z"
   },
   {
     "id": "fusion-1e1b1f2ec2db",
@@ -413,7 +413,7 @@
       "gdacs_EQ_1568514",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.674Z"
   },
   {
     "id": "fusion-b8a295667559",
@@ -465,7 +465,7 @@
       "gdacs_EQ_1568498",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.677Z"
   },
   {
     "id": "fusion-f8de05564977",
@@ -517,7 +517,7 @@
       "gdacs_EQ_1568497",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.677Z"
   },
   {
     "id": "fusion-182ec6412428",
@@ -569,7 +569,7 @@
       "gdacs_EQ_1568477",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.677Z"
   },
   {
     "id": "fusion-461ae0356210",
@@ -621,7 +621,7 @@
       "gdacs_EQ_1568493",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.677Z"
   },
   {
     "id": "fusion-03c3048f37f0",
@@ -673,7 +673,7 @@
       "gdacs_EQ_1568474",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.677Z"
   },
   {
     "id": "fusion-8b3bc4b52a58",
@@ -702,7 +702,7 @@
         "role": "cause",
         "title": "Tropical Cyclone — Mexico",
         "severity": "high",
-        "time": "2026-09-28T21:30:11",
+        "time": "2026-09-28T22:00:24",
         "lat": 25,
         "lon": -113,
         "region": "Mexico",
@@ -726,318 +726,378 @@
       "gdacs_TC_1001325",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.661Z"
   },
   {
-    "id": "fusion-aa025d7803e8",
-    "title": "Flood — Indonesia → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
+    "id": "fusion-405637c41463",
+    "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W… → PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domes…",
+    "summary": "Linked by shared impact (health, population). 3 events across health, environment.",
+    "severity": "high",
     "score": 82,
     "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
+      "severity": 30,
+      "confidence": 20,
       "cascade": 25,
-      "proximity": 5
+      "proximity": 7
     },
     "tier": "critical",
     "tags": [
-      "population",
-      "infrastructure",
       "health",
-      "supply_chain",
-      "power_grid"
+      "population"
     ],
     "chain": [
       {
-        "eventId": "gdacs_FL_1104168",
+        "eventId": "promed:8735411",
         "role": "cause",
-        "title": "Flood — Indonesia",
+        "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, WOAH",
         "severity": "moderate",
-        "time": "2026-09-28T10:04:26",
-        "lat": 2.1924,
-        "lon": 99.3812,
-        "region": "Indonesia",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/FL?eventid=1104168&episodeid=3"
+        "time": "2026-09-28T21:04:56.000Z",
+        "lat": 1.2916200160980225,
+        "lon": 103.80805206298828,
+        "region": "Singapore",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "epa-tri-2024-28139rvsbrrailr-0000108883",
+        "role": "link",
+        "title": "One-time toxic release: Toluene — TRELLEBORG COATED SYSTEMS US INC",
+        "severity": "high",
+        "time": "2026-09-28T21:35:39.257Z",
+        "lat": 35.3773,
+        "lon": -81.9505,
+        "region": "NC",
+        "source": "epa",
+        "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=28139RVSBRRAILR"
+      },
+      {
+        "eventId": "promed:8735410",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domestic, cull",
+        "severity": "moderate",
+        "time": "2026-09-28T21:03:56.000Z",
+        "lat": 14.944700241088867,
+        "lon": 108.45700073242188,
+        "region": "Vietnam",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       }
     ],
     "eventIds": [
-      "gdacs_FL_1104168",
-      "nhc_ep152026"
+      "promed:8735411",
+      "epa-tri-2024-28139rvsbrrailr-0000108883",
+      "promed:8735410"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.665Z"
   },
   {
-    "id": "fusion-0fc3f8dd83b0",
-    "title": "Flood — Myanmar → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
+    "id": "fusion-b39a6a7974d6",
+    "title": "PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domes… → PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human expo…",
+    "summary": "Linked by shared impact (health, population). 3 events across health, environment.",
+    "severity": "high",
     "score": 82,
     "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
+      "severity": 30,
+      "confidence": 20,
       "cascade": 25,
-      "proximity": 5
+      "proximity": 7
     },
     "tier": "critical",
     "tags": [
-      "population",
-      "infrastructure",
       "health",
-      "supply_chain",
-      "power_grid"
+      "population"
     ],
     "chain": [
       {
-        "eventId": "gdacs_FL_1104011",
+        "eventId": "promed:8735410",
         "role": "cause",
-        "title": "Flood — Myanmar",
+        "title": "PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domestic, cull",
         "severity": "moderate",
-        "time": "2026-09-28T10:04:17",
-        "lat": 12.1092,
-        "lon": 98.8165,
-        "region": "Myanmar",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/FL?eventid=1104011&episodeid=27"
+        "time": "2026-09-28T21:03:56.000Z",
+        "lat": 14.944700241088867,
+        "lon": 108.45700073242188,
+        "region": "Vietnam",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "epa-tri-2024-28139rvsbrrailr-0000108883",
+        "role": "link",
+        "title": "One-time toxic release: Toluene — TRELLEBORG COATED SYSTEMS US INC",
+        "severity": "high",
+        "time": "2026-09-28T21:35:39.257Z",
+        "lat": 35.3773,
+        "lon": -81.9505,
+        "region": "NC",
+        "source": "epa",
+        "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=28139RVSBRRAILR"
+      },
+      {
+        "eventId": "promed:8735409",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human exposure, fatal",
+        "severity": "moderate",
+        "time": "2026-09-28T21:02:47.000Z",
+        "lat": 2.5745999813079834,
+        "lon": 113.19180297851562,
+        "region": "Malaysia",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       }
     ],
     "eventIds": [
-      "gdacs_FL_1104011",
-      "nhc_ep152026"
+      "promed:8735410",
+      "epa-tri-2024-28139rvsbrrailr-0000108883",
+      "promed:8735409"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.665Z"
   },
   {
-    "id": "fusion-baa02b6279d4",
-    "title": "Earthquake — Philippines → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
+    "id": "fusion-e0eb539182ea",
+    "title": "PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human expo… → PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W…",
+    "summary": "Linked by shared impact (health, population). 3 events across health, environment.",
+    "severity": "high",
     "score": 82,
     "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
+      "severity": 30,
+      "confidence": 20,
       "cascade": 25,
-      "proximity": 5
+      "proximity": 7
     },
     "tier": "critical",
     "tags": [
-      "population",
-      "infrastructure",
       "health",
-      "supply_chain",
-      "power_grid"
+      "population"
     ],
     "chain": [
       {
-        "eventId": "gdacs_EQ_1568450",
+        "eventId": "promed:8735409",
         "role": "cause",
-        "title": "Earthquake — Philippines",
+        "title": "PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human exposure, fatal",
         "severity": "moderate",
-        "time": "2026-09-28T09:57:02",
-        "lat": 9.9585,
-        "lon": 126.6861,
-        "region": "Philippines",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568450&episodeid=1736534"
+        "time": "2026-09-28T21:02:47.000Z",
+        "lat": 2.5745999813079834,
+        "lon": 113.19180297851562,
+        "region": "Malaysia",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "epa-tri-2024-28139rvsbrrailr-0000108883",
+        "role": "link",
+        "title": "One-time toxic release: Toluene — TRELLEBORG COATED SYSTEMS US INC",
+        "severity": "high",
+        "time": "2026-09-28T21:35:39.257Z",
+        "lat": 35.3773,
+        "lon": -81.9505,
+        "region": "NC",
+        "source": "epa",
+        "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=28139RVSBRRAILR"
+      },
+      {
+        "eventId": "promed:8735411",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, WOAH",
+        "severity": "moderate",
+        "time": "2026-09-28T21:04:56.000Z",
+        "lat": 1.2916200160980225,
+        "lon": 103.80805206298828,
+        "region": "Singapore",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       }
     ],
     "eventIds": [
-      "gdacs_EQ_1568450",
-      "nhc_ep152026"
+      "promed:8735409",
+      "epa-tri-2024-28139rvsbrrailr-0000108883",
+      "promed:8735411"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.665Z"
   },
   {
-    "id": "fusion-fdd87e8580e5",
-    "title": "Earthquake — Canada → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
+    "id": "fusion-790b16786f21",
+    "title": "PRO/RUS> Зарубежное эпидобозрение – полиомиелит (WPV1) - Афгани… → PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W…",
+    "summary": "Linked by shared impact (health, population). 3 events across health, environment.",
+    "severity": "high",
     "score": 82,
     "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
+      "severity": 30,
+      "confidence": 20,
       "cascade": 25,
-      "proximity": 5
+      "proximity": 7
     },
     "tier": "critical",
     "tags": [
-      "population",
-      "infrastructure",
       "health",
-      "supply_chain",
-      "power_grid"
+      "population"
     ],
     "chain": [
       {
-        "eventId": "gdacs_EQ_1568457",
+        "eventId": "promed:8735421",
         "role": "cause",
-        "title": "Earthquake — Canada",
+        "title": "PRO/RUS> Зарубежное эпидобозрение – полиомиелит (WPV1) - Афганистан",
         "severity": "moderate",
-        "time": "2026-09-28T09:54:03",
-        "lat": 50.171,
-        "lon": -129.6785,
-        "region": "Canada",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568457&episodeid=1736531"
+        "time": "2026-09-28T20:40:31.000Z",
+        "lat": 33.838809967041016,
+        "lon": 66.0264663696289,
+        "region": "Afghanistan",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "epa-tri-2024-28139rvsbrrailr-0000108883",
+        "role": "link",
+        "title": "One-time toxic release: Toluene — TRELLEBORG COATED SYSTEMS US INC",
+        "severity": "high",
+        "time": "2026-09-28T21:35:39.257Z",
+        "lat": 35.3773,
+        "lon": -81.9505,
+        "region": "NC",
+        "source": "epa",
+        "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=28139RVSBRRAILR"
+      },
+      {
+        "eventId": "promed:8735411",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, WOAH",
+        "severity": "moderate",
+        "time": "2026-09-28T21:04:56.000Z",
+        "lat": 1.2916200160980225,
+        "lon": 103.80805206298828,
+        "region": "Singapore",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       }
     ],
     "eventIds": [
-      "gdacs_EQ_1568457",
-      "nhc_ep152026"
+      "promed:8735421",
+      "epa-tri-2024-28139rvsbrrailr-0000108883",
+      "promed:8735411"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.665Z"
   },
   {
-    "id": "fusion-c2303e21021c",
-    "title": "Flood — Guinea → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
+    "id": "fusion-2d775d28f53f",
+    "title": "PRO/RUS> Зарубежное эпидобозрение – лихорадка Западного Нила (Е… → PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W…",
+    "summary": "Linked by shared impact (health, population). 3 events across health, environment.",
+    "severity": "high",
     "score": 82,
     "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
+      "severity": 30,
+      "confidence": 20,
       "cascade": 25,
-      "proximity": 5
+      "proximity": 7
     },
     "tier": "critical",
     "tags": [
-      "population",
-      "infrastructure",
       "health",
-      "supply_chain",
-      "power_grid"
+      "population"
     ],
     "chain": [
       {
-        "eventId": "gdacs_FL_1104178",
+        "eventId": "promed:8735418",
         "role": "cause",
-        "title": "Flood — Guinea",
+        "title": "PRO/RUS> Зарубежное эпидобозрение – лихорадка Западного Нила (Европа)",
         "severity": "moderate",
-        "time": "2026-09-28T09:24:44",
-        "lat": 8.3926,
-        "lon": -8.8573,
-        "region": "Guinea",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/FL?eventid=1104178&episodeid=4"
+        "time": "2026-09-28T20:29:38.000Z",
+        "lat": 48.69100189208984,
+        "lon": 9.140999794006348,
+        "region": "Europe",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "epa-tri-2024-28139rvsbrrailr-0000108883",
+        "role": "link",
+        "title": "One-time toxic release: Toluene — TRELLEBORG COATED SYSTEMS US INC",
+        "severity": "high",
+        "time": "2026-09-28T21:35:39.257Z",
+        "lat": 35.3773,
+        "lon": -81.9505,
+        "region": "NC",
+        "source": "epa",
+        "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=28139RVSBRRAILR"
+      },
+      {
+        "eventId": "promed:8735411",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, WOAH",
+        "severity": "moderate",
+        "time": "2026-09-28T21:04:56.000Z",
+        "lat": 1.2916200160980225,
+        "lon": 103.80805206298828,
+        "region": "Singapore",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       }
     ],
     "eventIds": [
-      "gdacs_FL_1104178",
-      "nhc_ep152026"
+      "promed:8735418",
+      "epa-tri-2024-28139rvsbrrailr-0000108883",
+      "promed:8735411"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.665Z"
   },
   {
-    "id": "fusion-d3f682fad6c4",
-    "title": "Earthquake — New Zealand → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
+    "id": "fusion-929a0d864eec",
+    "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, W… → PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domes…",
+    "summary": "Linked by shared impact (health, population). 3 events across health, environment.",
+    "severity": "high",
     "score": 82,
     "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
+      "severity": 30,
+      "confidence": 20,
       "cascade": 25,
-      "proximity": 5
+      "proximity": 7
     },
     "tier": "critical",
     "tags": [
-      "population",
-      "infrastructure",
       "health",
-      "supply_chain",
-      "power_grid"
+      "population"
     ],
     "chain": [
       {
-        "eventId": "gdacs_EQ_1568451",
+        "eventId": "promed:8735411",
         "role": "cause",
-        "title": "Earthquake — New Zealand",
+        "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, WOAH",
         "severity": "moderate",
-        "time": "2026-09-28T08:41:03",
-        "lat": -36.8177,
-        "lon": 179.6666,
-        "region": "New Zealand",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568451&episodeid=1736522"
+        "time": "2026-09-28T21:04:56.000Z",
+        "lat": 1.2916200160980225,
+        "lon": 103.80805206298828,
+        "region": "Singapore",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "epa-tri-2024-99352sdprtpobox-0000091203",
+        "role": "link",
+        "title": "One-time toxic release: Naphthalene — US DOE HANFORD SITE",
+        "severity": "high",
+        "time": "2026-09-28T21:35:39.257Z",
+        "lat": 46.3082,
+        "lon": -119.299,
+        "region": "WA",
+        "source": "epa",
+        "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=99352SDPRTPOBOX"
+      },
+      {
+        "eventId": "promed:8735410",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domestic, cull",
+        "severity": "moderate",
+        "time": "2026-09-28T21:03:56.000Z",
+        "lat": 14.944700241088867,
+        "lon": 108.45700073242188,
+        "region": "Vietnam",
+        "source": "promed",
+        "url": "https://www.promedmail.org/"
       }
     ],
     "eventIds": [
-      "gdacs_EQ_1568451",
-      "nhc_ep152026"
+      "promed:8735411",
+      "epa-tri-2024-99352sdprtpobox-0000091203",
+      "promed:8735410"
     ],
-    "createdAt": "2026-09-28T21:36:31.570Z"
+    "createdAt": "2026-09-28T22:05:01.666Z"
   }
 ]

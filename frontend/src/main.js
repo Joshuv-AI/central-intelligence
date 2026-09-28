@@ -35,6 +35,7 @@ import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from '
 import { initStatus } from './ui/status.js';
 import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
+import { initDock } from './ui/dock.js';
 import { initCards, openEventCard, closeEventCard, isCardOpen } from './ui/cards.js';
 
 buildBootWord();
@@ -228,6 +229,7 @@ async function init() {
   initStatus();
   initSearch();
   initTicker();
+  initDock();
   initCards();
   initRegionMenu();
   initGlobeClick();

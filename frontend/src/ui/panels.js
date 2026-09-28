@@ -225,6 +225,7 @@ function renderLayers(el) {
       try {
         const on = await setSatellites(!satellitesEnabled());
         orbitRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = orbitRow.querySelector('[data-sat-count]');
         if (countEl) countEl.textContent = satelliteCount() || '';
       } finally {
@@ -239,6 +240,7 @@ function renderLayers(el) {
       try {
         const on = await setFires(!firesEnabled());
         fireRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = fireRow.querySelector('[data-fire-count]');
         if (countEl) countEl.textContent = fireCount() || '';
       } finally {
@@ -253,6 +255,7 @@ function renderLayers(el) {
       try {
         const on = await setEarthquakes(!earthquakesEnabled());
         quakeRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = quakeRow.querySelector('[data-quake-count]');
         if (countEl) countEl.textContent = earthquakeCount() || '';
       } finally {
@@ -267,6 +270,7 @@ function renderLayers(el) {
       try {
         const on = await setMilitary(!militaryEnabled());
         milRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
       } finally {
         milRow.classList.remove('busy');
       }
@@ -279,6 +283,7 @@ function renderLayers(el) {
       try {
         const on = await setCivil(!civilEnabled());
         civRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
       } finally {
         civRow.classList.remove('busy');
       }
@@ -289,6 +294,7 @@ function renderLayers(el) {
       const key = row.dataset.weather;
       const on = setWeather(key, !weatherEnabled(key));
       row.classList.toggle('off', !on);
+      window.dispatchEvent(new Event('dock-refresh'));
     });
   });
   const cycRow = el.querySelector('[data-cyclones="storms"]');
@@ -298,6 +304,7 @@ function renderLayers(el) {
       try {
         const on = await setCyclones(!cyclonesEnabled());
         cycRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = cycRow.querySelector('[data-cyclone-count]');
         if (countEl) countEl.textContent = cycloneCount() || '';
       } finally {
@@ -312,6 +319,7 @@ function renderLayers(el) {
       try {
         const on = await setLaunches(!launchesEnabled());
         launchRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = launchRow.querySelector('[data-launch-count]');
         if (countEl) countEl.textContent = launchCount() || '';
       } finally {

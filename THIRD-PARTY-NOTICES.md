@@ -1,5 +1,14 @@
 # Third-party notices
 
+## Re:Earth terrain (CC BY 4.0)
+
+3D terrain tiles are served by [Re:Earth](https://terrain.reearth.land/)
+(`https://terrain.reearth.land/cesium-mesh/ellipsoid`, quantized-mesh),
+used under the Creative Commons Attribution 4.0 International License.
+Terrain data: Re:Earth, Mapterhorn, EGM2008 (NGA), Protomaps,
+© OpenStreetMap contributors. Attribution is also shown in the globe's
+on-screen credit line.
+
 ## God's Eye View sensor shaders (MIT)
 
 The files in `frontend/src/globe/sensors/` named `thermal.js`,

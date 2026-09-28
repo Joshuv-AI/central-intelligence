@@ -7,7 +7,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -18,12 +18,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 15274,
+      "ms": 11988,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.204Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.022Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 4,
       "backoffUntil": null
     },
     "gdelt_disasters": {
@@ -31,12 +31,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 35730,
+      "ms": 28483,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.209Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.026Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 4,
       "backoffUntil": null
     },
     "deepstate": {
@@ -44,12 +44,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 8543,
+      "ms": 4247,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.215Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.030Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 4,
       "backoffUntil": null
     },
     "telegram": {
@@ -57,10 +57,10 @@
       "tier": 1,
       "status": "ok",
       "count": 60,
-      "ms": 18827,
+      "ms": 16279,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.221Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.035Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -70,10 +70,10 @@
       "tier": 1,
       "status": "ok",
       "count": 43,
-      "ms": 5141,
+      "ms": 3426,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.235Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.039Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -83,10 +83,10 @@
       "tier": 1,
       "status": "ok",
       "count": 30,
-      "ms": 5714,
+      "ms": 3520,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.242Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.042Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -95,11 +95,11 @@
       "name": "usgs_earthquakes",
       "tier": 1,
       "status": "ok",
-      "count": 27,
-      "ms": 4729,
+      "count": 25,
+      "ms": 11902,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.247Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.046Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -109,12 +109,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 4861,
+      "ms": 2696,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.253Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.049Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 4,
       "backoffUntil": null
     },
     "noaa_hurricanes": {
@@ -122,10 +122,10 @@
       "tier": 1,
       "status": "ok",
       "count": 5,
-      "ms": 4306,
+      "ms": 2470,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.256Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.053Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -133,14 +133,14 @@
     "gps_jamming": {
       "name": "gps_jamming",
       "tier": 1,
-      "status": "stale",
-      "count": 1,
-      "ms": 4956,
+      "status": "ok",
+      "count": 0,
+      "ms": 2461,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:32:03.361Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.056Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 1,
+      "consecutiveEmpty": 3,
       "backoffUntil": null
     },
     "solar": {
@@ -148,10 +148,10 @@
       "tier": 1,
       "status": "ok",
       "count": 1,
-      "ms": 4762,
+      "ms": 2041,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.261Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.060Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -161,10 +161,10 @@
       "tier": 1,
       "status": "ok",
       "count": 1,
-      "ms": 4840,
+      "ms": 2046,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.264Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.064Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -174,10 +174,10 @@
       "tier": 1,
       "status": "ok",
       "count": 28,
-      "ms": 5350,
+      "ms": 2732,
       "error": null,
-      "lastRun": "2026-09-28T21:34:32.469Z",
-      "lastOk": "2026-09-28T21:35:08.268Z",
+      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastOk": "2026-09-28T22:05:01.067Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -496,796 +496,12 @@
     }
   },
   "lastSweep": {
-    "tier": 3,
-    "at": "2026-09-28T21:36:31.057Z",
-    "ok": 4,
-    "failed": 2
+    "tier": 1,
+    "at": "2026-09-28T22:05:01.071Z",
+    "ok": 13,
+    "failed": 1
   },
   "deltaPrev": {
-    "gpsjam-2026-09-28-54.5-17.5": {
-      "severity": "high",
-      "time": "2026-09-28T21:31:36.446Z"
-    },
-    "telegram:intelslava/95386": {
-      "severity": "high",
-      "time": "2026-09-28T15:48:58.000Z"
-    },
-    "telegram:intelslava/95389": {
-      "severity": "high",
-      "time": "2026-09-28T15:59:13.000Z"
-    },
-    "telegram:intelslava/95390": {
-      "severity": "high",
-      "time": "2026-09-28T16:06:32.000Z"
-    },
-    "telegram:intelslava/95391": {
-      "severity": "high",
-      "time": "2026-09-28T16:41:10.000Z"
-    },
-    "telegram:intelslava/95392": {
-      "severity": "high",
-      "time": "2026-09-28T16:50:27.000Z"
-    },
-    "telegram:legitimniy/23513": {
-      "severity": "low",
-      "time": "2026-09-26T11:49:36.000Z"
-    },
-    "telegram:legitimniy/23514": {
-      "severity": "low",
-      "time": "2026-09-26T12:25:41.000Z"
-    },
-    "telegram:legitimniy/23520": {
-      "severity": "low",
-      "time": "2026-09-26T13:38:24.000Z"
-    },
-    "telegram:legitimniy/23522": {
-      "severity": "low",
-      "time": "2026-09-26T14:12:24.000Z"
-    },
-    "telegram:legitimniy/23523": {
-      "severity": "low",
-      "time": "2026-09-26T15:44:42.000Z"
-    },
-    "telegram:wartranslated/19107": {
-      "severity": "low",
-      "time": "2026-09-27T14:38:57.000Z"
-    },
-    "telegram:wartranslated/19108": {
-      "severity": "high",
-      "time": "2026-09-27T16:10:44.000Z"
-    },
-    "telegram:wartranslated/19109": {
-      "severity": "high",
-      "time": "2026-09-27T16:46:06.000Z"
-    },
-    "telegram:wartranslated/19113": {
-      "severity": "high",
-      "time": "2026-09-27T17:44:20.000Z"
-    },
-    "telegram:wartranslated/19114": {
-      "severity": "low",
-      "time": "2026-09-27T17:52:27.000Z"
-    },
-    "telegram:ukraine_frontline/1": {
-      "severity": "low",
-      "time": "2022-02-28T09:58:54.000Z"
-    },
-    "telegram:ukraine_frontline/2": {
-      "severity": "low",
-      "time": "2022-02-28T09:58:55.000Z"
-    },
-    "telegram:ukraine_frontline/3": {
-      "severity": "low",
-      "time": "2022-02-28T10:03:27.000Z"
-    },
-    "telegram:ukraine_frontline/4": {
-      "severity": "high",
-      "time": "2022-02-28T10:13:25.000Z"
-    },
-    "telegram:ukraine_frontline/5": {
-      "severity": "low",
-      "time": "2022-02-28T10:21:59.000Z"
-    },
-    "telegram:DeepStateUA/23847": {
-      "severity": "low",
-      "time": "2026-09-21T14:31:00.000Z"
-    },
-    "telegram:DeepStateUA/23848": {
-      "severity": "low",
-      "time": "2026-09-21T14:54:52.000Z"
-    },
-    "telegram:DeepStateUA/23849": {
-      "severity": "low",
-      "time": "2026-09-22T15:03:00.000Z"
-    },
-    "telegram:DeepStateUA/23850": {
-      "severity": "low",
-      "time": "2026-09-22T15:30:00.000Z"
-    },
-    "telegram:DeepStateUA/23851": {
-      "severity": "low",
-      "time": "2026-09-22T16:00:00.000Z"
-    },
-    "telegram:operativnoZSU/222286": {
-      "severity": "low",
-      "time": "2026-09-28T16:39:16.000Z"
-    },
-    "telegram:operativnoZSU/222287": {
-      "severity": "low",
-      "time": "2026-09-28T16:46:51.000Z"
-    },
-    "telegram:operativnoZSU/222288": {
-      "severity": "low",
-      "time": "2026-09-28T16:52:08.000Z"
-    },
-    "telegram:operativnoZSU/222289": {
-      "severity": "low",
-      "time": "2026-09-28T16:59:59.000Z"
-    },
-    "telegram:operativnoZSU/222290": {
-      "severity": "low",
-      "time": "2026-09-28T17:11:05.000Z"
-    },
-    "telegram:GeneralStaffZSU/42385": {
-      "severity": "low",
-      "time": "2026-09-27T04:55:01.000Z"
-    },
-    "telegram:GeneralStaffZSU/42386": {
-      "severity": "low",
-      "time": "2026-09-27T05:59:04.000Z"
-    },
-    "telegram:GeneralStaffZSU/42387": {
-      "severity": "low",
-      "time": "2026-09-27T06:14:53.000Z"
-    },
-    "telegram:GeneralStaffZSU/42388": {
-      "severity": "low",
-      "time": "2026-09-27T08:17:02.000Z"
-    },
-    "telegram:GeneralStaffZSU/42389": {
-      "severity": "low",
-      "time": "2026-09-27T12:10:19.000Z"
-    },
-    "telegram:mod_russia/67705": {
-      "severity": "low",
-      "time": "2026-09-28T08:55:24.000Z"
-    },
-    "telegram:mod_russia/67707": {
-      "severity": "low",
-      "time": "2026-09-28T08:56:16.000Z"
-    },
-    "telegram:mod_russia/67708": {
-      "severity": "low",
-      "time": "2026-09-28T10:24:58.000Z"
-    },
-    "telegram:mod_russia/67709": {
-      "severity": "low",
-      "time": "2026-09-28T11:11:40.000Z"
-    },
-    "telegram:mod_russia/67710": {
-      "severity": "low",
-      "time": "2026-09-28T12:10:58.000Z"
-    },
-    "telegram:RVvoenkor/124066": {
-      "severity": "low",
-      "time": "2026-09-28T13:42:51.000Z"
-    },
-    "telegram:RVvoenkor/124068": {
-      "severity": "low",
-      "time": "2026-09-28T14:06:01.000Z"
-    },
-    "telegram:RVvoenkor/124069": {
-      "severity": "low",
-      "time": "2026-09-28T14:28:51.000Z"
-    },
-    "telegram:RVvoenkor/124070": {
-      "severity": "low",
-      "time": "2026-09-28T15:03:09.000Z"
-    },
-    "telegram:RVvoenkor/124072": {
-      "severity": "low",
-      "time": "2026-09-28T15:37:16.000Z"
-    },
-    "telegram:readovkanews/115678": {
-      "severity": "low",
-      "time": "2026-09-28T08:41:20.000Z"
-    },
-    "telegram:readovkanews/115681": {
-      "severity": "low",
-      "time": "2026-09-28T10:24:45.000Z"
-    },
-    "telegram:readovkanews/115682": {
-      "severity": "low",
-      "time": "2026-09-28T10:41:25.000Z"
-    },
-    "telegram:readovkanews/115684": {
-      "severity": "low",
-      "time": "2026-09-28T12:00:11.000Z"
-    },
-    "telegram:readovkanews/115685": {
-      "severity": "low",
-      "time": "2026-09-28T12:15:13.000Z"
-    },
-    "telegram:CIG_telegram/84674": {
-      "severity": "low",
-      "time": "2026-09-28T17:30:23.000Z"
-    },
-    "telegram:CIG_telegram/84677": {
-      "severity": "low",
-      "time": "2026-09-28T17:37:27.000Z"
-    },
-    "telegram:CIG_telegram/84678": {
-      "severity": "low",
-      "time": "2026-09-28T17:41:26.000Z"
-    },
-    "telegram:CIG_telegram/84679": {
-      "severity": "low",
-      "time": "2026-09-28T17:44:04.000Z"
-    },
-    "telegram:CIG_telegram/84680": {
-      "severity": "low",
-      "time": "2026-09-28T17:52:39.000Z"
-    },
-    "telegram:MiddleEastOSINT/599": {
-      "severity": "low",
-      "time": "2021-11-15T20:28:50.000Z"
-    },
-    "telegram:MiddleEastOSINT/600": {
-      "severity": "low",
-      "time": "2021-11-19T12:56:59.000Z"
-    },
-    "telegram:MiddleEastOSINT/601": {
-      "severity": "low",
-      "time": "2021-11-21T20:45:26.000Z"
-    },
-    "telegram:MiddleEastOSINT/602": {
-      "severity": "low",
-      "time": "2021-11-28T17:47:53.000Z"
-    },
-    "telegram:MiddleEastOSINT/603": {
-      "severity": "low",
-      "time": "2021-12-05T20:45:13.000Z"
-    },
-    "cisa-kev:CVE-2026-88772": {
-      "severity": "moderate",
-      "time": "2026-09-27T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-88771": {
-      "severity": "moderate",
-      "time": "2026-09-27T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-67279": {
-      "severity": "high",
-      "time": "2026-09-25T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-65660": {
-      "severity": "high",
-      "time": "2026-09-25T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-87902": {
-      "severity": "high",
-      "time": "2026-09-25T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-5430": {
-      "severity": "high",
-      "time": "2026-09-24T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-71362": {
-      "severity": "high",
-      "time": "2026-09-24T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-93952": {
-      "severity": "high",
-      "time": "2026-09-22T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-94127": {
-      "severity": "high",
-      "time": "2026-09-22T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-93616": {
-      "severity": "high",
-      "time": "2026-09-22T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-85102": {
-      "severity": "high",
-      "time": "2026-09-22T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-7273": {
-      "severity": "high",
-      "time": "2026-09-21T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2025-39964": {
-      "severity": "high",
-      "time": "2026-09-18T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-53266": {
-      "severity": "high",
-      "time": "2026-09-18T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2025-39682": {
-      "severity": "high",
-      "time": "2026-09-18T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-58704": {
-      "severity": "high",
-      "time": "2026-09-16T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-76460": {
-      "severity": "high",
-      "time": "2026-09-16T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-87886": {
-      "severity": "high",
-      "time": "2026-09-16T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-76461": {
-      "severity": "high",
-      "time": "2026-09-14T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-84869": {
-      "severity": "high",
-      "time": "2026-09-11T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-42016": {
-      "severity": "high",
-      "time": "2026-09-11T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-42018": {
-      "severity": "high",
-      "time": "2026-09-11T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-85706": {
-      "severity": "high",
-      "time": "2026-09-11T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-86060": {
-      "severity": "high",
-      "time": "2026-09-10T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-67277": {
-      "severity": "high",
-      "time": "2026-09-10T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-19490": {
-      "severity": "high",
-      "time": "2026-09-09T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2025-25249": {
-      "severity": "high",
-      "time": "2026-09-09T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-87491": {
-      "severity": "high",
-      "time": "2026-09-09T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-20079": {
-      "severity": "high",
-      "time": "2026-09-09T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-75650": {
-      "severity": "high",
-      "time": "2026-09-08T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-81963": {
-      "severity": "high",
-      "time": "2026-09-08T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-86218": {
-      "severity": "high",
-      "time": "2026-09-08T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-85880": {
-      "severity": "high",
-      "time": "2026-09-08T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-85046": {
-      "severity": "high",
-      "time": "2026-09-04T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-59822": {
-      "severity": "high",
-      "time": "2026-09-02T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-48710": {
-      "severity": "high",
-      "time": "2026-09-02T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-49869": {
-      "severity": "high",
-      "time": "2026-09-02T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-82329": {
-      "severity": "high",
-      "time": "2026-09-02T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-9586": {
-      "severity": "high",
-      "time": "2026-09-02T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-83548": {
-      "severity": "high",
-      "time": "2026-09-02T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-83549": {
-      "severity": "high",
-      "time": "2026-09-02T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-82078": {
-      "severity": "high",
-      "time": "2026-08-31T00:00:00.000Z"
-    },
-    "cisa-kev:CVE-2026-81578": {
-      "severity": "high",
-      "time": "2026-08-31T00:00:00.000Z"
-    },
-    "gdacs_FL_1104178": {
-      "severity": "moderate",
-      "time": "2026-09-28T09:24:44"
-    },
-    "gdacs_TC_1001330": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:42:19"
-    },
-    "gdacs_TC_1001329": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:41:27"
-    },
-    "gdacs_TC_1001325": {
-      "severity": "high",
-      "time": "2026-09-28T21:30:11"
-    },
-    "gdacs_TC_1001323": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:52:23"
-    },
-    "gdacs_TC_1001321": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:08:42"
-    },
-    "gdacs_EQ_1568526": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:25:29"
-    },
-    "gdacs_EQ_1568519": {
-      "severity": "moderate",
-      "time": "2026-09-28T19:01:05"
-    },
-    "gdacs_TC_1001327": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:25:58"
-    },
-    "gdacs_EQ_1568514": {
-      "severity": "moderate",
-      "time": "2026-09-28T17:54:54"
-    },
-    "gdacs_EQ_1568497": {
-      "severity": "moderate",
-      "time": "2026-09-28T15:41:43"
-    },
-    "gdacs_EQ_1568498": {
-      "severity": "moderate",
-      "time": "2026-09-28T16:49:43"
-    },
-    "gdacs_EQ_1568493": {
-      "severity": "moderate",
-      "time": "2026-09-28T14:59:03"
-    },
-    "gdacs_EQ_1568477": {
-      "severity": "moderate",
-      "time": "2026-09-28T15:28:44"
-    },
-    "gdacs_EQ_1568474": {
-      "severity": "moderate",
-      "time": "2026-09-28T12:54:50"
-    },
-    "gdacs_EQ_1568457": {
-      "severity": "moderate",
-      "time": "2026-09-28T09:54:03"
-    },
-    "gdacs_EQ_1568450": {
-      "severity": "moderate",
-      "time": "2026-09-28T09:57:02"
-    },
-    "gdacs_EQ_1568451": {
-      "severity": "moderate",
-      "time": "2026-09-28T08:41:03"
-    },
-    "gdacs_EQ_1568434": {
-      "severity": "moderate",
-      "time": "2026-09-28T06:25:42"
-    },
-    "gdacs_EQ_1568438": {
-      "severity": "moderate",
-      "time": "2026-09-28T07:02:07"
-    },
-    "gdacs_EQ_1568429": {
-      "severity": "moderate",
-      "time": "2026-09-28T06:08:21"
-    },
-    "gdacs_EQ_1568424": {
-      "severity": "moderate",
-      "time": "2026-09-28T05:00:23"
-    },
-    "gdacs_EQ_1568425": {
-      "severity": "moderate",
-      "time": "2026-09-28T05:21:42"
-    },
-    "gdacs_EQ_1568423": {
-      "severity": "moderate",
-      "time": "2026-09-28T06:47:30"
-    },
-    "gdacs_EQ_1568414": {
-      "severity": "moderate",
-      "time": "2026-09-28T04:23:48"
-    },
-    "gdacs_EQ_1568412": {
-      "severity": "moderate",
-      "time": "2026-09-28T05:28:42"
-    },
-    "gdacs_EQ_1568409": {
-      "severity": "moderate",
-      "time": "2026-09-28T03:55:23"
-    },
-    "gdacs_FL_1104168": {
-      "severity": "moderate",
-      "time": "2026-09-28T10:04:26"
-    },
-    "gdacs_FL_1104099": {
-      "severity": "moderate",
-      "time": "2026-09-28T06:04:58"
-    },
-    "gdacs_FL_1104011": {
-      "severity": "moderate",
-      "time": "2026-09-28T10:04:17"
-    },
-    "usgs_us6000ty7u": {
-      "severity": "low",
-      "time": "2026-09-28T19:45:07.515Z"
-    },
-    "usgs_us6000ty73": {
-      "severity": "low",
-      "time": "2026-09-28T18:20:44.330Z"
-    },
-    "usgs_us6000ty71": {
-      "severity": "low",
-      "time": "2026-09-28T17:37:55.108Z"
-    },
-    "usgs_us6000ty5m": {
-      "severity": "low",
-      "time": "2026-09-28T15:01:39.183Z"
-    },
-    "usgs_us6000ty5h": {
-      "severity": "low",
-      "time": "2026-09-28T14:43:10.687Z"
-    },
-    "usgs_us6000ty5b": {
-      "severity": "low",
-      "time": "2026-09-28T13:38:40.724Z"
-    },
-    "usgs_us6000ty57": {
-      "severity": "moderate",
-      "time": "2026-09-28T13:22:39.769Z"
-    },
-    "usgs_us6000ty4w": {
-      "severity": "low",
-      "time": "2026-09-28T12:14:24.032Z"
-    },
-    "usgs_us6000ty43": {
-      "severity": "moderate",
-      "time": "2026-09-28T09:13:39.402Z"
-    },
-    "usgs_us6000ty3w": {
-      "severity": "low",
-      "time": "2026-09-28T08:16:13.363Z"
-    },
-    "usgs_us6000ty3c": {
-      "severity": "low",
-      "time": "2026-09-28T06:37:56.356Z"
-    },
-    "usgs_us6000ty38": {
-      "severity": "moderate",
-      "time": "2026-09-28T05:45:29.689Z"
-    },
-    "usgs_us6000ty36": {
-      "severity": "low",
-      "time": "2026-09-28T05:42:32.024Z"
-    },
-    "usgs_us6000ty3a": {
-      "severity": "low",
-      "time": "2026-09-28T05:42:21.379Z"
-    },
-    "usgs_us6000ty33": {
-      "severity": "moderate",
-      "time": "2026-09-28T05:28:08.891Z"
-    },
-    "usgs_us6000ty2w": {
-      "severity": "low",
-      "time": "2026-09-28T04:42:56.780Z"
-    },
-    "usgs_us6000ty2y": {
-      "severity": "low",
-      "time": "2026-09-28T04:41:33.467Z"
-    },
-    "usgs_us6000ty2u": {
-      "severity": "moderate",
-      "time": "2026-09-28T04:41:21.639Z"
-    },
-    "usgs_us6000ty2e": {
-      "severity": "moderate",
-      "time": "2026-09-28T03:43:44.172Z"
-    },
-    "usgs_us6000ty2b": {
-      "severity": "moderate",
-      "time": "2026-09-28T03:25:06.893Z"
-    },
-    "usgs_us6000ty27": {
-      "severity": "low",
-      "time": "2026-09-28T02:53:43.974Z"
-    },
-    "usgs_us6000ty1l": {
-      "severity": "low",
-      "time": "2026-09-28T00:54:43.108Z"
-    },
-    "usgs_us6000ty1m": {
-      "severity": "low",
-      "time": "2026-09-28T00:47:33.083Z"
-    },
-    "usgs_us6000ty1j": {
-      "severity": "low",
-      "time": "2026-09-28T00:37:59.117Z"
-    },
-    "usgs_us6000ty1a": {
-      "severity": "low",
-      "time": "2026-09-27T23:55:48.800Z"
-    },
-    "usgs_us6000ty0u": {
-      "severity": "low",
-      "time": "2026-09-27T21:57:52.827Z"
-    },
-    "usgs_us6000ty0q": {
-      "severity": "low",
-      "time": "2026-09-27T21:49:48.024Z"
-    },
-    "nhc_al062026": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:00:00.000Z"
-    },
-    "nhc_al082026": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:00:00.000Z"
-    },
-    "nhc_ep172026": {
-      "severity": "high",
-      "time": "2026-09-28T21:00:00.000Z"
-    },
-    "nhc_ep182026": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:00:00.000Z"
-    },
-    "nhc_ep152026": {
-      "severity": "critical",
-      "time": "2026-09-28T21:00:00.000Z"
-    },
-    "solar-f107-2026-09-28": {
-      "severity": "low",
-      "time": "2026-09-28T20:00:00"
-    },
-    "noaa-swpc-kp-2026-09-28": {
-      "severity": "low",
-      "time": "2026-09-28T18:00:00"
-    },
-    "infra-chokepoint-chokepoint1-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint2-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint3-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint4-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint5-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint6-2026-09-20": {
-      "severity": "high",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint7-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint8-2026-09-20": {
-      "severity": "high",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint9-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint10-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint11-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint12-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint13-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint14-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint15-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint16-2026-09-20": {
-      "severity": "high",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint17-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint18-2026-09-20": {
-      "severity": "high",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint19-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint20-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint21-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint22-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint23-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint24-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint25-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint26-2026-09-20": {
-      "severity": "moderate",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint27-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
-    "infra-chokepoint-chokepoint28-2026-09-20": {
-      "severity": "low",
-      "time": "2026-09-20T00:00:00.000Z"
-    },
     "CVE-2026-88773": {
       "severity": "critical",
       "time": "2026-09-27T17:16:56.507"
@@ -1841,15 +1057,818 @@
     "gscpi-trend-2026-08": {
       "severity": "low",
       "time": "2026-08-01T00:00:00Z"
+    },
+    "telegram:intelslava/95386": {
+      "severity": "high",
+      "time": "2026-09-28T15:48:58.000Z"
+    },
+    "telegram:intelslava/95389": {
+      "severity": "high",
+      "time": "2026-09-28T15:59:13.000Z"
+    },
+    "telegram:intelslava/95390": {
+      "severity": "high",
+      "time": "2026-09-28T16:06:32.000Z"
+    },
+    "telegram:intelslava/95391": {
+      "severity": "high",
+      "time": "2026-09-28T16:41:10.000Z"
+    },
+    "telegram:intelslava/95392": {
+      "severity": "high",
+      "time": "2026-09-28T16:50:27.000Z"
+    },
+    "telegram:legitimniy/23513": {
+      "severity": "low",
+      "time": "2026-09-26T11:49:36.000Z"
+    },
+    "telegram:legitimniy/23514": {
+      "severity": "low",
+      "time": "2026-09-26T12:25:41.000Z"
+    },
+    "telegram:legitimniy/23520": {
+      "severity": "low",
+      "time": "2026-09-26T13:38:24.000Z"
+    },
+    "telegram:legitimniy/23522": {
+      "severity": "low",
+      "time": "2026-09-26T14:12:24.000Z"
+    },
+    "telegram:legitimniy/23523": {
+      "severity": "low",
+      "time": "2026-09-26T15:44:42.000Z"
+    },
+    "telegram:wartranslated/19107": {
+      "severity": "low",
+      "time": "2026-09-27T14:38:57.000Z"
+    },
+    "telegram:wartranslated/19108": {
+      "severity": "high",
+      "time": "2026-09-27T16:10:44.000Z"
+    },
+    "telegram:wartranslated/19109": {
+      "severity": "high",
+      "time": "2026-09-27T16:46:06.000Z"
+    },
+    "telegram:wartranslated/19113": {
+      "severity": "high",
+      "time": "2026-09-27T17:44:20.000Z"
+    },
+    "telegram:wartranslated/19114": {
+      "severity": "low",
+      "time": "2026-09-27T17:52:27.000Z"
+    },
+    "telegram:ukraine_frontline/1": {
+      "severity": "low",
+      "time": "2022-02-28T09:58:54.000Z"
+    },
+    "telegram:ukraine_frontline/2": {
+      "severity": "low",
+      "time": "2022-02-28T09:58:55.000Z"
+    },
+    "telegram:ukraine_frontline/3": {
+      "severity": "low",
+      "time": "2022-02-28T10:03:27.000Z"
+    },
+    "telegram:ukraine_frontline/4": {
+      "severity": "high",
+      "time": "2022-02-28T10:13:25.000Z"
+    },
+    "telegram:ukraine_frontline/5": {
+      "severity": "low",
+      "time": "2022-02-28T10:21:59.000Z"
+    },
+    "telegram:DeepStateUA/23847": {
+      "severity": "low",
+      "time": "2026-09-21T14:31:00.000Z"
+    },
+    "telegram:DeepStateUA/23848": {
+      "severity": "low",
+      "time": "2026-09-21T14:54:52.000Z"
+    },
+    "telegram:DeepStateUA/23849": {
+      "severity": "low",
+      "time": "2026-09-22T15:03:00.000Z"
+    },
+    "telegram:DeepStateUA/23850": {
+      "severity": "low",
+      "time": "2026-09-22T15:30:00.000Z"
+    },
+    "telegram:DeepStateUA/23851": {
+      "severity": "low",
+      "time": "2026-09-22T16:00:00.000Z"
+    },
+    "telegram:operativnoZSU/222286": {
+      "severity": "low",
+      "time": "2026-09-28T16:39:16.000Z"
+    },
+    "telegram:operativnoZSU/222287": {
+      "severity": "low",
+      "time": "2026-09-28T16:46:51.000Z"
+    },
+    "telegram:operativnoZSU/222288": {
+      "severity": "low",
+      "time": "2026-09-28T16:52:08.000Z"
+    },
+    "telegram:operativnoZSU/222289": {
+      "severity": "low",
+      "time": "2026-09-28T16:59:59.000Z"
+    },
+    "telegram:operativnoZSU/222290": {
+      "severity": "low",
+      "time": "2026-09-28T17:11:05.000Z"
+    },
+    "telegram:GeneralStaffZSU/42385": {
+      "severity": "low",
+      "time": "2026-09-27T04:55:01.000Z"
+    },
+    "telegram:GeneralStaffZSU/42386": {
+      "severity": "low",
+      "time": "2026-09-27T05:59:04.000Z"
+    },
+    "telegram:GeneralStaffZSU/42387": {
+      "severity": "low",
+      "time": "2026-09-27T06:14:53.000Z"
+    },
+    "telegram:GeneralStaffZSU/42388": {
+      "severity": "low",
+      "time": "2026-09-27T08:17:02.000Z"
+    },
+    "telegram:GeneralStaffZSU/42389": {
+      "severity": "low",
+      "time": "2026-09-27T12:10:19.000Z"
+    },
+    "telegram:mod_russia/67708": {
+      "severity": "low",
+      "time": "2026-09-28T10:24:58.000Z"
+    },
+    "telegram:mod_russia/67709": {
+      "severity": "low",
+      "time": "2026-09-28T11:11:40.000Z"
+    },
+    "telegram:mod_russia/67710": {
+      "severity": "low",
+      "time": "2026-09-28T12:10:58.000Z"
+    },
+    "telegram:mod_russia/67713": {
+      "severity": "low",
+      "time": "2026-09-28T12:57:04.000Z"
+    },
+    "telegram:mod_russia/67714": {
+      "severity": "low",
+      "time": "2026-09-28T13:26:09.000Z"
+    },
+    "telegram:RVvoenkor/124066": {
+      "severity": "low",
+      "time": "2026-09-28T13:42:51.000Z"
+    },
+    "telegram:RVvoenkor/124068": {
+      "severity": "low",
+      "time": "2026-09-28T14:06:01.000Z"
+    },
+    "telegram:RVvoenkor/124069": {
+      "severity": "low",
+      "time": "2026-09-28T14:28:51.000Z"
+    },
+    "telegram:RVvoenkor/124070": {
+      "severity": "low",
+      "time": "2026-09-28T15:03:09.000Z"
+    },
+    "telegram:RVvoenkor/124072": {
+      "severity": "low",
+      "time": "2026-09-28T15:37:16.000Z"
+    },
+    "telegram:readovkanews/115678": {
+      "severity": "low",
+      "time": "2026-09-28T08:41:20.000Z"
+    },
+    "telegram:readovkanews/115681": {
+      "severity": "low",
+      "time": "2026-09-28T10:24:45.000Z"
+    },
+    "telegram:readovkanews/115682": {
+      "severity": "low",
+      "time": "2026-09-28T10:41:25.000Z"
+    },
+    "telegram:readovkanews/115684": {
+      "severity": "low",
+      "time": "2026-09-28T12:00:11.000Z"
+    },
+    "telegram:readovkanews/115685": {
+      "severity": "low",
+      "time": "2026-09-28T12:15:13.000Z"
+    },
+    "telegram:CIG_telegram/84674": {
+      "severity": "low",
+      "time": "2026-09-28T17:30:23.000Z"
+    },
+    "telegram:CIG_telegram/84677": {
+      "severity": "low",
+      "time": "2026-09-28T17:37:27.000Z"
+    },
+    "telegram:CIG_telegram/84678": {
+      "severity": "low",
+      "time": "2026-09-28T17:41:26.000Z"
+    },
+    "telegram:CIG_telegram/84679": {
+      "severity": "low",
+      "time": "2026-09-28T17:44:04.000Z"
+    },
+    "telegram:CIG_telegram/84680": {
+      "severity": "low",
+      "time": "2026-09-28T17:52:39.000Z"
+    },
+    "telegram:MiddleEastOSINT/599": {
+      "severity": "low",
+      "time": "2021-11-15T20:28:50.000Z"
+    },
+    "telegram:MiddleEastOSINT/600": {
+      "severity": "low",
+      "time": "2021-11-19T12:56:59.000Z"
+    },
+    "telegram:MiddleEastOSINT/601": {
+      "severity": "low",
+      "time": "2021-11-21T20:45:26.000Z"
+    },
+    "telegram:MiddleEastOSINT/602": {
+      "severity": "low",
+      "time": "2021-11-28T17:47:53.000Z"
+    },
+    "telegram:MiddleEastOSINT/603": {
+      "severity": "low",
+      "time": "2021-12-05T20:45:13.000Z"
+    },
+    "cisa-kev:CVE-2026-88772": {
+      "severity": "moderate",
+      "time": "2026-09-27T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-88771": {
+      "severity": "moderate",
+      "time": "2026-09-27T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-67279": {
+      "severity": "high",
+      "time": "2026-09-25T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-65660": {
+      "severity": "high",
+      "time": "2026-09-25T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-87902": {
+      "severity": "high",
+      "time": "2026-09-25T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-5430": {
+      "severity": "high",
+      "time": "2026-09-24T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-71362": {
+      "severity": "high",
+      "time": "2026-09-24T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-93952": {
+      "severity": "high",
+      "time": "2026-09-22T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-94127": {
+      "severity": "high",
+      "time": "2026-09-22T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-93616": {
+      "severity": "high",
+      "time": "2026-09-22T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-85102": {
+      "severity": "high",
+      "time": "2026-09-22T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-7273": {
+      "severity": "high",
+      "time": "2026-09-21T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2025-39964": {
+      "severity": "high",
+      "time": "2026-09-18T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-53266": {
+      "severity": "high",
+      "time": "2026-09-18T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2025-39682": {
+      "severity": "high",
+      "time": "2026-09-18T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-58704": {
+      "severity": "high",
+      "time": "2026-09-16T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-76460": {
+      "severity": "high",
+      "time": "2026-09-16T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-87886": {
+      "severity": "high",
+      "time": "2026-09-16T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-76461": {
+      "severity": "high",
+      "time": "2026-09-14T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-84869": {
+      "severity": "high",
+      "time": "2026-09-11T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-42016": {
+      "severity": "high",
+      "time": "2026-09-11T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-42018": {
+      "severity": "high",
+      "time": "2026-09-11T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-85706": {
+      "severity": "high",
+      "time": "2026-09-11T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-86060": {
+      "severity": "high",
+      "time": "2026-09-10T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-67277": {
+      "severity": "high",
+      "time": "2026-09-10T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-19490": {
+      "severity": "high",
+      "time": "2026-09-09T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2025-25249": {
+      "severity": "high",
+      "time": "2026-09-09T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-87491": {
+      "severity": "high",
+      "time": "2026-09-09T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-20079": {
+      "severity": "high",
+      "time": "2026-09-09T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-75650": {
+      "severity": "high",
+      "time": "2026-09-08T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-81963": {
+      "severity": "high",
+      "time": "2026-09-08T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-86218": {
+      "severity": "high",
+      "time": "2026-09-08T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-85880": {
+      "severity": "high",
+      "time": "2026-09-08T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-85046": {
+      "severity": "high",
+      "time": "2026-09-04T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-59822": {
+      "severity": "high",
+      "time": "2026-09-02T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-48710": {
+      "severity": "high",
+      "time": "2026-09-02T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-49869": {
+      "severity": "high",
+      "time": "2026-09-02T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-82329": {
+      "severity": "high",
+      "time": "2026-09-02T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-9586": {
+      "severity": "high",
+      "time": "2026-09-02T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-83548": {
+      "severity": "high",
+      "time": "2026-09-02T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-83549": {
+      "severity": "high",
+      "time": "2026-09-02T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-82078": {
+      "severity": "high",
+      "time": "2026-08-31T00:00:00.000Z"
+    },
+    "cisa-kev:CVE-2026-81578": {
+      "severity": "high",
+      "time": "2026-08-31T00:00:00.000Z"
+    },
+    "gdacs_FL_1104178": {
+      "severity": "moderate",
+      "time": "2026-09-28T09:24:44"
+    },
+    "gdacs_TC_1001330": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:54:52"
+    },
+    "gdacs_TC_1001329": {
+      "severity": "moderate",
+      "time": "2026-09-28T20:41:27"
+    },
+    "gdacs_TC_1001325": {
+      "severity": "high",
+      "time": "2026-09-28T22:00:24"
+    },
+    "gdacs_TC_1001323": {
+      "severity": "moderate",
+      "time": "2026-09-28T20:52:23"
+    },
+    "gdacs_TC_1001321": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:08:42"
+    },
+    "gdacs_EQ_1568526": {
+      "severity": "moderate",
+      "time": "2026-09-28T20:25:29"
+    },
+    "gdacs_EQ_1568519": {
+      "severity": "moderate",
+      "time": "2026-09-28T19:01:05"
+    },
+    "gdacs_TC_1001327": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:55:33"
+    },
+    "gdacs_EQ_1568514": {
+      "severity": "moderate",
+      "time": "2026-09-28T17:54:54"
+    },
+    "gdacs_EQ_1568497": {
+      "severity": "moderate",
+      "time": "2026-09-28T15:41:43"
+    },
+    "gdacs_EQ_1568498": {
+      "severity": "moderate",
+      "time": "2026-09-28T16:49:43"
+    },
+    "gdacs_EQ_1568493": {
+      "severity": "moderate",
+      "time": "2026-09-28T14:59:03"
+    },
+    "gdacs_EQ_1568477": {
+      "severity": "moderate",
+      "time": "2026-09-28T15:28:44"
+    },
+    "gdacs_EQ_1568474": {
+      "severity": "moderate",
+      "time": "2026-09-28T12:54:50"
+    },
+    "gdacs_EQ_1568457": {
+      "severity": "moderate",
+      "time": "2026-09-28T09:54:03"
+    },
+    "gdacs_EQ_1568450": {
+      "severity": "moderate",
+      "time": "2026-09-28T09:57:02"
+    },
+    "gdacs_EQ_1568451": {
+      "severity": "moderate",
+      "time": "2026-09-28T08:41:03"
+    },
+    "gdacs_EQ_1568434": {
+      "severity": "moderate",
+      "time": "2026-09-28T06:25:42"
+    },
+    "gdacs_EQ_1568438": {
+      "severity": "moderate",
+      "time": "2026-09-28T07:02:07"
+    },
+    "gdacs_EQ_1568429": {
+      "severity": "moderate",
+      "time": "2026-09-28T06:08:21"
+    },
+    "gdacs_EQ_1568424": {
+      "severity": "moderate",
+      "time": "2026-09-28T05:00:23"
+    },
+    "gdacs_EQ_1568425": {
+      "severity": "moderate",
+      "time": "2026-09-28T05:21:42"
+    },
+    "gdacs_EQ_1568423": {
+      "severity": "moderate",
+      "time": "2026-09-28T06:47:30"
+    },
+    "gdacs_EQ_1568414": {
+      "severity": "moderate",
+      "time": "2026-09-28T04:23:48"
+    },
+    "gdacs_EQ_1568412": {
+      "severity": "moderate",
+      "time": "2026-09-28T05:28:42"
+    },
+    "gdacs_EQ_1568409": {
+      "severity": "moderate",
+      "time": "2026-09-28T03:55:23"
+    },
+    "gdacs_FL_1104168": {
+      "severity": "moderate",
+      "time": "2026-09-28T10:04:26"
+    },
+    "gdacs_FL_1104099": {
+      "severity": "moderate",
+      "time": "2026-09-28T06:04:58"
+    },
+    "gdacs_FL_1104011": {
+      "severity": "moderate",
+      "time": "2026-09-28T10:04:17"
+    },
+    "usgs_us6000ty7u": {
+      "severity": "low",
+      "time": "2026-09-28T19:45:07.515Z"
+    },
+    "usgs_us6000ty73": {
+      "severity": "low",
+      "time": "2026-09-28T18:20:44.330Z"
+    },
+    "usgs_us6000ty71": {
+      "severity": "low",
+      "time": "2026-09-28T17:37:55.108Z"
+    },
+    "usgs_us6000ty5m": {
+      "severity": "low",
+      "time": "2026-09-28T15:01:39.183Z"
+    },
+    "usgs_us6000ty5h": {
+      "severity": "low",
+      "time": "2026-09-28T14:43:10.687Z"
+    },
+    "usgs_us6000ty5b": {
+      "severity": "low",
+      "time": "2026-09-28T13:38:40.724Z"
+    },
+    "usgs_us6000ty57": {
+      "severity": "moderate",
+      "time": "2026-09-28T13:22:39.769Z"
+    },
+    "usgs_us6000ty4w": {
+      "severity": "low",
+      "time": "2026-09-28T12:14:24.032Z"
+    },
+    "usgs_us6000ty43": {
+      "severity": "moderate",
+      "time": "2026-09-28T09:13:39.402Z"
+    },
+    "usgs_us6000ty3w": {
+      "severity": "low",
+      "time": "2026-09-28T08:16:13.363Z"
+    },
+    "usgs_us6000ty3c": {
+      "severity": "low",
+      "time": "2026-09-28T06:37:56.356Z"
+    },
+    "usgs_us6000ty38": {
+      "severity": "moderate",
+      "time": "2026-09-28T05:45:29.689Z"
+    },
+    "usgs_us6000ty36": {
+      "severity": "low",
+      "time": "2026-09-28T05:42:32.024Z"
+    },
+    "usgs_us6000ty3a": {
+      "severity": "low",
+      "time": "2026-09-28T05:42:21.379Z"
+    },
+    "usgs_us6000ty33": {
+      "severity": "moderate",
+      "time": "2026-09-28T05:28:08.891Z"
+    },
+    "usgs_us6000ty2w": {
+      "severity": "low",
+      "time": "2026-09-28T04:42:56.780Z"
+    },
+    "usgs_us6000ty2y": {
+      "severity": "low",
+      "time": "2026-09-28T04:41:33.467Z"
+    },
+    "usgs_us6000ty2u": {
+      "severity": "moderate",
+      "time": "2026-09-28T04:41:21.639Z"
+    },
+    "usgs_us6000ty2e": {
+      "severity": "moderate",
+      "time": "2026-09-28T03:43:44.172Z"
+    },
+    "usgs_us6000ty2b": {
+      "severity": "moderate",
+      "time": "2026-09-28T03:25:06.893Z"
+    },
+    "usgs_us6000ty27": {
+      "severity": "low",
+      "time": "2026-09-28T02:53:43.974Z"
+    },
+    "usgs_us6000ty1l": {
+      "severity": "low",
+      "time": "2026-09-28T00:54:43.108Z"
+    },
+    "usgs_us6000ty1m": {
+      "severity": "low",
+      "time": "2026-09-28T00:47:33.083Z"
+    },
+    "usgs_us6000ty1j": {
+      "severity": "low",
+      "time": "2026-09-28T00:37:59.117Z"
+    },
+    "usgs_us6000ty1a": {
+      "severity": "low",
+      "time": "2026-09-27T23:55:48.800Z"
+    },
+    "nhc_al062026": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:00:00.000Z"
+    },
+    "nhc_al082026": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:00:00.000Z"
+    },
+    "nhc_ep172026": {
+      "severity": "high",
+      "time": "2026-09-28T21:00:00.000Z"
+    },
+    "nhc_ep182026": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:00:00.000Z"
+    },
+    "nhc_ep152026": {
+      "severity": "critical",
+      "time": "2026-09-28T21:00:00.000Z"
+    },
+    "solar-f107-2026-09-28": {
+      "severity": "low",
+      "time": "2026-09-28T20:00:00"
+    },
+    "noaa-swpc-kp-2026-09-28": {
+      "severity": "low",
+      "time": "2026-09-28T18:00:00"
+    },
+    "infra-chokepoint-chokepoint1-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint2-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint3-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint4-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint5-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint6-2026-09-20": {
+      "severity": "high",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint7-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint8-2026-09-20": {
+      "severity": "high",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint9-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint10-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint11-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint12-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint13-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint14-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint15-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint16-2026-09-20": {
+      "severity": "high",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint17-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint18-2026-09-20": {
+      "severity": "high",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint19-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint20-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint21-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint22-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint23-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint24-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint25-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint26-2026-09-20": {
+      "severity": "moderate",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint27-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
+    },
+    "infra-chokepoint-chokepoint28-2026-09-20": {
+      "severity": "low",
+      "time": "2026-09-20T00:00:00.000Z"
     }
   },
   "baselines": {
-    "gps_jamming": {
+    "nvd_cve": {
       "samples": [
         {
-          "t": 1790631123393,
-          "n": 1
+          "t": 1790631166309,
+          "n": 25
         },
+        {
+          "t": 1790631213734,
+          "n": 25
+        },
+        {
+          "t": 1790631308273,
+          "n": 25
+        },
+        {
+          "t": 1790631339322,
+          "n": 25
+        },
+        {
+          "t": 1790631391058,
+          "n": 25
+        },
+        {
+          "t": 1790632204905,
+          "n": 25
+        },
+        {
+          "t": 1790633101072,
+          "n": 25
+        }
+      ],
+      "mean": 25,
+      "std": 0,
+      "anomalous": false
+    },
+    "ofac": {
+      "samples": [
         {
           "t": 1790631166309,
           "n": 1
@@ -1869,9 +1888,351 @@
         {
           "t": 1790631391058,
           "n": 1
+        },
+        {
+          "t": 1790632204905,
+          "n": 1
+        },
+        {
+          "t": 1790633101072,
+          "n": 1
         }
       ],
       "mean": 1,
+      "std": 0,
+      "anomalous": false
+    },
+    "promed": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 25
+        },
+        {
+          "t": 1790631213734,
+          "n": 25
+        },
+        {
+          "t": 1790631308273,
+          "n": 25
+        },
+        {
+          "t": 1790631339322,
+          "n": 25
+        },
+        {
+          "t": 1790631391058,
+          "n": 25
+        },
+        {
+          "t": 1790632204905,
+          "n": 25
+        },
+        {
+          "t": 1790633101072,
+          "n": 25
+        }
+      ],
+      "mean": 25,
+      "std": 0,
+      "anomalous": false
+    },
+    "noaa_disasters": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 20
+        },
+        {
+          "t": 1790631213734,
+          "n": 20
+        },
+        {
+          "t": 1790631308273,
+          "n": 20
+        },
+        {
+          "t": 1790631339322,
+          "n": 21
+        },
+        {
+          "t": 1790631391058,
+          "n": 21
+        },
+        {
+          "t": 1790632204905,
+          "n": 21
+        },
+        {
+          "t": 1790633101072,
+          "n": 21
+        }
+      ],
+      "mean": 20.5,
+      "std": 0.5,
+      "anomalous": false
+    },
+    "trends": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 10
+        },
+        {
+          "t": 1790631213734,
+          "n": 10
+        },
+        {
+          "t": 1790631308273,
+          "n": 10
+        },
+        {
+          "t": 1790631339322,
+          "n": 10
+        },
+        {
+          "t": 1790631391058,
+          "n": 10
+        },
+        {
+          "t": 1790632204905,
+          "n": 10
+        },
+        {
+          "t": 1790633101072,
+          "n": 10
+        }
+      ],
+      "mean": 10,
+      "std": 0,
+      "anomalous": false
+    },
+    "epa": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 15
+        },
+        {
+          "t": 1790631213734,
+          "n": 15
+        },
+        {
+          "t": 1790631308273,
+          "n": 15
+        },
+        {
+          "t": 1790631339322,
+          "n": 15
+        },
+        {
+          "t": 1790631391058,
+          "n": 15
+        },
+        {
+          "t": 1790632204905,
+          "n": 15
+        },
+        {
+          "t": 1790633101072,
+          "n": 15
+        }
+      ],
+      "mean": 15,
+      "std": 0,
+      "anomalous": false
+    },
+    "kiwisdr": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 15
+        },
+        {
+          "t": 1790631213734,
+          "n": 15
+        },
+        {
+          "t": 1790631308273,
+          "n": 15
+        },
+        {
+          "t": 1790631339322,
+          "n": 15
+        },
+        {
+          "t": 1790631391058,
+          "n": 15
+        },
+        {
+          "t": 1790632204905,
+          "n": 15
+        },
+        {
+          "t": 1790633101072,
+          "n": 15
+        }
+      ],
+      "mean": 15,
+      "std": 0,
+      "anomalous": false
+    },
+    "csg_tracker": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 12
+        },
+        {
+          "t": 1790631213734,
+          "n": 12
+        },
+        {
+          "t": 1790631308273,
+          "n": 12
+        },
+        {
+          "t": 1790631339322,
+          "n": 12
+        },
+        {
+          "t": 1790631391058,
+          "n": 12
+        },
+        {
+          "t": 1790632204905,
+          "n": 12
+        },
+        {
+          "t": 1790633101072,
+          "n": 12
+        }
+      ],
+      "mean": 12,
+      "std": 0,
+      "anomalous": false
+    },
+    "bls": {
+      "samples": [
+        {
+          "t": 1790631213734,
+          "n": 5
+        },
+        {
+          "t": 1790631308273,
+          "n": 5
+        },
+        {
+          "t": 1790631339322,
+          "n": 5
+        },
+        {
+          "t": 1790631391058,
+          "n": 5
+        },
+        {
+          "t": 1790632204905,
+          "n": 5
+        },
+        {
+          "t": 1790633101072,
+          "n": 5
+        }
+      ],
+      "mean": 5,
+      "std": 0,
+      "anomalous": false
+    },
+    "treasury": {
+      "samples": [
+        {
+          "t": 1790631213734,
+          "n": 4
+        },
+        {
+          "t": 1790631308273,
+          "n": 4
+        },
+        {
+          "t": 1790631339322,
+          "n": 4
+        },
+        {
+          "t": 1790631391058,
+          "n": 4
+        },
+        {
+          "t": 1790632204905,
+          "n": 4
+        },
+        {
+          "t": 1790633101072,
+          "n": 4
+        }
+      ],
+      "mean": 4,
+      "std": 0,
+      "anomalous": false
+    },
+    "comtrade": {
+      "samples": [
+        {
+          "t": 1790631213734,
+          "n": 4
+        },
+        {
+          "t": 1790631308273,
+          "n": 4
+        },
+        {
+          "t": 1790631339322,
+          "n": 4
+        },
+        {
+          "t": 1790631391058,
+          "n": 4
+        },
+        {
+          "t": 1790632204905,
+          "n": 4
+        },
+        {
+          "t": 1790633101072,
+          "n": 4
+        }
+      ],
+      "mean": 4,
+      "std": 0,
+      "anomalous": false
+    },
+    "gscpi": {
+      "samples": [
+        {
+          "t": 1790631213734,
+          "n": 2
+        },
+        {
+          "t": 1790631308273,
+          "n": 2
+        },
+        {
+          "t": 1790631339322,
+          "n": 2
+        },
+        {
+          "t": 1790631391058,
+          "n": 2
+        },
+        {
+          "t": 1790632204905,
+          "n": 2
+        },
+        {
+          "t": 1790633101072,
+          "n": 2
+        }
+      ],
+      "mean": 2,
       "std": 0,
       "anomalous": false
     },
@@ -1899,6 +2260,14 @@
         },
         {
           "t": 1790631391058,
+          "n": 60
+        },
+        {
+          "t": 1790632204905,
+          "n": 60
+        },
+        {
+          "t": 1790633101072,
           "n": 60
         }
       ],
@@ -1931,6 +2300,14 @@
         {
           "t": 1790631391058,
           "n": 43
+        },
+        {
+          "t": 1790632204905,
+          "n": 43
+        },
+        {
+          "t": 1790633101072,
+          "n": 43
         }
       ],
       "mean": 43,
@@ -1961,6 +2338,14 @@
         },
         {
           "t": 1790631391058,
+          "n": 30
+        },
+        {
+          "t": 1790632204905,
+          "n": 30
+        },
+        {
+          "t": 1790633101072,
           "n": 30
         }
       ],
@@ -1993,6 +2378,14 @@
         {
           "t": 1790631391058,
           "n": 27
+        },
+        {
+          "t": 1790632204905,
+          "n": 27
+        },
+        {
+          "t": 1790633101072,
+          "n": 25
         }
       ],
       "mean": 27,
@@ -2023,6 +2416,14 @@
         },
         {
           "t": 1790631391058,
+          "n": 5
+        },
+        {
+          "t": 1790632204905,
+          "n": 5
+        },
+        {
+          "t": 1790633101072,
           "n": 5
         }
       ],
@@ -2055,6 +2456,14 @@
         {
           "t": 1790631391058,
           "n": 1
+        },
+        {
+          "t": 1790632204905,
+          "n": 1
+        },
+        {
+          "t": 1790633101072,
+          "n": 1
         }
       ],
       "mean": 1,
@@ -2085,6 +2494,14 @@
         },
         {
           "t": 1790631391058,
+          "n": 1
+        },
+        {
+          "t": 1790632204905,
+          "n": 1
+        },
+        {
+          "t": 1790633101072,
           "n": 1
         }
       ],
@@ -2117,41 +2534,26 @@
         {
           "t": 1790631391058,
           "n": 28
+        },
+        {
+          "t": 1790632204905,
+          "n": 28
+        },
+        {
+          "t": 1790633101072,
+          "n": 28
         }
       ],
       "mean": 28,
       "std": 0,
       "anomalous": false
     },
-    "nvd_cve": {
+    "gps_jamming": {
       "samples": [
         {
-          "t": 1790631166309,
-          "n": 25
+          "t": 1790631123393,
+          "n": 1
         },
-        {
-          "t": 1790631213734,
-          "n": 25
-        },
-        {
-          "t": 1790631308273,
-          "n": 25
-        },
-        {
-          "t": 1790631339322,
-          "n": 25
-        },
-        {
-          "t": 1790631391058,
-          "n": 25
-        }
-      ],
-      "mean": 25,
-      "std": 0,
-      "anomalous": false
-    },
-    "ofac": {
-      "samples": [
         {
           "t": 1790631166309,
           "n": 1
@@ -2170,264 +2572,14 @@
         },
         {
           "t": 1790631391058,
+          "n": 1
+        },
+        {
+          "t": 1790632204905,
           "n": 1
         }
       ],
       "mean": 1,
-      "std": 0,
-      "anomalous": false
-    },
-    "promed": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 25
-        },
-        {
-          "t": 1790631213734,
-          "n": 25
-        },
-        {
-          "t": 1790631308273,
-          "n": 25
-        },
-        {
-          "t": 1790631339322,
-          "n": 25
-        },
-        {
-          "t": 1790631391058,
-          "n": 25
-        }
-      ],
-      "mean": 25,
-      "std": 0,
-      "anomalous": false
-    },
-    "noaa_disasters": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 20
-        },
-        {
-          "t": 1790631213734,
-          "n": 20
-        },
-        {
-          "t": 1790631308273,
-          "n": 20
-        },
-        {
-          "t": 1790631339322,
-          "n": 21
-        },
-        {
-          "t": 1790631391058,
-          "n": 21
-        }
-      ],
-      "mean": 20.25,
-      "std": 0.43,
-      "anomalous": false
-    },
-    "trends": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 10
-        },
-        {
-          "t": 1790631213734,
-          "n": 10
-        },
-        {
-          "t": 1790631308273,
-          "n": 10
-        },
-        {
-          "t": 1790631339322,
-          "n": 10
-        },
-        {
-          "t": 1790631391058,
-          "n": 10
-        }
-      ],
-      "mean": 10,
-      "std": 0,
-      "anomalous": false
-    },
-    "epa": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 15
-        },
-        {
-          "t": 1790631213734,
-          "n": 15
-        },
-        {
-          "t": 1790631308273,
-          "n": 15
-        },
-        {
-          "t": 1790631339322,
-          "n": 15
-        },
-        {
-          "t": 1790631391058,
-          "n": 15
-        }
-      ],
-      "mean": 15,
-      "std": 0,
-      "anomalous": false
-    },
-    "kiwisdr": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 15
-        },
-        {
-          "t": 1790631213734,
-          "n": 15
-        },
-        {
-          "t": 1790631308273,
-          "n": 15
-        },
-        {
-          "t": 1790631339322,
-          "n": 15
-        },
-        {
-          "t": 1790631391058,
-          "n": 15
-        }
-      ],
-      "mean": 15,
-      "std": 0,
-      "anomalous": false
-    },
-    "csg_tracker": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 12
-        },
-        {
-          "t": 1790631213734,
-          "n": 12
-        },
-        {
-          "t": 1790631308273,
-          "n": 12
-        },
-        {
-          "t": 1790631339322,
-          "n": 12
-        },
-        {
-          "t": 1790631391058,
-          "n": 12
-        }
-      ],
-      "mean": 12,
-      "std": 0,
-      "anomalous": false
-    },
-    "bls": {
-      "samples": [
-        {
-          "t": 1790631213734,
-          "n": 5
-        },
-        {
-          "t": 1790631308273,
-          "n": 5
-        },
-        {
-          "t": 1790631339322,
-          "n": 5
-        },
-        {
-          "t": 1790631391058,
-          "n": 5
-        }
-      ],
-      "mean": 5,
-      "std": 0,
-      "anomalous": false
-    },
-    "treasury": {
-      "samples": [
-        {
-          "t": 1790631213734,
-          "n": 4
-        },
-        {
-          "t": 1790631308273,
-          "n": 4
-        },
-        {
-          "t": 1790631339322,
-          "n": 4
-        },
-        {
-          "t": 1790631391058,
-          "n": 4
-        }
-      ],
-      "mean": 4,
-      "std": 0,
-      "anomalous": false
-    },
-    "comtrade": {
-      "samples": [
-        {
-          "t": 1790631213734,
-          "n": 4
-        },
-        {
-          "t": 1790631308273,
-          "n": 4
-        },
-        {
-          "t": 1790631339322,
-          "n": 4
-        },
-        {
-          "t": 1790631391058,
-          "n": 4
-        }
-      ],
-      "mean": 4,
-      "std": 0,
-      "anomalous": false
-    },
-    "gscpi": {
-      "samples": [
-        {
-          "t": 1790631213734,
-          "n": 2
-        },
-        {
-          "t": 1790631308273,
-          "n": 2
-        },
-        {
-          "t": 1790631339322,
-          "n": 2
-        },
-        {
-          "t": 1790631391058,
-          "n": 2
-        }
-      ],
-      "mean": 2,
       "std": 0,
       "anomalous": false
     }
@@ -2515,16 +2667,16 @@
     },
     {
       "id": "cluster-20_13",
-      "lat": 52.31,
+      "lat": 52.4,
       "lon": 32.99,
       "count": 5,
       "severity": "low",
       "eventIds": [
-        "telegram:mod_russia/67705",
-        "telegram:mod_russia/67707",
         "telegram:mod_russia/67708",
         "telegram:mod_russia/67709",
-        "telegram:mod_russia/67710"
+        "telegram:mod_russia/67710",
+        "telegram:mod_russia/67713",
+        "telegram:mod_russia/67714"
       ],
       "region": "Ukraine"
     },
@@ -2586,6 +2738,45 @@
       "region": "South Sandwich Islands Region"
     },
     {
+      "id": "cluster-9_36",
+      "lat": 23.84,
+      "lon": 90.27,
+      "count": 3,
+      "severity": "high",
+      "eventIds": [
+        "promed:8735399",
+        "promed:8735398",
+        "promed:8735396"
+      ],
+      "region": "Bangladesh"
+    },
+    {
+      "id": "cluster-9_48",
+      "lat": 23.76,
+      "lon": 121.54,
+      "count": 3,
+      "severity": "high",
+      "eventIds": [
+        "promed:8735391",
+        "gdacs_EQ_1568519",
+        "usgs_us6000ty73"
+      ],
+      "region": "China"
+    },
+    {
+      "id": "cluster--17_69",
+      "lat": -41.01,
+      "lon": 173.01,
+      "count": 3,
+      "severity": "low",
+      "eventIds": [
+        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12",
+        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13",
+        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14"
+      ],
+      "region": "New Zealand"
+    },
+    {
       "id": "cluster-18_12",
       "lat": 45.04,
       "lon": 30.45,
@@ -2612,19 +2803,6 @@
       "region": "Ukraine"
     },
     {
-      "id": "cluster-9_48",
-      "lat": 23.76,
-      "lon": 121.54,
-      "count": 3,
-      "severity": "high",
-      "eventIds": [
-        "gdacs_EQ_1568519",
-        "usgs_us6000ty73",
-        "promed:8735391"
-      ],
-      "region": "Taiwan"
-    },
-    {
       "id": "cluster--9_-72",
       "lat": -21.13,
       "lon": -178.93,
@@ -2636,46 +2814,20 @@
         "usgs_us6000ty1a"
       ],
       "region": "Fiji"
-    },
-    {
-      "id": "cluster-9_36",
-      "lat": 23.84,
-      "lon": 90.27,
-      "count": 3,
-      "severity": "high",
-      "eventIds": [
-        "promed:8735399",
-        "promed:8735398",
-        "promed:8735396"
-      ],
-      "region": "Bangladesh"
-    },
-    {
-      "id": "cluster--17_69",
-      "lat": -41.01,
-      "lon": 173.01,
-      "count": 3,
-      "severity": "low",
-      "eventIds": [
-        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12",
-        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13",
-        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14"
-      ],
-      "region": "New Zealand"
     }
   ],
   "status": {
     "direction": "RISK-ON",
-    "hot24": 15,
+    "hot24": 14,
     "critical24": 1,
     "anomalies": [],
-    "at": "2026-09-28T21:36:31.595Z"
+    "at": "2026-09-28T22:05:01.684Z"
   },
-  "lastBrain": "2026-09-28T21:36:31.595Z",
+  "lastBrain": "2026-09-28T22:05:01.684Z",
   "deltaSummary": {
-    "new": 0,
+    "new": 2,
     "escalated": 0,
     "deescalated": 0,
-    "resolved": 0
+    "resolved": 5
   }
 }

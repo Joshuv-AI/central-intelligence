@@ -8,8 +8,8 @@ SHA_FILE=/var/lib/ci-deployed-sha
 API_URL="https://api.github.com/repos/Joshuv-AI/central-intelligence/commits/main"
 
 REMOTE_SHA=$(curl -s -m 15 "$API_URL" 2>/dev/null | grep -o '"sha": "[0-9a-f]*"' | head -1 | cut -d'"' -f4)
-if [ -z "$REMOTE_SHA" ]; then
-  echo "[ci-pull] $(date -u +%FT%TZ) API check failed" >> "$LOG"
+if ! echo "$REMOTE_SHA" | grep -Eq '^[0-9a-f]{40}$'; then
+  echo "[ci-pull] $(date -u +%FT%TZ) invalid SHA from API: $REMOTE_SHA" >> "$LOG"
   exit 0
 fi
 
@@ -18,8 +18,9 @@ LOCAL_SHA=$(cat "$SHA_FILE" 2>/dev/null || echo "none")
 if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
   echo "[ci-pull] $(date -u +%FT%TZ) new commit ${REMOTE_SHA:0:12} (was ${LOCAL_SHA:0:12}), deploying" >> "$LOG"
   TMPDIR=$(mktemp -d)
-  if ! curl -sSL --fail -m 60 "https://github.com/Joshuv-AI/central-intelligence/archive/$REMOTE_SHA.tar.gz" -o "$TMPDIR/repo.tar.gz" >> "$LOG" 2>&1; then
-    echo "[ci-pull] $(date -u +%FT%TZ) download failed for ${REMOTE_SHA:0:12}" >> "$LOG"
+  curl -sL -m 60 "https://github.com/Joshuv-AI/central-intelligence/archive/$REMOTE_SHA.tar.gz" -o "$TMPDIR/repo.tar.gz" 2>/dev/null
+  if ! [ -f "$TMPDIR/repo.tar.gz" ] || ! gzip -t "$TMPDIR/repo.tar.gz" 2>/dev/null; then
+    echo "[ci-pull] $(date -u +%FT%TZ) tarball failed validation for ${REMOTE_SHA:0:12} (not a valid gzip, likely 404)" >> "$LOG"
     rm -rf "$TMPDIR"
     exit 0
   fi

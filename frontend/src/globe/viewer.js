@@ -14,6 +14,12 @@ const ESRI_TERRAIN = 'https://elevation3d.arcgis.com/arcgis/rest/services/WorldE
 const ESRI_TERRAIN_CREDIT = 'Sources: Vantor, Airbus DS, USGS, NGA, NASA, CGIAR, GEBCO, N Robinson, NCEAS, NLS, OS, NMA, Geodatastyrelsen and the GIS User Community';
 
 let viewer = null;
+let stopIdleSpin = null;
+
+/** Stop the idle auto-rotation (e.g. when opening a shared scene link). */
+export function haltIdleSpin() {
+  if (stopIdleSpin) stopIdleSpin();
+}
 
 export function createViewer(container) {
   viewer = new Cesium.Viewer(container, {
@@ -86,6 +92,7 @@ export function createViewer(container) {
   // Slow idle rotation until the user takes over (glacial, not distracting).
   let userTookOver = false;
   const stopSpin = () => { userTookOver = true; };
+  stopIdleSpin = stopSpin;
   viewer.scene.screenSpaceCameraController.enableRotate = true;
   container.addEventListener('pointerdown', stopSpin, { once: true });
   container.addEventListener('wheel', stopSpin, { once: true });

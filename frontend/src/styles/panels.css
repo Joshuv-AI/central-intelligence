@@ -120,6 +120,32 @@
   line-height: 1.5;
 }
 
+/* ——— Sensor look buttons ——— */
+.sensor-row {
+  display: flex;
+  gap: 6px;
+  padding: 2px 8px 6px;
+  flex-wrap: wrap;
+}
+.sensor-btn {
+  flex: 1 1 0;
+  min-width: 52px;
+  padding: 8px 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(127, 206, 240, 0.18);
+  background: rgba(127, 206, 240, 0.05);
+  color: var(--frost);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+.sensor-btn.on {
+  background: rgba(127, 206, 240, 0.18);
+  color: #fff;
+  border-color: rgba(127, 206, 240, 0.55);
+}
+.layer-row.busy { opacity: 0.55; pointer-events: none; }
+
 /* ——— Connections panel ——— */
 .conn-card {
   width: 100%;
@@ -324,6 +350,20 @@
 }
 
 /* ——— System detail (status pill) ——— */
+.sys-share-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(127, 206, 240, 0.25);
+  background: rgba(127, 206, 240, 0.07);
+  color: var(--ice-white);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.sys-share-btn:hover { background: rgba(127, 206, 240, 0.14); }
+.share-note { margin-top: 8px; }
 .sys-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

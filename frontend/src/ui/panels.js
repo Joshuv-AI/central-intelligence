@@ -10,6 +10,9 @@ import { applyFilters } from '../globe/markers.js';
 import { flyToRegion } from '../globe/camera.js';
 import { esc, timeAgo, fmtDateTime } from '../data/format.js';
 import { fetchHealth } from '../data/api.js';
+import { SENSOR_LOOKS, setSensorLook, currentSensorLook } from '../globe/sensors/index.js';
+import { satellitesEnabled, satelliteCount, setSatellites } from '../globe/satellites/index.js';
+import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
 let current = null;
@@ -107,12 +110,30 @@ function renderLayers(el) {
     }
     html += '</div>';
   }
+  // Sensor looks (post-processing): FLIR / NVG / CRT / NOIR.
+  const activeLook = currentSensorLook();
+  html += `<div class="layer-family"><span class="micro">SENSOR</span><div class="sensor-row">`;
+  html += `<button class="sensor-btn ${!activeLook ? 'on' : ''}" data-sensor="">OFF</button>`;
+  for (const [key, { label }] of Object.entries(SENSOR_LOOKS)) {
+    html += `<button class="sensor-btn ${activeLook === key ? 'on' : ''}" data-sensor="${key}">${label}</button>`;
+  }
+  html += `</div></div>`;
+  // Live orbit layer (CelesTrak TLEs, client-side SGP4) — independent of domains.
+  const satsOn = satellitesEnabled();
+  html += `<div class="layer-family"><span class="micro">ORBIT</span>
+    <div class="layer-row ${satsOn ? '' : 'off'}" data-orbit="satellites">
+      <span class="layer-swatch" style="background:#a0dcff"></span>
+      <span class="layer-name">Satellites</span>
+      <span class="layer-count" data-sat-count>${satelliteCount() || ''}</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">TLE data: CelesTrak</span></div>`;
   if (nonGeo > 0) {
     html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
   el.innerHTML = html;
 
-  el.querySelectorAll('.layer-row').forEach((row) => {
+  el.querySelectorAll('.layer-row[data-domain]').forEach((row) => {
     row.addEventListener('click', () => {
       const d = row.dataset.domain;
       store.domains[d] = store.domains[d] === false;
@@ -121,6 +142,27 @@ function renderLayers(el) {
       renderLayers(el);
     });
   });
+  el.querySelectorAll('.sensor-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setSensorLook(btn.dataset.sensor || null);
+      scheduleHashWrite();
+      renderLayers(el);
+    });
+  });
+  const orbitRow = el.querySelector('[data-orbit="satellites"]');
+  if (orbitRow) {
+    orbitRow.addEventListener('click', async () => {
+      orbitRow.classList.add('busy');
+      try {
+        const on = await setSatellites(!satellitesEnabled());
+        orbitRow.classList.toggle('off', !on);
+        const countEl = orbitRow.querySelector('[data-sat-count]');
+        if (countEl) countEl.textContent = satelliteCount() || '';
+      } finally {
+        orbitRow.classList.remove('busy');
+      }
+    });
+  }
 }
 
 /* ————————— Connections ————————— */
@@ -304,6 +346,9 @@ function renderSystem(el, { health } = {}) {
     <div class="delta-line"><span>ESCALATED</span><span>${delta.escalated ?? '—'}</span></div>
     <div class="delta-line"><span>DE-ESCALATED</span><span>${delta.deescalated ?? '—'}</span></div>
     <div class="delta-line"><span>RESOLVED</span><span>${delta.resolved ?? '—'}</span></div>
+    <div style="margin:14px 0 6px"><span class="micro">SHARE</span></div>
+    <button class="sys-share-btn" data-action="copy-link">COPY LINK TO THIS VIEW</button>
+    <div class="layer-note share-note hidden">Link copied — it reopens this exact view.</div>
     <div style="margin:14px 0 6px"><span class="micro">SOURCES · ${sorted.length}</span></div>
     ${srcRows || '<div class="panel-empty">No source data yet.</div>'}
     <div class="layer-note">Last sweep ${sweepAt ? fmtDateTime(sweepAt) : '—'} · Brain ${meta.lastBrain ? fmtDateTime(meta.lastBrain) : '—'}</div>`;
@@ -313,6 +358,20 @@ function renderSystem(el, { health } = {}) {
     fetchHealth()
       .then((h) => { if (current === 'system') renderSystem(el, { health: h }); })
       .catch(() => {});
+  }
+
+  const shareBtn = el.querySelector('[data-action="copy-link"]');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      const ok = await copySceneLink();
+      const note = el.querySelector('.share-note');
+      if (note) {
+        note.textContent = ok
+          ? 'Link copied — it reopens this exact view.'
+          : 'Could not copy — copy the URL from the address bar.';
+        note.classList.remove('hidden');
+      }
+    });
   }
 }
 

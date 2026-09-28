@@ -118,6 +118,15 @@
   background: var(--sev, var(--glacier));
   margin-top: 5px; flex: none;
 }
+.search-hit .hit-dot.place-dot { background: var(--amber, #e8a33d); border-radius: 2px; }
+.search-div {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--frost);
+  opacity: 0.7;
+  padding: 10px 10px 4px;
+}
 .search-hit .hit-title {
   font-size: 13px;
   line-height: 1.45;

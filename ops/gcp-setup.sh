@@ -87,6 +87,16 @@ systemctl enable --now fail2ban
 systemctl enable unattended-upgrades || true
 
 # --- First deploy (build takes several minutes on e2-micro; swap carries it) ---
+# Seed the deploy SHA first: otherwise this manual deploy builds with
+# GIT_SHA=unknown and ci-pull then sees SHA_FILE==REMOTE_SHA and never
+# corrects the label. (Seen on first GCP boot 2026-09-28.)
+export GIT_SHA=$(curl -s -m 15 "https://api.github.com/repos/Joshuv-AI/central-intelligence/commits/main" | grep -o '"sha": "[0-9a-f]*"' | head -1 | cut -d'"' -f4)
+if [ -n "$GIT_SHA" ]; then
+  echo "$GIT_SHA" > /var/lib/ci-deployed-sha
+  log "deploy SHA: ${GIT_SHA:0:12}"
+else
+  log "WARNING: could not fetch deploy SHA; deploying as unknown"
+fi
 log "first deploy starting"
 if /usr/local/bin/ci-deploy; then
   log "DEPLOY OK — app healthy"

@@ -3,7 +3,6 @@
    to toggle its source; long-press (or hover on desktop) for a detail popup
    with source attribution, freshness, and status. Re-renders every 5 s so
    counts and freshness stay honest. */
-import { emit } from '../data/store.js';
 import { timeAgo } from '../data/format.js';
 import {
   militaryEnabled, civilEnabled, flightCountBy, flightStatus,

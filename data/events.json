@@ -1,2374 +1,5 @@
 [
   {
-    "id": "CVE-2026-88773",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-88773 — CVSS 10 (CRITICAL)",
-    "summary": "Inconsistent interpretation of HTTP requests ('HTTP Request/Response smuggling') vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1-37.279 and NDcPP; Gateway: before 14.1-73.37 FIPS and before 13.1-64.23.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T17:16:56.507",
-    "severity": "critical",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88773",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100740",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100740 — CVSS 9.9 (CRITICAL)",
-    "summary": "A vulnerability was detected in D-Link DIR-895L A1_102b07. Impacted is the function tunnel_set_params of the file tunnel.c of the component L2TP Control Channel Parser. Performing a manipulation results in out-of-bounds write. The attack may be initiated remotely. The exploit is now public and may be used.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T01:17:17.810",
-    "severity": "critical",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100740",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100741",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100741 — CVSS 9.8 (CRITICAL)",
-    "summary": "Eval injection in the JScript event-script dispatcher in Progressive Robot Ltd's hMailServer, versions 6.0.0 through 6.3.3 on Windows, allows a remote, unauthenticated attacker to run arbitrary JScript inside the hMailServer service process, with the privileges of the service account, via a password containing a backslash followed by an apostrophe, sent in any logon (SMTP AUTH, POP3, IMAP) that na",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T08:16:26.813",
-    "severity": "critical",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100741",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-88771",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-88771 — CVSS 9.8 (CRITICAL)",
-    "summary": "Improper input validation vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23 leading to an unauthenticated attacker to execute arbitrary commands.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T17:16:56.260",
-    "severity": "critical",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88771",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100721",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100721 — CVSS 9 (CRITICAL)",
-    "summary": "vm2 before 3.12.2 contains an authorization bypass in the NodeVM external-module resolver. When an embedder configures `require.external` with a custom resolver (and `context: 'host'`), `LegacyResolver.customResolve` in lib/resolver-compat.js records the resolved module directory in `this.externals` as `new RegExp('^' + escapeRegExp(resolvedPath))`, without requiring a path separator or end-of-str",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:17.547",
-    "severity": "critical",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100721",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100852",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100852 — CVSS 8.8 (HIGH)",
-    "summary": "AzuraCast before 0.23.8 contains a command injection vulnerability in the Liquidsoap config generation for live recording that fails to quote the streamer username in process.run calls. Authenticated station users with Streamers and Profile permissions can set a username containing shell metacharacters and trigger command execution as the Liquidsoap process user when recording closes.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:24.437",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100852",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100856",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100856 — CVSS 8.8 (HIGH)",
-    "summary": "AzuraCast before 0.23.6 contains a code injection vulnerability in the remote relay password field due to incomplete migration from the vulnerable cleanUpString method to toRawString. Attackers with RemoteRelays station permission can inject nested Liquidsoap interpolation syntax to execute arbitrary code in the Liquidsoap process, disclose internal API keys, or disrupt station operation.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:25.050",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100856",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100864",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100864 — CVSS 8.8 (HIGH)",
-    "summary": "heym before 0.0.91 contains a sandbox escape vulnerability in the expression engine's DotList map/filter and fallback resolver that allows authenticated users to execute arbitrary Python code. Attackers can craft workflow expressions using dunder attribute access through item expressions or the fallback resolver to access os.system and execute commands as the backend process.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:26.260",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100864",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100865",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100865 — CVSS 8.8 (HIGH)",
-    "summary": "Heym before 0.0.53 evaluates workflow condition expressions using Python's eval() with insufficient sandboxing in the workflow executor service. Authenticated users can edit workflow condition nodes or import malicious templates to execute arbitrary Python and OS commands as the backend process user.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:26.410",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100865",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-86609",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-86609 — CVSS 8.8 (HIGH)",
-    "summary": "The Download Manager WordPress plugin before 7.5.6 does not sanitise and escape data submitted through its email-locked download subscription form before outputting it back in an admin page, which could allow unauthenticated attackers to perform Stored Cross-Site Scripting attacks against administrators. This affects the commercial Pro edition only; the free Download Manager WordPress plugin befor",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T06:17:14.070",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86609",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100870",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100870 — CVSS 8.8 (HIGH)",
-    "summary": "Sylius versions before 1.12.25, 1.13.17, 1.14.20, 2.1.16, and 2.2.9 build administrator password-reset links using the request Host header without validation, allowing unauthenticated attackers to redirect reset tokens to attacker-controlled domains. Attackers can request password resets for known administrator email addresses with forged Host headers to intercept valid reset tokens and take over ",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T13:16:38.240",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100870",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100871",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100871 — CVSS 8.8 (HIGH)",
-    "summary": "Sylius versions before 1.12.25, 1.13.17, 1.14.20, 2.1.16, and 2.2.9 fail to include firewall identification in JWT tokens issued by separate Admin and Shop API endpoints. Attackers can register a shop customer account using an administrator's email address and obtain a token that the Admin API resolves to that administrator, granting full administrative access.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T13:16:38.380",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100871",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100839",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100839 — CVSS 8.4 (HIGH)",
-    "summary": "Contrast is a confidential-computing runtime for Kubernetes. In versions before 1.18.0, the guest kernel's ACPI/AML handling is vulnerable to an AML injection attack (\"BadAML\"). ACPI tables containing AML bytecode are passed from the untrusted host (QEMU) to the guest firmware (OVMF) and on to the Linux kernel, whose AML interpreter executes them. An attacker controlling the host — an assumed adve",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:22.230",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100839",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100844",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100844 — CVSS 8.4 (HIGH)",
-    "summary": "MONAI before 1.6.0 is vulnerable to OS command injection in the nnUNetV2Runner component (monai.apps.nnunet.nnunetv2_runner). User-controlled values taken from the YAML configuration file (notably dataset_name_or_id) and from CLI/kwargs arguments are concatenated into a command string without quoting or validation and then passed to subprocess with shell=True, so shell metacharacters (e.g., ';' on",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:22.993",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100844",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100833",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100833 — CVSS 8.2 (HIGH)",
-    "summary": "Contrast (edgelesssys/contrast) versions 1.14.0 before 1.23.1 generate runtime policies that fail to detect all container image substitutions. A bad rebase during a Kata Containers update accidentally introduced an `allow_storage` rule that accepts storage entries using the `image_guest_pull` driver without verifying the image digest. An attacker with access to the Kata agent API — for example, a ",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:21.323",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100833",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100838",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100838 — CVSS 8.1 (HIGH)",
-    "summary": "Contrast is a confidential-computing runtime for Kubernetes. In versions before 1.19.1, the Kata agent policies generated by the Contrast CLI contained a flaw in the CopyFile verification that allowed arbitrary writes to the guest root filesystem. A malicious process on the untrusted host able to connect to the Kata agent VSOCK could issue a series of CopyFile requests to overwrite security-critic",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:22.083",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100838",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-88772",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-88772 — CVSS 8.1 (HIGH)",
-    "summary": "Vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23 leading to Remote Code Execution or Denial of Service",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T17:16:56.390",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88772",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100857",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100857 — CVSS 8 (HIGH)",
-    "summary": "AzuraCast before 0.23.4 contains a code injection vulnerability in the ConfigWriter::cleanUpString() method that fails to sanitize Liquidsoap string interpolation sequences, allowing authenticated users with Media or Profile permissions to inject arbitrary Liquidsoap code into station configuration. Attackers can inject #{process.run()} expressions into playlist URLs or station metadata fields tha",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:25.197",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100857",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100840",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100840 — CVSS 7.8 (HIGH)",
-    "summary": "MONAI through 1.6.0 contains a remote code execution vulnerability in the bundle configuration engine that resolves _target_ values to arbitrary importable callables without an allow list and passes $ expressions to Python eval(). Attackers can publish a malicious bundle with crafted configuration containing arbitrary code that executes when a victim loads the bundle using monai.bundle.load() or m",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:22.387",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100840",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100841",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100841 — CVSS 7.8 (HIGH)",
-    "summary": "In MONAI 1.6.0, PersistentDataset (monai/data/dataset.py) explicitly rejects the combination track_meta=True with weights_only=True, forcing users who cache MetaTensors (the default tensor type in MONAI >= 1.0) to run torch.load(hashfile, weights_only=False). Related cache helpers in monai/data/utils.py also call pickle.loads on cached content and derive cache keys with hashlib.md5. As a result, a",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:22.543",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100841",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100843",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100843 — CVSS 7.8 (HIGH)",
-    "summary": "MONAI versions before 1.6.0 contain a remote code execution vulnerability in the algo_from_pickle() function due to unsafe pickle.loads() deserialization in monai/auto3dseg/utils.py. Attackers can craft malicious pickle files that execute arbitrary system commands when deserialized by the vulnerable function.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:22.853",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100843",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100845",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100845 — CVSS 7.8 (HIGH)",
-    "summary": "MONAI before 1.6.0 contains an unsafe deserialization vulnerability in the NumpyReader class that unconditionally uses numpy.load with allow_pickle=True when loading .npy and .npz files. Attackers can craft malicious .npy files with pickle payloads that execute arbitrary code when loaded through MONAI's standard data pipeline.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:23.140",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100845",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100850",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100850 — CVSS 7.7 (HIGH)",
-    "summary": "AzuraCast before 0.23.8 contains a server-side request forgery and local file read vulnerability in the AutoDJ remote playlist fetch (backend/src/Radio/AutoDJ/QueueBuilder.php, getMediaFromRemoteUrl()). A user with the station Media permission can create or update a playlist with source=remote_url and remote_type=playlist whose remote_url points at a file:// path or an internal/loopback/link-local",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:24.007",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100850",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100846",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100846 — CVSS 7.6 (HIGH)",
-    "summary": "MONAI before 1.5.2 contains a deserialization of untrusted data vulnerability in the algo_from_pickle function in monai/auto3dseg/utils.py. The function reads a .pkl file and passes its contents to pickle.loads without validating the data source or content. If an application invokes algo_from_pickle on an attacker-supplied pickle file, an object defining __reduce__ is executed during deserializati",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:23.283",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100846",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "CVE-2026-100851",
-    "source": "nvd_cve",
-    "domain": "cyber",
-    "title": "CVE-2026-100851 — CVSS 7.6 (HIGH)",
-    "summary": "AzuraCast before 0.23.8 contains a broken access control vulnerability in the GET /api/station/{id}/vue/profile endpoint that allows authenticated users with only View Station Page permission to read Icecast/Shoutcast admin, source, and relay passwords. Attackers with View-only access can call this endpoint and receive plaintext frontend credentials in the JSON response, then use the admin passwor",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-27T02:17:24.233",
-    "severity": "high",
-    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100851",
-    "attribution": "NVD",
-    "cascadeNote": "severe cyber incident — watch critical infrastructure",
-    "cascadeWatches": [
-      "infrastructure",
-      "comms"
-    ],
-    "impactTags": [
-      "infrastructure",
-      "comms"
-    ]
-  },
-  {
-    "id": "ofac:sdn:09-23-2026",
-    "source": "ofac",
-    "domain": "sanctions",
-    "title": "OFAC SDN list updated",
-    "summary": "OFAC republished the SDN list on 09/23/2026 with 19391 records.",
-    "lat": null,
-    "lon": null,
-    "region": null,
-    "time": "2026-09-23T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.XML",
-    "attribution": "OFAC",
-    "impactTags": [
-      "economy",
-      "government"
-    ]
-  },
-  {
-    "id": "promed:8735411",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, WOAH",
-    "summary": "This report details an ongoing recurrence of Newcastle disease in Singapore. The disease, caused by Paramyxovirus type 1, was confirmed through laboratory testing. Control measures include disinfection and traceability. The origin of the infection is unknown.",
-    "lat": 1.2916200160980225,
-    "lon": 103.80805206298828,
-    "region": "Singapore",
-    "time": "2026-09-28T21:04:56.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735410",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domestic, cull",
-    "summary": "An additional outbreak of African swine fever has been identified in Tan Thanh commune. Authorities are advising livestock farmers to enhance biosecurity measures, maintain hygiene in barns, and manage their farming environments effectively. Prompt reporting of any signs of illness or unusual deaths",
-    "lat": 14.944700241088867,
-    "lon": 108.45700073242188,
-    "region": "Vietnam",
-    "time": "2026-09-28T21:03:56.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735409",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human exposure, fatal",
-    "summary": "A human rabies death has been reported, marking the first such fatality in the region since 1998. The individual died after being bitten by a stray dog. Although the victim sought medical attention after the bite, they did not receive preventative treatment. Symptoms consistent with rabies developed",
-    "lat": 2.5745999813079834,
-    "lon": 113.19180297851562,
-    "region": "Malaysia",
-    "time": "2026-09-28T21:02:47.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735421",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/RUS> Зарубежное эпидобозрение – полиомиелит (WPV1) - Афганистан",
-    "summary": "В Афганистане зафиксированы новые случаи полиомиелита, что подтверждает сохраняющуюся угрозу заболевания в стране. Афганистан остается одной из немногих стран, где дикий полиовирус еще не искоренен.",
-    "lat": 33.838809967041016,
-    "lon": 66.0264663696289,
-    "region": "Afghanistan",
-    "time": "2026-09-28T20:40:31.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735418",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/RUS> Зарубежное эпидобозрение – лихорадка Западного Нила (Европа)",
-    "summary": "В Европе зафиксировано значительное количество случаев лихорадки Западного Нила, большинство из которых произошли внутри континента. Наибольшее число случаев зарегистрировано в нескольких европейских странах. Вирус циркулирует между комарами и дикими птицами, но может передаваться людям и другим мле",
-    "lat": 48.69100189208984,
-    "lon": 9.140999794006348,
-    "region": "Europe",
-    "time": "2026-09-28T20:29:38.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735399",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/SOAS> Dengue - Bangladesh (25): update",
-    "summary": "Health officials reported a significant number of new dengue cases and several fatalities in the past day. The total number of infections and deaths since the beginning of the year has also been updated. Comparisons were made to previous years' dengue outbreaks.",
-    "lat": 23.84322929382324,
-    "lon": 90.26850128173828,
-    "region": "Bangladesh",
-    "time": "2026-09-28T07:36:53.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735398",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/SOAS> Measles - Bangladesh (22): another mass vaccination drive",
-    "summary": "A nationwide vaccination campaign has been launched to ensure all unvaccinated young children receive the measles-rubella vaccine. This initiative follows a period where a significant number of measles-related deaths and suspected cases were reported. The campaign aims to increase vaccination covera",
-    "lat": 23.84322929382324,
-    "lon": 90.26850128173828,
-    "region": "Bangladesh",
-    "time": "2026-09-28T07:32:46.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735397",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/SOAS> Dengue - Sri Lanka (21): update",
-    "summary": "Sri Lanka has experienced a significant number of dengue-related deaths and cases this year. The majority of these have occurred in the Western Province, with specific districts reporting the highest numbers. The peak in cases was observed in July.",
-    "lat": 7.608089923858643,
-    "lon": 80.70472717285156,
-    "region": "Sri Lanka",
-    "time": "2026-09-28T07:30:47.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735396",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/SOAS> Anthrax - Bangladesh (03): cattle, human, update",
-    "summary": "Anthrax infections are being reported in northern Bangladesh, with a particular hotspot identified in Sundarganj, Gaibandha. These recent outbreaks have been linked to the consumption and handling of meat from sick cattle. Health authorities are investigating the extent of the spread and implementin",
-    "lat": 23.84322929382324,
-    "lon": 90.26850128173828,
-    "region": "Bangladesh",
-    "time": "2026-09-28T07:27:16.000Z",
-    "severity": "high",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735408",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/PL> Prunus necrotic ringspot virus - Azerbaijan: 1st rep.",
-    "summary": "New data indicates the presence of a quarantine pest, prunus necrotic ringspot virus, in Azerbaijan. This virus was detected on various fruit trees during surveys conducted in recent years.",
-    "lat": 40.5,
-    "lon": 47.5,
-    "region": "Azerbaijan",
-    "time": "2026-09-28T03:50:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735406",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/AH/EDR> Ebola disease - Congo DR (66): 2 new affected health zones, more cases, fatalities, CFR 48.1%, epidemic update",
-    "summary": "An Ebola outbreak caused by the Bundibugyo virus in the Democratic Republic of Congo is expanding geographically, increasing the risk of cross-border transmission. The outbreak continues to present significant challenges, including difficulties in timely case detection and access to adequate patient",
-    "lat": -2,
-    "lon": 25,
-    "region": "DR Congo",
-    "time": "2026-09-28T03:44:36.000Z",
-    "severity": "high",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735400",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/EDR> Chikungunya - Guadeloupe: ex French Guiana",
-    "summary": "A case of chikungunya was detected in Guadeloupe, imported from French Guiana. Health authorities in Guadeloupe have initiated mosquito control measures and are advising the public to be cautious. In French Guiana, the epidemic situation varies by region, with some areas experiencing outbreaks and o",
-    "lat": 16.25,
-    "lon": -61.58340072631836,
-    "region": "France",
-    "time": "2026-09-28T03:43:18.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735395",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> African swine fever - Laos (05): multiple provinces, domestic, wild, WOAH",
-    "summary": "African swine fever virus has recurred in Laos. The event is ongoing and has been confirmed through clinical and laboratory diagnoses. Control measures include disinfection, movement control, and the destruction and disposal of carcasses and animal products. The infection was introduced through fomi",
-    "lat": 18.50274085998535,
-    "lon": 103.76329040527344,
-    "region": "Laos",
-    "time": "2026-09-28T01:28:29.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735386",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/EDR> Hepatitis C - Czech Republic: increased reporting and fatalities",
-    "summary": "Czechia is experiencing a record increase in hepatitis C cases, with a significant rise in new infections and several deaths reported. While improved diagnostics and reporting systems contribute to higher case numbers, experts believe the actual number of infections is also genuinely increasing and ",
-    "lat": 49.74285888671875,
-    "lon": 15.33841037750244,
-    "region": "Czech Republic",
-    "time": "2026-09-28T00:43:25.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735407",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/ESP> Varicela – Colombia: (SUCRE) brote en centro penitenciario, condiciones de hacinamiento",
-    "summary": "A prison in Sincelejo is under quarantine due to a chickenpox outbreak. Health authorities are intervening to control the spread of the disease, which is exacerbated by overcrowding. Measures are being taken to prevent further transmission, including restricting visits.",
-    "lat": 9.30472183227539,
-    "lon": -75.39778137207031,
-    "region": "Colombia",
-    "time": "2026-09-27T22:44:54.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735405",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/RUS> Корь - Россия (Санкт-Петербург)",
-    "summary": "Measles cases have been identified among students at a school in the Nevsky district. Public health authorities have implemented control measures, including contact tracing, medical observation, and vaccination. Individuals who are unvaccinated and have not had measles are also being restricted from",
-    "lat": 61.94614028930664,
-    "lon": 93.57769012451172,
-    "region": "Russia",
-    "time": "2026-09-27T21:08:22.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735404",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/RUS> Норовирусная инфекция (уточнение этиологии вспышки) - Грузия",
-    "summary": "A norovirus outbreak occurred in Tbilisi kindergartens, leading to hospitalizations. Investigations are ongoing, with numerous food samples being tested. While initial findings have not revealed violations, the investigation is still in progress. The Tbilisi City Hall has suggested that the outbreak",
-    "lat": 41.92631149291992,
-    "lon": 43.51744842529297,
-    "region": "Georgia",
-    "time": "2026-09-27T20:47:41.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735391",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> Avian influenza - Taiwan (20): (Taoyuan) poultry, HPAI H5N1, cull, preventive measures",
-    "summary": "An outbreak of highly pathogenic avian influenza occurred at a livestock farm in Taiwan. Authorities culled affected animals and disinfected the area. Preliminary assessments suggest the virus may have been introduced by wild birds. This incident broke a long period without avian influenza outbreaks",
-    "lat": 23.873001098632812,
-    "lon": 121.01699829101562,
-    "region": "China",
-    "time": "2026-09-27T20:47:41.000Z",
-    "severity": "high",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735390",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> Rabies - Viet Nam (52): (Ho Chi Minh City) pet animals, human exposure, preventive measures",
-    "summary": "HCM City is warning of an increased risk of rabies exposure. The city has seen a rise in reported animal bites and scratches, and a concerning number of rabies fatalities. Health officials emphasize that rabies is preventable with prompt medical attention, including wound care and vaccination, and a",
-    "lat": 14.944700241088867,
-    "lon": 108.45700073242188,
-    "region": "Vietnam",
-    "time": "2026-09-27T20:45:47.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735389",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> Foot & mouth disease - Indonesia (06): (West Nusa Tenggara) multiple outbreaks, cattle, vaccination",
-    "summary": "The Dompu Regency Government is intensifying efforts to prevent the spread of foot-and-mouth disease in livestock. These measures include vaccination, monitoring animal movements, and encouraging farmers to report any signs of illness promptly. The government is also working on collecting livestock ",
-    "lat": -8.537569999694824,
-    "lon": 117.94921875,
-    "region": "Indonesia",
-    "time": "2026-09-27T20:42:27.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735382",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/EAFR> Cholera - Congo DR (21): epidemic update",
-    "summary": "The Democratic Republic of the Congo is facing a widespread and increasing cholera epidemic. The disease has spread across many provinces, with some areas being particularly affected due to factors like insecurity, population displacement, and fragile infrastructure. The epidemic is being monitored ",
-    "lat": -2.5,
-    "lon": 23.5,
-    "region": "Republic of Congo",
-    "time": "2026-09-27T20:33:25.000Z",
-    "severity": "high",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735381",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MENA> Mobile laboratories - Lebanon: decentralized diagnostics, humanitarian settings / المختبرات المتنقلة - لبنان: تشخيص لا مركزي، سياقات إنسانية",
-    "summary": null,
-    "lat": 33.92026901245117,
-    "lon": 35.888031005859375,
-    "region": "Lebanon",
-    "time": "2026-09-27T09:04:04.000Z",
-    "severity": "high",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735380",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/AMR> Antimicrobial stewardship (326): USA, MRSA, oral antibiotic, UTI",
-    "summary": "This study investigated the effectiveness of three oral antibiotics—linezolid, trimethoprim-sulfamethoxazole, and doxycycline—for treating urinary tract infections caused by methicillin-resistant _Staphylococcus aureus_ (MRSA). The research, which analyzed data from multiple sites, aimed to understa",
-    "lat": 39.9669303894043,
-    "lon": -97.55609893798828,
-    "region": "United States",
-    "time": "2026-09-27T09:01:40.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735379",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/AMR> Bacteriophage therapy (38): Salmonella Typhimurium, MDR, poultry farm, phage cocktail",
-    "summary": "This study investigated the effectiveness of bacteriophages (BPs) as a method to control _Salmonella_ on poultry farm surfaces, particularly in the presence of organic matter which can hinder cleaning and disinfection. Researchers identified individual BPs with lytic activity against various _Salmon",
-    "lat": 40.226829528808594,
-    "lon": -3.649569988250733,
-    "region": "Spain",
-    "time": "2026-09-27T09:01:20.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "promed:8735388",
-    "source": "promed",
-    "domain": "health",
-    "title": "PRO/MBDS> Japanese encephalitis - Nepal (11): (Sudurpashchim) additional cases, vaccination launched",
-    "summary": "A vaccination campaign against Japanese Encephalitis has commenced in Dhangadhi Sub-Metropolitan City. The initiative aims to prevent and control the spread of the viral infection, which is transmitted by mosquitoes and can lead to serious neurological complications. The campaign is targeting a spec",
-    "lat": 28.253009796142575,
-    "lon": 83.93855285644531,
-    "region": "Nepal",
-    "time": "2026-09-27T03:32:49.000Z",
-    "severity": "moderate",
-    "url": "https://www.promedmail.org/",
-    "attribution": "ProMED",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "fema_5677_TX_fire_2026-09-15",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: HYDRA FIRE — TX",
-    "summary": "Fire disaster declaration #5677 in TX, declared 2026-09-15.",
-    "lat": null,
-    "lon": null,
-    "region": "TX",
-    "time": "2026-09-15T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/5677",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_5676_AR_fire_2026-09-15",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: BUNKER FIRE — AR",
-    "summary": "Fire disaster declaration #5676 in AR, declared 2026-09-15.",
-    "lat": null,
-    "lon": null,
-    "region": "AR",
-    "time": "2026-09-15T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/5676",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_5676_AR_fire_2026-09-2",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: BUNKER FIRE — AR",
-    "summary": "Fire disaster declaration #5676 in AR, declared 2026-09-15.",
-    "lat": null,
-    "lon": null,
-    "region": "AR",
-    "time": "2026-09-15T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/5676",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-01",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-2",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-3",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-4",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-5",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-6",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-7",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-8",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-9",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-10",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-11",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-12",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-13",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-14",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-15",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-16",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "fema_4943_KS_severe-storm_2026-09-17",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
-    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
-    "lat": null,
-    "lon": null,
-    "region": "KS",
-    "time": "2026-09-01T00:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.fema.gov/disaster/4943",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "usgs_gauge_08067500",
-    "source": "noaa_disasters",
-    "domain": "disasters",
-    "title": "FLOOD: Trinity River at Liberty, TX — 36.49 ft",
-    "summary": "River at 36.49 ft (140% of 26 ft flood stage).",
-    "lat": null,
-    "lon": null,
-    "region": "TX",
-    "time": "2026-09-28T21:35:32.516Z",
-    "severity": "high",
-    "url": "https://waterdata.usgs.gov/nwis/uv?site_no=08067500",
-    "attribution": "NOAA",
-    "impactTags": [
-      "population",
-      "infrastructure"
-    ]
-  },
-  {
-    "id": "trends-us-d6beb83a",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: warren county ky",
-    "summary": "Rising query with ~50000+ searches. Related story: BREAKING - Large law enforcement presence gathered off I-65 in Warren County, KSP confirms crews respond to trooper-involved shooting (WBKO).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T19:10:00.000Z",
-    "severity": "high",
-    "url": "https://www.wbko.com/2026/09/28/breaking-large-law-enforcement-presence-gathered-off-i-65-warren-county-ksp-confirms-crews-respond-trooper-involved-shooting/",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-bf661821",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: rob dillingham",
-    "summary": "Rising query with ~2000+ searches. Related story: Bulls trade Rob Dillingham to Hornets for Buddy Hield, cash (ESPN).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T21:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.espn.com/nba/story/_/id/50036563/sources-bulls-trade-rob-dillingham-hornets-buddy-hield",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-dba4b2ca",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: tunisia vs botswana",
-    "summary": "Rising query with ~2000+ searches. Related story: Tunisia vs. Botswana Lineups, Live Streaming, How & Where to Watch AFCON Qualifiers on TV (Yahoo Sports).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T20:50:00.000Z",
-    "severity": "moderate",
-    "url": "https://sports.yahoo.com/articles/tunisia-vs-botswana-lineups-live-172500188.html",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-3332944f",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: world labs",
-    "summary": "Rising query with ~2000+ searches. Related story: AMD acquiring Fei-Fei Li's World Labs AI firm in deal worth $8.2 billion (CNBC).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T20:20:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.cnbc.com/2026/09/28/amd-fei-fei-li-world-labs.html",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-668eb660",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: data center",
-    "summary": "Rising query with ~2000+ searches. Related story: Protester storms DC party, flips off crowd as ‘USA!’ chants erupt amid Trump’s AI push (Fox News).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T19:40:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.foxnews.com/politics/protester-storms-pro-data-center-bash-flips-off-crowd-usa-chants-erupt-amid-trumps-ai-push",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-b1472d1b",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: lieutenant stitchie",
-    "summary": "Rising query with ~2000+ searches. Related story: Veteran Jamaican deejay Lieutenant Stitchie dies at 60 (Caribbean National Weekly).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T19:40:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.caribbeannationalweekly.com/posts/veteran-jamaican-deejay-lieutenant-stitchie-dies-at-60",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-80ef53a6",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: josh allen injury",
-    "summary": "Rising query with ~1000+ searches. Related story: Josh Allen injury scare is major concern for Buffalo Bills after Week 3 (Yahoo Sports).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T21:10:00.000Z",
-    "severity": "moderate",
-    "url": "https://sports.yahoo.com/articles/josh-allen-injury-scare-major-020536806.html",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-cd7b9638",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: katie miller",
-    "summary": "Rising query with ~1000+ searches. Related story: FBI agents probing threats against Stephen Miller’s wife demoted (MS NOW).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T20:10:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.ms.now/news/fbi-stephen-miller-katie-miller-kash-patel",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-b95ea595",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: michael kayode",
-    "summary": "Rising query with ~500+ searches. Related story: Kayode, chi è il protagonista di Turchia-Italia: età, altezza, carriera, stipendio, ruolo e vita privata (Il Messaggero).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T20:00:00.000Z",
-    "severity": "moderate",
-    "url": "https://www.ilmessaggero.it/sport/schede/kayode_chi_e_turchia_italia_eta_altezza_stipendio_ruolo_vita_privata-9791309.html",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "trends-us-814fa5e5",
-    "source": "trends",
-    "domain": "social",
-    "title": "Trending search: warren county ohio",
-    "summary": "Rising query with ~500+ searches. Related story: Hisey Fall Fest at Hisey Park (Warren County Post).",
-    "lat": null,
-    "lon": null,
-    "region": "United States",
-    "time": "2026-09-28T19:50:00.000Z",
-    "severity": "moderate",
-    "url": "https://warrencountypost.com/g/lebanon-oh/e/391663/hisey-fall-fest-hisey-park",
-    "attribution": "Google Trends",
-    "impactTags": [
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-28139rvsbrrailr-0000108883",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Toluene — TRELLEBORG COATED SYSTEMS US INC",
-    "summary": "430,868 lbs of Toluene released in a one-time (non-routine) event at TRELLEBORG COATED SYSTEMS US INC in RUTHERFORDTON, NC, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 35.3773,
-    "lon": -81.9505,
-    "region": "NC",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "high",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=28139RVSBRRAILR",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-99352sdprtpobox-0000091203",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Naphthalene — US DOE HANFORD SITE",
-    "summary": "218,712 lbs of Naphthalene released in a one-time (non-routine) event at US DOE HANFORD SITE in RICHLAND, WA, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 46.3082,
-    "lon": -119.299,
-    "region": "WA",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "high",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=99352SDPRTPOBOX",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-99352sdprtpobox-0007439921",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Lead — US DOE HANFORD SITE",
-    "summary": "45,779 lbs of Lead released in a one-time (non-routine) event at US DOE HANFORD SITE in RICHLAND, WA, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 46.3082,
-    "lon": -119.299,
-    "region": "WA",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=99352SDPRTPOBOX",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-11101cnsld3854v-0001332214",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Asbestos (friable) — RAVENSWOOD GENERATING STATION",
-    "summary": "39,587 lbs of Asbestos (friable) released in a one-time (non-routine) event at RAVENSWOOD GENERATING STATION in LONG ISLAND CITY, NY, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 40.4534,
-    "lon": -73.5644,
-    "region": "NY",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=11101CNSLD3854V",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-7163wngvty157mi-0000107211",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Ethylene glycol — INGEVITY ARKANSAS LLC",
-    "summary": "30,000 lbs of Ethylene glycol released in a one-time (non-routine) event at INGEVITY ARKANSAS LLC in CROSSETT, AR, per EPA Toxics Release Inventory 2024 data.",
-    "lat": null,
-    "lon": null,
-    "region": "AR",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=7163WNGVTY157MI",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-17049hpmcgparte-0008001589",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Creosote — STELLA - JONES CORP",
-    "summary": "18,017 lbs of Creosote released in a one-time (non-routine) event at STELLA - JONES CORP in MC ALISTERVILLE, PA, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 40.6126,
-    "lon": -77.2622,
-    "region": "PA",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=17049HPMCGPARTE",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-12832nrtnconese-n120",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Diisocyanates — SAINT-GOBAIN PERFORMANCE PLASTICS",
-    "summary": "14,500 lbs of Diisocyanates released in a one-time (non-routine) event at SAINT-GOBAIN PERFORMANCE PLASTICS in GRANVILLE, NY, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 43.399444,
-    "lon": -73.257222,
-    "region": "NY",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=12832NRTNCONESE",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-75418vlntrhighw-0001928434",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: 2,4-D 2-ethylhexyl ester — VOLUNTARY PURCHASING GROUPS INC",
-    "summary": "12,220 lbs of 2,4-D 2-ethylhexyl ester released in a one-time (non-routine) event at VOLUNTARY PURCHASING GROUPS INC in BONHAM, TX, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 33.575,
-    "lon": -96.241667,
-    "region": "TX",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=75418VLNTRHIGHW",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-45805bpchmforta-0000115071",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Propylene — INEOS NITRILES USA LLC",
-    "summary": "7,508 lbs of Propylene released in a one-time (non-routine) event at INEOS NITRILES USA LLC in LIMA, OH, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 40.714167,
-    "lon": -84.132222,
-    "region": "OH",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=45805BPCHMFORTA",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-16323mnychtwomi-n982",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Zinc compounds — BORCHERS AMERICAS INC.",
-    "summary": "6,880 lbs of Zinc compounds released in a one-time (non-routine) event at BORCHERS AMERICAS INC. in FRANKLIN, PA, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 41.411944,
-    "lon": -79.797222,
-    "region": "PA",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=16323MNYCHTWOMI",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-71301drwdt1kopp-0008001589",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Creosote — STELLA-JONES CORP",
-    "summary": "6,684 lbs of Creosote released in a one-time (non-routine) event at STELLA-JONES CORP in ALEXANDRIA, LA, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 31.2828,
-    "lon": -92.4364,
-    "region": "LA",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=71301DRWDT1KOPP",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-68508ckfml200so-0007664417",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Ammonia — SMITHFIELD PACKAGED MEATS CORP-LINCOLN",
-    "summary": "6,342 lbs of Ammonia released in a one-time (non-routine) event at SMITHFIELD PACKAGED MEATS CORP-LINCOLN in LINCOLN, NE, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 40.809167,
-    "lon": -96.740556,
-    "region": "NE",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=68508CKFML200SO",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-49464blmrf83009-0007664417",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Ammonia — THE HILLSHIRE BRANDS CO",
-    "summary": "6,162 lbs of Ammonia released in a one-time (non-routine) event at THE HILLSHIRE BRANDS CO in ZEELAND, MI, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 42.920113,
-    "lon": -86.022505,
-    "region": "MI",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=49464BLMRF83009",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-70634wstvcpobox-0000108316",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: Maleic anhydride — INGEVITY SOUTH CAROLINA LLC",
-    "summary": "6,000 lbs of Maleic anhydride released in a one-time (non-routine) event at INGEVITY SOUTH CAROLINA LLC in DERIDDER, LA, per EPA Toxics Release Inventory 2024 data.",
-    "lat": 30.820278,
-    "lon": -93.285833,
-    "region": "LA",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=70634WSTVCPOBOX",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "epa-tri-2024-3633wsssns81nrt-0000110543",
-    "source": "epa",
-    "domain": "environment",
-    "title": "One-time toxic release: n-Hexane — SESSIONS CO INC",
-    "summary": "5,804 lbs of n-Hexane released in a one-time (non-routine) event at SESSIONS CO INC in ENTERPRISE, AL, per EPA Toxics Release Inventory 2024 data.",
-    "lat": null,
-    "lon": null,
-    "region": "AL",
-    "time": "2026-09-28T21:35:39.257Z",
-    "severity": "moderate",
-    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=3633WSSSNS81NRT",
-    "attribution": "EPA",
-    "impactTags": [
-      "health",
-      "population"
-    ]
-  },
-  {
-    "id": "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-0",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Ukraine / Eastern Europe",
-    "summary": "Public HF (0–30 MHz) receiver \"The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS -\" at The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS - is listed on ReceiverBook, covering the Ukraine / Eastern Europe (firmware 1.822.0) — a sensor-availability marker, not an alert.",
-    "lat": 44.53,
-    "lon": 26.23,
-    "region": "Ukraine / Eastern Europe",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "https://kiwisdr.yo3bn.ro/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-1",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Ukraine / Eastern Europe",
-    "summary": "Public HF (0–30 MHz) receiver \"The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS -\" at The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS - is listed on ReceiverBook, covering the Ukraine / Eastern Europe (firmware 1.822.0) — a sensor-availability marker, not an alert.",
-    "lat": 44.53,
-    "lon": 26.23,
-    "region": "Ukraine / Eastern Europe",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://kiwisdr.yo3bn.ro:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-30-mhz-sdr-cyprus-2",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Middle East",
-    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR | Cyprus\" at 0-30 MHz SDR | Cyprus is listed on ReceiverBook, covering the Middle East (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 34.76,
-    "lon": 32.53,
-    "region": "Middle East",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://cyp.twrmon.net:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-30-mhz-sdr-doha-qatar-3",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Middle East",
-    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR | Doha, Qatar\" at 0-30 MHz SDR | Doha, Qatar is listed on ReceiverBook, covering the Middle East (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 25.2854,
-    "lon": 51.531,
-    "region": "Middle East",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://midskiwi.ddns.net:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-4",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Taiwan Strait",
-    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan\" at 0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan is listed on ReceiverBook, covering the Taiwan Strait (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 25.005928,
-    "lon": 121.343095,
-    "region": "Taiwan Strait",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://114.34.207.164:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-5",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Taiwan Strait",
-    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan\" at 0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan is listed on ReceiverBook, covering the Taiwan Strait (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 25.005928,
-    "lon": 121.343095,
-    "region": "Taiwan Strait",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://bv3un.ddns.net:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-feline-0-30mhz-sdr-waterfall-bay-6",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — South China Sea",
-    "summary": "Public HF (0–30 MHz) receiver \"[Feline] 0-30MHz SDR | Waterfall Bay, Hong Kong\" at [Feline] 0-30MHz SDR | Waterfall Bay, Hong Kong is listed on ReceiverBook, covering the South China Sea (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 22.25,
-    "lon": 114.135,
-    "region": "South China Sea",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://felineyogi.ydns.eu:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-30-mhz-sdr-vr2kj-hong-kong-7",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — South China Sea",
-    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR ( VR2KJ ) | Hong Kong\" at 0-30 MHz SDR ( VR2KJ ) | Hong Kong is listed on ReceiverBook, covering the South China Sea (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 22.359632,
-    "lon": 114.127231,
-    "region": "South China Sea",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://vr2kj.proxy.kiwisdr.com:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-8",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Korean Peninsula",
-    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna.\" at 0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna. is listed on ReceiverBook, covering the Korean Peninsula (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 35.888778,
-    "lon": 128.574964,
-    "region": "Korean Peninsula",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://hl5ntr-sdr.ddns.net:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-9",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR listening post online — Korean Peninsula",
-    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna.\" at 0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna. is listed on ReceiverBook, covering the Korean Peninsula (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": 35.888778,
-    "lon": 128.574964,
-    "region": "Korean Peninsula",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://125.185.245.16:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-vk3sol-strathbogie-rx-3-victoria-10",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR receiver online — unknown location",
-    "summary": "Public HF (0–30 MHz) receiver \"VK3SOL-Strathbogie Rx.3 Victoria, Australia. [LW,MW,HF]\" at VK3SOL-Strathbogie Rx.3 Victoria, Australia. [LW,MW,HF] is listed on ReceiverBook (firmware 1.6012.0) — a sensor-availability marker, not an alert.",
-    "lat": -36.852596,
-    "lon": 145.738417,
-    "region": null,
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "https://listen.sadarc.org/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-peter-ea8bfk-fuerteventura-canar-11",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR receiver online — Canary Islands",
-    "summary": "Public HF (0–30 MHz) receiver \"Peter EA8BFK | Fuerteventura, Canary Islands\" at Peter EA8BFK | Fuerteventura, Canary Islands is listed on ReceiverBook (firmware 1.6012.0) — a sensor-availability marker, not an alert.",
-    "lat": 28.61,
-    "lon": -13.84,
-    "region": "Canary Islands",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://ea8bfk.ddns.net:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR receiver online — New Zealand",
-    "summary": "Public HF (0–30 MHz) receiver \"0.5-30 MHz SDR (KiwiSDR 1 of 5), Marahau, Tasman District, New Zealand\" at Marahau, Tasman Bay, New Zealand is listed on ReceiverBook (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": -41.006131,
-    "lon": 173.009502,
-    "region": "New Zealand",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://kiwisdr.owdjim.gen.nz:8073/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR receiver online — New Zealand",
-    "summary": "Public HF (0–30 MHz) receiver \"0.5-30 MHz SDR (KiwiSDR 2 of 5), Marahau, Tasman District, New Zealand\" at Marahau, Tasman Bay, New Zealand is listed on ReceiverBook (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": -41.006131,
-    "lon": 173.009502,
-    "region": "New Zealand",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://kiwisdr2.owdjim.gen.nz:8075/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14",
-    "source": "kiwisdr",
-    "domain": "signals",
-    "title": "KiwiSDR receiver online — New Zealand",
-    "summary": "Public HF (0–30 MHz) receiver \"0.5-30 MHz SDR (KiwiSDR 3 of 5), Marahau, Tasman District, New Zealand\" at Marahau, Tasman Bay, New Zealand is listed on ReceiverBook (firmware 1.902.0) — a sensor-availability marker, not an alert.",
-    "lat": -41.006131,
-    "lon": 173.009502,
-    "region": "New Zealand",
-    "time": "2026-09-28T21:35:32.226Z",
-    "severity": "low",
-    "url": "http://kiwisdr3.owdjim.gen.nz:8077/",
-    "attribution": "KiwiSDR/ReceiverBook",
-    "impactTags": [
-      "comms"
-    ]
-  },
-  {
-    "id": "csg-fleet-totals-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "U.S. Navy fleet posture — 99 of 290 ships deployed",
-    "summary": "USNI News Fleet and Marine Tracker: Sept. 8, 2026: total battle force 290, 99 deployed, 71 underway.",
-    "lat": null,
-    "lon": null,
-    "region": "Global",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "low",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-69-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Dwight D. Eisenhower (CVN-69) — Western Atlantic",
-    "summary": "Eisenhower (CVN-69), Aug. Homeport: Norfolk, VA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Western Atlantic",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "low",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-72-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Abraham Lincoln (CVN-72) — South China Sea",
-    "summary": "Lorenzo Vigil stands watch on the bridge aboard Nimitz-class aircraft carrier USS Abraham Lincoln (CVN-72) on Sept. Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "South China Sea",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "moderate",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
-    "cascadeWatches": [
-      "maritime",
-      "government"
-    ],
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-73-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS George Washington (CVN-73) — Arabian Sea",
-    "summary": "In the Arabian Sea A sailor stands watch on the bridge aboard Nimitz-class aircraft carrier USS George Washington (CVN-73), Sept. Homeport: Yokosuka, Japan. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Arabian Sea",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "moderate",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
-    "cascadeWatches": [
-      "maritime",
-      "government"
-    ],
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-76-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Ronald Reagan (CVN-76) — Eastern Pacific Sailors",
-    "summary": "Aircraft carrier USS Ronald Reagan (CVN-76) departed Thursday and returned Monday to Bremerton, Wash., according to ship spotters . Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Eastern Pacific Sailors",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "low",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-71-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Theodore Roosevelt (CVN-71) — Eastern Pacific Sailors",
-    "summary": "In the Eastern Pacific Sailors conduct flight operations on the flight deck of Nimitz-class aircraft carrier USS Theodore Roosevelt (CVN-71), Sept. Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Eastern Pacific Sailors",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "low",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-68-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Nimitz (CVN-68) — South China Sea",
-    "summary": "Lorenzo Vigil stands watch on the bridge aboard Nimitz-class aircraft carrier USS Abraham Lincoln (CVN-72) on Sept. Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "South China Sea",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "moderate",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
-    "cascadeWatches": [
-      "maritime",
-      "government"
-    ],
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-70-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Carl Vinson (CVN-70) — Eastern Pacific Sailors",
-    "summary": "Aircraft carrier USS Carl Vinson (CVN-70) returned Friday to San Diego, according to ship spotters . Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Eastern Pacific Sailors",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "low",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-cvn-77-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS George H.W. Bush (CVN-77) — Arabian Sea",
-    "summary": "Bush (CVN-77), homeported at Naval Station Norfolk, Va. Homeport: Norfolk, VA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Arabian Sea",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "moderate",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
-    "cascadeWatches": [
-      "maritime",
-      "government"
-    ],
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-lha-7-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Tripoli (LHA-7) — Sasebo, Japan",
-    "summary": "US Navy photo USS Tripoli (LHA-7) is in port in Sasebo, Japan. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Japan",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "low",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-lhd-4-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Boxer (LHD-4) — Arabian Sea",
-    "summary": "Amphibious assault ship USS Boxer (LHD-4) is operating in the Arabian Sea. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Arabian Sea",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "moderate",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
-    "cascadeWatches": [
-      "maritime",
-      "government"
-    ],
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
-    "id": "csg-lhd-3-2026-09-08",
-    "source": "csg_tracker",
-    "domain": "signals",
-    "title": "USS Kearsarge (LHD-3) — Western Atlantic",
-    "summary": "Amphibious assault ship USS Kearsarge (LHD-3) returned Friday to Norfolk, according to ship spotters . (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
-    "lat": null,
-    "lon": null,
-    "region": "Western Atlantic",
-    "time": "2026-09-08T18:16:40.000Z",
-    "severity": "low",
-    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
-    "attribution": "USNI News",
-    "impactTags": [
-      "military",
-      "maritime",
-      "government"
-    ]
-  },
-  {
     "id": "bls-CUUR0000SA0-2026M08",
     "source": "bls",
     "domain": "economic",
@@ -3665,25 +1296,6 @@
     ]
   },
   {
-    "id": "telegram:CIG_telegram/84674",
-    "source": "telegram",
-    "domain": "conflict",
-    "title": "[Conflict Intel Team] 📖 🇺🇸 🚀 September 25th wet dress rehearsal, leading up to the historic first",
-    "summary": "orbital launch test (Flight 14) https://www.space.com/space-exploration/launches-spacecraft/spacexs-starship-megarocket-aces-launch-rehearsal-ahead-of-1st-orbital-test-flight-video",
-    "lat": null,
-    "lon": null,
-    "region": "Global",
-    "time": "2026-09-28T17:30:23.000Z",
-    "severity": "low",
-    "url": "https://t.me/CIG_telegram/84674",
-    "attribution": "Telegram OSINT",
-    "impactTags": [
-      "government",
-      "military",
-      "comms"
-    ]
-  },
-  {
     "id": "telegram:CIG_telegram/84677",
     "source": "telegram",
     "domain": "conflict",
@@ -3752,6 +1364,25 @@
     "time": "2026-09-28T17:52:39.000Z",
     "severity": "low",
     "url": "https://t.me/CIG_telegram/84680",
+    "attribution": "Telegram OSINT",
+    "impactTags": [
+      "government",
+      "military",
+      "comms"
+    ]
+  },
+  {
+    "id": "telegram:CIG_telegram/84681",
+    "source": "telegram",
+    "domain": "conflict",
+    "title": "[Conflict Intel Team] 🗳 🇺🇸 📊 For the first time in Gallup’s polling history, over 50% of Americans",
+    "summary": "identify as Independent. 🔶️ Just 25% say Republican and 23% say Democrat. 🔶️ Asked of independents, 48% lean Republican, 45% lean Democrat https://news.gallup.com/poll/15370/party…",
+    "lat": null,
+    "lon": null,
+    "region": "Global",
+    "time": "2026-09-28T17:54:59.000Z",
+    "severity": "low",
+    "url": "https://t.me/CIG_telegram/84681",
     "attribution": "Telegram OSINT",
     "impactTags": [
       "government",
@@ -4902,7 +2533,7 @@
     "lat": 25,
     "lon": -113,
     "region": "Mexico",
-    "time": "2026-09-28T22:00:24",
+    "time": "2026-09-28T22:15:13",
     "severity": "high",
     "url": "https://www.gdacs.org/event/TC?eventid=1001325&episodeid=33",
     "attribution": "GDACS",
@@ -4949,7 +2580,7 @@
     "lat": 17.7,
     "lon": -163.1,
     "region": "United States",
-    "time": "2026-09-28T21:08:42",
+    "time": "2026-09-28T22:07:30",
     "severity": "moderate",
     "url": "https://www.gdacs.org/event/TC?eventid=1001321&episodeid=33",
     "attribution": "GDACS",
@@ -5009,7 +2640,7 @@
     "lat": 28.1,
     "lon": 133.2,
     "region": "Japan",
-    "time": "2026-09-28T21:55:33",
+    "time": "2026-09-28T22:12:50",
     "severity": "moderate",
     "url": "https://www.gdacs.org/event/TC?eventid=1001327&episodeid=23",
     "attribution": "GDACS",
@@ -5445,7 +3076,7 @@
     "source": "usgs_earthquakes",
     "domain": "disasters",
     "title": "M4.9 earthquake — 2 km SW of Sakai, Japan",
-    "summary": "Magnitude 4.9 earthquake, depth unknown. Felt reports: 36.",
+    "summary": "Magnitude 4.9 earthquake, depth unknown. Felt reports: 39.",
     "lat": 36.0809,
     "lon": 139.7782,
     "region": "2 km SW of Sakai, Japan",
@@ -6486,6 +4117,2375 @@
     "impactTags": [
       "power_grid",
       "infrastructure"
+    ]
+  },
+  {
+    "id": "CVE-2026-88773",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-88773 — CVSS 10 (CRITICAL)",
+    "summary": "Inconsistent interpretation of HTTP requests ('HTTP Request/Response smuggling') vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1-37.279 and NDcPP; Gateway: before 14.1-73.37 FIPS and before 13.1-64.23.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T17:16:56.507",
+    "severity": "critical",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88773",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100740",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100740 — CVSS 9.9 (CRITICAL)",
+    "summary": "A vulnerability was detected in D-Link DIR-895L A1_102b07. Impacted is the function tunnel_set_params of the file tunnel.c of the component L2TP Control Channel Parser. Performing a manipulation results in out-of-bounds write. The attack may be initiated remotely. The exploit is now public and may be used.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T01:17:17.810",
+    "severity": "critical",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100740",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100741",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100741 — CVSS 9.8 (CRITICAL)",
+    "summary": "Eval injection in the JScript event-script dispatcher in Progressive Robot Ltd's hMailServer, versions 6.0.0 through 6.3.3 on Windows, allows a remote, unauthenticated attacker to run arbitrary JScript inside the hMailServer service process, with the privileges of the service account, via a password containing a backslash followed by an apostrophe, sent in any logon (SMTP AUTH, POP3, IMAP) that na",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T08:16:26.813",
+    "severity": "critical",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100741",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-88771",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-88771 — CVSS 9.8 (CRITICAL)",
+    "summary": "Improper input validation vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23 leading to an unauthenticated attacker to execute arbitrary commands.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T17:16:56.260",
+    "severity": "critical",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88771",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100721",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100721 — CVSS 9 (CRITICAL)",
+    "summary": "vm2 before 3.12.2 contains an authorization bypass in the NodeVM external-module resolver. When an embedder configures `require.external` with a custom resolver (and `context: 'host'`), `LegacyResolver.customResolve` in lib/resolver-compat.js records the resolved module directory in `this.externals` as `new RegExp('^' + escapeRegExp(resolvedPath))`, without requiring a path separator or end-of-str",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:17.547",
+    "severity": "critical",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100721",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100852",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100852 — CVSS 8.8 (HIGH)",
+    "summary": "AzuraCast before 0.23.8 contains a command injection vulnerability in the Liquidsoap config generation for live recording that fails to quote the streamer username in process.run calls. Authenticated station users with Streamers and Profile permissions can set a username containing shell metacharacters and trigger command execution as the Liquidsoap process user when recording closes.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:24.437",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100852",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100856",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100856 — CVSS 8.8 (HIGH)",
+    "summary": "AzuraCast before 0.23.6 contains a code injection vulnerability in the remote relay password field due to incomplete migration from the vulnerable cleanUpString method to toRawString. Attackers with RemoteRelays station permission can inject nested Liquidsoap interpolation syntax to execute arbitrary code in the Liquidsoap process, disclose internal API keys, or disrupt station operation.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:25.050",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100856",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100864",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100864 — CVSS 8.8 (HIGH)",
+    "summary": "heym before 0.0.91 contains a sandbox escape vulnerability in the expression engine's DotList map/filter and fallback resolver that allows authenticated users to execute arbitrary Python code. Attackers can craft workflow expressions using dunder attribute access through item expressions or the fallback resolver to access os.system and execute commands as the backend process.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:26.260",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100864",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100865",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100865 — CVSS 8.8 (HIGH)",
+    "summary": "Heym before 0.0.53 evaluates workflow condition expressions using Python's eval() with insufficient sandboxing in the workflow executor service. Authenticated users can edit workflow condition nodes or import malicious templates to execute arbitrary Python and OS commands as the backend process user.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:26.410",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100865",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-86609",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-86609 — CVSS 8.8 (HIGH)",
+    "summary": "The Download Manager WordPress plugin before 7.5.6 does not sanitise and escape data submitted through its email-locked download subscription form before outputting it back in an admin page, which could allow unauthenticated attackers to perform Stored Cross-Site Scripting attacks against administrators. This affects the commercial Pro edition only; the free Download Manager WordPress plugin befor",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T06:17:14.070",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86609",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100870",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100870 — CVSS 8.8 (HIGH)",
+    "summary": "Sylius versions before 1.12.25, 1.13.17, 1.14.20, 2.1.16, and 2.2.9 build administrator password-reset links using the request Host header without validation, allowing unauthenticated attackers to redirect reset tokens to attacker-controlled domains. Attackers can request password resets for known administrator email addresses with forged Host headers to intercept valid reset tokens and take over ",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T13:16:38.240",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100870",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100871",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100871 — CVSS 8.8 (HIGH)",
+    "summary": "Sylius versions before 1.12.25, 1.13.17, 1.14.20, 2.1.16, and 2.2.9 fail to include firewall identification in JWT tokens issued by separate Admin and Shop API endpoints. Attackers can register a shop customer account using an administrator's email address and obtain a token that the Admin API resolves to that administrator, granting full administrative access.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T13:16:38.380",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100871",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100839",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100839 — CVSS 8.4 (HIGH)",
+    "summary": "Contrast is a confidential-computing runtime for Kubernetes. In versions before 1.18.0, the guest kernel's ACPI/AML handling is vulnerable to an AML injection attack (\"BadAML\"). ACPI tables containing AML bytecode are passed from the untrusted host (QEMU) to the guest firmware (OVMF) and on to the Linux kernel, whose AML interpreter executes them. An attacker controlling the host — an assumed adve",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:22.230",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100839",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100844",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100844 — CVSS 8.4 (HIGH)",
+    "summary": "MONAI before 1.6.0 is vulnerable to OS command injection in the nnUNetV2Runner component (monai.apps.nnunet.nnunetv2_runner). User-controlled values taken from the YAML configuration file (notably dataset_name_or_id) and from CLI/kwargs arguments are concatenated into a command string without quoting or validation and then passed to subprocess with shell=True, so shell metacharacters (e.g., ';' on",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:22.993",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100844",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100833",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100833 — CVSS 8.2 (HIGH)",
+    "summary": "Contrast (edgelesssys/contrast) versions 1.14.0 before 1.23.1 generate runtime policies that fail to detect all container image substitutions. A bad rebase during a Kata Containers update accidentally introduced an `allow_storage` rule that accepts storage entries using the `image_guest_pull` driver without verifying the image digest. An attacker with access to the Kata agent API — for example, a ",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:21.323",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100833",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100838",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100838 — CVSS 8.1 (HIGH)",
+    "summary": "Contrast is a confidential-computing runtime for Kubernetes. In versions before 1.19.1, the Kata agent policies generated by the Contrast CLI contained a flaw in the CopyFile verification that allowed arbitrary writes to the guest root filesystem. A malicious process on the untrusted host able to connect to the Kata agent VSOCK could issue a series of CopyFile requests to overwrite security-critic",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:22.083",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100838",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-88772",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-88772 — CVSS 8.1 (HIGH)",
+    "summary": "Vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23 leading to Remote Code Execution or Denial of Service",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T17:16:56.390",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88772",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100857",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100857 — CVSS 8 (HIGH)",
+    "summary": "AzuraCast before 0.23.4 contains a code injection vulnerability in the ConfigWriter::cleanUpString() method that fails to sanitize Liquidsoap string interpolation sequences, allowing authenticated users with Media or Profile permissions to inject arbitrary Liquidsoap code into station configuration. Attackers can inject #{process.run()} expressions into playlist URLs or station metadata fields tha",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:25.197",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100857",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100840",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100840 — CVSS 7.8 (HIGH)",
+    "summary": "MONAI through 1.6.0 contains a remote code execution vulnerability in the bundle configuration engine that resolves _target_ values to arbitrary importable callables without an allow list and passes $ expressions to Python eval(). Attackers can publish a malicious bundle with crafted configuration containing arbitrary code that executes when a victim loads the bundle using monai.bundle.load() or m",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:22.387",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100840",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100841",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100841 — CVSS 7.8 (HIGH)",
+    "summary": "In MONAI 1.6.0, PersistentDataset (monai/data/dataset.py) explicitly rejects the combination track_meta=True with weights_only=True, forcing users who cache MetaTensors (the default tensor type in MONAI >= 1.0) to run torch.load(hashfile, weights_only=False). Related cache helpers in monai/data/utils.py also call pickle.loads on cached content and derive cache keys with hashlib.md5. As a result, a",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:22.543",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100841",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100843",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100843 — CVSS 7.8 (HIGH)",
+    "summary": "MONAI versions before 1.6.0 contain a remote code execution vulnerability in the algo_from_pickle() function due to unsafe pickle.loads() deserialization in monai/auto3dseg/utils.py. Attackers can craft malicious pickle files that execute arbitrary system commands when deserialized by the vulnerable function.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:22.853",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100843",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100845",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100845 — CVSS 7.8 (HIGH)",
+    "summary": "MONAI before 1.6.0 contains an unsafe deserialization vulnerability in the NumpyReader class that unconditionally uses numpy.load with allow_pickle=True when loading .npy and .npz files. Attackers can craft malicious .npy files with pickle payloads that execute arbitrary code when loaded through MONAI's standard data pipeline.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:23.140",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100845",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100850",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100850 — CVSS 7.7 (HIGH)",
+    "summary": "AzuraCast before 0.23.8 contains a server-side request forgery and local file read vulnerability in the AutoDJ remote playlist fetch (backend/src/Radio/AutoDJ/QueueBuilder.php, getMediaFromRemoteUrl()). A user with the station Media permission can create or update a playlist with source=remote_url and remote_type=playlist whose remote_url points at a file:// path or an internal/loopback/link-local",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:24.007",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100850",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100846",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100846 — CVSS 7.6 (HIGH)",
+    "summary": "MONAI before 1.5.2 contains a deserialization of untrusted data vulnerability in the algo_from_pickle function in monai/auto3dseg/utils.py. The function reads a .pkl file and passes its contents to pickle.loads without validating the data source or content. If an application invokes algo_from_pickle on an attacker-supplied pickle file, an object defining __reduce__ is executed during deserializati",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:23.283",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100846",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "CVE-2026-100851",
+    "source": "nvd_cve",
+    "domain": "cyber",
+    "title": "CVE-2026-100851 — CVSS 7.6 (HIGH)",
+    "summary": "AzuraCast before 0.23.8 contains a broken access control vulnerability in the GET /api/station/{id}/vue/profile endpoint that allows authenticated users with only View Station Page permission to read Icecast/Shoutcast admin, source, and relay passwords. Attackers with View-only access can call this endpoint and receive plaintext frontend credentials in the JSON response, then use the admin passwor",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-27T02:17:24.233",
+    "severity": "high",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100851",
+    "attribution": "NVD",
+    "cascadeNote": "severe cyber incident — watch critical infrastructure",
+    "cascadeWatches": [
+      "infrastructure",
+      "comms"
+    ],
+    "impactTags": [
+      "infrastructure",
+      "comms"
+    ]
+  },
+  {
+    "id": "ofac:sdn:09-23-2026",
+    "source": "ofac",
+    "domain": "sanctions",
+    "title": "OFAC SDN list updated",
+    "summary": "OFAC republished the SDN list on 09/23/2026 with 19391 records.",
+    "lat": null,
+    "lon": null,
+    "region": null,
+    "time": "2026-09-23T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.XML",
+    "attribution": "OFAC",
+    "impactTags": [
+      "economy",
+      "government"
+    ]
+  },
+  {
+    "id": "promed:8735411",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> Newcastle disease - Singapore (02): poultry, quail, WOAH",
+    "summary": "This report details an ongoing recurrence of Newcastle disease in Singapore. The disease, caused by Paramyxovirus type 1, was confirmed through laboratory testing. Control measures include disinfection and traceability. The origin of the infection is unknown.",
+    "lat": 1.2916200160980225,
+    "lon": 103.80805206298828,
+    "region": "Singapore",
+    "time": "2026-09-28T21:04:56.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735410",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> African swine fever - Viet Nam (37): (Tay Ninh) domestic, cull",
+    "summary": "An additional outbreak of African swine fever has been identified in Tan Thanh commune. Authorities are advising livestock farmers to enhance biosecurity measures, maintain hygiene in barns, and manage their farming environments effectively. Prompt reporting of any signs of illness or unusual deaths",
+    "lat": 14.944700241088867,
+    "lon": 108.45700073242188,
+    "region": "Vietnam",
+    "time": "2026-09-28T21:03:56.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735409",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> Rabies - Malaysia (17): (Kedah) stray dog, human exposure, fatal",
+    "summary": "A human rabies death has been reported, marking the first such fatality in the region since 1998. The individual died after being bitten by a stray dog. Although the victim sought medical attention after the bite, they did not receive preventative treatment. Symptoms consistent with rabies developed",
+    "lat": 2.5745999813079834,
+    "lon": 113.19180297851562,
+    "region": "Malaysia",
+    "time": "2026-09-28T21:02:47.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735421",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/RUS> Зарубежное эпидобозрение – полиомиелит (WPV1) - Афганистан",
+    "summary": "В Афганистане зафиксированы новые случаи полиомиелита, что подтверждает сохраняющуюся угрозу заболевания в стране. Афганистан остается одной из немногих стран, где дикий полиовирус еще не искоренен.",
+    "lat": 33.838809967041016,
+    "lon": 66.0264663696289,
+    "region": "Afghanistan",
+    "time": "2026-09-28T20:40:31.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735418",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/RUS> Зарубежное эпидобозрение – лихорадка Западного Нила (Европа)",
+    "summary": "В Европе зафиксировано значительное количество случаев лихорадки Западного Нила, большинство из которых произошли внутри континента. Наибольшее число случаев зарегистрировано в нескольких европейских странах. Вирус циркулирует между комарами и дикими птицами, но может передаваться людям и другим мле",
+    "lat": 48.69100189208984,
+    "lon": 9.140999794006348,
+    "region": "Europe",
+    "time": "2026-09-28T20:29:38.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735399",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/SOAS> Dengue - Bangladesh (25): update",
+    "summary": "Health officials reported a significant number of new dengue cases and several fatalities in the past day. The total number of infections and deaths since the beginning of the year has also been updated. Comparisons were made to previous years' dengue outbreaks.",
+    "lat": 23.84322929382324,
+    "lon": 90.26850128173828,
+    "region": "Bangladesh",
+    "time": "2026-09-28T07:36:53.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735398",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/SOAS> Measles - Bangladesh (22): another mass vaccination drive",
+    "summary": "A nationwide vaccination campaign has been launched to ensure all unvaccinated young children receive the measles-rubella vaccine. This initiative follows a period where a significant number of measles-related deaths and suspected cases were reported. The campaign aims to increase vaccination covera",
+    "lat": 23.84322929382324,
+    "lon": 90.26850128173828,
+    "region": "Bangladesh",
+    "time": "2026-09-28T07:32:46.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735397",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/SOAS> Dengue - Sri Lanka (21): update",
+    "summary": "Sri Lanka has experienced a significant number of dengue-related deaths and cases this year. The majority of these have occurred in the Western Province, with specific districts reporting the highest numbers. The peak in cases was observed in July.",
+    "lat": 7.608089923858643,
+    "lon": 80.70472717285156,
+    "region": "Sri Lanka",
+    "time": "2026-09-28T07:30:47.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735396",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/SOAS> Anthrax - Bangladesh (03): cattle, human, update",
+    "summary": "Anthrax infections are being reported in northern Bangladesh, with a particular hotspot identified in Sundarganj, Gaibandha. These recent outbreaks have been linked to the consumption and handling of meat from sick cattle. Health authorities are investigating the extent of the spread and implementin",
+    "lat": 23.84322929382324,
+    "lon": 90.26850128173828,
+    "region": "Bangladesh",
+    "time": "2026-09-28T07:27:16.000Z",
+    "severity": "high",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735408",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/PL> Prunus necrotic ringspot virus - Azerbaijan: 1st rep.",
+    "summary": "New data indicates the presence of a quarantine pest, prunus necrotic ringspot virus, in Azerbaijan. This virus was detected on various fruit trees during surveys conducted in recent years.",
+    "lat": 40.5,
+    "lon": 47.5,
+    "region": "Azerbaijan",
+    "time": "2026-09-28T03:50:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735406",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/AH/EDR> Ebola disease - Congo DR (66): 2 new affected health zones, more cases, fatalities, CFR 48.1%, epidemic update",
+    "summary": "An Ebola outbreak caused by the Bundibugyo virus in the Democratic Republic of Congo is expanding geographically, increasing the risk of cross-border transmission. The outbreak continues to present significant challenges, including difficulties in timely case detection and access to adequate patient",
+    "lat": -2,
+    "lon": 25,
+    "region": "DR Congo",
+    "time": "2026-09-28T03:44:36.000Z",
+    "severity": "high",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735400",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/EDR> Chikungunya - Guadeloupe: ex French Guiana",
+    "summary": "A case of chikungunya was detected in Guadeloupe, imported from French Guiana. Health authorities in Guadeloupe have initiated mosquito control measures and are advising the public to be cautious. In French Guiana, the epidemic situation varies by region, with some areas experiencing outbreaks and o",
+    "lat": 16.25,
+    "lon": -61.58340072631836,
+    "region": "France",
+    "time": "2026-09-28T03:43:18.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735395",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> African swine fever - Laos (05): multiple provinces, domestic, wild, WOAH",
+    "summary": "African swine fever virus has recurred in Laos. The event is ongoing and has been confirmed through clinical and laboratory diagnoses. Control measures include disinfection, movement control, and the destruction and disposal of carcasses and animal products. The infection was introduced through fomi",
+    "lat": 18.50274085998535,
+    "lon": 103.76329040527344,
+    "region": "Laos",
+    "time": "2026-09-28T01:28:29.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735386",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/EDR> Hepatitis C - Czech Republic: increased reporting and fatalities",
+    "summary": "Czechia is experiencing a record increase in hepatitis C cases, with a significant rise in new infections and several deaths reported. While improved diagnostics and reporting systems contribute to higher case numbers, experts believe the actual number of infections is also genuinely increasing and ",
+    "lat": 49.74285888671875,
+    "lon": 15.33841037750244,
+    "region": "Czech Republic",
+    "time": "2026-09-28T00:43:25.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735407",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/ESP> Varicela – Colombia: (SUCRE) brote en centro penitenciario, condiciones de hacinamiento",
+    "summary": "A prison in Sincelejo is under quarantine due to a chickenpox outbreak. Health authorities are intervening to control the spread of the disease, which is exacerbated by overcrowding. Measures are being taken to prevent further transmission, including restricting visits.",
+    "lat": 9.30472183227539,
+    "lon": -75.39778137207031,
+    "region": "Colombia",
+    "time": "2026-09-27T22:44:54.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735405",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/RUS> Корь - Россия (Санкт-Петербург)",
+    "summary": "Measles cases have been identified among students at a school in the Nevsky district. Public health authorities have implemented control measures, including contact tracing, medical observation, and vaccination. Individuals who are unvaccinated and have not had measles are also being restricted from",
+    "lat": 61.94614028930664,
+    "lon": 93.57769012451172,
+    "region": "Russia",
+    "time": "2026-09-27T21:08:22.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735391",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> Avian influenza - Taiwan (20): (Taoyuan) poultry, HPAI H5N1, cull, preventive measures",
+    "summary": "An outbreak of highly pathogenic avian influenza occurred at a livestock farm in Taiwan. Authorities culled affected animals and disinfected the area. Preliminary assessments suggest the virus may have been introduced by wild birds. This incident broke a long period without avian influenza outbreaks",
+    "lat": 23.873001098632812,
+    "lon": 121.01699829101562,
+    "region": "China",
+    "time": "2026-09-27T20:47:41.000Z",
+    "severity": "high",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735404",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/RUS> Норовирусная инфекция (уточнение этиологии вспышки) - Грузия",
+    "summary": "A norovirus outbreak occurred in Tbilisi kindergartens, leading to hospitalizations. Investigations are ongoing, with numerous food samples being tested. While initial findings have not revealed violations, the investigation is still in progress. The Tbilisi City Hall has suggested that the outbreak",
+    "lat": 41.92631149291992,
+    "lon": 43.51744842529297,
+    "region": "Georgia",
+    "time": "2026-09-27T20:47:41.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735390",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> Rabies - Viet Nam (52): (Ho Chi Minh City) pet animals, human exposure, preventive measures",
+    "summary": "HCM City is warning of an increased risk of rabies exposure. The city has seen a rise in reported animal bites and scratches, and a concerning number of rabies fatalities. Health officials emphasize that rabies is preventable with prompt medical attention, including wound care and vaccination, and a",
+    "lat": 14.944700241088867,
+    "lon": 108.45700073242188,
+    "region": "Vietnam",
+    "time": "2026-09-27T20:45:47.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735389",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> Foot & mouth disease - Indonesia (06): (West Nusa Tenggara) multiple outbreaks, cattle, vaccination",
+    "summary": "The Dompu Regency Government is intensifying efforts to prevent the spread of foot-and-mouth disease in livestock. These measures include vaccination, monitoring animal movements, and encouraging farmers to report any signs of illness promptly. The government is also working on collecting livestock ",
+    "lat": -8.537569999694824,
+    "lon": 117.94921875,
+    "region": "Indonesia",
+    "time": "2026-09-27T20:42:27.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735382",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/EAFR> Cholera - Congo DR (21): epidemic update",
+    "summary": "The Democratic Republic of the Congo is facing a widespread and increasing cholera epidemic. The disease has spread across many provinces, with some areas being particularly affected due to factors like insecurity, population displacement, and fragile infrastructure. The epidemic is being monitored ",
+    "lat": -2.5,
+    "lon": 23.5,
+    "region": "Republic of Congo",
+    "time": "2026-09-27T20:33:25.000Z",
+    "severity": "high",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735381",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MENA> Mobile laboratories - Lebanon: decentralized diagnostics, humanitarian settings / المختبرات المتنقلة - لبنان: تشخيص لا مركزي، سياقات إنسانية",
+    "summary": null,
+    "lat": 33.92026901245117,
+    "lon": 35.888031005859375,
+    "region": "Lebanon",
+    "time": "2026-09-27T09:04:04.000Z",
+    "severity": "high",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735380",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/AMR> Antimicrobial stewardship (326): USA, MRSA, oral antibiotic, UTI",
+    "summary": "This study investigated the effectiveness of three oral antibiotics—linezolid, trimethoprim-sulfamethoxazole, and doxycycline—for treating urinary tract infections caused by methicillin-resistant _Staphylococcus aureus_ (MRSA). The research, which analyzed data from multiple sites, aimed to understa",
+    "lat": 39.9669303894043,
+    "lon": -97.55609893798828,
+    "region": "United States",
+    "time": "2026-09-27T09:01:40.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735379",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/AMR> Bacteriophage therapy (38): Salmonella Typhimurium, MDR, poultry farm, phage cocktail",
+    "summary": "This study investigated the effectiveness of bacteriophages (BPs) as a method to control _Salmonella_ on poultry farm surfaces, particularly in the presence of organic matter which can hinder cleaning and disinfection. Researchers identified individual BPs with lytic activity against various _Salmon",
+    "lat": 40.226829528808594,
+    "lon": -3.649569988250733,
+    "region": "Spain",
+    "time": "2026-09-27T09:01:20.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "promed:8735388",
+    "source": "promed",
+    "domain": "health",
+    "title": "PRO/MBDS> Japanese encephalitis - Nepal (11): (Sudurpashchim) additional cases, vaccination launched",
+    "summary": "A vaccination campaign against Japanese Encephalitis has commenced in Dhangadhi Sub-Metropolitan City. The initiative aims to prevent and control the spread of the viral infection, which is transmitted by mosquitoes and can lead to serious neurological complications. The campaign is targeting a spec",
+    "lat": 28.253009796142575,
+    "lon": 83.93855285644531,
+    "region": "Nepal",
+    "time": "2026-09-27T03:32:49.000Z",
+    "severity": "moderate",
+    "url": "https://www.promedmail.org/",
+    "attribution": "ProMED",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "fema_5677_TX_fire_2026-09-15",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: HYDRA FIRE — TX",
+    "summary": "Fire disaster declaration #5677 in TX, declared 2026-09-15.",
+    "lat": null,
+    "lon": null,
+    "region": "TX",
+    "time": "2026-09-15T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/5677",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_5676_AR_fire_2026-09-15",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: BUNKER FIRE — AR",
+    "summary": "Fire disaster declaration #5676 in AR, declared 2026-09-15.",
+    "lat": null,
+    "lon": null,
+    "region": "AR",
+    "time": "2026-09-15T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/5676",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_5676_AR_fire_2026-09-2",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: BUNKER FIRE — AR",
+    "summary": "Fire disaster declaration #5676 in AR, declared 2026-09-15.",
+    "lat": null,
+    "lon": null,
+    "region": "AR",
+    "time": "2026-09-15T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/5676",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-01",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-2",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-3",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-4",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-5",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-6",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-7",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-8",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-9",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-10",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-11",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-12",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-13",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-14",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-15",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-16",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "fema_4943_KS_severe-storm_2026-09-17",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FEMA: SEVERE STORMS, STRAIGHT-LINE WINDS, TORNADOES, AND FLOODING — KS",
+    "summary": "Severe Storm disaster declaration #4943 in KS, declared 2026-09-01.",
+    "lat": null,
+    "lon": null,
+    "region": "KS",
+    "time": "2026-09-01T00:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.fema.gov/disaster/4943",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "usgs_gauge_08067500",
+    "source": "noaa_disasters",
+    "domain": "disasters",
+    "title": "FLOOD: Trinity River at Liberty, TX — 36.48 ft",
+    "summary": "River at 36.48 ft (140% of 26 ft flood stage).",
+    "lat": null,
+    "lon": null,
+    "region": "TX",
+    "time": "2026-09-28T22:20:30.027Z",
+    "severity": "high",
+    "url": "https://waterdata.usgs.gov/nwis/uv?site_no=08067500",
+    "attribution": "NOAA",
+    "impactTags": [
+      "population",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "trends-us-17a7ab89",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: delta flight diverted to porto portugal",
+    "summary": "Rising query with ~50000+ searches. Related story: Midair scare forces packed passenger jet into emergency landing, travelers hospitalized (Fox News).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T22:00:00.000Z",
+    "severity": "high",
+    "url": "https://www.foxnews.com/travel/midair-scare-forces-packed-passenger-jet-emergency-landing-travelers-hospitalized",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-27ca18c4",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: kyle monangai",
+    "summary": "Rising query with ~1000+ searches. Related story: Fantasy Football Start or Sit Week 3: Luther Burden, Kyle Monangai, Cairo Santos (Yahoo Sports).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:50:00.000Z",
+    "severity": "moderate",
+    "url": "https://sports.yahoo.com/articles/fantasy-football-start-sit-week-163002464.html",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-57238d0d",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: bears game today",
+    "summary": "Rising query with ~1000+ searches. Related story: Where has Bears TE Colston Loveland been this season? (ESPN).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:40:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.espn.com/nfl/story/_/id/50044351/where-chicago-bears-te-colston-loveland-season",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-2b8db423",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: explosive detection",
+    "summary": "Rising query with ~1000+ searches. Related story: Federal Agency Explains How Marijuana Breathalyzer Development Was Boosted By Post-9/11 Bomb Detection Technology (Marijuana Moment).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:40:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.marijuanamoment.net/federal-agency-explains-how-marijuana-breathalyzer-development-was-boosted-by-post-9-11-bomb-detection-technology/",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-59ccacaf",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: is caleb williams playing today",
+    "summary": "Rising query with ~1000+ searches. Related story: Sources: Caleb Williams injury considered to have 3-4 week timeline (ESPN).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:30:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.espn.com/nfl/story/_/id/50036929/sources-caleb-williams-injury-considered-3-4-week-line",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-80ef53a6",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: josh allen injury",
+    "summary": "Rising query with ~1000+ searches. Related story: Bills news: Joe Brady completely dismisses Josh Allen injury concern after Chargers win (Yahoo Sports).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:10:00.000Z",
+    "severity": "moderate",
+    "url": "https://sports.yahoo.com/articles/bills-news-joe-brady-completely-214123883.html",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-f99fad23",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: dublin",
+    "summary": "Rising query with ~500+ searches. Related story: New Dublin Voices announce European tour and Dublin show (Hotpress).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T22:00:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.hotpress.com/music/new-dublin-voices-announce-european-tour-and-dublin-show-23163172",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-c43cafc8",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: fugitive",
+    "summary": "Rising query with ~500+ searches. Related story: FBI adds Satinderjeet Singh to Most Wanted list, offers $1M reward (NewsNation).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:50:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.newsnationnow.com/crime/fbi-satinderjeet-singh-most-wanted/",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-28e31fb4",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: kimberly guilfoyle",
+    "summary": "Rising query with ~500+ searches. Related story: The Mystery Man Shadowing Kimberly Guilfoyle as She Pushes Deals Across Europe (WSJ).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:50:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.wsj.com/articles/kimberly-guilfoyle-mystery-man-energy-5adeb541",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "trends-us-ce7f4338",
+    "source": "trends",
+    "domain": "social",
+    "title": "Trending search: miles wood",
+    "summary": "Rising query with ~500+ searches. Related story: Blue Jackets’ Wood, Islanders’ Engvall placed on waivers (TSN).",
+    "lat": null,
+    "lon": null,
+    "region": "United States",
+    "time": "2026-09-28T21:40:00.000Z",
+    "severity": "moderate",
+    "url": "https://www.tsn.ca/nhl/article/blue-jackets-wood-islanders-engvall-placed-on-waivers/",
+    "attribution": "Google Trends",
+    "impactTags": [
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-28139rvsbrrailr-0000108883",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Toluene — TRELLEBORG COATED SYSTEMS US INC",
+    "summary": "430,868 lbs of Toluene released in a one-time (non-routine) event at TRELLEBORG COATED SYSTEMS US INC in RUTHERFORDTON, NC, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 35.3773,
+    "lon": -81.9505,
+    "region": "NC",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "high",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=28139RVSBRRAILR",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-99352sdprtpobox-0000091203",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Naphthalene — US DOE HANFORD SITE",
+    "summary": "218,712 lbs of Naphthalene released in a one-time (non-routine) event at US DOE HANFORD SITE in RICHLAND, WA, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 46.3082,
+    "lon": -119.299,
+    "region": "WA",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "high",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=99352SDPRTPOBOX",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-99352sdprtpobox-0007439921",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Lead — US DOE HANFORD SITE",
+    "summary": "45,779 lbs of Lead released in a one-time (non-routine) event at US DOE HANFORD SITE in RICHLAND, WA, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 46.3082,
+    "lon": -119.299,
+    "region": "WA",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=99352SDPRTPOBOX",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-11101cnsld3854v-0001332214",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Asbestos (friable) — RAVENSWOOD GENERATING STATION",
+    "summary": "39,587 lbs of Asbestos (friable) released in a one-time (non-routine) event at RAVENSWOOD GENERATING STATION in LONG ISLAND CITY, NY, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 40.4534,
+    "lon": -73.5644,
+    "region": "NY",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=11101CNSLD3854V",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-7163wngvty157mi-0000107211",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Ethylene glycol — INGEVITY ARKANSAS LLC",
+    "summary": "30,000 lbs of Ethylene glycol released in a one-time (non-routine) event at INGEVITY ARKANSAS LLC in CROSSETT, AR, per EPA Toxics Release Inventory 2024 data.",
+    "lat": null,
+    "lon": null,
+    "region": "AR",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=7163WNGVTY157MI",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-17049hpmcgparte-0008001589",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Creosote — STELLA - JONES CORP",
+    "summary": "18,017 lbs of Creosote released in a one-time (non-routine) event at STELLA - JONES CORP in MC ALISTERVILLE, PA, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 40.6126,
+    "lon": -77.2622,
+    "region": "PA",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=17049HPMCGPARTE",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-12832nrtnconese-n120",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Diisocyanates — SAINT-GOBAIN PERFORMANCE PLASTICS",
+    "summary": "14,500 lbs of Diisocyanates released in a one-time (non-routine) event at SAINT-GOBAIN PERFORMANCE PLASTICS in GRANVILLE, NY, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 43.399444,
+    "lon": -73.257222,
+    "region": "NY",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=12832NRTNCONESE",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-75418vlntrhighw-0001928434",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: 2,4-D 2-ethylhexyl ester — VOLUNTARY PURCHASING GROUPS INC",
+    "summary": "12,220 lbs of 2,4-D 2-ethylhexyl ester released in a one-time (non-routine) event at VOLUNTARY PURCHASING GROUPS INC in BONHAM, TX, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 33.575,
+    "lon": -96.241667,
+    "region": "TX",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=75418VLNTRHIGHW",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-45805bpchmforta-0000115071",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Propylene — INEOS NITRILES USA LLC",
+    "summary": "7,508 lbs of Propylene released in a one-time (non-routine) event at INEOS NITRILES USA LLC in LIMA, OH, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 40.714167,
+    "lon": -84.132222,
+    "region": "OH",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=45805BPCHMFORTA",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-16323mnychtwomi-n982",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Zinc compounds — BORCHERS AMERICAS INC.",
+    "summary": "6,880 lbs of Zinc compounds released in a one-time (non-routine) event at BORCHERS AMERICAS INC. in FRANKLIN, PA, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 41.411944,
+    "lon": -79.797222,
+    "region": "PA",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=16323MNYCHTWOMI",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-71301drwdt1kopp-0008001589",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Creosote — STELLA-JONES CORP",
+    "summary": "6,684 lbs of Creosote released in a one-time (non-routine) event at STELLA-JONES CORP in ALEXANDRIA, LA, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 31.2828,
+    "lon": -92.4364,
+    "region": "LA",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=71301DRWDT1KOPP",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-68508ckfml200so-0007664417",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Ammonia — SMITHFIELD PACKAGED MEATS CORP-LINCOLN",
+    "summary": "6,342 lbs of Ammonia released in a one-time (non-routine) event at SMITHFIELD PACKAGED MEATS CORP-LINCOLN in LINCOLN, NE, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 40.809167,
+    "lon": -96.740556,
+    "region": "NE",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=68508CKFML200SO",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-49464blmrf83009-0007664417",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Ammonia — THE HILLSHIRE BRANDS CO",
+    "summary": "6,162 lbs of Ammonia released in a one-time (non-routine) event at THE HILLSHIRE BRANDS CO in ZEELAND, MI, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 42.920113,
+    "lon": -86.022505,
+    "region": "MI",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=49464BLMRF83009",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-70634wstvcpobox-0000108316",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: Maleic anhydride — INGEVITY SOUTH CAROLINA LLC",
+    "summary": "6,000 lbs of Maleic anhydride released in a one-time (non-routine) event at INGEVITY SOUTH CAROLINA LLC in DERIDDER, LA, per EPA Toxics Release Inventory 2024 data.",
+    "lat": 30.820278,
+    "lon": -93.285833,
+    "region": "LA",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=70634WSTVCPOBOX",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "epa-tri-2024-3633wsssns81nrt-0000110543",
+    "source": "epa",
+    "domain": "environment",
+    "title": "One-time toxic release: n-Hexane — SESSIONS CO INC",
+    "summary": "5,804 lbs of n-Hexane released in a one-time (non-routine) event at SESSIONS CO INC in ENTERPRISE, AL, per EPA Toxics Release Inventory 2024 data.",
+    "lat": null,
+    "lon": null,
+    "region": "AL",
+    "time": "2026-09-28T22:20:45.366Z",
+    "severity": "moderate",
+    "url": "https://enviro.epa.gov/facts/tri/ef-facilities.html?facility_uin=3633WSSSNS81NRT",
+    "attribution": "EPA",
+    "impactTags": [
+      "health",
+      "population"
+    ]
+  },
+  {
+    "id": "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-0",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Ukraine / Eastern Europe",
+    "summary": "Public HF (0–30 MHz) receiver \"The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS -\" at The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS - is listed on ReceiverBook, covering the Ukraine / Eastern Europe (firmware 1.822.0) — a sensor-availability marker, not an alert.",
+    "lat": 44.53,
+    "lon": 26.23,
+    "region": "Ukraine / Eastern Europe",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "https://kiwisdr.yo3bn.ro/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-1",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Ukraine / Eastern Europe",
+    "summary": "Public HF (0–30 MHz) receiver \"The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS -\" at The Real VLF-HF SDR Receiver 8KHz-30MHz | 16m LongWire@8m Height | Ground | BleedResistor | Attentuators | GPS | HTTPS - is listed on ReceiverBook, covering the Ukraine / Eastern Europe (firmware 1.822.0) — a sensor-availability marker, not an alert.",
+    "lat": 44.53,
+    "lon": 26.23,
+    "region": "Ukraine / Eastern Europe",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://kiwisdr.yo3bn.ro:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-30-mhz-sdr-cyprus-2",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Middle East",
+    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR | Cyprus\" at 0-30 MHz SDR | Cyprus is listed on ReceiverBook, covering the Middle East (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 34.76,
+    "lon": 32.53,
+    "region": "Middle East",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://cyp.twrmon.net:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-30-mhz-sdr-doha-qatar-3",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Middle East",
+    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR | Doha, Qatar\" at 0-30 MHz SDR | Doha, Qatar is listed on ReceiverBook, covering the Middle East (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 25.2854,
+    "lon": 51.531,
+    "region": "Middle East",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://midskiwi.ddns.net:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-4",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Taiwan Strait",
+    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan\" at 0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan is listed on ReceiverBook, covering the Taiwan Strait (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 25.005928,
+    "lon": 121.343095,
+    "region": "Taiwan Strait",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://114.34.207.164:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-5",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Taiwan Strait",
+    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan\" at 0-30 MHz SDR ,BV3UN 桃園龜山 | Taoyuan, Taiwan is listed on ReceiverBook, covering the Taiwan Strait (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 25.005928,
+    "lon": 121.343095,
+    "region": "Taiwan Strait",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://bv3un.ddns.net:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-feline-0-30mhz-sdr-waterfall-bay-6",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — South China Sea",
+    "summary": "Public HF (0–30 MHz) receiver \"[Feline] 0-30MHz SDR | Waterfall Bay, Hong Kong\" at [Feline] 0-30MHz SDR | Waterfall Bay, Hong Kong is listed on ReceiverBook, covering the South China Sea (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 22.25,
+    "lon": 114.135,
+    "region": "South China Sea",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://felineyogi.ydns.eu:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-30-mhz-sdr-vr2kj-hong-kong-7",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — South China Sea",
+    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz SDR ( VR2KJ ) | Hong Kong\" at 0-30 MHz SDR ( VR2KJ ) | Hong Kong is listed on ReceiverBook, covering the South China Sea (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 22.359632,
+    "lon": 114.127231,
+    "region": "South China Sea",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://vr2kj.proxy.kiwisdr.com:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-8",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Korean Peninsula",
+    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna.\" at 0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna. is listed on ReceiverBook, covering the Korean Peninsula (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 35.888778,
+    "lon": 128.574964,
+    "region": "Korean Peninsula",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://hl5ntr-sdr.ddns.net:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-9",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR listening post online — Korean Peninsula",
+    "summary": "Public HF (0–30 MHz) receiver \"0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna.\" at 0-30 MHz KIWI SDR( 8ch ), HL5NTR, Daegu_City Republic of Korea. 85M Loop-type Antenna. is listed on ReceiverBook, covering the Korean Peninsula (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": 35.888778,
+    "lon": 128.574964,
+    "region": "Korean Peninsula",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://125.185.245.16:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-vk3sol-strathbogie-rx-3-victoria-10",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR receiver online — unknown location",
+    "summary": "Public HF (0–30 MHz) receiver \"VK3SOL-Strathbogie Rx.3 Victoria, Australia. [LW,MW,HF]\" at VK3SOL-Strathbogie Rx.3 Victoria, Australia. [LW,MW,HF] is listed on ReceiverBook (firmware 1.6012.0) — a sensor-availability marker, not an alert.",
+    "lat": -36.852596,
+    "lon": 145.738417,
+    "region": null,
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "https://listen.sadarc.org/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-peter-ea8bfk-fuerteventura-canar-11",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR receiver online — Canary Islands",
+    "summary": "Public HF (0–30 MHz) receiver \"Peter EA8BFK | Fuerteventura, Canary Islands\" at Peter EA8BFK | Fuerteventura, Canary Islands is listed on ReceiverBook (firmware 1.6012.0) — a sensor-availability marker, not an alert.",
+    "lat": 28.61,
+    "lon": -13.84,
+    "region": "Canary Islands",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://ea8bfk.ddns.net:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR receiver online — New Zealand",
+    "summary": "Public HF (0–30 MHz) receiver \"0.5-30 MHz SDR (KiwiSDR 1 of 5), Marahau, Tasman District, New Zealand\" at Marahau, Tasman Bay, New Zealand is listed on ReceiverBook (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": -41.006131,
+    "lon": 173.009502,
+    "region": "New Zealand",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://kiwisdr.owdjim.gen.nz:8073/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR receiver online — New Zealand",
+    "summary": "Public HF (0–30 MHz) receiver \"0.5-30 MHz SDR (KiwiSDR 2 of 5), Marahau, Tasman District, New Zealand\" at Marahau, Tasman Bay, New Zealand is listed on ReceiverBook (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": -41.006131,
+    "lon": 173.009502,
+    "region": "New Zealand",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://kiwisdr2.owdjim.gen.nz:8075/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14",
+    "source": "kiwisdr",
+    "domain": "signals",
+    "title": "KiwiSDR receiver online — New Zealand",
+    "summary": "Public HF (0–30 MHz) receiver \"0.5-30 MHz SDR (KiwiSDR 3 of 5), Marahau, Tasman District, New Zealand\" at Marahau, Tasman Bay, New Zealand is listed on ReceiverBook (firmware 1.902.0) — a sensor-availability marker, not an alert.",
+    "lat": -41.006131,
+    "lon": 173.009502,
+    "region": "New Zealand",
+    "time": "2026-09-28T22:20:39.897Z",
+    "severity": "low",
+    "url": "http://kiwisdr3.owdjim.gen.nz:8077/",
+    "attribution": "KiwiSDR/ReceiverBook",
+    "impactTags": [
+      "comms"
+    ]
+  },
+  {
+    "id": "csg-fleet-totals-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "U.S. Navy fleet posture — 99 of 290 ships deployed",
+    "summary": "USNI News Fleet and Marine Tracker: Sept. 8, 2026: total battle force 290, 99 deployed, 71 underway.",
+    "lat": null,
+    "lon": null,
+    "region": "Global",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "low",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-69-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Dwight D. Eisenhower (CVN-69) — Western Atlantic",
+    "summary": "Eisenhower (CVN-69), Aug. Homeport: Norfolk, VA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Western Atlantic",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "low",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-72-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Abraham Lincoln (CVN-72) — South China Sea",
+    "summary": "Lorenzo Vigil stands watch on the bridge aboard Nimitz-class aircraft carrier USS Abraham Lincoln (CVN-72) on Sept. Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "South China Sea",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "moderate",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
+    "cascadeWatches": [
+      "maritime",
+      "government"
+    ],
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-73-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS George Washington (CVN-73) — Arabian Sea",
+    "summary": "In the Arabian Sea A sailor stands watch on the bridge aboard Nimitz-class aircraft carrier USS George Washington (CVN-73), Sept. Homeport: Yokosuka, Japan. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Arabian Sea",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "moderate",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
+    "cascadeWatches": [
+      "maritime",
+      "government"
+    ],
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-76-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Ronald Reagan (CVN-76) — Eastern Pacific Sailors",
+    "summary": "Aircraft carrier USS Ronald Reagan (CVN-76) departed Thursday and returned Monday to Bremerton, Wash., according to ship spotters . Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Eastern Pacific Sailors",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "low",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-71-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Theodore Roosevelt (CVN-71) — Eastern Pacific Sailors",
+    "summary": "In the Eastern Pacific Sailors conduct flight operations on the flight deck of Nimitz-class aircraft carrier USS Theodore Roosevelt (CVN-71), Sept. Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Eastern Pacific Sailors",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "low",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-68-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Nimitz (CVN-68) — South China Sea",
+    "summary": "Lorenzo Vigil stands watch on the bridge aboard Nimitz-class aircraft carrier USS Abraham Lincoln (CVN-72) on Sept. Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "South China Sea",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "moderate",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
+    "cascadeWatches": [
+      "maritime",
+      "government"
+    ],
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-70-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Carl Vinson (CVN-70) — Eastern Pacific Sailors",
+    "summary": "Aircraft carrier USS Carl Vinson (CVN-70) returned Friday to San Diego, according to ship spotters . Homeport: San Diego, CA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Eastern Pacific Sailors",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "low",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-cvn-77-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS George H.W. Bush (CVN-77) — Arabian Sea",
+    "summary": "Bush (CVN-77), homeported at Naval Station Norfolk, Va. Homeport: Norfolk, VA. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Arabian Sea",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "moderate",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
+    "cascadeWatches": [
+      "maritime",
+      "government"
+    ],
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-lha-7-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Tripoli (LHA-7) — Sasebo, Japan",
+    "summary": "US Navy photo USS Tripoli (LHA-7) is in port in Sasebo, Japan. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Japan",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "low",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-lhd-4-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Boxer (LHD-4) — Arabian Sea",
+    "summary": "Amphibious assault ship USS Boxer (LHD-4) is operating in the Arabian Sea. (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Arabian Sea",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "moderate",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "cascadeNote": "fleet movement — watch sea lanes and regional posture",
+    "cascadeWatches": [
+      "maritime",
+      "government"
+    ],
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
+    ]
+  },
+  {
+    "id": "csg-lhd-3-2026-09-08",
+    "source": "csg_tracker",
+    "domain": "signals",
+    "title": "USS Kearsarge (LHD-3) — Western Atlantic",
+    "summary": "Amphibious assault ship USS Kearsarge (LHD-3) returned Friday to Norfolk, according to ship spotters . (USNI News Fleet and Marine Tracker: Sept. 8, 2026)",
+    "lat": null,
+    "lon": null,
+    "region": "Western Atlantic",
+    "time": "2026-09-08T18:16:40.000Z",
+    "severity": "low",
+    "url": "https://news.usni.org/2026/09/08/usni-news-fleet-and-marine-tracker-sept-8-2026",
+    "attribution": "USNI News",
+    "impactTags": [
+      "military",
+      "maritime",
+      "government"
     ]
   }
 ]

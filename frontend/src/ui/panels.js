@@ -13,7 +13,7 @@ import { fetchHealth } from '../data/api.js';
 import { SENSOR_LOOKS, setSensorLook, currentSensorLook } from '../globe/sensors/index.js';
 import { satellitesEnabled, satelliteCount, setSatellites } from '../globe/satellites/index.js';
 import { firesEnabled, fireCount, setFires } from '../globe/fires/index.js';
-import { militaryEnabled, civilEnabled, flightCount, setMilitary, setCivil } from '../globe/flights/index.js';
+import { militaryEnabled, civilEnabled, setMilitary, setCivil } from '../globe/flights/index.js';
 import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/index.js';
 import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
 import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
@@ -33,7 +33,6 @@ const META = {
   system: { kicker: 'SYSTEM', title: 'System status' },
 };
 
-export function currentPanel() { return current; }
 export function isPanelOpen() { return current !== null; }
 
 export function initPanels() {

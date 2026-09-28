@@ -77,11 +77,3 @@ export function setSensorLook(key) {
   current = key || null;
   for (const k of Object.keys(stages)) targets[k] = (k === current) ? 1 : 0;
 }
-
-export function destroySensorLooks() {
-  if (rafId) cancelAnimationFrame(rafId);
-  rafId = 0;
-  stages = {};
-  targets = {};
-  current = null;
-}

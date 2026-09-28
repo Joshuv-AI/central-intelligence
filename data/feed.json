@@ -1,5 +1,15 @@
 [
   {
+    "id": "feed-new-trends-us-17a7ab89",
+    "time": "2026-09-28T22:00:00.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "Trending search: delta flight diverted to porto portugal",
+    "eventId": "trends-us-17a7ab89",
+    "url": "https://www.foxnews.com/travel/midair-scare-forces-packed-passenger-jet-emergency-landing-travelers-hospitalized",
+    "source": "trends"
+  },
+  {
     "id": "feed-new-usgs_gauge_08067500",
     "time": "2026-09-28T21:35:32.516Z",
     "severity": "high",

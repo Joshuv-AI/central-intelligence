@@ -12,7 +12,7 @@ on-screen credit line.
 ## God's Eye View sensor shaders (MIT)
 
 The files in `frontend/src/globe/sensors/` named `thermal.js`,
-`surveillance.js`, `retro.js`, `noir.js`, `anime.js`, and `snow.js` are adapted
+`surveillance.js`, `retro.js`, and `noir.js` are adapted
 from [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
 (`src/styles/`), used under the MIT License.
 

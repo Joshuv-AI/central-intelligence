@@ -20,7 +20,6 @@ export const FAMILIES = {
 };
 export const FAMILY_LABELS = { live: 'Live', intel: 'Intel', environment: 'Environment' };
 
-export const SEVERITIES = ['low', 'moderate', 'high', 'critical'];
 export const SEV_COLORS = {
   low: '#7FCEF0',
   moderate: '#FFD166',

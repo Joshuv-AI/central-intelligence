@@ -200,7 +200,6 @@ function stopLoop() {
 
 export function militaryEnabled() { return milOn; }
 export function civilEnabled() { return civOn; }
-export function flightCount() { return aircraft.size; }
 /** Per-feed aircraft count for the dock (true = military, false = civil). */
 export function flightCountBy(military) {
   let n = 0;

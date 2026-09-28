@@ -136,8 +136,3 @@ export function createViewer(container) {
 export function getViewer() {
   return viewer;
 }
-
-// True when WebGL + Cesium actually produced frames.
-export function viewerReady() {
-  return !!(viewer && !viewer.isDestroyed());
-}

@@ -318,10 +318,6 @@ export function highlightEvent(eventId, { holdMs = 700 } = {}) {
   });
 }
 
-export function getEventEntity(eventId) {
-  return entities.get(eventId) || null;
-}
-
 /* ——— picking ——— */
 export function pickAt(clientX, clientY) {
   const viewer = getViewer();

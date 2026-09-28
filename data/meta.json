@@ -7,7 +7,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -18,12 +18,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 11988,
+      "ms": 11769,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.022Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.344Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 4,
+      "consecutiveEmpty": 5,
       "backoffUntil": null
     },
     "gdelt_disasters": {
@@ -31,12 +31,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 28483,
+      "ms": 30803,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.026Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.348Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 4,
+      "consecutiveEmpty": 5,
       "backoffUntil": null
     },
     "deepstate": {
@@ -44,12 +44,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 4247,
+      "ms": 4339,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.030Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.352Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 4,
+      "consecutiveEmpty": 5,
       "backoffUntil": null
     },
     "telegram": {
@@ -57,10 +57,10 @@
       "tier": 1,
       "status": "ok",
       "count": 60,
-      "ms": 16279,
+      "ms": 15243,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.035Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.357Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -70,10 +70,10 @@
       "tier": 1,
       "status": "ok",
       "count": 43,
-      "ms": 3426,
+      "ms": 4115,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.039Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.361Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -83,10 +83,10 @@
       "tier": 1,
       "status": "ok",
       "count": 30,
-      "ms": 3520,
+      "ms": 4105,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.042Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.365Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -96,10 +96,10 @@
       "tier": 1,
       "status": "ok",
       "count": 25,
-      "ms": 11902,
+      "ms": 2475,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.046Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.368Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -109,12 +109,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 2696,
+      "ms": 3258,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.049Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.372Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 4,
+      "consecutiveEmpty": 5,
       "backoffUntil": null
     },
     "noaa_hurricanes": {
@@ -122,10 +122,10 @@
       "tier": 1,
       "status": "ok",
       "count": 5,
-      "ms": 2470,
+      "ms": 2782,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.053Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.378Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -135,12 +135,12 @@
       "tier": 1,
       "status": "ok",
       "count": 0,
-      "ms": 2461,
+      "ms": 2705,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.056Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.381Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 3,
+      "consecutiveEmpty": 4,
       "backoffUntil": null
     },
     "solar": {
@@ -148,10 +148,10 @@
       "tier": 1,
       "status": "ok",
       "count": 1,
-      "ms": 2041,
+      "ms": 2705,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.060Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.384Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -161,10 +161,10 @@
       "tier": 1,
       "status": "ok",
       "count": 1,
-      "ms": 2046,
+      "ms": 2708,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.064Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.387Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -174,10 +174,10 @@
       "tier": 1,
       "status": "ok",
       "count": 28,
-      "ms": 2732,
+      "ms": 2885,
       "error": null,
-      "lastRun": "2026-09-28T22:04:32.538Z",
-      "lastOk": "2026-09-28T22:05:01.067Z",
+      "lastRun": "2026-09-28T22:19:32.539Z",
+      "lastOk": "2026-09-28T22:20:03.390Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -187,10 +187,10 @@
       "tier": 2,
       "status": "ok",
       "count": 25,
-      "ms": 4327,
+      "ms": 1980,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.276Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.366Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -202,7 +202,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -213,12 +213,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 4647,
+      "ms": 2342,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.280Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.370Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 3,
       "backoffUntil": null
     },
     "opensanctions": {
@@ -228,7 +228,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -239,10 +239,10 @@
       "tier": 2,
       "status": "ok",
       "count": 1,
-      "ms": 5661,
+      "ms": 13617,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.284Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.374Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -252,10 +252,10 @@
       "tier": 2,
       "status": "ok",
       "count": 25,
-      "ms": 4231,
+      "ms": 12277,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.287Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.378Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -265,12 +265,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 3790,
+      "ms": 11845,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.290Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.382Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 3,
       "backoffUntil": null
     },
     "who": {
@@ -278,12 +278,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 4073,
+      "ms": 12295,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.294Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.385Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 3,
       "backoffUntil": null
     },
     "noaa_disasters": {
@@ -291,10 +291,10 @@
       "tier": 2,
       "status": "ok",
       "count": 21,
-      "ms": 5652,
+      "ms": 13385,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.297Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.388Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -304,12 +304,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 5186,
+      "ms": 3536,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.300Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.392Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 3,
       "backoffUntil": null
     },
     "bluesky": {
@@ -317,12 +317,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 7255,
+      "ms": 4529,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.303Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.396Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 3,
       "backoffUntil": null
     },
     "reddit": {
@@ -332,7 +332,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -343,10 +343,10 @@
       "tier": 2,
       "status": "ok",
       "count": 10,
-      "ms": 4962,
+      "ms": 8545,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.306Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.401Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -358,7 +358,7 @@
       "count": 0,
       "ms": 0,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
       "lastOk": null,
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
@@ -369,12 +369,12 @@
       "tier": 2,
       "status": "ok",
       "count": 0,
-      "ms": 10001,
+      "ms": 10002,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.309Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.406Z",
       "consecutiveFailures": 0,
-      "consecutiveEmpty": 2,
+      "consecutiveEmpty": 3,
       "backoffUntil": null
     },
     "epa": {
@@ -382,10 +382,10 @@
       "tier": 2,
       "status": "ok",
       "count": 15,
-      "ms": 11819,
+      "ms": 17886,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.312Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.410Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -395,10 +395,10 @@
       "tier": 2,
       "status": "ok",
       "count": 15,
-      "ms": 4769,
+      "ms": 12418,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.315Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.413Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -408,10 +408,10 @@
       "tier": 2,
       "status": "ok",
       "count": 12,
-      "ms": 4652,
+      "ms": 12044,
       "error": null,
-      "lastRun": "2026-09-28T21:35:27.443Z",
-      "lastOk": "2026-09-28T21:35:39.318Z",
+      "lastRun": "2026-09-28T22:20:27.468Z",
+      "lastOk": "2026-09-28T22:20:45.417Z",
       "consecutiveFailures": 0,
       "consecutiveEmpty": 0,
       "backoffUntil": null
@@ -432,7 +432,7 @@
     "bls": {
       "name": "bls",
       "tier": 3,
-      "status": "ok",
+      "status": "stale",
       "count": 5,
       "ms": 1689,
       "error": null,
@@ -458,7 +458,7 @@
     "treasury": {
       "name": "treasury",
       "tier": 3,
-      "status": "ok",
+      "status": "stale",
       "count": 4,
       "ms": 2063,
       "error": null,
@@ -471,7 +471,7 @@
     "comtrade": {
       "name": "comtrade",
       "tier": 3,
-      "status": "ok",
+      "status": "stale",
       "count": 4,
       "ms": 3569,
       "error": null,
@@ -484,7 +484,7 @@
     "gscpi": {
       "name": "gscpi",
       "tier": 3,
-      "status": "ok",
+      "status": "stale",
       "count": 2,
       "ms": 2482,
       "error": null,
@@ -496,508 +496,12 @@
     }
   },
   "lastSweep": {
-    "tier": 1,
-    "at": "2026-09-28T22:05:01.071Z",
-    "ok": 13,
-    "failed": 1
+    "tier": 2,
+    "at": "2026-09-28T22:20:45.420Z",
+    "ok": 14,
+    "failed": 4
   },
   "deltaPrev": {
-    "CVE-2026-88773": {
-      "severity": "critical",
-      "time": "2026-09-27T17:16:56.507"
-    },
-    "CVE-2026-100740": {
-      "severity": "critical",
-      "time": "2026-09-27T01:17:17.810"
-    },
-    "CVE-2026-100741": {
-      "severity": "critical",
-      "time": "2026-09-27T08:16:26.813"
-    },
-    "CVE-2026-88771": {
-      "severity": "critical",
-      "time": "2026-09-27T17:16:56.260"
-    },
-    "CVE-2026-100721": {
-      "severity": "critical",
-      "time": "2026-09-27T02:17:17.547"
-    },
-    "CVE-2026-100852": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:24.437"
-    },
-    "CVE-2026-100856": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:25.050"
-    },
-    "CVE-2026-100864": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:26.260"
-    },
-    "CVE-2026-100865": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:26.410"
-    },
-    "CVE-2026-86609": {
-      "severity": "high",
-      "time": "2026-09-27T06:17:14.070"
-    },
-    "CVE-2026-100870": {
-      "severity": "high",
-      "time": "2026-09-27T13:16:38.240"
-    },
-    "CVE-2026-100871": {
-      "severity": "high",
-      "time": "2026-09-27T13:16:38.380"
-    },
-    "CVE-2026-100839": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:22.230"
-    },
-    "CVE-2026-100844": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:22.993"
-    },
-    "CVE-2026-100833": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:21.323"
-    },
-    "CVE-2026-100838": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:22.083"
-    },
-    "CVE-2026-88772": {
-      "severity": "high",
-      "time": "2026-09-27T17:16:56.390"
-    },
-    "CVE-2026-100857": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:25.197"
-    },
-    "CVE-2026-100840": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:22.387"
-    },
-    "CVE-2026-100841": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:22.543"
-    },
-    "CVE-2026-100843": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:22.853"
-    },
-    "CVE-2026-100845": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:23.140"
-    },
-    "CVE-2026-100850": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:24.007"
-    },
-    "CVE-2026-100846": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:23.283"
-    },
-    "CVE-2026-100851": {
-      "severity": "high",
-      "time": "2026-09-27T02:17:24.233"
-    },
-    "ofac:sdn:09-23-2026": {
-      "severity": "moderate",
-      "time": "2026-09-23T00:00:00.000Z"
-    },
-    "promed:8735411": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:04:56.000Z"
-    },
-    "promed:8735410": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:03:56.000Z"
-    },
-    "promed:8735409": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:02:47.000Z"
-    },
-    "promed:8735421": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:40:31.000Z"
-    },
-    "promed:8735418": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:29:38.000Z"
-    },
-    "promed:8735399": {
-      "severity": "moderate",
-      "time": "2026-09-28T07:36:53.000Z"
-    },
-    "promed:8735398": {
-      "severity": "moderate",
-      "time": "2026-09-28T07:32:46.000Z"
-    },
-    "promed:8735397": {
-      "severity": "moderate",
-      "time": "2026-09-28T07:30:47.000Z"
-    },
-    "promed:8735396": {
-      "severity": "high",
-      "time": "2026-09-28T07:27:16.000Z"
-    },
-    "promed:8735408": {
-      "severity": "moderate",
-      "time": "2026-09-28T03:50:00.000Z"
-    },
-    "promed:8735406": {
-      "severity": "high",
-      "time": "2026-09-28T03:44:36.000Z"
-    },
-    "promed:8735400": {
-      "severity": "moderate",
-      "time": "2026-09-28T03:43:18.000Z"
-    },
-    "promed:8735395": {
-      "severity": "moderate",
-      "time": "2026-09-28T01:28:29.000Z"
-    },
-    "promed:8735386": {
-      "severity": "moderate",
-      "time": "2026-09-28T00:43:25.000Z"
-    },
-    "promed:8735407": {
-      "severity": "moderate",
-      "time": "2026-09-27T22:44:54.000Z"
-    },
-    "promed:8735405": {
-      "severity": "moderate",
-      "time": "2026-09-27T21:08:22.000Z"
-    },
-    "promed:8735404": {
-      "severity": "moderate",
-      "time": "2026-09-27T20:47:41.000Z"
-    },
-    "promed:8735391": {
-      "severity": "high",
-      "time": "2026-09-27T20:47:41.000Z"
-    },
-    "promed:8735390": {
-      "severity": "moderate",
-      "time": "2026-09-27T20:45:47.000Z"
-    },
-    "promed:8735389": {
-      "severity": "moderate",
-      "time": "2026-09-27T20:42:27.000Z"
-    },
-    "promed:8735382": {
-      "severity": "high",
-      "time": "2026-09-27T20:33:25.000Z"
-    },
-    "promed:8735381": {
-      "severity": "high",
-      "time": "2026-09-27T09:04:04.000Z"
-    },
-    "promed:8735380": {
-      "severity": "moderate",
-      "time": "2026-09-27T09:01:40.000Z"
-    },
-    "promed:8735379": {
-      "severity": "moderate",
-      "time": "2026-09-27T09:01:20.000Z"
-    },
-    "promed:8735388": {
-      "severity": "moderate",
-      "time": "2026-09-27T03:32:49.000Z"
-    },
-    "fema_5677_TX_fire_2026-09-15": {
-      "severity": "moderate",
-      "time": "2026-09-15T00:00:00.000Z"
-    },
-    "fema_5676_AR_fire_2026-09-15": {
-      "severity": "moderate",
-      "time": "2026-09-15T00:00:00.000Z"
-    },
-    "fema_5676_AR_fire_2026-09-2": {
-      "severity": "moderate",
-      "time": "2026-09-15T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-01": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-2": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-3": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-4": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-5": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-6": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-7": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-8": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-9": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-10": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-11": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-12": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-13": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-14": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-15": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-16": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "fema_4943_KS_severe-storm_2026-09-17": {
-      "severity": "moderate",
-      "time": "2026-09-01T00:00:00.000Z"
-    },
-    "usgs_gauge_08067500": {
-      "severity": "high",
-      "time": "2026-09-28T21:35:32.516Z"
-    },
-    "trends-us-d6beb83a": {
-      "severity": "high",
-      "time": "2026-09-28T19:10:00.000Z"
-    },
-    "trends-us-bf661821": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:00:00.000Z"
-    },
-    "trends-us-dba4b2ca": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:50:00.000Z"
-    },
-    "trends-us-3332944f": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:20:00.000Z"
-    },
-    "trends-us-668eb660": {
-      "severity": "moderate",
-      "time": "2026-09-28T19:40:00.000Z"
-    },
-    "trends-us-b1472d1b": {
-      "severity": "moderate",
-      "time": "2026-09-28T19:40:00.000Z"
-    },
-    "trends-us-80ef53a6": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:10:00.000Z"
-    },
-    "trends-us-cd7b9638": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:10:00.000Z"
-    },
-    "trends-us-b95ea595": {
-      "severity": "moderate",
-      "time": "2026-09-28T20:00:00.000Z"
-    },
-    "trends-us-814fa5e5": {
-      "severity": "moderate",
-      "time": "2026-09-28T19:50:00.000Z"
-    },
-    "epa-tri-2024-28139rvsbrrailr-0000108883": {
-      "severity": "high",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-99352sdprtpobox-0000091203": {
-      "severity": "high",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-99352sdprtpobox-0007439921": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-11101cnsld3854v-0001332214": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-7163wngvty157mi-0000107211": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-17049hpmcgparte-0008001589": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-12832nrtnconese-n120": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-75418vlntrhighw-0001928434": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-45805bpchmforta-0000115071": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-16323mnychtwomi-n982": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-71301drwdt1kopp-0008001589": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-68508ckfml200so-0007664417": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-49464blmrf83009-0007664417": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-70634wstvcpobox-0000108316": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "epa-tri-2024-3633wsssns81nrt-0000110543": {
-      "severity": "moderate",
-      "time": "2026-09-28T21:35:39.257Z"
-    },
-    "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-0": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-1": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-30-mhz-sdr-cyprus-2": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-30-mhz-sdr-doha-qatar-3": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-4": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-5": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-feline-0-30mhz-sdr-waterfall-bay-6": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-30-mhz-sdr-vr2kj-hong-kong-7": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-8": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-9": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-vk3sol-strathbogie-rx-3-victoria-10": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-peter-ea8bfk-fuerteventura-canar-11": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14": {
-      "severity": "low",
-      "time": "2026-09-28T21:35:32.226Z"
-    },
-    "csg-fleet-totals-2026-09-08": {
-      "severity": "low",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-69-2026-09-08": {
-      "severity": "low",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-72-2026-09-08": {
-      "severity": "moderate",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-73-2026-09-08": {
-      "severity": "moderate",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-76-2026-09-08": {
-      "severity": "low",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-71-2026-09-08": {
-      "severity": "low",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-68-2026-09-08": {
-      "severity": "moderate",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-70-2026-09-08": {
-      "severity": "low",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-cvn-77-2026-09-08": {
-      "severity": "moderate",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-lha-7-2026-09-08": {
-      "severity": "low",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-lhd-4-2026-09-08": {
-      "severity": "moderate",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
-    "csg-lhd-3-2026-09-08": {
-      "severity": "low",
-      "time": "2026-09-08T18:16:40.000Z"
-    },
     "bls-CUUR0000SA0-2026M08": {
       "severity": "low",
       "time": "2026-08-01T12:00:00.000Z"
@@ -1258,10 +762,6 @@
       "severity": "low",
       "time": "2026-09-28T12:15:13.000Z"
     },
-    "telegram:CIG_telegram/84674": {
-      "severity": "low",
-      "time": "2026-09-28T17:30:23.000Z"
-    },
     "telegram:CIG_telegram/84677": {
       "severity": "low",
       "time": "2026-09-28T17:37:27.000Z"
@@ -1277,6 +777,10 @@
     "telegram:CIG_telegram/84680": {
       "severity": "low",
       "time": "2026-09-28T17:52:39.000Z"
+    },
+    "telegram:CIG_telegram/84681": {
+      "severity": "low",
+      "time": "2026-09-28T17:54:59.000Z"
     },
     "telegram:MiddleEastOSINT/599": {
       "severity": "low",
@@ -1484,7 +988,7 @@
     },
     "gdacs_TC_1001325": {
       "severity": "high",
-      "time": "2026-09-28T22:00:24"
+      "time": "2026-09-28T22:15:13"
     },
     "gdacs_TC_1001323": {
       "severity": "moderate",
@@ -1492,7 +996,7 @@
     },
     "gdacs_TC_1001321": {
       "severity": "moderate",
-      "time": "2026-09-28T21:08:42"
+      "time": "2026-09-28T22:07:30"
     },
     "gdacs_EQ_1568526": {
       "severity": "moderate",
@@ -1504,7 +1008,7 @@
     },
     "gdacs_TC_1001327": {
       "severity": "moderate",
-      "time": "2026-09-28T21:55:33"
+      "time": "2026-09-28T22:12:50"
     },
     "gdacs_EQ_1568514": {
       "severity": "moderate",
@@ -1829,289 +1333,505 @@
     "infra-chokepoint-chokepoint28-2026-09-20": {
       "severity": "low",
       "time": "2026-09-20T00:00:00.000Z"
+    },
+    "CVE-2026-88773": {
+      "severity": "critical",
+      "time": "2026-09-27T17:16:56.507"
+    },
+    "CVE-2026-100740": {
+      "severity": "critical",
+      "time": "2026-09-27T01:17:17.810"
+    },
+    "CVE-2026-100741": {
+      "severity": "critical",
+      "time": "2026-09-27T08:16:26.813"
+    },
+    "CVE-2026-88771": {
+      "severity": "critical",
+      "time": "2026-09-27T17:16:56.260"
+    },
+    "CVE-2026-100721": {
+      "severity": "critical",
+      "time": "2026-09-27T02:17:17.547"
+    },
+    "CVE-2026-100852": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:24.437"
+    },
+    "CVE-2026-100856": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:25.050"
+    },
+    "CVE-2026-100864": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:26.260"
+    },
+    "CVE-2026-100865": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:26.410"
+    },
+    "CVE-2026-86609": {
+      "severity": "high",
+      "time": "2026-09-27T06:17:14.070"
+    },
+    "CVE-2026-100870": {
+      "severity": "high",
+      "time": "2026-09-27T13:16:38.240"
+    },
+    "CVE-2026-100871": {
+      "severity": "high",
+      "time": "2026-09-27T13:16:38.380"
+    },
+    "CVE-2026-100839": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:22.230"
+    },
+    "CVE-2026-100844": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:22.993"
+    },
+    "CVE-2026-100833": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:21.323"
+    },
+    "CVE-2026-100838": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:22.083"
+    },
+    "CVE-2026-88772": {
+      "severity": "high",
+      "time": "2026-09-27T17:16:56.390"
+    },
+    "CVE-2026-100857": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:25.197"
+    },
+    "CVE-2026-100840": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:22.387"
+    },
+    "CVE-2026-100841": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:22.543"
+    },
+    "CVE-2026-100843": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:22.853"
+    },
+    "CVE-2026-100845": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:23.140"
+    },
+    "CVE-2026-100850": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:24.007"
+    },
+    "CVE-2026-100846": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:23.283"
+    },
+    "CVE-2026-100851": {
+      "severity": "high",
+      "time": "2026-09-27T02:17:24.233"
+    },
+    "ofac:sdn:09-23-2026": {
+      "severity": "moderate",
+      "time": "2026-09-23T00:00:00.000Z"
+    },
+    "promed:8735411": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:04:56.000Z"
+    },
+    "promed:8735410": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:03:56.000Z"
+    },
+    "promed:8735409": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:02:47.000Z"
+    },
+    "promed:8735421": {
+      "severity": "moderate",
+      "time": "2026-09-28T20:40:31.000Z"
+    },
+    "promed:8735418": {
+      "severity": "moderate",
+      "time": "2026-09-28T20:29:38.000Z"
+    },
+    "promed:8735399": {
+      "severity": "moderate",
+      "time": "2026-09-28T07:36:53.000Z"
+    },
+    "promed:8735398": {
+      "severity": "moderate",
+      "time": "2026-09-28T07:32:46.000Z"
+    },
+    "promed:8735397": {
+      "severity": "moderate",
+      "time": "2026-09-28T07:30:47.000Z"
+    },
+    "promed:8735396": {
+      "severity": "high",
+      "time": "2026-09-28T07:27:16.000Z"
+    },
+    "promed:8735408": {
+      "severity": "moderate",
+      "time": "2026-09-28T03:50:00.000Z"
+    },
+    "promed:8735406": {
+      "severity": "high",
+      "time": "2026-09-28T03:44:36.000Z"
+    },
+    "promed:8735400": {
+      "severity": "moderate",
+      "time": "2026-09-28T03:43:18.000Z"
+    },
+    "promed:8735395": {
+      "severity": "moderate",
+      "time": "2026-09-28T01:28:29.000Z"
+    },
+    "promed:8735386": {
+      "severity": "moderate",
+      "time": "2026-09-28T00:43:25.000Z"
+    },
+    "promed:8735407": {
+      "severity": "moderate",
+      "time": "2026-09-27T22:44:54.000Z"
+    },
+    "promed:8735405": {
+      "severity": "moderate",
+      "time": "2026-09-27T21:08:22.000Z"
+    },
+    "promed:8735391": {
+      "severity": "high",
+      "time": "2026-09-27T20:47:41.000Z"
+    },
+    "promed:8735404": {
+      "severity": "moderate",
+      "time": "2026-09-27T20:47:41.000Z"
+    },
+    "promed:8735390": {
+      "severity": "moderate",
+      "time": "2026-09-27T20:45:47.000Z"
+    },
+    "promed:8735389": {
+      "severity": "moderate",
+      "time": "2026-09-27T20:42:27.000Z"
+    },
+    "promed:8735382": {
+      "severity": "high",
+      "time": "2026-09-27T20:33:25.000Z"
+    },
+    "promed:8735381": {
+      "severity": "high",
+      "time": "2026-09-27T09:04:04.000Z"
+    },
+    "promed:8735380": {
+      "severity": "moderate",
+      "time": "2026-09-27T09:01:40.000Z"
+    },
+    "promed:8735379": {
+      "severity": "moderate",
+      "time": "2026-09-27T09:01:20.000Z"
+    },
+    "promed:8735388": {
+      "severity": "moderate",
+      "time": "2026-09-27T03:32:49.000Z"
+    },
+    "fema_5677_TX_fire_2026-09-15": {
+      "severity": "moderate",
+      "time": "2026-09-15T00:00:00.000Z"
+    },
+    "fema_5676_AR_fire_2026-09-15": {
+      "severity": "moderate",
+      "time": "2026-09-15T00:00:00.000Z"
+    },
+    "fema_5676_AR_fire_2026-09-2": {
+      "severity": "moderate",
+      "time": "2026-09-15T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-01": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-2": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-3": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-4": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-5": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-6": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-7": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-8": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-9": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-10": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-11": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-12": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-13": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-14": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-15": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-16": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "fema_4943_KS_severe-storm_2026-09-17": {
+      "severity": "moderate",
+      "time": "2026-09-01T00:00:00.000Z"
+    },
+    "usgs_gauge_08067500": {
+      "severity": "high",
+      "time": "2026-09-28T22:20:30.027Z"
+    },
+    "trends-us-17a7ab89": {
+      "severity": "high",
+      "time": "2026-09-28T22:00:00.000Z"
+    },
+    "trends-us-27ca18c4": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:50:00.000Z"
+    },
+    "trends-us-57238d0d": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:40:00.000Z"
+    },
+    "trends-us-2b8db423": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:40:00.000Z"
+    },
+    "trends-us-59ccacaf": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:30:00.000Z"
+    },
+    "trends-us-80ef53a6": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:10:00.000Z"
+    },
+    "trends-us-f99fad23": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:00:00.000Z"
+    },
+    "trends-us-c43cafc8": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:50:00.000Z"
+    },
+    "trends-us-28e31fb4": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:50:00.000Z"
+    },
+    "trends-us-ce7f4338": {
+      "severity": "moderate",
+      "time": "2026-09-28T21:40:00.000Z"
+    },
+    "epa-tri-2024-28139rvsbrrailr-0000108883": {
+      "severity": "high",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-99352sdprtpobox-0000091203": {
+      "severity": "high",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-99352sdprtpobox-0007439921": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-11101cnsld3854v-0001332214": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-7163wngvty157mi-0000107211": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-17049hpmcgparte-0008001589": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-12832nrtnconese-n120": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-75418vlntrhighw-0001928434": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-45805bpchmforta-0000115071": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-16323mnychtwomi-n982": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-71301drwdt1kopp-0008001589": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-68508ckfml200so-0007664417": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-49464blmrf83009-0007664417": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-70634wstvcpobox-0000108316": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "epa-tri-2024-3633wsssns81nrt-0000110543": {
+      "severity": "moderate",
+      "time": "2026-09-28T22:20:45.366Z"
+    },
+    "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-0": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-the-real-vlf-hf-sdr-receiver-8kh-1": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-30-mhz-sdr-cyprus-2": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-30-mhz-sdr-doha-qatar-3": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-4": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-30-mhz-sdr-bv3un-taoyuan-taiwa-5": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-feline-0-30mhz-sdr-waterfall-bay-6": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-30-mhz-sdr-vr2kj-hong-kong-7": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-8": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-30-mhz-kiwi-sdr-8ch-hl5ntr-dae-9": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-vk3sol-strathbogie-rx-3-victoria-10": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-peter-ea8bfk-fuerteventura-canar-11": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14": {
+      "severity": "low",
+      "time": "2026-09-28T22:20:39.897Z"
+    },
+    "csg-fleet-totals-2026-09-08": {
+      "severity": "low",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-69-2026-09-08": {
+      "severity": "low",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-72-2026-09-08": {
+      "severity": "moderate",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-73-2026-09-08": {
+      "severity": "moderate",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-76-2026-09-08": {
+      "severity": "low",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-71-2026-09-08": {
+      "severity": "low",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-68-2026-09-08": {
+      "severity": "moderate",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-70-2026-09-08": {
+      "severity": "low",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-cvn-77-2026-09-08": {
+      "severity": "moderate",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-lha-7-2026-09-08": {
+      "severity": "low",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-lhd-4-2026-09-08": {
+      "severity": "moderate",
+      "time": "2026-09-08T18:16:40.000Z"
+    },
+    "csg-lhd-3-2026-09-08": {
+      "severity": "low",
+      "time": "2026-09-08T18:16:40.000Z"
     }
   },
   "baselines": {
-    "nvd_cve": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 25
-        },
-        {
-          "t": 1790631213734,
-          "n": 25
-        },
-        {
-          "t": 1790631308273,
-          "n": 25
-        },
-        {
-          "t": 1790631339322,
-          "n": 25
-        },
-        {
-          "t": 1790631391058,
-          "n": 25
-        },
-        {
-          "t": 1790632204905,
-          "n": 25
-        },
-        {
-          "t": 1790633101072,
-          "n": 25
-        }
-      ],
-      "mean": 25,
-      "std": 0,
-      "anomalous": false
-    },
-    "ofac": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 1
-        },
-        {
-          "t": 1790631213734,
-          "n": 1
-        },
-        {
-          "t": 1790631308273,
-          "n": 1
-        },
-        {
-          "t": 1790631339322,
-          "n": 1
-        },
-        {
-          "t": 1790631391058,
-          "n": 1
-        },
-        {
-          "t": 1790632204905,
-          "n": 1
-        },
-        {
-          "t": 1790633101072,
-          "n": 1
-        }
-      ],
-      "mean": 1,
-      "std": 0,
-      "anomalous": false
-    },
-    "promed": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 25
-        },
-        {
-          "t": 1790631213734,
-          "n": 25
-        },
-        {
-          "t": 1790631308273,
-          "n": 25
-        },
-        {
-          "t": 1790631339322,
-          "n": 25
-        },
-        {
-          "t": 1790631391058,
-          "n": 25
-        },
-        {
-          "t": 1790632204905,
-          "n": 25
-        },
-        {
-          "t": 1790633101072,
-          "n": 25
-        }
-      ],
-      "mean": 25,
-      "std": 0,
-      "anomalous": false
-    },
-    "noaa_disasters": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 20
-        },
-        {
-          "t": 1790631213734,
-          "n": 20
-        },
-        {
-          "t": 1790631308273,
-          "n": 20
-        },
-        {
-          "t": 1790631339322,
-          "n": 21
-        },
-        {
-          "t": 1790631391058,
-          "n": 21
-        },
-        {
-          "t": 1790632204905,
-          "n": 21
-        },
-        {
-          "t": 1790633101072,
-          "n": 21
-        }
-      ],
-      "mean": 20.5,
-      "std": 0.5,
-      "anomalous": false
-    },
-    "trends": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 10
-        },
-        {
-          "t": 1790631213734,
-          "n": 10
-        },
-        {
-          "t": 1790631308273,
-          "n": 10
-        },
-        {
-          "t": 1790631339322,
-          "n": 10
-        },
-        {
-          "t": 1790631391058,
-          "n": 10
-        },
-        {
-          "t": 1790632204905,
-          "n": 10
-        },
-        {
-          "t": 1790633101072,
-          "n": 10
-        }
-      ],
-      "mean": 10,
-      "std": 0,
-      "anomalous": false
-    },
-    "epa": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 15
-        },
-        {
-          "t": 1790631213734,
-          "n": 15
-        },
-        {
-          "t": 1790631308273,
-          "n": 15
-        },
-        {
-          "t": 1790631339322,
-          "n": 15
-        },
-        {
-          "t": 1790631391058,
-          "n": 15
-        },
-        {
-          "t": 1790632204905,
-          "n": 15
-        },
-        {
-          "t": 1790633101072,
-          "n": 15
-        }
-      ],
-      "mean": 15,
-      "std": 0,
-      "anomalous": false
-    },
-    "kiwisdr": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 15
-        },
-        {
-          "t": 1790631213734,
-          "n": 15
-        },
-        {
-          "t": 1790631308273,
-          "n": 15
-        },
-        {
-          "t": 1790631339322,
-          "n": 15
-        },
-        {
-          "t": 1790631391058,
-          "n": 15
-        },
-        {
-          "t": 1790632204905,
-          "n": 15
-        },
-        {
-          "t": 1790633101072,
-          "n": 15
-        }
-      ],
-      "mean": 15,
-      "std": 0,
-      "anomalous": false
-    },
-    "csg_tracker": {
-      "samples": [
-        {
-          "t": 1790631166309,
-          "n": 12
-        },
-        {
-          "t": 1790631213734,
-          "n": 12
-        },
-        {
-          "t": 1790631308273,
-          "n": 12
-        },
-        {
-          "t": 1790631339322,
-          "n": 12
-        },
-        {
-          "t": 1790631391058,
-          "n": 12
-        },
-        {
-          "t": 1790632204905,
-          "n": 12
-        },
-        {
-          "t": 1790633101072,
-          "n": 12
-        }
-      ],
-      "mean": 12,
-      "std": 0,
-      "anomalous": false
-    },
     "bls": {
       "samples": [
         {
@@ -2136,6 +1856,14 @@
         },
         {
           "t": 1790633101072,
+          "n": 5
+        },
+        {
+          "t": 1790634003394,
+          "n": 5
+        },
+        {
+          "t": 1790634045422,
           "n": 5
         }
       ],
@@ -2168,6 +1896,14 @@
         {
           "t": 1790633101072,
           "n": 4
+        },
+        {
+          "t": 1790634003394,
+          "n": 4
+        },
+        {
+          "t": 1790634045422,
+          "n": 4
         }
       ],
       "mean": 4,
@@ -2199,6 +1935,14 @@
         {
           "t": 1790633101072,
           "n": 4
+        },
+        {
+          "t": 1790634003394,
+          "n": 4
+        },
+        {
+          "t": 1790634045422,
+          "n": 4
         }
       ],
       "mean": 4,
@@ -2229,6 +1973,14 @@
         },
         {
           "t": 1790633101072,
+          "n": 2
+        },
+        {
+          "t": 1790634003394,
+          "n": 2
+        },
+        {
+          "t": 1790634045422,
           "n": 2
         }
       ],
@@ -2269,6 +2021,14 @@
         {
           "t": 1790633101072,
           "n": 60
+        },
+        {
+          "t": 1790634003394,
+          "n": 60
+        },
+        {
+          "t": 1790634045422,
+          "n": 60
         }
       ],
       "mean": 60,
@@ -2307,6 +2067,14 @@
         },
         {
           "t": 1790633101072,
+          "n": 43
+        },
+        {
+          "t": 1790634003394,
+          "n": 43
+        },
+        {
+          "t": 1790634045422,
           "n": 43
         }
       ],
@@ -2347,6 +2115,14 @@
         {
           "t": 1790633101072,
           "n": 30
+        },
+        {
+          "t": 1790634003394,
+          "n": 30
+        },
+        {
+          "t": 1790634045422,
+          "n": 30
         }
       ],
       "mean": 30,
@@ -2386,10 +2162,18 @@
         {
           "t": 1790633101072,
           "n": 25
+        },
+        {
+          "t": 1790634003394,
+          "n": 25
+        },
+        {
+          "t": 1790634045422,
+          "n": 25
         }
       ],
-      "mean": 27,
-      "std": 0,
+      "mean": 26.56,
+      "std": 0.83,
       "anomalous": false
     },
     "noaa_hurricanes": {
@@ -2424,6 +2208,14 @@
         },
         {
           "t": 1790633101072,
+          "n": 5
+        },
+        {
+          "t": 1790634003394,
+          "n": 5
+        },
+        {
+          "t": 1790634045422,
           "n": 5
         }
       ],
@@ -2464,6 +2256,14 @@
         {
           "t": 1790633101072,
           "n": 1
+        },
+        {
+          "t": 1790634003394,
+          "n": 1
+        },
+        {
+          "t": 1790634045422,
+          "n": 1
         }
       ],
       "mean": 1,
@@ -2502,6 +2302,14 @@
         },
         {
           "t": 1790633101072,
+          "n": 1
+        },
+        {
+          "t": 1790634003394,
+          "n": 1
+        },
+        {
+          "t": 1790634045422,
           "n": 1
         }
       ],
@@ -2542,9 +2350,361 @@
         {
           "t": 1790633101072,
           "n": 28
+        },
+        {
+          "t": 1790634003394,
+          "n": 28
+        },
+        {
+          "t": 1790634045422,
+          "n": 28
         }
       ],
       "mean": 28,
+      "std": 0,
+      "anomalous": false
+    },
+    "nvd_cve": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 25
+        },
+        {
+          "t": 1790631213734,
+          "n": 25
+        },
+        {
+          "t": 1790631308273,
+          "n": 25
+        },
+        {
+          "t": 1790631339322,
+          "n": 25
+        },
+        {
+          "t": 1790631391058,
+          "n": 25
+        },
+        {
+          "t": 1790632204905,
+          "n": 25
+        },
+        {
+          "t": 1790633101072,
+          "n": 25
+        },
+        {
+          "t": 1790634003394,
+          "n": 25
+        },
+        {
+          "t": 1790634045422,
+          "n": 25
+        }
+      ],
+      "mean": 25,
+      "std": 0,
+      "anomalous": false
+    },
+    "ofac": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 1
+        },
+        {
+          "t": 1790631213734,
+          "n": 1
+        },
+        {
+          "t": 1790631308273,
+          "n": 1
+        },
+        {
+          "t": 1790631339322,
+          "n": 1
+        },
+        {
+          "t": 1790631391058,
+          "n": 1
+        },
+        {
+          "t": 1790632204905,
+          "n": 1
+        },
+        {
+          "t": 1790633101072,
+          "n": 1
+        },
+        {
+          "t": 1790634003394,
+          "n": 1
+        },
+        {
+          "t": 1790634045422,
+          "n": 1
+        }
+      ],
+      "mean": 1,
+      "std": 0,
+      "anomalous": false
+    },
+    "promed": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 25
+        },
+        {
+          "t": 1790631213734,
+          "n": 25
+        },
+        {
+          "t": 1790631308273,
+          "n": 25
+        },
+        {
+          "t": 1790631339322,
+          "n": 25
+        },
+        {
+          "t": 1790631391058,
+          "n": 25
+        },
+        {
+          "t": 1790632204905,
+          "n": 25
+        },
+        {
+          "t": 1790633101072,
+          "n": 25
+        },
+        {
+          "t": 1790634003394,
+          "n": 25
+        },
+        {
+          "t": 1790634045422,
+          "n": 25
+        }
+      ],
+      "mean": 25,
+      "std": 0,
+      "anomalous": false
+    },
+    "noaa_disasters": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 20
+        },
+        {
+          "t": 1790631213734,
+          "n": 20
+        },
+        {
+          "t": 1790631308273,
+          "n": 20
+        },
+        {
+          "t": 1790631339322,
+          "n": 21
+        },
+        {
+          "t": 1790631391058,
+          "n": 21
+        },
+        {
+          "t": 1790632204905,
+          "n": 21
+        },
+        {
+          "t": 1790633101072,
+          "n": 21
+        },
+        {
+          "t": 1790634003394,
+          "n": 21
+        },
+        {
+          "t": 1790634045422,
+          "n": 21
+        }
+      ],
+      "mean": 20.63,
+      "std": 0.48,
+      "anomalous": false
+    },
+    "trends": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 10
+        },
+        {
+          "t": 1790631213734,
+          "n": 10
+        },
+        {
+          "t": 1790631308273,
+          "n": 10
+        },
+        {
+          "t": 1790631339322,
+          "n": 10
+        },
+        {
+          "t": 1790631391058,
+          "n": 10
+        },
+        {
+          "t": 1790632204905,
+          "n": 10
+        },
+        {
+          "t": 1790633101072,
+          "n": 10
+        },
+        {
+          "t": 1790634003394,
+          "n": 10
+        },
+        {
+          "t": 1790634045422,
+          "n": 10
+        }
+      ],
+      "mean": 10,
+      "std": 0,
+      "anomalous": false
+    },
+    "epa": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 15
+        },
+        {
+          "t": 1790631213734,
+          "n": 15
+        },
+        {
+          "t": 1790631308273,
+          "n": 15
+        },
+        {
+          "t": 1790631339322,
+          "n": 15
+        },
+        {
+          "t": 1790631391058,
+          "n": 15
+        },
+        {
+          "t": 1790632204905,
+          "n": 15
+        },
+        {
+          "t": 1790633101072,
+          "n": 15
+        },
+        {
+          "t": 1790634003394,
+          "n": 15
+        },
+        {
+          "t": 1790634045422,
+          "n": 15
+        }
+      ],
+      "mean": 15,
+      "std": 0,
+      "anomalous": false
+    },
+    "kiwisdr": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 15
+        },
+        {
+          "t": 1790631213734,
+          "n": 15
+        },
+        {
+          "t": 1790631308273,
+          "n": 15
+        },
+        {
+          "t": 1790631339322,
+          "n": 15
+        },
+        {
+          "t": 1790631391058,
+          "n": 15
+        },
+        {
+          "t": 1790632204905,
+          "n": 15
+        },
+        {
+          "t": 1790633101072,
+          "n": 15
+        },
+        {
+          "t": 1790634003394,
+          "n": 15
+        },
+        {
+          "t": 1790634045422,
+          "n": 15
+        }
+      ],
+      "mean": 15,
+      "std": 0,
+      "anomalous": false
+    },
+    "csg_tracker": {
+      "samples": [
+        {
+          "t": 1790631166309,
+          "n": 12
+        },
+        {
+          "t": 1790631213734,
+          "n": 12
+        },
+        {
+          "t": 1790631308273,
+          "n": 12
+        },
+        {
+          "t": 1790631339322,
+          "n": 12
+        },
+        {
+          "t": 1790631391058,
+          "n": 12
+        },
+        {
+          "t": 1790632204905,
+          "n": 12
+        },
+        {
+          "t": 1790633101072,
+          "n": 12
+        },
+        {
+          "t": 1790634003394,
+          "n": 12
+        },
+        {
+          "t": 1790634045422,
+          "n": 12
+        }
+      ],
+      "mean": 12,
       "std": 0,
       "anomalous": false
     },
@@ -2738,45 +2898,6 @@
       "region": "South Sandwich Islands Region"
     },
     {
-      "id": "cluster-9_36",
-      "lat": 23.84,
-      "lon": 90.27,
-      "count": 3,
-      "severity": "high",
-      "eventIds": [
-        "promed:8735399",
-        "promed:8735398",
-        "promed:8735396"
-      ],
-      "region": "Bangladesh"
-    },
-    {
-      "id": "cluster-9_48",
-      "lat": 23.76,
-      "lon": 121.54,
-      "count": 3,
-      "severity": "high",
-      "eventIds": [
-        "promed:8735391",
-        "gdacs_EQ_1568519",
-        "usgs_us6000ty73"
-      ],
-      "region": "China"
-    },
-    {
-      "id": "cluster--17_69",
-      "lat": -41.01,
-      "lon": 173.01,
-      "count": 3,
-      "severity": "low",
-      "eventIds": [
-        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12",
-        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13",
-        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14"
-      ],
-      "region": "New Zealand"
-    },
-    {
       "id": "cluster-18_12",
       "lat": 45.04,
       "lon": 30.45,
@@ -2803,6 +2924,19 @@
       "region": "Ukraine"
     },
     {
+      "id": "cluster-9_48",
+      "lat": 23.76,
+      "lon": 121.54,
+      "count": 3,
+      "severity": "high",
+      "eventIds": [
+        "gdacs_EQ_1568519",
+        "usgs_us6000ty73",
+        "promed:8735391"
+      ],
+      "region": "Taiwan"
+    },
+    {
       "id": "cluster--9_-72",
       "lat": -21.13,
       "lon": -178.93,
@@ -2814,6 +2948,32 @@
         "usgs_us6000ty1a"
       ],
       "region": "Fiji"
+    },
+    {
+      "id": "cluster-9_36",
+      "lat": 23.84,
+      "lon": 90.27,
+      "count": 3,
+      "severity": "high",
+      "eventIds": [
+        "promed:8735399",
+        "promed:8735398",
+        "promed:8735396"
+      ],
+      "region": "Bangladesh"
+    },
+    {
+      "id": "cluster--17_69",
+      "lat": -41.01,
+      "lon": 173.01,
+      "count": 3,
+      "severity": "low",
+      "eventIds": [
+        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-1-of-5-ma-12",
+        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-2-of-5-ma-13",
+        "kiwisdr-0-5-30-mhz-sdr-kiwisdr-3-of-5-ma-14"
+      ],
+      "region": "New Zealand"
     }
   ],
   "status": {
@@ -2821,13 +2981,13 @@
     "hot24": 14,
     "critical24": 1,
     "anomalies": [],
-    "at": "2026-09-28T22:05:01.684Z"
+    "at": "2026-09-28T22:20:45.949Z"
   },
-  "lastBrain": "2026-09-28T22:05:01.684Z",
+  "lastBrain": "2026-09-28T22:20:45.949Z",
   "deltaSummary": {
-    "new": 2,
+    "new": 9,
     "escalated": 0,
     "deescalated": 0,
-    "resolved": 5
+    "resolved": 9
   }
 }

@@ -22,11 +22,3 @@ export async function fetchSnapshot() {
 export async function fetchHealth() {
   return request('/api/health');
 }
-
-export async function fetchEvents(params = {}) {
-  const q = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (v !== undefined && v !== null && v !== '') q.set(k, v);
-  }
-  return request(`/api/events?${q.toString()}`);
-}

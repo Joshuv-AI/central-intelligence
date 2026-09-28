@@ -65,19 +65,3 @@ export async function flyChain(chain, { onStep } = {}) {
     await new Promise((r) => setTimeout(r, 350));
   }
 }
-
-/** Current camera target as lon/lat (best effort). */
-export function cameraTarget() {
-  const viewer = getViewer();
-  if (!viewer) return null;
-  const ray = viewer.camera.getPickRay(
-    new Cesium.Cartesian2(
-      viewer.canvas.clientWidth / 2,
-      viewer.canvas.clientHeight / 2
-    )
-  );
-  const pos = viewer.scene.globe.pick(ray, viewer.scene);
-  if (!pos) return null;
-  const carto = Cesium.Cartographic.fromCartesian(pos);
-  return { lon: Cesium.Math.toDegrees(carto.longitude), lat: Cesium.Math.toDegrees(carto.latitude) };
-}

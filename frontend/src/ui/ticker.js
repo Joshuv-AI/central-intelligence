@@ -1,7 +1,6 @@
 /* Bottom-center single-line ticker: latest feed items cycling, mono,
    pauses on hover, click opens the Feed panel. */
 import { store, on, emit } from '../data/store.js';
-import { esc } from '../data/format.js';
 
 const CYCLE_MS = 4500;
 let tickerEl, textEl, dotEl;

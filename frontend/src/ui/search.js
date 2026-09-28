@@ -52,7 +52,7 @@ function renderResults(list, q) {
           <button class="search-hit place-hit" data-place-idx="${i}" role="option">
             <span class="hit-dot place-dot"></span>
             <span>
-              <span class="hit-title">${esc(placeLabel(p))}</span>
+              <span class="hit-title">${esc(p.label)}</span>
               <span class="hit-sub">${p.lat.toFixed(2)}°, ${p.lon.toFixed(2)}°</span>
             </span>
           </button>`

@@ -60,24 +60,26 @@ export function applyScene(scene) {
   if (scene.sensor) setSensorLook(scene.sensor);
 }
 
+/** Write the current scene into location.hash immediately. */
+export function writeHashNow() {
+  const s = sceneParams();
+  if (!s) return;
+  const q = new URLSearchParams();
+  q.set('lat', s.lat); q.set('lon', s.lon); q.set('h', s.h);
+  q.set('hd', s.hd); q.set('p', s.p);
+  if (s.sensor) q.set('sensor', s.sensor);
+  history.replaceState(null, '', '#' + q.toString());
+}
+
 /** Write the current scene into location.hash (debounced). */
 export function scheduleHashWrite() {
   clearTimeout(writeTimer);
-  writeTimer = setTimeout(() => {
-    const s = sceneParams();
-    if (!s) return;
-    const q = new URLSearchParams();
-    q.set('lat', s.lat); q.set('lon', s.lon); q.set('h', s.h);
-    q.set('hd', s.hd); q.set('p', s.p);
-    if (s.sensor) q.set('sensor', s.sensor);
-    history.replaceState(null, '', '#' + q.toString());
-  }, 800);
+  writeTimer = setTimeout(writeHashNow, 800);
 }
 
 /** Copy the current view's share link. Returns true on success. */
 export async function copySceneLink() {
-  scheduleHashWrite();
-  await new Promise((r) => setTimeout(r, 50));
+  writeHashNow();
   const url = window.location.href;
   try {
     await navigator.clipboard.writeText(url);

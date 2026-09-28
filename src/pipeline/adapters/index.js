@@ -1,8 +1,7 @@
 // Central Intelligence — source adapter registry.
 // Each entry: { name, tier, domain, file }. The module must export
 // { name, description, fetch() } where fetch() resolves to an array of
-// RAW records (the scheduler normalizes them). STUBS ONLY for now —
-// real fetching lands in Phase 2 when adapters are ported from Crucix.
+// RAW records (the scheduler normalizes them).
 const ADAPTERS = [
   // Tier 1 — every ~15 min (fast-moving, event-driven)
   { name: 'acled', tier: 1, domain: 'conflict', file: './tier1/acled.js' },

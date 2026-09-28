@@ -40,6 +40,7 @@ if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
   install -m 0755 "$REPO/ops/ci-deploy" /usr/local/bin/ci-deploy 2>/dev/null || true
   install -m 0755 "$REPO/ops/ci-pull" /usr/local/bin/ci-pull 2>/dev/null || true
   install -m 0755 "$REPO/ops/ci-diagnostic-server.py" /usr/local/bin/ci-diagnostic-server.py 2>/dev/null || true
+  export GIT_SHA="$REMOTE_SHA"
   /usr/local/bin/ci-deploy >> "$LOG" 2>&1
   echo "[ci-pull] $(date -u +%FT%TZ) deploy exit $?" >> "$LOG"
 fi

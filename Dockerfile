@@ -20,6 +20,10 @@ FROM node:22-alpine
 
 WORKDIR /app
 
+# Deploy SHA baked in at build time (ci-pull passes GIT_SHA); surfaced via /api/health.
+ARG GIT_SHA=unknown
+ENV DEPLOY_SHA=$GIT_SHA
+
 # Install backend deps first for layer caching.
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force

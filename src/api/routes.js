@@ -13,6 +13,7 @@ function apiRoutes(store) {
     res.json({
       status: 'ok',
       uptimeSec: Math.floor(process.uptime()),
+      deploySha: process.env.DEPLOY_SHA || 'unknown',
       sourcesTotal: sources.length,
       sourcesHealthy: healthy,
       sourcesStale: stale,

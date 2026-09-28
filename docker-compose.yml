@@ -5,6 +5,8 @@ services:
       args:
         # Public CARTO basemap key (client-side by design; see Dockerfile).
         VITE_CARTO_KEY: cb1_41rt_1_afef6e0af7060239f83114ef
+        # Deploy SHA for /api/health (ci-pull sets GIT_SHA in its environment).
+        GIT_SHA: ${GIT_SHA:-unknown}
     image: central-intelligence-backend:0.1.0
     container_name: ci-backend
     ports:

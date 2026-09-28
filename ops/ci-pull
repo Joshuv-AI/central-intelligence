@@ -18,25 +18,50 @@ LOCAL_SHA=$(cat "$SHA_FILE" 2>/dev/null || echo "none")
 if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
   echo "[ci-pull] $(date -u +%FT%TZ) new commit ${REMOTE_SHA:0:12} (was ${LOCAL_SHA:0:12}), deploying" >> "$LOG"
   TMPDIR=$(mktemp -d)
-  curl -sL -m 60 "https://github.com/Joshuv-AI/central-intelligence/archive/$REMOTE_SHA.tar.gz" -o "$TMPDIR/repo.tar.gz" 2>/dev/null
-  if [ -f "$TMPDIR/repo.tar.gz" ]; then
-    tar xzf "$TMPDIR/repo.tar.gz" -C "$TMPDIR" 2>/dev/null
-    EXTRACTED=$(ls -d $TMPDIR/central-intelligence-* 2>/dev/null | head -1)
-    if [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED" ]; then
-      rsync -a --exclude='.git' "$EXTRACTED/" "$REPO/" 2>/dev/null
-      echo "$REMOTE_SHA" > "$SHA_FILE"
-      echo "[ci-pull] $(date -u +%FT%TZ) extracted ${REMOTE_SHA:0:12}" >> "$LOG"
+  if ! curl -sSL --fail -m 60 "https://github.com/Joshuv-AI/central-intelligence/archive/$REMOTE_SHA.tar.gz" -o "$TMPDIR/repo.tar.gz" >> "$LOG" 2>&1; then
+    echo "[ci-pull] $(date -u +%FT%TZ) download failed for ${REMOTE_SHA:0:12}" >> "$LOG"
+    rm -rf "$TMPDIR"
+    exit 0
+  fi
+  if ! tar xzf "$TMPDIR/repo.tar.gz" -C "$TMPDIR" >> "$LOG" 2>&1; then
+    echo "[ci-pull] $(date -u +%FT%TZ) extraction failed for ${REMOTE_SHA:0:12}" >> "$LOG"
+    rm -rf "$TMPDIR"
+    exit 0
+  fi
+  EXTRACTED=$(ls -d "$TMPDIR"/central-intelligence-* 2>/dev/null | head -1)
+  if [ -z "$EXTRACTED" ] || [ ! -d "$EXTRACTED" ]; then
+    echo "[ci-pull] $(date -u +%FT%TZ) extraction produced no directory for ${REMOTE_SHA:0:12}" >> "$LOG"
+    rm -rf "$TMPDIR"
+    exit 0
+  fi
+  # Sync new source. Prefer rsync (with --delete); fall back to cp if rsync
+  # is not installed. Abort WITHOUT updating SHA_FILE on failure, so the
+  # next tick retries instead of deploying stale code under a new SHA.
+  SYNC_OK=0
+  if command -v rsync >/dev/null 2>&1; then
+    if rsync -a --exclude='.git' --delete "$EXTRACTED/" "$REPO/" >> "$LOG" 2>&1; then
+      SYNC_OK=1
     else
-      echo "[ci-pull] $(date -u +%FT%TZ) extraction failed" >> "$LOG"
-      rm -rf "$TMPDIR"
-      exit 0
+      echo "[ci-pull] $(date -u +%FT%TZ) rsync failed for ${REMOTE_SHA:0:12}" >> "$LOG"
     fi
   else
-    echo "[ci-pull] $(date -u +%FT%TZ) download failed" >> "$LOG"
+    echo "[ci-pull] $(date -u +%FT%TZ) rsync not found, using cp fallback" >> "$LOG"
+    # cp fallback: clear repo (keep dir), copy new tree. No --delete semantics
+    # for individual files, but a full clear+copy is equivalent.
+    if find "$REPO" -mindepth 1 -delete >> "$LOG" 2>&1 && cp -a "$EXTRACTED/." "$REPO/" >> "$LOG" 2>&1; then
+      SYNC_OK=1
+    else
+      echo "[ci-pull] $(date -u +%FT%TZ) cp fallback failed for ${REMOTE_SHA:0:12}" >> "$LOG"
+    fi
+  fi
+  if [ "$SYNC_OK" != "1" ]; then
+    echo "[ci-pull] $(date -u +%FT%TZ) sync failed - SHA not updated, will retry" >> "$LOG"
     rm -rf "$TMPDIR"
     exit 0
   fi
   rm -rf "$TMPDIR"
+  echo "$REMOTE_SHA" > "$SHA_FILE"
+  echo "[ci-pull] $(date -u +%FT%TZ) extracted ${REMOTE_SHA:0:12}" >> "$LOG"
   install -m 0755 "$REPO/ops/ci-deploy" /usr/local/bin/ci-deploy 2>/dev/null || true
   install -m 0755 "$REPO/ops/ci-pull" /usr/local/bin/ci-pull 2>/dev/null || true
   install -m 0755 "$REPO/ops/ci-diagnostic-server.py" /usr/local/bin/ci-diagnostic-server.py 2>/dev/null || true

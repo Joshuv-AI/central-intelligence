@@ -7,11 +7,8 @@ const UA = 'Central-Intelligence/1.0';
 const TIMEOUT_MS = 20000;
 
 const CATEGORIES = [
-  { id: 'flood',     query: '(flood OR flooding OR flooded OR flashflood)',                                  severity: 'moderate' },
-  { id: 'wildfire',  query: '(wildfire OR bushfire OR "forest fire")',                                      severity: 'moderate' },
-  { id: 'storm',     query: '(tornado OR hurricane OR typhoon OR cyclone OR blizzard OR "ice storm")',       severity: 'high' },
-  { id: 'earthquake',query: '(earthquake OR tsunami OR landslide OR mudslide OR volcano)',                  severity: 'high' },
-  { id: 'heatwave',  query: '("heat wave" OR heatwave OR "extreme heat" OR drought OR famine)',              severity: 'moderate' },
+  { id: 'storm',     query: '(tornado OR hurricane OR typhoon OR cyclone OR flood OR wildfire)', severity: 'high' },
+  { id: 'earthquake',query: '(earthquake OR tsunami OR landslide OR volcano OR heatwave)',       severity: 'high' },
 ];
 
 // Timeout via race, not AbortController: aborting an in-flight fetch through

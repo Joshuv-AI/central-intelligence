@@ -7,9 +7,7 @@ const UA = 'Central-Intelligence/1.0';
 const TIMEOUT_MS = 20000;
 
 const QUERIES = [
-  'conflict OR war OR military OR airstrike OR missile',
-  'crisis OR emergency OR disaster OR earthquake OR explosion',
-  'sanctions OR cyberattack OR protest OR coup OR ceasefire',
+  'conflict OR war OR military OR airstrike OR missile OR crisis OR sanctions OR cyberattack OR protest OR coup OR ceasefire',
 ];
 
 // Timeout via race, not AbortController: aborting an in-flight fetch through

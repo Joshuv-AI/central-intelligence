@@ -10,6 +10,9 @@ WORKDIR /frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci && npm cache clean --force
 COPY frontend ./
+# Public client-side CARTO basemap key (ships in the browser bundle by design —
+# every visitor's tile URLs contain it; restrict by domain in the CARTO dashboard).
+ARG VITE_CARTO_KEY
 RUN npm run build
 
 # ---- Stage 2: backend runtime ----

@@ -1,6 +1,10 @@
 services:
   api:
-    build: .
+    build:
+      context: .
+      args:
+        # Public CARTO basemap key (client-side by design; see Dockerfile).
+        VITE_CARTO_KEY: cb1_41rt_1_afef6e0af7060239f83114ef
     image: central-intelligence-backend:0.1.0
     container_name: ci-backend
     ports:

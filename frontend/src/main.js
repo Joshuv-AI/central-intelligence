@@ -27,6 +27,7 @@ import { initFlights } from './globe/flights/index.js';
 import { initWeather } from './globe/weather/index.js';
 import { initCyclones } from './globe/cyclones/index.js';
 import { initLaunches } from './globe/launches/index.js';
+import { initEarthquakes } from './globe/earthquakes/index.js';
 import { readSceneFromHash, applyScene, initShareTracking } from './globe/share.js';
 import { haltIdleSpin } from './globe/viewer.js';
 import { initRail } from './ui/rail.js';
@@ -213,6 +214,7 @@ async function init() {
   initWeather(getViewer());
   initCyclones(getViewer());
   initLaunches(getViewer());
+  initEarthquakes(getViewer());
   const sharedScene = readSceneFromHash();
   if (sharedScene) {
     applyScene(sharedScene); // shared link? restore that exact view, no drift

@@ -17,6 +17,7 @@ import { militaryEnabled, civilEnabled, flightCount, setMilitary, setCivil } fro
 import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/index.js';
 import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
 import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
+import { earthquakesEnabled, earthquakeCount, setEarthquakes } from '../globe/earthquakes/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -144,6 +145,7 @@ function renderLayers(el) {
     <span class="micro">Launches: The Space Devs</span></div>`;
   // Live fire perimeters (NIFC WFIGS, keyless GeoJSON) — independent of domains.
   const firesOn = firesEnabled();
+  const quakesOn = earthquakesEnabled();
   html += `<div class="layer-family"><span class="micro">FIRES</span>
     <div class="layer-row ${firesOn ? '' : 'off'}" data-fires="perimeters">
       <span class="layer-swatch" style="background:#ff3300"></span>
@@ -151,7 +153,14 @@ function renderLayers(el) {
       <span class="layer-count" data-fire-count>${fireCount() || ''}</span>
       <span class="layer-toggle"></span>
     </div>
-    <span class="micro">Perimeters: NIFC / WFIGS</span></div>`;
+    <span class="micro">Perimeters: NIFC / WFIGS</span>
+    <div class="layer-row ${quakesOn ? '' : 'off'}" data-quakes="usgs">
+      <span class="layer-swatch" style="background:#ff2d78"></span>
+      <span class="layer-name">Earthquakes</span>
+      <span class="layer-count" data-quake-count>${earthquakeCount() || ''}</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">Quakes: USGS M4.5+ / 24h</span></div>`;
   // Live flights (adsb.lol via /proxy, ODbL) — independent of domains.
   const milOn = militaryEnabled();
   const civOn = civilEnabled();
@@ -234,6 +243,20 @@ function renderLayers(el) {
         if (countEl) countEl.textContent = fireCount() || '';
       } finally {
         fireRow.classList.remove('busy');
+      }
+    });
+  }
+  const quakeRow = el.querySelector('[data-quakes="usgs"]');
+  if (quakeRow) {
+    quakeRow.addEventListener('click', async () => {
+      quakeRow.classList.add('busy');
+      try {
+        const on = await setEarthquakes(!earthquakesEnabled());
+        quakeRow.classList.toggle('off', !on);
+        const countEl = quakeRow.querySelector('[data-quake-count]');
+        if (countEl) countEl.textContent = earthquakeCount() || '';
+      } finally {
+        quakeRow.classList.remove('busy');
       }
     });
   }

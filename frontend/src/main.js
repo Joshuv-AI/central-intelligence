@@ -22,6 +22,7 @@ import { store, on, emit, REGIONS } from './data/store.js';
 import { buildBootWord, runBoot } from './ui/boot.js';
 import { initSensorLooks } from './globe/sensors/index.js';
 import { initSatellites } from './globe/satellites/index.js';
+import { initFires } from './globe/fires/index.js';
 import { readSceneFromHash, applyScene, initShareTracking } from './globe/share.js';
 import { haltIdleSpin } from './globe/viewer.js';
 import { initRail } from './ui/rail.js';
@@ -203,6 +204,7 @@ async function init() {
   createViewer(document.getElementById('globe-container'));
   initSensorLooks(getViewer());
   initSatellites(getViewer());
+  initFires(getViewer());
   const sharedScene = readSceneFromHash();
   if (sharedScene) {
     applyScene(sharedScene); // shared link? restore that exact view, no drift

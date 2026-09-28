@@ -12,6 +12,7 @@ import { esc, timeAgo, fmtDateTime } from '../data/format.js';
 import { fetchHealth } from '../data/api.js';
 import { SENSOR_LOOKS, setSensorLook, currentSensorLook } from '../globe/sensors/index.js';
 import { satellitesEnabled, satelliteCount, setSatellites } from '../globe/satellites/index.js';
+import { firesEnabled, fireCount, setFires } from '../globe/fires/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -128,6 +129,16 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">TLE data: CelesTrak</span></div>`;
+  // Live fire perimeters (NIFC WFIGS, keyless GeoJSON) — independent of domains.
+  const firesOn = firesEnabled();
+  html += `<div class="layer-family"><span class="micro">FIRES</span>
+    <div class="layer-row ${firesOn ? '' : 'off'}" data-fires="perimeters">
+      <span class="layer-swatch" style="background:#ff3300"></span>
+      <span class="layer-name">Fire perimeters</span>
+      <span class="layer-count" data-fire-count>${fireCount() || ''}</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">Perimeters: NIFC / WFIGS</span></div>`;
   if (nonGeo > 0) {
     html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
@@ -160,6 +171,20 @@ function renderLayers(el) {
         if (countEl) countEl.textContent = satelliteCount() || '';
       } finally {
         orbitRow.classList.remove('busy');
+      }
+    });
+  }
+  const fireRow = el.querySelector('[data-fires="perimeters"]');
+  if (fireRow) {
+    fireRow.addEventListener('click', async () => {
+      fireRow.classList.add('busy');
+      try {
+        const on = await setFires(!firesEnabled());
+        fireRow.classList.toggle('off', !on);
+        const countEl = fireRow.querySelector('[data-fire-count]');
+        if (countEl) countEl.textContent = fireCount() || '';
+      } finally {
+        fireRow.classList.remove('busy');
       }
     });
   }

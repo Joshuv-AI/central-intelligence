@@ -1,6 +1,7 @@
 #!/bin/bash
 # ci-pull: every 5 min, check GitHub API for new commits and redeploy on change.
 # Uses the API (not git fetch) because outbound git HTTPS is blocked in this env.
+# Syncs via tar (not rsync) so it works on minimal images without rsync installed.
 set -u
 REPO=/opt/central-intelligence
 LOG=/var/log/ci-pull.log
@@ -18,28 +19,28 @@ LOCAL_SHA=$(cat "$SHA_FILE" 2>/dev/null || echo "none")
 if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
   echo "[ci-pull] $(date -u +%FT%TZ) new commit ${REMOTE_SHA:0:12} (was ${LOCAL_SHA:0:12}), deploying" >> "$LOG"
   TMPDIR=$(mktemp -d)
-  curl -sL -m 60 "https://github.com/Joshuv-AI/central-intelligence/archive/$REMOTE_SHA.tar.gz" -o "$TMPDIR/repo.tar.gz" 2>/dev/null
-  if [ -f "$TMPDIR/repo.tar.gz" ]; then
-    tar xzf "$TMPDIR/repo.tar.gz" -C "$TMPDIR" 2>/dev/null
-    EXTRACTED=$(ls -d $TMPDIR/central-intelligence-* 2>/dev/null | head -1)
-    if [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED" ]; then
-      rsync -a --exclude='.git' "$EXTRACTED/" "$REPO/" 2>/dev/null
+  # Always clean up the temp dir.
+  trap 'rm -rf "$TMPDIR"' EXIT
+  if curl -sL -m 60 "https://github.com/Joshuv-AI/central-intelligence/archive/$REMOTE_SHA.tar.gz" -o "$TMPDIR/repo.tar.gz"; then
+    # Extract directly into $REPO, stripping the tarball's top-level directory.
+    # (GitHub archives contain no .git, so the local .git is preserved.)
+    # tar is used instead of rsync: rsync isn't installed on minimal images,
+    # and a silent rsync failure once caused deploys to report success
+    # without updating any files.
+    if tar xzf "$TMPDIR/repo.tar.gz" --strip-components=1 -C "$REPO"; then
       echo "$REMOTE_SHA" > "$SHA_FILE"
       echo "[ci-pull] $(date -u +%FT%TZ) extracted ${REMOTE_SHA:0:12}" >> "$LOG"
     else
-      echo "[ci-pull] $(date -u +%FT%TZ) extraction failed" >> "$LOG"
-      rm -rf "$TMPDIR"
+      echo "[ci-pull] $(date -u +%FT%TZ) extraction FAILED for ${REMOTE_SHA:0:12} - keeping ${LOCAL_SHA:0:12}" >> "$LOG"
       exit 0
     fi
   else
-    echo "[ci-pull] $(date -u +%FT%TZ) download failed" >> "$LOG"
-    rm -rf "$TMPDIR"
+    echo "[ci-pull] $(date -u +%FT%TZ) download FAILED for ${REMOTE_SHA:0:12}" >> "$LOG"
     exit 0
   fi
-  rm -rf "$TMPDIR"
-  install -m 0755 "$REPO/ops/ci-deploy" /usr/local/bin/ci-deploy 2>/dev/null || true
-  install -m 0755 "$REPO/ops/ci-pull" /usr/local/bin/ci-pull 2>/dev/null || true
-  install -m 0755 "$REPO/ops/ci-diagnostic-server.py" /usr/local/bin/ci-diagnostic-server.py 2>/dev/null || true
+  install -m 0755 "$REPO/ops/ci-deploy" /usr/local/bin/ci-deploy || echo "[ci-pull] WARNING: ci-deploy install failed" >> "$LOG"
+  install -m 0755 "$REPO/ops/ci-pull" /usr/local/bin/ci-pull || echo "[ci-pull] WARNING: ci-pull install failed" >> "$LOG"
+  install -m 0755 "$REPO/ops/ci-diagnostic-server.py" /usr/local/bin/ci-diagnostic-server.py || echo "[ci-pull] WARNING: diagnostic server install failed" >> "$LOG"
   export GIT_SHA="$REMOTE_SHA"
   /usr/local/bin/ci-deploy >> "$LOG" 2>&1
   echo "[ci-pull] $(date -u +%FT%TZ) deploy exit $?" >> "$LOG"

@@ -1,20 +1,17 @@
 /* Cesium viewer — keyless by constraint (no Ion token):
-   EllipsoidTerrainProvider + keyless dark basemap, all Ion widgets off.
-   Basemap: Esri World Dark Gray Canvas (free, no key, no quota).
-   CARTO Dark Matter remains available at build time via VITE_CARTO_KEY — build
-   with a free key from https://carto.com/basemaps/apikey and the viewer uses
-   CARTO instead (CARTO began watermarking keyless tiles "API KEY
-   REQUIRED" in late August 2026). */
+   Esri World Imagery (satellite) + Boundaries & Places overlay, all keyless;
+   Esri Terrain3D for real relief (async upgrade from the ellipsoid).
+   All Ion widgets off. */
 import * as Cesium from 'cesium';
 // widgets.css is injected by vite-plugin-cesium (link tag in index.html).
 
 // NOTE: Esri tile order is {z}/{y}/{x} — y before x, unlike most providers.
-const ESRI_BASE = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
-const ESRI_REF = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}';
-const ESRI_CREDIT = '© Esri, HERE, Garmin, FAO, NOAA, USGS';
-
-const CARTO_DARK = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-const CARTO_CREDIT = '© OpenStreetMap contributors © CARTO';
+const ESRI_IMAGERY = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+const ESRI_IMAGERY_CREDIT = 'Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community';
+const ESRI_PLACES = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
+const ESRI_PLACES_CREDIT = 'Esri, HERE, Garmin, (c) OpenStreetMap contributors, and the GIS user community';
+const ESRI_TERRAIN = 'https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer';
+const ESRI_TERRAIN_CREDIT = 'Sources: Vantor, Airbus DS, USGS, NGA, NASA, CGIAR, GEBCO, N Robinson, NCEAS, NLS, OS, NMA, Geodatastyrelsen and the GIS User Community';
 
 let viewer = null;
 
@@ -42,9 +39,10 @@ export function createViewer(container) {
     contextOptions: { webgl: { antialias: true } },
   });
 
-  // Deep polar night: no starfield, no atmosphere glow.
-  viewer.scene.skyBox.show = false;
-  viewer.scene.skyAtmosphere.show = false;
+  // Atmosphere and starfield: the blue limb halo is half the wow factor.
+  // (Was disabled for "polar night" — re-enabled for the GEV-grade look.)
+  viewer.scene.skyBox.show = true;
+  viewer.scene.skyAtmosphere.show = true;
   viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#050B16');
   viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#12283f');
   viewer.scene.globe.enableLighting = false;
@@ -52,28 +50,32 @@ export function createViewer(container) {
 
   // Basemap: Esri Dark Gray Canvas by default (keyless). With a free CARTO
   // key set (VITE_CARTO_KEY), use CARTO Dark Matter instead.
-  const cartoKey = (import.meta.env.VITE_CARTO_KEY || '').trim();
-  if (cartoKey) {
-    const carto = new Cesium.UrlTemplateImageryProvider({
-      url: `${CARTO_DARK}?key=${encodeURIComponent(cartoKey)}`,
-      subdomains: 'abcd',
-      credit: new Cesium.Credit(CARTO_CREDIT, true),
-      maximumLevel: 12,
-    });
-    viewer.imageryLayers.addImageryProvider(carto);
-  } else {
-    const base = new Cesium.UrlTemplateImageryProvider({
-      url: ESRI_BASE,
-      credit: new Cesium.Credit(ESRI_CREDIT, true),
-      maximumLevel: 16,
-    });
-    viewer.imageryLayers.addImageryProvider(base);
-    // Reference layer: subtle place labels over the dark canvas.
-    const ref = new Cesium.UrlTemplateImageryProvider({
-      url: ESRI_REF,
-      maximumLevel: 16,
-    });
-    viewer.imageryLayers.addImageryProvider(ref);
+  // Satellite basemap (Esri World Imagery, keyless) + boundaries/places overlay.
+  const imagery = new Cesium.UrlTemplateImageryProvider({
+    url: ESRI_IMAGERY,
+    credit: new Cesium.Credit(ESRI_IMAGERY_CREDIT, true),
+    maximumLevel: 19,
+  });
+  viewer.imageryLayers.addImageryProvider(imagery);
+  // Reference layer: boundaries + place labels over the imagery.
+  const ref = new Cesium.UrlTemplateImageryProvider({
+    url: ESRI_PLACES,
+    credit: new Cesium.Credit(ESRI_PLACES_CREDIT, true),
+    maximumLevel: 16,
+  });
+  viewer.imageryLayers.addImageryProvider(ref);
+
+  // Real 3D terrain (Esri Terrain3D, keyless) — resolves async; the globe
+  // starts on the smooth ellipsoid and upgrades when it arrives.
+  if (Cesium.ArcGISTiledElevationTerrainProvider) {
+    Cesium.ArcGISTiledElevationTerrainProvider.fromUrl(ESRI_TERRAIN)
+      .then((terrainProvider) => {
+        if (viewer && !viewer.isDestroyed()) {
+          viewer.terrainProvider = terrainProvider;
+          viewer.scene.globe.credit = new Cesium.Credit(ESRI_TERRAIN_CREDIT, true);
+        }
+      })
+      .catch((err) => console.warn('[globe] terrain unavailable, staying on ellipsoid:', err));
   }
 
   // Gentle initial view.
@@ -96,7 +98,7 @@ export function createViewer(container) {
   requestAnimationFrame(spin);
 
   // Style Cesium's credit container minimally (Glacial Calm) instead of hiding it —
-  // OpenStreetMap/CARTO attribution must remain visible per their terms.
+  // Esri/OSM attribution must remain visible per their terms.
   const creditContainer = viewer.cesiumWidget.creditContainer;
   if (creditContainer) {
     creditContainer.style.display = 'block';

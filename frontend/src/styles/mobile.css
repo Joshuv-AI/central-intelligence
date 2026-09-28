@@ -1,11 +1,10 @@
-/* Mobile (<=768px): shrunken-globe-first.
-   Globe occupies the top ~42vh; the panel becomes a bottom sheet;
-   the rail becomes a bottom icon bar. Pure CSS — no JS breakpoint logic. */
+/* Mobile (<=768px): full-bleed globe — the UI floats above it, GEV-style.
+   (Was 42vh "shrunken globe", which left a dead black gap under the globe.) */
 @media (max-width: 768px) {
   #globe-container {
     top: 0;
-    bottom: auto;
-    height: 42vh;
+    bottom: 0;
+    height: 100dvh;
   }
 
   /* Status pill: compact — wordmark and extras hidden to clear the search. */

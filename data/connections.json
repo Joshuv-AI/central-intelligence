@@ -1,0 +1,1043 @@
+[
+  {
+    "id": "fusion-ae485eef0fa3",
+    "title": "Tropical Cyclone — United States → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 92,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 15
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_TC_1001321",
+        "role": "cause",
+        "title": "Tropical Cyclone — United States",
+        "severity": "moderate",
+        "time": "2026-09-28T21:08:42",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "United States",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/TC?eventid=1001321&episodeid=33"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_TC_1001321",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-79e6e3f41d77",
+    "title": "Tropical Cyclone — Japan → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_TC_1001327",
+        "role": "cause",
+        "title": "Tropical Cyclone — Japan",
+        "severity": "moderate",
+        "time": "2026-09-28T21:25:58",
+        "lat": 28.1,
+        "lon": 133.2,
+        "region": "Japan",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/TC?eventid=1001327&episodeid=23"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_TC_1001327",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-40fc3523554a",
+    "title": "Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_TC_1001323",
+        "role": "cause",
+        "title": "Tropical Cyclone — Unknown region",
+        "severity": "moderate",
+        "time": "2026-09-28T20:52:23",
+        "lat": 26.6,
+        "lon": -45.3,
+        "region": null,
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/TC?eventid=1001323&episodeid=35"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_TC_1001323",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-579967c1141d",
+    "title": "Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_TC_1001330",
+        "role": "cause",
+        "title": "Tropical Cyclone — Unknown region",
+        "severity": "moderate",
+        "time": "2026-09-28T20:42:19",
+        "lat": 36.5,
+        "lon": -48.7,
+        "region": null,
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/TC?eventid=1001330&episodeid=2"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_TC_1001330",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-6121ab3c4bfa",
+    "title": "Tropical Cyclone — Mexico → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_TC_1001329",
+        "role": "cause",
+        "title": "Tropical Cyclone — Mexico",
+        "severity": "moderate",
+        "time": "2026-09-28T20:41:27",
+        "lat": 14.2,
+        "lon": -102.1,
+        "region": "Mexico",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/TC?eventid=1001329&episodeid=7"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_TC_1001329",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-28fb2b595824",
+    "title": "Earthquake — Japan → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568526",
+        "role": "cause",
+        "title": "Earthquake — Japan",
+        "severity": "moderate",
+        "time": "2026-09-28T20:25:29",
+        "lat": 36.0809,
+        "lon": 139.7782,
+        "region": "Japan",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568526&episodeid=1736608"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568526",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-467b9b862a09",
+    "title": "Earthquake — Taiwan → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568519",
+        "role": "cause",
+        "title": "Earthquake — Taiwan",
+        "severity": "moderate",
+        "time": "2026-09-28T19:01:05",
+        "lat": 23.702,
+        "lon": 121.8063,
+        "region": "Taiwan",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568519&episodeid=1736600"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568519",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-1e1b1f2ec2db",
+    "title": "Earthquake — Eastern Gulf Of Aden → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568514",
+        "role": "cause",
+        "title": "Earthquake — Eastern Gulf Of Aden",
+        "severity": "moderate",
+        "time": "2026-09-28T17:54:54",
+        "lat": 13.3879,
+        "lon": 51.4935,
+        "region": "Eastern Gulf Of Aden",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568514&episodeid=1736594"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568514",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-b8a295667559",
+    "title": "Earthquake — Indonesia → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568498",
+        "role": "cause",
+        "title": "Earthquake — Indonesia",
+        "severity": "moderate",
+        "time": "2026-09-28T16:49:43",
+        "lat": 5.2548,
+        "lon": 94.3303,
+        "region": "Indonesia",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568498&episodeid=1736586"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568498",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-f8de05564977",
+    "title": "Earthquake — Philippines → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568497",
+        "role": "cause",
+        "title": "Earthquake — Philippines",
+        "severity": "moderate",
+        "time": "2026-09-28T15:41:43",
+        "lat": 5.634,
+        "lon": 127.0338,
+        "region": "Philippines",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568497&episodeid=1736578"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568497",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-182ec6412428",
+    "title": "Earthquake — North Of Svalbard → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568477",
+        "role": "cause",
+        "title": "Earthquake — North Of Svalbard",
+        "severity": "moderate",
+        "time": "2026-09-28T15:28:44",
+        "lat": 82.6385,
+        "lon": -7.1923,
+        "region": "North Of Svalbard",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568477&episodeid=1736553"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568477",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-461ae0356210",
+    "title": "Earthquake — Solomon Islands → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568493",
+        "role": "cause",
+        "title": "Earthquake — Solomon Islands",
+        "severity": "moderate",
+        "time": "2026-09-28T14:59:03",
+        "lat": -9.5835,
+        "lon": 159.5458,
+        "region": "Solomon Islands",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568493&episodeid=1736570"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568493",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-03c3048f37f0",
+    "title": "Earthquake — Fiji → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 84,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568474",
+        "role": "cause",
+        "title": "Earthquake — Fiji",
+        "severity": "moderate",
+        "time": "2026-09-28T12:54:50",
+        "lat": -20.6932,
+        "lon": -178.4971,
+        "region": "Fiji",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568474&episodeid=1736549"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568474",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-8b3bc4b52a58",
+    "title": "Tropical Cyclone — Mexico → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). major disaster — watch supply chain and food. 2 events across disasters.",
+    "severity": "critical",
+    "score": 82,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 10,
+      "cascade": 25,
+      "proximity": 7
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "food",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_TC_1001325",
+        "role": "cause",
+        "title": "Tropical Cyclone — Mexico",
+        "severity": "high",
+        "time": "2026-09-28T21:30:11",
+        "lat": 25,
+        "lon": -113,
+        "region": "Mexico",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/TC?eventid=1001325&episodeid=33"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_TC_1001325",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-aa025d7803e8",
+    "title": "Flood — Indonesia → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 82,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 5
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_FL_1104168",
+        "role": "cause",
+        "title": "Flood — Indonesia",
+        "severity": "moderate",
+        "time": "2026-09-28T10:04:26",
+        "lat": 2.1924,
+        "lon": 99.3812,
+        "region": "Indonesia",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/FL?eventid=1104168&episodeid=3"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_FL_1104168",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-0fc3f8dd83b0",
+    "title": "Flood — Myanmar → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 82,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 5
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_FL_1104011",
+        "role": "cause",
+        "title": "Flood — Myanmar",
+        "severity": "moderate",
+        "time": "2026-09-28T10:04:17",
+        "lat": 12.1092,
+        "lon": 98.8165,
+        "region": "Myanmar",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/FL?eventid=1104011&episodeid=27"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_FL_1104011",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-baa02b6279d4",
+    "title": "Earthquake — Philippines → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 82,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 5
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568450",
+        "role": "cause",
+        "title": "Earthquake — Philippines",
+        "severity": "moderate",
+        "time": "2026-09-28T09:57:02",
+        "lat": 9.9585,
+        "lon": 126.6861,
+        "region": "Philippines",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568450&episodeid=1736534"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568450",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-fdd87e8580e5",
+    "title": "Earthquake — Canada → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 82,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 5
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568457",
+        "role": "cause",
+        "title": "Earthquake — Canada",
+        "severity": "moderate",
+        "time": "2026-09-28T09:54:03",
+        "lat": 50.171,
+        "lon": -129.6785,
+        "region": "Canada",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568457&episodeid=1736531"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568457",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-c2303e21021c",
+    "title": "Flood — Guinea → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 82,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 5
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_FL_1104178",
+        "role": "cause",
+        "title": "Flood — Guinea",
+        "severity": "moderate",
+        "time": "2026-09-28T09:24:44",
+        "lat": 8.3926,
+        "lon": -8.8573,
+        "region": "Guinea",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/FL?eventid=1104178&episodeid=4"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_FL_1104178",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  },
+  {
+    "id": "fusion-d3f682fad6c4",
+    "title": "Earthquake — New Zealand → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "severity": "critical",
+    "score": 82,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 12,
+      "cascade": 25,
+      "proximity": 5
+    },
+    "tier": "critical",
+    "tags": [
+      "population",
+      "infrastructure",
+      "health",
+      "supply_chain",
+      "power_grid"
+    ],
+    "chain": [
+      {
+        "eventId": "gdacs_EQ_1568451",
+        "role": "cause",
+        "title": "Earthquake — New Zealand",
+        "severity": "moderate",
+        "time": "2026-09-28T08:41:03",
+        "lat": -36.8177,
+        "lon": 179.6666,
+        "region": "New Zealand",
+        "source": "gdacs",
+        "url": "https://www.gdacs.org/event/EQ?eventid=1568451&episodeid=1736522"
+      },
+      {
+        "eventId": "nhc_ep152026",
+        "role": "effect",
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "severity": "critical",
+        "time": "2026-09-28T21:00:00.000Z",
+        "lat": 17.7,
+        "lon": -163.1,
+        "region": "Eastern Pacific",
+        "source": "noaa_hurricanes",
+        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+      }
+    ],
+    "eventIds": [
+      "gdacs_EQ_1568451",
+      "nhc_ep152026"
+    ],
+    "createdAt": "2026-09-28T21:33:34.213Z"
+  }
+]

@@ -1,0 +1,582 @@
+[
+  {
+    "id": "feed-new-CVE-2026-88773",
+    "time": "2026-09-27T17:16:56.507",
+    "severity": "critical",
+    "kind": "event",
+    "text": "CVE-2026-88773 — CVSS 10 (CRITICAL)",
+    "eventId": "CVE-2026-88773",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88773",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100740",
+    "time": "2026-09-27T01:17:17.810",
+    "severity": "critical",
+    "kind": "event",
+    "text": "CVE-2026-100740 — CVSS 9.9 (CRITICAL)",
+    "eventId": "CVE-2026-100740",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100740",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100741",
+    "time": "2026-09-27T08:16:26.813",
+    "severity": "critical",
+    "kind": "event",
+    "text": "CVE-2026-100741 — CVSS 9.8 (CRITICAL)",
+    "eventId": "CVE-2026-100741",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100741",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-88771",
+    "time": "2026-09-27T17:16:56.260",
+    "severity": "critical",
+    "kind": "event",
+    "text": "CVE-2026-88771 — CVSS 9.8 (CRITICAL)",
+    "eventId": "CVE-2026-88771",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88771",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100721",
+    "time": "2026-09-27T02:17:17.547",
+    "severity": "critical",
+    "kind": "event",
+    "text": "CVE-2026-100721 — CVSS 9 (CRITICAL)",
+    "eventId": "CVE-2026-100721",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100721",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100852",
+    "time": "2026-09-27T02:17:24.437",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100852 — CVSS 8.8 (HIGH)",
+    "eventId": "CVE-2026-100852",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100852",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100856",
+    "time": "2026-09-27T02:17:25.050",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100856 — CVSS 8.8 (HIGH)",
+    "eventId": "CVE-2026-100856",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100856",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100864",
+    "time": "2026-09-27T02:17:26.260",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100864 — CVSS 8.8 (HIGH)",
+    "eventId": "CVE-2026-100864",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100864",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100865",
+    "time": "2026-09-27T02:17:26.410",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100865 — CVSS 8.8 (HIGH)",
+    "eventId": "CVE-2026-100865",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100865",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-86609",
+    "time": "2026-09-27T06:17:14.070",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-86609 — CVSS 8.8 (HIGH)",
+    "eventId": "CVE-2026-86609",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86609",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100870",
+    "time": "2026-09-27T13:16:38.240",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100870 — CVSS 8.8 (HIGH)",
+    "eventId": "CVE-2026-100870",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100870",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100871",
+    "time": "2026-09-27T13:16:38.380",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100871 — CVSS 8.8 (HIGH)",
+    "eventId": "CVE-2026-100871",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100871",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100839",
+    "time": "2026-09-27T02:17:22.230",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100839 — CVSS 8.4 (HIGH)",
+    "eventId": "CVE-2026-100839",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100839",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100844",
+    "time": "2026-09-27T02:17:22.993",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100844 — CVSS 8.4 (HIGH)",
+    "eventId": "CVE-2026-100844",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100844",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100833",
+    "time": "2026-09-27T02:17:21.323",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100833 — CVSS 8.2 (HIGH)",
+    "eventId": "CVE-2026-100833",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100833",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100838",
+    "time": "2026-09-27T02:17:22.083",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100838 — CVSS 8.1 (HIGH)",
+    "eventId": "CVE-2026-100838",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100838",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-88772",
+    "time": "2026-09-27T17:16:56.390",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-88772 — CVSS 8.1 (HIGH)",
+    "eventId": "CVE-2026-88772",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88772",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100857",
+    "time": "2026-09-27T02:17:25.197",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100857 — CVSS 8 (HIGH)",
+    "eventId": "CVE-2026-100857",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100857",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100840",
+    "time": "2026-09-27T02:17:22.387",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100840 — CVSS 7.8 (HIGH)",
+    "eventId": "CVE-2026-100840",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100840",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100841",
+    "time": "2026-09-27T02:17:22.543",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100841 — CVSS 7.8 (HIGH)",
+    "eventId": "CVE-2026-100841",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100841",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100843",
+    "time": "2026-09-27T02:17:22.853",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100843 — CVSS 7.8 (HIGH)",
+    "eventId": "CVE-2026-100843",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100843",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100845",
+    "time": "2026-09-27T02:17:23.140",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100845 — CVSS 7.8 (HIGH)",
+    "eventId": "CVE-2026-100845",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100845",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100850",
+    "time": "2026-09-27T02:17:24.007",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100850 — CVSS 7.7 (HIGH)",
+    "eventId": "CVE-2026-100850",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100850",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100846",
+    "time": "2026-09-27T02:17:23.283",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100846 — CVSS 7.6 (HIGH)",
+    "eventId": "CVE-2026-100846",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100846",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-CVE-2026-100851",
+    "time": "2026-09-27T02:17:24.233",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-100851 — CVSS 7.6 (HIGH)",
+    "eventId": "CVE-2026-100851",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100851",
+    "source": "nvd_cve"
+  },
+  {
+    "id": "feed-new-promed:8735396",
+    "time": "2026-09-28T07:27:16.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "PRO/SOAS> Anthrax - Bangladesh (03): cattle, human, update",
+    "eventId": "promed:8735396",
+    "url": "https://www.promedmail.org/",
+    "source": "promed"
+  },
+  {
+    "id": "feed-new-promed:8735406",
+    "time": "2026-09-28T03:44:36.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "PRO/AH/EDR> Ebola disease - Congo DR (66): 2 new affected health zones, more cases, fatalities, CFR 48.1%, epidemic update",
+    "eventId": "promed:8735406",
+    "url": "https://www.promedmail.org/",
+    "source": "promed"
+  },
+  {
+    "id": "feed-new-promed:8735391",
+    "time": "2026-09-27T20:47:41.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "PRO/MBDS> Avian influenza - Taiwan (20): (Taoyuan) poultry, HPAI H5N1, cull, preventive measures",
+    "eventId": "promed:8735391",
+    "url": "https://www.promedmail.org/",
+    "source": "promed"
+  },
+  {
+    "id": "feed-new-promed:8735382",
+    "time": "2026-09-27T20:33:25.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "PRO/EAFR> Cholera - Congo DR (21): epidemic update",
+    "eventId": "promed:8735382",
+    "url": "https://www.promedmail.org/",
+    "source": "promed"
+  },
+  {
+    "id": "feed-new-promed:8735381",
+    "time": "2026-09-27T09:04:04.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "PRO/MENA> Mobile laboratories - Lebanon: decentralized diagnostics, humanitarian settings / المختبرات المتنقلة - لبنان: تشخيص لا مركزي، سياقات إنسانية",
+    "eventId": "promed:8735381",
+    "url": "https://www.promedmail.org/",
+    "source": "promed"
+  },
+  {
+    "id": "feed-conn-fusion-ae485eef0fa3",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Tropical Cyclone — United States → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-ae485eef0fa3",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-79e6e3f41d77",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Tropical Cyclone — Japan → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-79e6e3f41d77",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-40fc3523554a",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-40fc3523554a",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-579967c1141d",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-579967c1141d",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-6121ab3c4bfa",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Tropical Cyclone — Mexico → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-6121ab3c4bfa",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-28fb2b595824",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Japan → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-28fb2b595824",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-467b9b862a09",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Taiwan → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-467b9b862a09",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-1e1b1f2ec2db",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Eastern Gulf Of Aden → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-1e1b1f2ec2db",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-b8a295667559",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Indonesia → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-b8a295667559",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-f8de05564977",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Philippines → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-f8de05564977",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-182ec6412428",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — North Of Svalbard → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-182ec6412428",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-461ae0356210",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Solomon Islands → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-461ae0356210",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-03c3048f37f0",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Fiji → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-03c3048f37f0",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-8b3bc4b52a58",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Tropical Cyclone — Mexico → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-8b3bc4b52a58",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-aa025d7803e8",
+    "time": "2026-09-28T21:32:03.687Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Flood — Indonesia → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-aa025d7803e8",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-0fc3f8dd83b0",
+    "time": "2026-09-28T21:32:03.688Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Flood — Myanmar → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-0fc3f8dd83b0",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-baa02b6279d4",
+    "time": "2026-09-28T21:32:03.688Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Philippines → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-baa02b6279d4",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-fdd87e8580e5",
+    "time": "2026-09-28T21:32:03.688Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — Canada → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-fdd87e8580e5",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-c2303e21021c",
+    "time": "2026-09-28T21:32:03.688Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Flood — Guinea → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-c2303e21021c",
+    "url": null
+  },
+  {
+    "id": "feed-conn-fusion-d3f682fad6c4",
+    "time": "2026-09-28T21:32:03.688Z",
+    "severity": "critical",
+    "kind": "connection",
+    "text": "CORRELATION · Earthquake — New Zealand → Hurricane Nolo — Eastern Pacific (Cat 4)",
+    "connectionId": "fusion-d3f682fad6c4",
+    "url": null
+  },
+  {
+    "id": "feed-new-telegram:intelslava/95386",
+    "time": "2026-09-28T15:48:58.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[Intel Slava Z] 🇷🇺❌🇺🇦🇵🇱 — A Geran-5 jet-powered drone struck near the Yagodin checkpoint c",
+    "eventId": "telegram:intelslava/95386",
+    "url": "https://t.me/intelslava/95386",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:intelslava/95389",
+    "time": "2026-09-28T15:59:13.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[Intel Slava Z] 🇷🇺❌🇺🇦 — BREAKING: Russia neutralized Ukrtelecom data center in Kiev. Ukrtele",
+    "eventId": "telegram:intelslava/95389",
+    "url": "https://t.me/intelslava/95389",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:intelslava/95390",
+    "time": "2026-09-28T16:06:32.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[Intel Slava Z] 🇮🇷❌🇺🇸— Preliminary information from Iran says a ballistic missile was spotte",
+    "eventId": "telegram:intelslava/95390",
+    "url": "https://t.me/intelslava/95390",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:intelslava/95391",
+    "time": "2026-09-28T16:41:10.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[Intel Slava Z] 🇷🇺❌🇺🇦 — Geran-4/5 drones reportedly struck a warehouse or impact site in Kie",
+    "eventId": "telegram:intelslava/95391",
+    "url": "https://t.me/intelslava/95391",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:intelslava/95392",
+    "time": "2026-09-28T16:50:27.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[Intel Slava Z] 🇺🇸🇮🇷⚡️ — NEW: Trump is prepared to lift some sanctions and unfreeze Iranian",
+    "eventId": "telegram:intelslava/95392",
+    "url": "https://t.me/intelslava/95392",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:wartranslated/19108",
+    "time": "2026-09-27T16:10:44.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[War Translated] A Russian jet-powered drone hit a kindergarten in Kyiv.",
+    "eventId": "telegram:wartranslated/19108",
+    "url": "https://t.me/wartranslated/19108",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:wartranslated/19109",
+    "time": "2026-09-27T16:46:06.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[War Translated] Russia’s MoD claims drones hit Kyivstar, a major Ukrainian mobile and internet o",
+    "eventId": "telegram:wartranslated/19109",
+    "url": "https://t.me/wartranslated/19109",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:wartranslated/19113",
+    "time": "2026-09-27T17:44:20.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[War Translated] Zelenskyy reported Russia launched 277 strike drones overnight, with 155 being j",
+    "eventId": "telegram:wartranslated/19113",
+    "url": "https://t.me/wartranslated/19113",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-telegram:ukraine_frontline/4",
+    "time": "2022-02-28T10:13:25.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "[Ukraine Frontline] 📌As for mobilization in Donbass, there is a trend towards its completion. It is",
+    "eventId": "telegram:ukraine_frontline/4",
+    "url": "https://t.me/ukraine_frontline/4",
+    "source": "telegram"
+  },
+  {
+    "id": "feed-new-cisa-kev:CVE-2026-67279",
+    "time": "2026-09-25T00:00:00.000Z",
+    "severity": "high",
+    "kind": "event",
+    "text": "CVE-2026-67279: Mikrotik RouterOS Improper Enforcement of Behavioral Workflow Vulnerability",
+    "eventId": "cisa-kev:CVE-2026-67279",
+    "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+    "source": "cisa_kev"
+  }
+]

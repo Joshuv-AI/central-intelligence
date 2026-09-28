@@ -13,6 +13,8 @@ import { fetchHealth } from '../data/api.js';
 import { SENSOR_LOOKS, setSensorLook, currentSensorLook } from '../globe/sensors/index.js';
 import { satellitesEnabled, satelliteCount, setSatellites } from '../globe/satellites/index.js';
 import { firesEnabled, fireCount, setFires } from '../globe/fires/index.js';
+import { militaryEnabled, civilEnabled, flightCount, setMilitary, setCivil } from '../globe/flights/index.js';
+import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -139,6 +141,33 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">Perimeters: NIFC / WFIGS</span></div>`;
+  // Live flights (adsb.lol via /proxy, ODbL) — independent of domains.
+  const milOn = militaryEnabled();
+  const civOn = civilEnabled();
+  html += `<div class="layer-family"><span class="micro">FLIGHTS</span>
+    <div class="layer-row ${milOn ? '' : 'off'}" data-flights="military">
+      <span class="layer-swatch" style="background:#ffb347"></span>
+      <span class="layer-name">Military</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <div class="layer-row ${civOn ? '' : 'off'}" data-flights="civil">
+      <span class="layer-swatch" style="background:#7fd4ff"></span>
+      <span class="layer-name">Civil (near view)</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">ADS-B: adsb.lol</span></div>`;
+  // Weather imagery (NOAA nowCOAST WMS, keyless) — independent of domains.
+  html += `<div class="layer-family"><span class="micro">WEATHER</span>`;
+  for (const [key, def] of Object.entries(weatherLayers())) {
+    const on = weatherEnabled(key);
+    html += `
+    <div class="layer-row ${on ? '' : 'off'}" data-weather="${key}">
+      <span class="layer-swatch" style="background:${def.swatch}"></span>
+      <span class="layer-name">${def.label}</span>
+      <span class="layer-toggle"></span>
+    </div>`;
+  }
+  html += `<span class="micro">Imagery: NOAA nowCOAST</span></div>`;
   if (nonGeo > 0) {
     html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
@@ -188,6 +217,37 @@ function renderLayers(el) {
       }
     });
   }
+  const milRow = el.querySelector('[data-flights="military"]');
+  if (milRow) {
+    milRow.addEventListener('click', async () => {
+      milRow.classList.add('busy');
+      try {
+        const on = await setMilitary(!militaryEnabled());
+        milRow.classList.toggle('off', !on);
+      } finally {
+        milRow.classList.remove('busy');
+      }
+    });
+  }
+  const civRow = el.querySelector('[data-flights="civil"]');
+  if (civRow) {
+    civRow.addEventListener('click', async () => {
+      civRow.classList.add('busy');
+      try {
+        const on = await setCivil(!civilEnabled());
+        civRow.classList.toggle('off', !on);
+      } finally {
+        civRow.classList.remove('busy');
+      }
+    });
+  }
+  el.querySelectorAll('[data-weather]').forEach((row) => {
+    row.addEventListener('click', () => {
+      const key = row.dataset.weather;
+      const on = setWeather(key, !weatherEnabled(key));
+      row.classList.toggle('off', !on);
+    });
+  });
 }
 
 /* ————————— Connections ————————— */

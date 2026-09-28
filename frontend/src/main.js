@@ -23,6 +23,8 @@ import { buildBootWord, runBoot } from './ui/boot.js';
 import { initSensorLooks } from './globe/sensors/index.js';
 import { initSatellites } from './globe/satellites/index.js';
 import { initFires } from './globe/fires/index.js';
+import { initFlights } from './globe/flights/index.js';
+import { initWeather } from './globe/weather/index.js';
 import { readSceneFromHash, applyScene, initShareTracking } from './globe/share.js';
 import { haltIdleSpin } from './globe/viewer.js';
 import { initRail } from './ui/rail.js';
@@ -205,6 +207,8 @@ async function init() {
   initSensorLooks(getViewer());
   initSatellites(getViewer());
   initFires(getViewer());
+  initFlights(getViewer());
+  initWeather(getViewer());
   const sharedScene = readSceneFromHash();
   if (sharedScene) {
     applyScene(sharedScene); // shared link? restore that exact view, no drift

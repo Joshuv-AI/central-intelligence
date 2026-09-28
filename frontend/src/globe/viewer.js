@@ -69,9 +69,26 @@ export function createViewer(container) {
   };
   requestAnimationFrame(spin);
 
-  // Hide Cesium's default credit lightbox clutter; keep the text credit.
+  // Style Cesium's credit container minimally (Glacial Calm) instead of hiding it —
+  // OpenStreetMap/CARTO attribution must remain visible per their terms.
   const creditContainer = viewer.cesiumWidget.creditContainer;
-  if (creditContainer) creditContainer.style.display = 'none';
+  if (creditContainer) {
+    creditContainer.style.display = 'block';
+    creditContainer.style.position = 'absolute';
+    creditContainer.style.bottom = '6px';
+    creditContainer.style.right = '8px';
+    creditContainer.style.background = 'rgba(5, 11, 22, 0.55)';
+    creditContainer.style.backdropFilter = 'blur(8px)';
+    creditContainer.style.padding = '3px 8px';
+    creditContainer.style.borderRadius = '6px';
+    creditContainer.style.fontSize = '10px';
+    creditContainer.style.color = 'rgba(127, 206, 240, 0.6)';
+    creditContainer.style.border = '1px solid rgba(127, 206, 240, 0.12)';
+    creditContainer.style.zIndex = '10';
+    // Hide the lightbox info button, keep the text credit.
+    const infoBtn = creditContainer.querySelector('.cesium-credit-lightbox');
+    if (infoBtn) infoBtn.style.display = 'none';
+  }
 
   // Surface render errors instead of swallowing them.
   viewer.scene.renderError.addEventListener((scene, error) => {

@@ -25,9 +25,9 @@ sleep 2
 
 log "starting docker compose up -d --build"
 if docker compose up -d --build >> "$LOG" 2>&1; then
-  log "build OK, waiting for app health (localhost:3001/api/health)"
+  log "build OK, waiting for app health (localhost:80/api/health)"
   for _ in $(seq 1 30); do
-    if curl -sf -m 5 http://localhost:3001/api/health >/dev/null 2>&1; then
+    if curl -sf -m 5 http://localhost:80/api/health >/dev/null 2>&1; then
       log "HEALTHY - app is serving"
       docker compose ps >> "$LOG" 2>&1 || true
       exit 0

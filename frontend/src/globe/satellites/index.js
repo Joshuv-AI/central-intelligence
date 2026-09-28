@@ -53,9 +53,7 @@ async function loadTLEs() {
   const all = [];
   for (const group of GROUPS) {
     try {
-      const res = await fetch(TLE_URL(group), {
-        headers: { 'User-Agent': 'CentralIntelligence/1.0 (personal project)' },
-      });
+      const res = await fetch(TLE_URL(group));
       if (!res.ok) throw new Error('celestrak ' + res.status);
       all.push(...parseTLE(await res.text(), group));
     } catch (err) {
@@ -69,7 +67,6 @@ function updatePositions() {
   if (!billboards || sats.length === 0) return;
   const now = new Date();
   const gmst = satellite.gstime(now);
-  billboards.removeAll();
   for (const s of sats) {
     let pv;
     try {
@@ -77,13 +74,20 @@ function updatePositions() {
     } catch {
       continue;
     }
-    if (!pv || !pv.position) continue;
+    if (!pv || !pv.position || !s.billboard) continue;
     const geo = satellite.eciToGeodetic(pv.position, gmst);
     const lon = satellite.degreesLong(geo.longitude);
     const lat = satellite.degreesLat(geo.latitude);
     const height = Math.max(0, geo.height * 1000); // km -> m
-    billboards.add({
-      position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
+    s.billboard.position = Cesium.Cartesian3.fromDegrees(lon, lat, height);
+  }
+}
+
+function buildBillboards() {
+  billboards.removeAll();
+  for (const s of sats) {
+    s.billboard = billboards.add({
+      position: Cesium.Cartesian3.fromDegrees(0, 0, 400000),
       image: dotImage,
       width: 7,
       height: 7,
@@ -113,12 +117,16 @@ export async function setSatellites(on) {
     }
     billboards.show = true;
     if (sats.length === 0) sats = await loadTLEs();
+    buildBillboards();
     updatePositions();
     if (!timer) timer = setInterval(updatePositions, TICK_MS);
     if (!refreshTimer) {
       refreshTimer = setInterval(async () => {
         sats = await loadTLEs();
-        if (enabled) updatePositions();
+        if (enabled) {
+          buildBillboards();
+          updatePositions();
+        }
       }, REFRESH_MS);
     }
   } else {

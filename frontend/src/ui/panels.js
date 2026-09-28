@@ -16,6 +16,7 @@ import { firesEnabled, fireCount, setFires } from '../globe/fires/index.js';
 import { militaryEnabled, civilEnabled, flightCount, setMilitary, setCivil } from '../globe/flights/index.js';
 import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/index.js';
 import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
+import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -131,7 +132,16 @@ function renderLayers(el) {
       <span class="layer-count" data-sat-count>${satelliteCount() || ''}</span>
       <span class="layer-toggle"></span>
     </div>
-    <span class="micro">TLE data: CelesTrak</span></div>`;
+    <span class="micro">TLE data: CelesTrak</span>`;
+  const launchesOn = launchesEnabled();
+  html += `
+    <div class="layer-row ${launchesOn ? '' : 'off'}" data-launches="upcoming">
+      <span class="layer-swatch" style="background:#b48cff"></span>
+      <span class="layer-name">Launches</span>
+      <span class="layer-count" data-launch-count>${launchCount() || ''}</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">Launches: The Space Devs</span></div>`;
   // Live fire perimeters (NIFC WFIGS, keyless GeoJSON) — independent of domains.
   const firesOn = firesEnabled();
   html += `<div class="layer-family"><span class="micro">FIRES</span>
@@ -269,6 +279,20 @@ function renderLayers(el) {
         if (countEl) countEl.textContent = cycloneCount() || '';
       } finally {
         cycRow.classList.remove('busy');
+      }
+    });
+  }
+  const launchRow = el.querySelector('[data-launches="upcoming"]');
+  if (launchRow) {
+    launchRow.addEventListener('click', async () => {
+      launchRow.classList.add('busy');
+      try {
+        const on = await setLaunches(!launchesEnabled());
+        launchRow.classList.toggle('off', !on);
+        const countEl = launchRow.querySelector('[data-launch-count]');
+        if (countEl) countEl.textContent = launchCount() || '';
+      } finally {
+        launchRow.classList.remove('busy');
       }
     });
   }

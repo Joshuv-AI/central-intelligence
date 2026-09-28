@@ -23,8 +23,8 @@ cd "$REPO" || { log "FATAL: $REPO missing"; exit 1; }
 docker compose down >> "$LOG" 2>&1 || true
 sleep 2
 
-log "starting docker compose up -d --build"
-if docker compose up -d --build >> "$LOG" 2>&1; then
+log "starting docker compose build --no-cache (frontend must rebuild)"
+if docker compose build --no-cache >> "$LOG" 2>&1 && docker compose up -d >> "$LOG" 2>&1; then
   log "build OK, waiting for app health (localhost:80/api/health)"
   for _ in $(seq 1 30); do
     if curl -sf -m 5 http://localhost:80/api/health >/dev/null 2>&1; then

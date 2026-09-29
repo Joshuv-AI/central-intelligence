@@ -221,9 +221,8 @@ export function createViewer(container) {
   container.addEventListener('pointerdown', stopSpin, { once: true });
   container.addEventListener('wheel', stopSpin, { once: true });
   const spin = () => {
-    if (!userTookOver && viewer && !viewer.isDestroyed()) {
-      viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, -0.00012);
-    }
+    if (userTookOver || !viewer || viewer.isDestroyed()) return; // stop rescheduling once taken over
+    viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, -0.00012);
     requestAnimationFrame(spin);
   };
   requestAnimationFrame(spin);

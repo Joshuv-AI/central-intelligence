@@ -89,11 +89,47 @@ function updatePositions() {
     }
     if (!pv || !pv.position || !s.billboard) continue;
     const geo = satellite.eciToGeodetic(pv.position, gmst);
-    const lon = satellite.degreesLong(geo.longitude);
-    const lat = satellite.degreesLat(geo.latitude);
-    const height = Math.max(0, geo.height * 1000); // km -> m
-    s.billboard.position = Cesium.Cartesian3.fromDegrees(lon, lat, height);
+    // SGP4 ticks every 2 s; the per-frame interpolator below glides the
+    // billboard toward this target so satellites move smoothly instead of
+    // visibly jumping each tick while the globe turns.
+    s.tgtLon = satellite.degreesLong(geo.longitude);
+    s.tgtLat = satellite.degreesLat(geo.latitude);
+    s.tgtH = Math.max(0, geo.height * 1000); // km -> m
+    if (!Number.isFinite(s.dispLon)) {
+      s.dispLon = s.tgtLon; s.dispLat = s.tgtLat; s.dispH = s.tgtH;
+    }
   }
+}
+
+// Per-frame satellite glide: exponential interpolation toward the latest
+// SGP4 target (~1.5 s smoothing, frame-rate independent), writing into a
+// scratch Cartesian3 — no per-frame allocation.
+let interpOff = null;
+function startInterpolator() {
+  if (interpOff || !viewer) return;
+  let last = performance.now();
+  interpOff = viewer.scene.preRender.addEventListener(() => {
+    const now = performance.now();
+    const dt = Math.min((now - last) / 1000, 1);
+    last = now;
+    const t = 1 - Math.pow(0.001, dt / 1.5);
+    for (const s of sats) {
+      if (!s.billboard || !Number.isFinite(s.tgtLon)) continue;
+      // Shortest-path longitude delta: a satellite crossing the antimeridian
+      // must not sweep the long way around the globe.
+      let dLon = s.tgtLon - s.dispLon;
+      if (dLon > 180) dLon -= 360; else if (dLon < -180) dLon += 360;
+      s.dispLon += dLon * t;
+      if (s.dispLon > 180) s.dispLon -= 360; else if (s.dispLon < -180) s.dispLon += 360;
+      s.dispLat += (s.tgtLat - s.dispLat) * t;
+      s.dispH += (s.tgtH - s.dispH) * t;
+      s.billboard.position = Cesium.Cartesian3.fromDegrees(
+        s.dispLon, s.dispLat, s.dispH, (s._pos ||= new Cesium.Cartesian3()));
+    }
+  });
+}
+function stopInterpolator() {
+  if (interpOff) { interpOff(); interpOff = null; }
 }
 
 function buildBillboards() {
@@ -174,6 +210,7 @@ export async function setSatellites(on) {
     }
     if (!timer) timer = setInterval(updatePositions, TICK_MS);
     holdContinuousRender('satellites'); // keep animating while camera is parked
+    startInterpolator(); // per-frame glide between 2 s SGP4 ticks
     if (!refreshTimer) {
       refreshTimer = setInterval(async () => {
         sats = await loadTLEs();
@@ -188,6 +225,7 @@ export async function setSatellites(on) {
     // Clear timers on toggle-off (audit 2026-09-29) — stops background work.
     if (timer) { clearInterval(timer); timer = null; }
     if (refreshTimer) { clearInterval(refreshTimer); refreshTimer = null; }
+    stopInterpolator();
     releaseContinuousRender('satellites');
   }
   return enabled;

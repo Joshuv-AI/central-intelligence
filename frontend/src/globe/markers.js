@@ -5,10 +5,18 @@ import * as Cesium from 'cesium';
 import { getViewer } from './viewer.js';
 import { Sprites } from './sprites.js';
 import { store, SEV_COLORS } from '../data/store.js';
+import { holdContinuousRender, releaseContinuousRender } from './renderGovernor.js';
 
 const SEV_RANK = { low: 0, moderate: 1, high: 2, critical: 3 };
 const FADE_MS = 260;
 const PULSE_S = 2.4; // connection ring pulse period (DESIGN.md)
+
+// Hoisted cluster-label constants: clusterEvent fires every frame the camera
+// moves, so nothing here may allocate or parse per call.
+const CLUSTER_LABEL_FONT = '600 13px "JetBrains Mono", monospace';
+const CLUSTER_LABEL_FILL = Cesium.Color.fromCssColorString('#EDF7FE');
+const CLUSTER_LABEL_OUTLINE = Cesium.Color.fromCssColorString('#050B16');
+const CLUSTER_LABEL_OFFSET = new Cesium.Cartesian2(0, 1);
 
 /** Unwrap an Entity PropertyBag value that may be a ConstantProperty. */
 function propValue(props, name) {
@@ -25,18 +33,29 @@ let connSource = null;    // unclustered CustomDataSource
 const entities = new Map();   // eventId -> entity
 const connEntities = new Map(); // connectionId -> { marker, pulse }
 const tweens = [];
-let tweenRaf = 0;
-// Persistent pulse rings: driven from our own rAF loop with scratch objects.
+// Pulse + tween drivers live on Cesium's preRender (installed/removed
+// dynamically) so marker animation ticks exactly once per rendered frame, in
+// lockstep with the globe — no separate rAF cadence fighting the renderer.
+// Each driver holds continuous render while active (render-governor).
+let tweenOff = null;
+let pulseOff = null;
+// Persistent pulse rings: plain values written per frame, no CallbackProperty.
 // (billboard.scale as a CallbackProperty crashes Cesium's visualizer.)
-const pulses = new Map(); // id -> { entity, base: Color, scratchScale, scratchColor }
-let pulseRaf = 0;
+const pulses = new Map(); // id -> { entity, base: Color, scratchColor }
 
-/* ——— tiny tween loop ——— */
+/* ——— tiny tween loop (preRender-driven) ——— */
 function addTween(tw) {
   tweens.push({ ...tw, start: performance.now() });
-  if (!tweenRaf) tweenRaf = requestAnimationFrame(tickTweensAt);
+  ensureTweenLoop();
 }
-// Single driver: re-arms itself while tweens remain.
+function ensureTweenLoop() {
+  if (tweenOff || tweens.length === 0) return;
+  const viewer = getViewer();
+  if (!viewer) return;
+  holdContinuousRender('marker-tweens');
+  tweenOff = viewer.scene.preRender.addEventListener(() => tickTweensAt(performance.now()));
+}
+// Single driver: removes itself + releases the hold when tweens run out.
 function tickTweensAt(now) {
   for (let i = tweens.length - 1; i >= 0; i--) {
     const tw = tweens[i];
@@ -47,7 +66,10 @@ function tickTweensAt(now) {
       try { tw.done && tw.done(); } catch { /* noop */ }
     }
   }
-  tweenRaf = tweens.length ? requestAnimationFrame(tickTweensAt) : 0;
+  if (tweens.length === 0 && tweenOff) {
+    tweenOff(); tweenOff = null;
+    releaseContinuousRender('marker-tweens');
+  }
 }
 
 const easeInOut = (p) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
@@ -86,14 +108,14 @@ export function initMarkers() {
     cluster.billboard.verticalOrigin = Cesium.VerticalOrigin.CENTER;
     cluster.label.show = true;
     cluster.label.text = String(clustered.length);
-    cluster.label.font = '600 13px "JetBrains Mono", monospace';
-    cluster.label.fillColor = Cesium.Color.fromCssColorString('#EDF7FE');
+    cluster.label.font = CLUSTER_LABEL_FONT;
+    cluster.label.fillColor = CLUSTER_LABEL_FILL;
     cluster.label.style = Cesium.LabelStyle.FILL_AND_OUTLINE;
-    cluster.label.outlineColor = Cesium.Color.fromCssColorString('#050B16');
+    cluster.label.outlineColor = CLUSTER_LABEL_OUTLINE;
     cluster.label.outlineWidth = 3;
     cluster.label.verticalOrigin = Cesium.VerticalOrigin.CENTER;
     cluster.label.horizontalOrigin = Cesium.HorizontalOrigin.CENTER;
-    cluster.label.pixelOffset = new Cesium.Cartesian2(0, 1);
+    cluster.label.pixelOffset = CLUSTER_LABEL_OFFSET;
   });
   viewer.dataSources.add(eventSource);
 
@@ -257,10 +279,13 @@ export function syncConnections(connections) {
   }
 }
 
-/** rAF driver for connection pulse rings — plain values, no CallbackProperty. */
+/** preRender driver for connection pulse rings — plain values, no CallbackProperty. */
 function startPulseLoop() {
-  if (pulseRaf || pulses.size === 0) return;
-  pulseRaf = requestAnimationFrame(pulseTick);
+  if (pulseOff || pulses.size === 0) return;
+  const viewer = getViewer();
+  if (!viewer) return;
+  holdContinuousRender('marker-pulses');
+  pulseOff = viewer.scene.preRender.addEventListener(() => pulseTick(performance.now()));
 }
 
 function pulseTick(now) {
@@ -277,7 +302,10 @@ function pulseTick(now) {
       entry.entity.billboard.color = entry.scratchColor;
     } catch { /* entity removed mid-frame */ }
   }
-  pulseRaf = pulses.size ? requestAnimationFrame(pulseTick) : 0;
+  if (pulses.size === 0 && pulseOff) {
+    pulseOff(); pulseOff = null;
+    releaseContinuousRender('marker-pulses');
+  }
 }
 
 /* ——— one-shot pulse (feed/search selection) ——— */

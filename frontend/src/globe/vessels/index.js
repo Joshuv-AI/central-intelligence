@@ -43,8 +43,8 @@ export function getVesselStatus() { return vesselStatus; }
 //            lastUpdate, missedPolls, history: [Cartesian3...] }
 const vessels = new Map();
 
-function toCartesian(lat, lon) {
-  return Cesium.Cartesian3.fromDegrees(lon, lat, 0); // surface — ships float
+function toCartesian(lat, lon, result) {
+  return Cesium.Cartesian3.fromDegrees(lon, lat, 0, result); // surface — ships float
 }
 
 function deadReckon(v, dt) {
@@ -191,7 +191,8 @@ function startLoop() {
       } else {
         v.dispLat = v.lat; v.dispLon = v.lon;
       }
-      v.billboard.position = toCartesian(v.dispLat, v.dispLon);
+      v.billboard.position = toCartesian(v.dispLat, v.dispLon,
+        (v._pos ||= new Cesium.Cartesian3())); // scratch: no per-frame alloc
     }
   });
   poll();

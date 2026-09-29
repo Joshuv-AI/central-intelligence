@@ -161,8 +161,8 @@ function ensureBillboards() {
   );
 }
 
-function toCartesian(lat, lon, altM) {
-  return Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(altM, 0));
+function toCartesian(lat, lon, altM, result) {
+  return Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(altM, 0), result);
 }
 
 // Advance a position by speed/track over dt seconds (flat-earth approx —
@@ -339,13 +339,17 @@ function startLoop() {
   ensureBillboards();
   holdContinuousRender('flights'); // keep animating while camera is parked
   let last = performance.now();
+  let lastGateCheck = 0;
   preRenderRemove = viewer.scene.preRender.addEventListener(() => {
     const now = performance.now();
     const dt = Math.min((now - last) / 1000, 1);
     last = now;
-    // Zoom gate for civilian traffic: show/hide instantly on zoom change,
-    // fetch fresh data the moment the camera comes back in range.
-    refreshCivilGate();
+    // Zoom gate for civilian traffic: check at 4 Hz, not every frame —
+    // positionCartographic allocates and the gate only flips on zoom.
+    if (now - lastGateCheck > 250) {
+      lastGateCheck = now;
+      refreshCivilGate();
+    }
     // Interpolation factor: smooth over ~1.5s (frame-rate independent).
     const t = 1 - Math.pow(0.001, dt / 1.5);
     for (const a of aircraft.values()) {
@@ -358,7 +362,10 @@ function startLoop() {
       } else {
         a.dispLat = a.lat; a.dispLon = a.lon;
       }
-      a.billboard.position = toCartesian(a.dispLat, a.dispLon, a.alt);
+      // Scratch position: assigning a fresh Cartesian3 per aircraft per frame
+      // is hundreds of allocations/frame of pure GC pressure.
+      a.billboard.position = toCartesian(a.dispLat, a.dispLon, a.alt,
+        (a._pos ||= new Cesium.Cartesian3()));
     }
   });
   poll();

@@ -224,6 +224,10 @@ function startScheduler(store, config, onSweep) {
   // Seed source metadata so /api/health is meaningful before the first sweep.
   const meta = store.state.meta;
   meta.sources = meta.sources || {};
+  const validNames = new Set(ADAPTERS.map((a) => a.name));
+  for (const name of Object.keys(meta.sources)) {
+    if (!validNames.has(name)) delete meta.sources[name];
+  }
   for (const a of ADAPTERS) {
     getSourceState(meta, a.name, a.tier);
   }

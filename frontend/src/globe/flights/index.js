@@ -263,9 +263,11 @@ async function poll() {
   const results = await Promise.all(jobs);
   if (gen !== pollGen) return; // stale poll — a newer poll started, discard results
   const seen = new Set();
+  let anyOk = false;
   for (const { d, military, ok, err } of results) {
     const key = military ? 'military' : 'civil';
     if (ok) {
+      anyOk = true;
       feedStatus[key].lastOk = Date.now();
       feedStatus[key].lastErr = '';
     } else {
@@ -279,6 +281,10 @@ async function poll() {
       upsert(ac, military);
     }
   }
+  // If ALL feeds failed (network outage), skip cleanup entirely — don't
+  // penalize existing aircraft for a connectivity blip. This prevents the
+  // flicker where everything vanishes and reappears.
+  if (!anyOk) return;
   // Drop aircraft that vanished from both feeds. Use a grace period of
   // 3 missed polls (~45s) to avoid flickering when the API is inconsistent.
   for (const [hex, a] of aircraft) {

@@ -150,10 +150,19 @@ export async function setSatellites(on) {
       viewer.scene.primitives.add(billboards);
     }
     billboards.show = true;
-    if (sats.length === 0) sats = await loadTLEs();
-    if (gen !== satGen || !enabled) return enabled; // toggled off during load
-    buildBillboards();
-    updatePositions();
+    // Load TLEs in background — don't block the toggle. The gen check
+    // ensures we don't build if user toggled off during load.
+    if (sats.length === 0) {
+      loadTLEs().then((loaded) => {
+        if (gen !== satGen || !enabled) return;
+        sats = loaded;
+        buildBillboards();
+        updatePositions();
+      });
+    } else {
+      buildBillboards();
+      updatePositions();
+    }
     if (!timer) timer = setInterval(updatePositions, TICK_MS);
     if (!refreshTimer) {
       refreshTimer = setInterval(async () => {

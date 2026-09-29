@@ -164,6 +164,9 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">Storms: NOAA NHC</span></div>`;
+  if (nonGeo > 0) {
+    html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
+  }
   // Domain families (Live / Intel / Environment) — moved to bottom per user request.
   for (const [fam, domains] of Object.entries(FAMILIES)) {
     html += `<div class="layer-family"><span class="micro">${FAMILY_LABELS[fam]}</span>`;
@@ -178,9 +181,6 @@ function renderLayers(el) {
         </button>`;
     }
     html += '</div>';
-  }
-  if (nonGeo > 0) {
-    html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
   el.innerHTML = html;
 

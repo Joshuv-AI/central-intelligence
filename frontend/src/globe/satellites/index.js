@@ -134,7 +134,10 @@ export function satelliteCount() {
   return sats.length;
 }
 
+let satGen = 0;
+
 export async function setSatellites(on) {
+  const gen = ++satGen;
   if (on === enabled && billboards) return enabled;
   enabled = on;
   if (!viewer) return enabled;
@@ -147,6 +150,7 @@ export async function setSatellites(on) {
     }
     billboards.show = true;
     if (sats.length === 0) sats = await loadTLEs();
+    if (gen !== satGen || !enabled) return enabled; // toggled off during load
     buildBillboards();
     updatePositions();
     if (!timer) timer = setInterval(updatePositions, TICK_MS);

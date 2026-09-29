@@ -22,7 +22,6 @@ import { store, on, emit, REGIONS } from './data/store.js';
 import { buildBootWord, runBoot } from './ui/boot.js';
 import { initSensorLooks } from './globe/sensors/index.js';
 import { initSatellites } from './globe/satellites/index.js';
-import { initFires } from './globe/fires/index.js';
 import { initFlights } from './globe/flights/index.js';
 import { initWeather } from './globe/weather/index.js';
 import { initCyclones } from './globe/cyclones/index.js';
@@ -225,7 +224,6 @@ async function init() {
   createViewer(document.getElementById('globe-container'));
   initSensorLooks(getViewer());
   initSatellites(getViewer());
-  initFires(getViewer());
   initFlights(getViewer());
   initWeather(getViewer());
   initCyclones(getViewer());

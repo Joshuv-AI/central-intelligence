@@ -201,12 +201,16 @@ function cullHorizon() {
   if (!occluder) return;
   occluder.cameraPosition = viewer.scene.camera.positionWC;
   for (const a of aircraft.values()) {
+    const layerOn = a.military ? milOn : civOn;
     const p = toCartesian(a.lat, a.lon, a.alt);
-    a.billboard.show = occluder.isPointVisible(p);
+    a.billboard.show = layerOn && occluder.isPointVisible(p);
   }
 }
 
+let pollGen = 0;
+
 async function poll() {
+  const gen = ++pollGen;
   const jobs = [];
   if (milOn) jobs.push(
     fetch('/proxy/adsblol/mil').then((r) => r.json())
@@ -227,6 +231,7 @@ async function poll() {
   }
   if (!jobs.length) return;
   const results = await Promise.all(jobs);
+  if (gen !== pollGen) return; // stale poll — a newer poll started, discard results
   const seen = new Set();
   for (const { d, military, ok, err } of results) {
     const key = military ? 'military' : 'civil';

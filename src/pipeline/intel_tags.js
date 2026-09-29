@@ -35,12 +35,9 @@ const SOURCE_TAGS = {
   csg_tracker: ['military', 'maritime', 'government'],
   infrastructure: ['power_grid', 'infrastructure'],
   // sanctions
-  opensanctions: ['economy', 'government'],
   ofac: ['economy', 'government'],
   // economic
-  fred: ['economy'],
   bls: ['economy'],
-  eia: ['economy', 'energy'],
   treasury: ['economy', 'government'],
   comtrade: ['supply_chain', 'economy'],
   gscpi: ['supply_chain', 'economy'],
@@ -53,7 +50,6 @@ const SOURCE_TAGS = {
   epa: ['health', 'population'],
   // social
   bluesky: ['comms', 'population'],
-  reddit: ['comms', 'population'],
   trends: ['population'],
 };
 

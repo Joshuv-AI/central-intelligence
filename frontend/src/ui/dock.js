@@ -10,7 +10,6 @@ import {
 } from '../globe/flights/index.js';
 import { satellitesEnabled, satelliteCount, satelliteStatus, setSatellites } from '../globe/satellites/index.js';
 import { launchesEnabled, launchCount, launchStatus, setLaunches } from '../globe/launches/index.js';
-import { firesEnabled, fireCount, fireStatus, setFires } from '../globe/fires/index.js';
 import { earthquakesEnabled, earthquakeCount, earthquakeStatus, setEarthquakes } from '../globe/earthquakes/index.js';
 import { weatherEnabled, weatherLayers, setWeather } from '../globe/weather/index.js';
 import { cyclonesEnabled, cycloneCount, cycloneStatus, setCyclones } from '../globe/cyclones/index.js';
@@ -40,12 +39,6 @@ const SOURCES = [
     staleAfter: 3600_000,
     enabled: launchesEnabled, count: launchCount,
     status: launchStatus, toggle: () => setLaunches(!launchesEnabled()),
-  },
-  {
-    id: 'fire', label: 'FIRE', name: 'Fire perimeters', credit: 'NIFC / WFIGS',
-    staleAfter: 2 * 3600_000,
-    enabled: firesEnabled, count: fireCount,
-    status: fireStatus, toggle: () => setFires(!firesEnabled()),
   },
   {
     id: 'quake', label: 'QUAKE', name: 'Earthquakes', credit: 'USGS M4.5+ / 24h',

@@ -18,6 +18,11 @@ const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600; // 1 knot = 1 NM/h; 1 NM = 1 arc-minute
 // reference screenshot Joshua approved) sits at ~580-650 km camera height,
 // so civilian traffic begins appearing right around that zoom.
 const CIVIL_ZOOM_HEIGHT_M = 650_000;
+// Billboard base scales (Joshua 2026-09-29): military keeps the uniform 0.6;
+// civilian blue planes are smaller (0.45) so dense civil traffic reads as
+// less cluttered. Multiplied by the retina ratio below, as before.
+const MIL_SCALE = 0.6;
+const CIV_SCALE = 0.45;
 
 let viewer = null;
 let billboards = null;
@@ -200,14 +205,14 @@ function upsert(ac, military) {
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
       disableDepthTestDistance: 0,
     });
-    // Uniform size for all aircraft (Joshua 2026-09-29): single scale, no
-    // per-class variation. Smaller than before. Retina ratio keeps it sharp.
-    bb.scale = 0.6 * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
+    // Uniform size per layer (Joshua 2026-09-29): military 0.6, civilian 0.45
+    // so dense blue traffic looks less cluttered. Retina ratio keeps it sharp.
+    bb.scale = (military ? MIL_SCALE : CIV_SCALE) * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
     // Tint: operator-tagged red / military amber / civil blue.
     bb.color = Cesium.Color.fromCssColorString(
       taggedMil ? '#ff6b6b' : military ? '#ffb347' : '#7fd4ff'
     );
-    a = { billboard: bb, hex, klass };
+    a = { billboard: bb, hex, klass, military: !!military };
     aircraft.set(hex, a);
     // New aircraft: start at the reported position (no interpolation needed).
     a.lat = ac.lat;
@@ -220,11 +225,13 @@ function upsert(ac, military) {
     a.lat = ac.lat;
     a.lon = ac.lon;
     if (!Number.isFinite(a.dispLat)) { a.dispLat = ac.lat; a.dispLon = ac.lon; }
-    // Re-image if the type arrived late (audit 1.6). Keep uniform scale.
-    if (klass !== a.klass) {
+    // Re-image if the type arrived late (audit 1.6). Re-scale if the
+    // military/civil classification changed between feeds.
+    if (klass !== a.klass || !!military !== !!a.military) {
       a.klass = klass;
+      a.military = !!military;
       a.billboard.image = aircraftIcon(klass, FLEET_ICON_PX_RETINA);
-      a.billboard.scale = 0.6 * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
+      a.billboard.scale = (military ? MIL_SCALE : CIV_SCALE) * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
     }
   }
   // Enrichment fields for richer cards (audit 1.9).

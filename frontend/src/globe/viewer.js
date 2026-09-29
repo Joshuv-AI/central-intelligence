@@ -76,8 +76,8 @@ export function createViewer(container) {
   viewer.imageryLayers.addImageryProvider(ref);
 
   // Globe performance tuning: higher screen-space error = fewer tiles,
-  // faster loads. Slightly softer at max zoom, much snappier interaction.
-  viewer.scene.globe.maximumScreenSpaceError = isMobile ? 4 : 2;
+  // faster loads. 3 is the sweet spot on mobile: sharper than 4, snappier than 2.
+  viewer.scene.globe.maximumScreenSpaceError = isMobile ? 3 : 2;
 
   // Throttle concurrent tile requests to avoid overwhelming mobile networks.
   // Default is unlimited; 6 per server keeps zoom responsive without stalling.

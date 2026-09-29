@@ -325,6 +325,10 @@ export function pickAt(clientX, clientY) {
   const picked = viewer.scene.pick(new Cesium.Cartesian2(clientX, clientY));
   if (!picked || !picked.id) return null;
   const id = picked.id;
+  // Flight billboards: id is "flight-<hex>" string.
+  if (typeof id === 'string' && id.startsWith('flight-')) {
+    return { type: 'flight', hex: id.slice(7) };
+  }
   const primPos = picked.primitive && picked.primitive.position;
   // Cluster hits: billboard tagged in clusterEvent, or the label's id array.
   if ((id && id.__clusterIds) || Array.isArray(id)) {

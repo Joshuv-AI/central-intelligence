@@ -92,6 +92,7 @@ function upsert(ac, military) {
   const altM = ac.alt_baro === 'ground' ? 0 : Number(ac.alt_baro) * 0.3048 || 0;
   if (!a) {
     const bb = billboards.add({
+      id: `flight-${hex}`,
       image: military ? planeSprite('#ffb347') : planeSprite('#7fd4ff'),
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
       disableDepthTestDistance: 0,
@@ -108,7 +109,23 @@ function upsert(ac, military) {
   a.label = (ac.flight || '').trim() || ac.r || hex;
   a.lastUpdate = performance.now();
   a.billboard.position = toCartesian(a.lat, a.lon, a.alt);
-  a.billboard.rotation = Number.isFinite(a.track) ? ((a.track * Math.PI) / 180) : 0;
+  // Heading: prefer ADS-B track, else estimate from position delta,
+  // else keep last rotation (never snap back to 0).
+  let heading = null;
+  if (Number.isFinite(a.track)) {
+    heading = a.track;
+  } else if (Number.isFinite(a.prevLat) && Number.isFinite(a.prevLon) &&
+             (a.prevLat !== a.lat || a.prevLon !== a.lon)) {
+    const dLon = (a.lon - a.prevLon) * Math.cos((a.lat * Math.PI) / 180);
+    const dLat = a.lat - a.prevLat;
+    heading = (Math.atan2(dLon, dLat) * 180) / Math.PI;
+    if (heading < 0) heading += 360;
+  }
+  if (heading !== null) {
+    a.billboard.rotation = (heading * Math.PI) / 180;
+  }
+  a.prevLat = a.lat;
+  a.prevLon = a.lon;
 }
 
 function cullHorizon() {
@@ -206,6 +223,8 @@ export function flightCountBy(military) {
   for (const a of aircraft.values()) if (!!a.military === military) n++;
   return n;
 }
+/** Get aircraft data by hex (for tap-to-info). */
+export function getAircraft(hex) { return aircraft.get(hex) || null; }
 
 export async function setMilitary(on) {
   milOn = on;

@@ -36,7 +36,7 @@ import { initStatus } from './ui/status.js';
 import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
 import { initDock } from './ui/dock.js';
-import { initCards, openEventCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initCards, openEventCard, openFlightCard, closeEventCard, isCardOpen } from './ui/cards.js';
 
 buildBootWord();
 
@@ -111,6 +111,12 @@ function initGlobeClick() {
       openEventCard(hit.eventId, ev.clientX, ev.clientY);
     } else if (hit.type === 'connection') {
       emit('focus-connection', { connectionId: hit.connectionId });
+    } else if (hit.type === 'flight') {
+      // Dynamically import to avoid circular deps (flights imports viewer).
+      import('./globe/flights/index.js').then(({ getAircraft }) => {
+        const a = getAircraft(hit.hex);
+        if (a) openFlightCard(a, ev.clientX, ev.clientY);
+      });
     }
   });
 }

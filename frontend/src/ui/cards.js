@@ -40,6 +40,45 @@ export function openEventCard(eventId, clientX, clientY) {
   emit('card-opened', { eventId });
 }
 
+/** Open a detail card for a flight (tap on aircraft billboard). */
+export function openFlightCard(a, clientX, clientY) {
+  if (!a || !cardEl) return;
+  // Use a synthetic ID so closeEventCard works.
+  openEventId = `flight-${a.hex}`;
+  const altFt = a.alt > 0 ? Math.round(a.alt * 3.28084) : 0;
+  const spdKt = Number.isFinite(a.gs) ? Math.round(a.gs) : null;
+  const hdg = Number.isFinite(a.track) ? Math.round(a.track) : null;
+  const where = `${a.lat.toFixed(3)}°, ${a.lon.toFixed(3)}°`;
+  cardEl.className = a.military ? 'sev-high' : 'sev-low';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>${a.military ? 'MILITARY' : 'CIVIL'} AIRCRAFT</div>
+    <h3 class="card-title">${esc(a.label || a.hex)}</h3>
+    <div class="card-fields">
+      <div class="card-field"><span class="k">Hex</span><span class="v mono">${esc(a.hex)}</span></div>
+      <div class="card-field"><span class="k">Position</span><span class="v">${esc(where)}</span></div>
+      ${altFt ? `<div class="card-field"><span class="k">Altitude</span><span class="v">${altFt.toLocaleString()} ft</span></div>` : ''}
+      ${spdKt !== null ? `<div class="card-field"><span class="k">Speed</span><span class="v">${spdKt} kt</span></div>` : ''}
+      ${hdg !== null ? `<div class="card-field"><span class="k">Heading</span><span class="v">${hdg}°</span></div>` : ''}
+    </div>`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  const viewer = getViewer();
+  anchorCartesian = Cesium.Cartesian3.fromDegrees(a.lon, a.lat, a.alt || 0);
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
 export function closeEventCard() {
   if (!openEventId) return;
   openEventId = null;
@@ -182,6 +221,7 @@ export function initCards() {
   on('close-panels', closeEventCard);
   on('data', () => {
     // If the open event vanished from state, close quietly.
-    if (openEventId && !store.eventById(openEventId)) closeEventCard();
+    // (Flight cards use synthetic 'flight-<hex>' IDs — leave them alone.)
+    if (openEventId && !String(openEventId).startsWith('flight-') && !store.eventById(openEventId)) closeEventCard();
   });
 }

@@ -73,7 +73,7 @@ async function load() {
       billboard: {
         image: sprite,
         scaleByDistance: new Cesium.NearFarScalar(1e5, 1.0, 3e7, 0.4),
-        disableDepthTestDistance: 1e7,
+        disableDepthTestDistance: 0,
       },
       label: {
         text: `${rocket}${mission}\n${countdown(l.net)}`,

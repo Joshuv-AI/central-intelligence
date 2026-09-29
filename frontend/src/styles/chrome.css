@@ -392,10 +392,10 @@
 .dock-pop-off { opacity: 0.6; }
 
 @media (max-width: 640px) {
-  #dock { bottom: 58px; padding: 5px 8px; }
+  #dock { bottom: 76px; padding: 5px 8px; }
   .dock-chip { padding: 6px 9px; }
   /* Hide dock when empty to prevent empty pill overlapping ticker */
   #dock:has(#dock-chips:empty) { display: none; }
-  /* Ensure ticker doesn't overlap the rail on mobile */
-  #ticker { bottom: 74px; }
+  /* Ticker sits above the rail, below the dock */
+  #ticker { bottom: 28px; }
 }

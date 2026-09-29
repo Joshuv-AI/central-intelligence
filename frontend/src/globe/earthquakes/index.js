@@ -39,7 +39,7 @@ async function load() {
         color: color.withAlpha(0.85),
         outlineColor: Cesium.Color.BLACK,
         outlineWidth: 1,
-        disableDepthTestDistance: 1e7,
+        disableDepthTestDistance: 0,
       },
       label: {
         text: `M${mag.toFixed(1)}`,

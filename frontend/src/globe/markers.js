@@ -113,7 +113,7 @@ function makeEventEntity(e) {
       verticalOrigin: Cesium.VerticalOrigin.CENTER,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      disableDepthTestDistance: 0,
       color: new Cesium.Color(1, 1, 1, 1),
     },
     properties: { eventId: e.id, severity, kind: 'event' },
@@ -205,7 +205,7 @@ export function syncConnections(connections) {
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        disableDepthTestDistance: 0,
       },
       properties: { connectionId: conn.id, kind: 'connection', severity },
     });
@@ -224,7 +224,7 @@ export function syncConnections(connections) {
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        disableDepthTestDistance: 0,
         scale: 0.5,
         color: color.withAlpha(0.55),
       },
@@ -285,7 +285,7 @@ export function pulseAt(lon, lat, severity = 'low', { duration = 1400 } = {}) {
       width: 64,
       height: 64,
       heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      disableDepthTestDistance: 0,
     },
   });
   connSource.entities.add(ent);

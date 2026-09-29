@@ -103,7 +103,7 @@ function buildBillboards() {
       image: dotImage,
       width: 7,
       height: 7,
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      disableDepthTestDistance: 0,
     });
   }
 }

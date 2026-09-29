@@ -98,7 +98,7 @@ async function load() {
       billboard: {
         image: cycloneSprite(color.toCssColorString()),
         scaleByDistance: new Cesium.NearFarScalar(1e5, 1.0, 3e7, 0.4),
-        disableDepthTestDistance: 1e7,
+        disableDepthTestDistance: 0,
       },
       label: {
         text: `${s.classification || ''} ${name} · ${s.intensity || '?'} kt`.trim(),

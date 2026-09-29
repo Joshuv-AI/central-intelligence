@@ -94,7 +94,7 @@ function upsert(ac, military) {
     const bb = billboards.add({
       image: military ? planeSprite('#ffb347') : planeSprite('#7fd4ff'),
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
-      disableDepthTestDistance: 1e7,
+      disableDepthTestDistance: 0,
     });
     a = { billboard: bb, hex };
     aircraft.set(hex, a);

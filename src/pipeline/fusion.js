@@ -2,7 +2,7 @@
 // Finds cross-domain correlations and emits "connections": plain-language
 // causal chains, severity-ordered. No LLM — deterministic rules only.
 //
-// Score = severity 40 + confidence 20 + cascade 25 + proximity 15 (max 100).
+// Score = severity 40 + confidence 20 + cascade 15 + proximity 15 (max 90).
 //   >= 80  -> critical   >= 65 -> high   >= 50 -> standard   < 50 -> dropped
 const { createHash } = require('crypto');
 const { impactTags, causesTag, sevRank } = require('./intel_tags');
@@ -99,7 +99,7 @@ function scoreChain(chain) {
     if (causesTag(chain[i], chain[i + 1])) causalLinks++;
   }
   const cascadePts =
-    causalLinks === chain.length - 1 ? 25 : causalLinks > 0 ? 12 : 0; // 0..25
+    causalLinks === chain.length - 1 ? 15 : causalLinks > 0 ? 7 : 0; // 0..15
 
   const proximityPts = Math.min(15, geoScore(chain) + timeScore(chain)); // 0..15
 
@@ -119,30 +119,36 @@ function shortTitle(t, n = 64) {
   return s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s;
 }
 
+function cleanTitle(t) {
+  // Remove source prefixes like "PRO/AH/EDR>" for readability
+  return String(t || '').replace(/^[A-Z]+\/[A-Z]+\/[A-Z]+>\s*/, '').trim();
+}
+
 function buildConnection(chain, scoreInfo) {
   const [cause, ...rest] = chain;
   const effect = rest[rest.length - 1];
-  const tags = [...new Set(chain.flatMap((e) => impactTags(e)))];
+  const tags = [...new Set(chain.flatMap((e) => impactTags(e)))].map((t) => t.replace(/_/g, ' '));
   const severity = chain
     .map((e) => e.severity)
     .sort((a, b) => sevRank(b) - sevRank(a))[0];
   const { score } = scoreInfo;
+  const domains = [...new Set(chain.map((e) => e.domain))];
   return {
     id: chainId(chain),
-    title: `${shortTitle(cause.title)} → ${shortTitle(effect.title)}`,
+    title: `${shortTitle(cleanTitle(cause.title))} → ${shortTitle(cleanTitle(effect.title))}`,
     summary:
-      `Linked by shared impact (${tags.slice(0, 4).join(', ')})` +
+      `These ${chain.length} events may be connected through shared ${tags.slice(0, 3).join(', ')} impacts` +
       (cause.cascadeNote ? `. ${cause.cascadeNote}` : '') +
-      `. ${chain.length} events across ${[...new Set(chain.map((e) => e.domain))].join(', ')}.`,
+      `. Spanning ${domains.join(', ')}.`,
     severity,
     score,
     scoreParts: scoreInfo.parts,
-    tier: score >= 80 ? 'critical' : score >= 65 ? 'high' : 'standard',
+    tier: score >= 90 ? 'critical' : score >= 75 ? 'high' : 'standard',
     tags,
     chain: chain.map((e, i) => ({
       eventId: e.id,
       role: i === 0 ? 'cause' : i === chain.length - 1 ? 'effect' : 'link',
-      title: e.title,
+      title: cleanTitle(e.title),
       severity: e.severity,
       time: e.time,
       lat: e.lat,

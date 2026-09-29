@@ -86,7 +86,7 @@ export function createViewer(container) {
   const imagery = new Cesium.UrlTemplateImageryProvider({
     url: ESRI_IMAGERY,
     credit: new Cesium.Credit(ESRI_IMAGERY_CREDIT, true),
-    maximumLevel: isMobile ? 18 : 19,
+    maximumLevel: 19,
     // Esri World Imagery is opaque JPEG — skipping alpha channel saves
     // texture memory and upload time.
     hasAlphaChannel: false,
@@ -96,7 +96,7 @@ export function createViewer(container) {
   const ref = new Cesium.UrlTemplateImageryProvider({
     url: ESRI_PLACES,
     credit: new Cesium.Credit(ESRI_PLACES_CREDIT, true),
-    maximumLevel: isMobile ? 14 : 16,
+    maximumLevel: 16,
   });
   viewer.imageryLayers.addImageryProvider(ref);
 
@@ -136,9 +136,9 @@ export function createViewer(container) {
     probe.src = ESRI_IMAGERY.replace('{z}/{y}/{x}', '2/1/2') + `?t=${Date.now()}`;
   }, 60_000);
 
-  // Globe performance tuning: higher screen-space error = fewer tiles,
-  // faster loads. 3 is the sweet spot on mobile: sharper than 4, snappier than 2.
-  const baseSSE = isMobile ? 3 : 2;
+  // Globe quality: full tile refinement on all devices. SSE 2 is the
+  // quality baseline — the mobile relaxation to 3 was a visible regression.
+  const baseSSE = 2;
   viewer.scene.globe.maximumScreenSpaceError = baseSSE;
 
   // Dynamic SSE: when zoomed out (high camera altitude), force sharper tiles
@@ -168,19 +168,11 @@ export function createViewer(container) {
   // Preload sibling tiles for smoother panning (fewer pop-ins at edges).
   viewer.scene.globe.preloadSiblings = true;
 
-  // MSAA: 4x is the default since Cesium 1.121, but it's very expensive on
-  // iPhone GPUs. 2x on mobile is the biggest fill-rate win available.
-  // (The legacy antialias context flag no longer controls this.)
-  if (isMobile) {
-    viewer.scene.msaaSamples = 2;
-  }
-  // Render-resolution cap: on DPR-3 phones the drawing buffer is 3x CSS
-  // size — visually indistinguishable from 2x at globe scales, but ~2.25x
-  // the fill rate. Cap effective DPR at 2 (audit 1.5).
-  if (isMobile) {
-    const dpr = window.devicePixelRatio || 1;
-    if (dpr > 2) viewer.resolutionScale = 2 / dpr;
-  }
+  // Globe quality: full native resolution on all devices. The DPR cap and
+  // reduced MSAA were a visible quality regression — removed (2026-09-29).
+  // The render governor already idles the loop when nothing animates, so the
+  // battery cost of full resolution is bounded.
+  // (MSAA left at Cesium's 4x default; resolutionScale left at 1.0 = native.)
 
   // Restore full request concurrency. The previous cap of 6 was starving tile
   // refinement during fast zooms — the official default is 18, and Esri's

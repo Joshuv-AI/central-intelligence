@@ -116,6 +116,51 @@ export function openFlightCard(a, clientX, clientY) {
   emit('card-opened', { eventId: openEventId });
 }
 
+export function openSatelliteCard(s, clientX, clientY) {
+  if (!s || !cardEl) return;
+  openEventId = `sat-${s.noradId}`;
+  // Get current position from billboard.
+  let where = '—';
+  let altKm = null;
+  if (s.billboard && s.billboard.position) {
+    try {
+      const carto = Cesium.Cartographic.fromCartesian(s.billboard.position);
+      const lon = Cesium.Math.toDegrees(carto.longitude);
+      const lat = Cesium.Math.toDegrees(carto.latitude);
+      where = `${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
+      altKm = Math.round(carto.height / 1000);
+      anchorCartesian = s.billboard.position;
+    } catch { /* ignore */ }
+  }
+  cardEl.className = 'sev-low';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>SATELLITE</div>
+    <h3 class="card-title">${esc(s.name)}</h3>
+    <div class="card-fields">
+      <div class="card-field"><span class="k">NORAD ID</span><span class="v mono">${esc(String(s.noradId))}</span></div>
+      <div class="card-field"><span class="k">Group</span><span class="v">${esc(s.group)}</span></div>
+      <div class="card-field"><span class="k">Position</span><span class="v">${esc(where)}</span></div>
+      ${altKm !== null ? `<div class="card-field"><span class="k">Altitude</span><span class="v">${altKm.toLocaleString()} km</span></div>` : ''}
+      <div class="card-field"><span class="k">Inclination</span><span class="v">${esc(s.inclination)}</span></div>
+      <div class="card-field"><span class="k">Source</span><span class="v">CelesTrak TLE</span></div>
+    </div>`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
 export function closeEventCard() {
   if (!openEventId) return;
   openEventId = null;

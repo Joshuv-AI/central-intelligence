@@ -35,8 +35,7 @@ import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from '
 import { initStatus } from './ui/status.js';
 import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
-import { initDock } from './ui/dock.js';
-import { initCards, openEventCard, openFlightCard, openQuakeCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, closeEventCard, isCardOpen } from './ui/cards.js';
 
 buildBootWord();
 
@@ -121,6 +120,11 @@ function initGlobeClick() {
       import('./globe/earthquakes/index.js').then(({ getEarthquake }) => {
         const q = getEarthquake(hit.quakeId);
         if (q) openQuakeCard(q, ev.clientX, ev.clientY);
+      });
+    } else if (hit.type === 'satellite') {
+      import('./globe/satellites/index.js').then(({ getSatellite }) => {
+        const s = getSatellite(hit.satIdx);
+        if (s) openSatelliteCard(s, ev.clientX, ev.clientY);
       });
     }
   });
@@ -240,7 +244,6 @@ async function init() {
   initStatus();
   initSearch();
   initTicker();
-  initDock();
   initCards();
   initRegionMenu();
   initGlobeClick();

@@ -97,8 +97,10 @@ function updatePositions() {
 
 function buildBillboards() {
   billboards.removeAll();
-  for (const s of sats) {
+  for (let i = 0; i < sats.length; i++) {
+    const s = sats[i];
     s.billboard = billboards.add({
+      id: `sat-${i}`,
       position: Cesium.Cartesian3.fromDegrees(0, 0, 400000),
       image: dotImage,
       width: 7,
@@ -106,6 +108,22 @@ function buildBillboards() {
       disableDepthTestDistance: 0,
     });
   }
+}
+
+/** Get satellite data by index (for tap-to-info). */
+export function getSatellite(idx) {
+  const s = sats[idx];
+  if (!s) return null;
+  // Extract orbital info from satrec for the info card.
+  const satrec = s.satrec;
+  return {
+    name: s.name,
+    group: s.group,
+    noradId: satrec.satnum,
+    inclination: satrec.inclo ? (satrec.inclo * 180 / Math.PI).toFixed(1) + '°' : '—',
+    // Current position is updated in updatePositions; get latest from billboard.
+    billboard: s.billboard,
+  };
 }
 
 export function satellitesEnabled() {

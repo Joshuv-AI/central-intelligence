@@ -11,7 +11,6 @@ import { flyToRegion } from '../globe/camera.js';
 import { esc, timeAgo, fmtDateTime } from '../data/format.js';
 import { fetchHealth } from '../data/api.js';
 import { satellitesEnabled, satelliteCount, setSatellites } from '../globe/satellites/index.js';
-import { firesEnabled, fireCount, setFires } from '../globe/fires/index.js';
 import { militaryEnabled, civilEnabled, setMilitary, setCivil } from '../globe/flights/index.js';
 import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/index.js';
 import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
@@ -100,20 +99,6 @@ function renderLayers(el) {
   const counts = store.countsPerDomain();
   const nonGeo = store.events.filter((e) => !store.isGeo(e)).length;
   let html = '';
-  for (const [fam, domains] of Object.entries(FAMILIES)) {
-    html += `<div class="layer-family"><span class="micro">${FAMILY_LABELS[fam]}</span>`;
-    for (const d of domains) {
-      const onState = store.families[fam] && store.domains[d] !== false;
-      html += `
-        <button class="layer-row ${onState ? '' : 'off'}" data-domain="${d}">
-          <span class="layer-swatch"></span>
-          <span class="layer-name">${DOMAIN_LABELS[d]}</span>
-          <span class="layer-count">${counts[d] || 0}</span>
-          <span class="layer-toggle" aria-hidden="true"></span>
-        </button>`;
-    }
-    html += '</div>';
-  }
   // Live orbit layer (CelesTrak TLEs, client-side SGP4) — independent of domains.
   const satsOn = satellitesEnabled();
   html += `<div class="layer-family"><span class="micro">ORBIT</span>
@@ -133,17 +118,9 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">Launches: The Space Devs</span></div>`;
-  // Live fire perimeters (NIFC WFIGS, keyless GeoJSON) — independent of domains.
-  const firesOn = firesEnabled();
+  // Live fire perimeters removed — earthquakes only.
   const quakesOn = earthquakesEnabled();
-  html += `<div class="layer-family"><span class="micro">FIRES</span>
-    <div class="layer-row ${firesOn ? '' : 'off'}" data-fires="perimeters">
-      <span class="layer-swatch" style="background:#ff3300"></span>
-      <span class="layer-name">Fire perimeters</span>
-      <span class="layer-count" data-fire-count>${fireCount() || ''}</span>
-      <span class="layer-toggle"></span>
-    </div>
-    <span class="micro">Perimeters: NIFC / WFIGS</span>
+  html += `<div class="layer-family"><span class="micro">QUAKES</span>
     <div class="layer-row ${quakesOn ? '' : 'off'}" data-quakes="usgs">
       <span class="layer-swatch" style="background:#ff2d78"></span>
       <span class="layer-name">Earthquakes</span>
@@ -187,6 +164,21 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">Storms: NOAA NHC</span></div>`;
+  // Domain families (Live / Intel / Environment) — moved to bottom per user request.
+  for (const [fam, domains] of Object.entries(FAMILIES)) {
+    html += `<div class="layer-family"><span class="micro">${FAMILY_LABELS[fam]}</span>`;
+    for (const d of domains) {
+      const onState = store.families[fam] && store.domains[d] !== false;
+      html += `
+        <button class="layer-row ${onState ? '' : 'off'}" data-domain="${d}">
+          <span class="layer-swatch"></span>
+          <span class="layer-name">${DOMAIN_LABELS[d]}</span>
+          <span class="layer-count">${counts[d] || 0}</span>
+          <span class="layer-toggle" aria-hidden="true"></span>
+        </button>`;
+    }
+    html += '</div>';
+  }
   if (nonGeo > 0) {
     html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
@@ -203,73 +195,71 @@ function renderLayers(el) {
   });
   const orbitRow = el.querySelector('[data-orbit="satellites"]');
   if (orbitRow) {
-    orbitRow.addEventListener('click', async () => {
+    orbitRow.addEventListener('click', () => {
+      // Optimistic UI: toggle immediately, sync in background.
+      const targetOn = !satellitesEnabled();
+      orbitRow.classList.toggle('off', !targetOn);
       orbitRow.classList.add('busy');
-      try {
-        const on = await setSatellites(!satellitesEnabled());
+      setSatellites(targetOn).then((on) => {
         orbitRow.classList.toggle('off', !on);
         window.dispatchEvent(new Event('dock-refresh'));
         const countEl = orbitRow.querySelector('[data-sat-count]');
         if (countEl) countEl.textContent = satelliteCount() || '';
-      } finally {
+      }).catch(() => {
+        orbitRow.classList.toggle('off', targetOn); // revert on failure
+      }).finally(() => {
         orbitRow.classList.remove('busy');
-      }
-    });
-  }
-  const fireRow = el.querySelector('[data-fires="perimeters"]');
-  if (fireRow) {
-    fireRow.addEventListener('click', async () => {
-      fireRow.classList.add('busy');
-      try {
-        const on = await setFires(!firesEnabled());
-        fireRow.classList.toggle('off', !on);
-        window.dispatchEvent(new Event('dock-refresh'));
-        const countEl = fireRow.querySelector('[data-fire-count]');
-        if (countEl) countEl.textContent = fireCount() || '';
-      } finally {
-        fireRow.classList.remove('busy');
-      }
+      });
     });
   }
   const quakeRow = el.querySelector('[data-quakes="usgs"]');
   if (quakeRow) {
-    quakeRow.addEventListener('click', async () => {
+    quakeRow.addEventListener('click', () => {
+      const targetOn = !earthquakesEnabled();
+      quakeRow.classList.toggle('off', !targetOn);
       quakeRow.classList.add('busy');
-      try {
-        const on = await setEarthquakes(!earthquakesEnabled());
+      setEarthquakes(targetOn).then((on) => {
         quakeRow.classList.toggle('off', !on);
         window.dispatchEvent(new Event('dock-refresh'));
         const countEl = quakeRow.querySelector('[data-quake-count]');
         if (countEl) countEl.textContent = earthquakeCount() || '';
-      } finally {
+      }).catch(() => {
+        quakeRow.classList.toggle('off', targetOn);
+      }).finally(() => {
         quakeRow.classList.remove('busy');
-      }
+      });
     });
   }
   const milRow = el.querySelector('[data-flights="military"]');
   if (milRow) {
-    milRow.addEventListener('click', async () => {
+    milRow.addEventListener('click', () => {
+      const targetOn = !militaryEnabled();
+      milRow.classList.toggle('off', !targetOn);
       milRow.classList.add('busy');
-      try {
-        const on = await setMilitary(!militaryEnabled());
+      setMilitary(targetOn).then((on) => {
         milRow.classList.toggle('off', !on);
         window.dispatchEvent(new Event('dock-refresh'));
-      } finally {
+      }).catch(() => {
+        milRow.classList.toggle('off', targetOn);
+      }).finally(() => {
         milRow.classList.remove('busy');
-      }
+      });
     });
   }
   const civRow = el.querySelector('[data-flights="civil"]');
   if (civRow) {
-    civRow.addEventListener('click', async () => {
+    civRow.addEventListener('click', () => {
+      const targetOn = !civilEnabled();
+      civRow.classList.toggle('off', !targetOn);
       civRow.classList.add('busy');
-      try {
-        const on = await setCivil(!civilEnabled());
+      setCivil(targetOn).then((on) => {
         civRow.classList.toggle('off', !on);
         window.dispatchEvent(new Event('dock-refresh'));
-      } finally {
+      }).catch(() => {
+        civRow.classList.toggle('off', targetOn);
+      }).finally(() => {
         civRow.classList.remove('busy');
-      }
+      });
     });
   }
   el.querySelectorAll('[data-weather]').forEach((row) => {
@@ -282,32 +272,38 @@ function renderLayers(el) {
   });
   const cycRow = el.querySelector('[data-cyclones="storms"]');
   if (cycRow) {
-    cycRow.addEventListener('click', async () => {
+    cycRow.addEventListener('click', () => {
+      const targetOn = !cyclonesEnabled();
+      cycRow.classList.toggle('off', !targetOn);
       cycRow.classList.add('busy');
-      try {
-        const on = await setCyclones(!cyclonesEnabled());
+      setCyclones(targetOn).then((on) => {
         cycRow.classList.toggle('off', !on);
         window.dispatchEvent(new Event('dock-refresh'));
         const countEl = cycRow.querySelector('[data-cyclone-count]');
         if (countEl) countEl.textContent = cycloneCount() || '';
-      } finally {
+      }).catch(() => {
+        cycRow.classList.toggle('off', targetOn);
+      }).finally(() => {
         cycRow.classList.remove('busy');
-      }
+      });
     });
   }
   const launchRow = el.querySelector('[data-launches="upcoming"]');
   if (launchRow) {
-    launchRow.addEventListener('click', async () => {
+    launchRow.addEventListener('click', () => {
+      const targetOn = !launchesEnabled();
+      launchRow.classList.toggle('off', !targetOn);
       launchRow.classList.add('busy');
-      try {
-        const on = await setLaunches(!launchesEnabled());
+      setLaunches(targetOn).then((on) => {
         launchRow.classList.toggle('off', !on);
         window.dispatchEvent(new Event('dock-refresh'));
         const countEl = launchRow.querySelector('[data-launch-count]');
         if (countEl) countEl.textContent = launchCount() || '';
-      } finally {
+      }).catch(() => {
+        launchRow.classList.toggle('off', targetOn);
+      }).finally(() => {
         launchRow.classList.remove('busy');
-      }
+      });
     });
   }
 }

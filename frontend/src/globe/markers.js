@@ -329,6 +329,10 @@ export function pickAt(clientX, clientY) {
   if (typeof id === 'string' && id.startsWith('flight-')) {
     return { type: 'flight', hex: id.slice(7) };
   }
+  // Satellite billboards: id is "sat-<index>" string.
+  if (typeof id === 'string' && id.startsWith('sat-')) {
+    return { type: 'satellite', satIdx: parseInt(id.slice(4), 10) };
+  }
   // Earthquake entities: id is "quake-<id>" string.
   if (typeof id === 'string' && id.startsWith('quake-')) {
     return { type: 'quake', quakeId: id.slice(6) };

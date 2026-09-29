@@ -125,7 +125,14 @@ export function openFlightCard(a, clientX, clientY) {
     trackBtn.addEventListener('click', (ev) => {
       ev.stopPropagation();
       const viewer = getViewer();
-      startFollow(`flight-${a.hex}`, () => a.billboard.position, { viewer });
+      // Pass the actual aircraft silhouette and tint — without these,
+      // follow mode renders a default cyan square (audit 2026-09-29).
+      startFollow(`flight-${a.hex}`, () => a.billboard.position, {
+        viewer,
+        image: a.billboard.image,
+        color: a.billboard.color,
+        width: 64,
+      });
       trackBtn.textContent = 'TRACKING…';
     });
   }

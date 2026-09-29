@@ -4,6 +4,7 @@
    Data: CelesTrak (celestrak.org) — credited in the Layers panel. */
 import * as Cesium from 'cesium';
 import * as satellite from 'satellite.js';
+import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 
 const GROUPS = ['stations', 'visual', 'weather', 'noaa', 'goes'];
 const TLE_URL = (g) =>
@@ -172,6 +173,7 @@ export async function setSatellites(on) {
       updatePositions();
     }
     if (!timer) timer = setInterval(updatePositions, TICK_MS);
+    holdContinuousRender('satellites'); // keep animating while camera is parked
     if (!refreshTimer) {
       refreshTimer = setInterval(async () => {
         sats = await loadTLEs();
@@ -183,6 +185,10 @@ export async function setSatellites(on) {
     }
   } else {
     if (billboards) billboards.show = false;
+    // Clear timers on toggle-off (audit 2026-09-29) — stops background work.
+    if (timer) { clearInterval(timer); timer = null; }
+    if (refreshTimer) { clearInterval(refreshTimer); refreshTimer = null; }
+    releaseContinuousRender('satellites');
   }
   return enabled;
 }

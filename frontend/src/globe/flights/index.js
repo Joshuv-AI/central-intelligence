@@ -7,6 +7,7 @@ import * as Cesium from 'cesium';
 import { classifyAircraft, CLASS_SCALE_2D } from '../aircraft/aircraftClass.js';
 import { aircraftIcon, FLEET_ICON_PX, FLEET_ICON_PX_RETINA } from '../aircraft/aircraftIcons.js';
 import { isTaggedMilitary } from '../aircraft/militaryRegistry.js';
+import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 
 const POLL_MS = 15 * 1000;
 const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600; // 1 knot = 1 NM/h; 1 NM = 1 arc-minute
@@ -304,6 +305,7 @@ async function poll() {
 function startLoop() {
   if (pollTimer || !(milOn || civOn)) return;
   ensureBillboards();
+  holdContinuousRender('flights'); // keep animating while camera is parked
   let last = performance.now();
   preRenderRemove = viewer.scene.preRender.addEventListener(() => {
     const now = performance.now();
@@ -335,6 +337,7 @@ function stopLoop() {
     preRenderRemove();
     preRenderRemove = null;
   }
+  releaseContinuousRender('flights');
   // Don't clear aircraft data — keep it cached for instant re-show.
   // Billboards are hidden via show flag in setMilitary/setCivil.
 }

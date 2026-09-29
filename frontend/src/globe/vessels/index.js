@@ -20,6 +20,7 @@
 
 import * as Cesium from 'cesium';
 import { vesselIcon } from './vesselIcons.js';
+import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 
 const POLL_MS = 30 * 1000;
 const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600;
@@ -173,6 +174,7 @@ function ensureBillboards() {
 function startLoop() {
   if (pollTimer || !enabled) return;
   ensureBillboards();
+  holdContinuousRender('vessels'); // keep animating while camera is parked
   let last = performance.now();
   preRenderRemove = viewer.scene.preRender.addEventListener(() => {
     const now = performance.now();
@@ -201,6 +203,7 @@ function stopLoop() {
     preRenderRemove();
     preRenderRemove = null;
   }
+  releaseContinuousRender('vessels');
   vesselStatus.state = 'off';
 }
 

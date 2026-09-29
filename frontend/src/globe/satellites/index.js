@@ -96,6 +96,14 @@ function updatePositions() {
 }
 
 function buildBillboards() {
+  // Reuse existing billboards when the count matches — avoids the flash
+  // from removeAll() during TLE refreshes. Only rebuild if count changed.
+  if (billboards && sats.length === billboards.length) {
+    for (let i = 0; i < sats.length; i++) {
+      sats[i].billboard = billboards.get(i);
+    }
+    return;
+  }
   billboards.removeAll();
   for (let i = 0; i < sats.length; i++) {
     const s = sats[i];

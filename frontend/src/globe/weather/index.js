@@ -1,7 +1,6 @@
 /* Weather imagery — NOAA nowCOAST GeoServer WMS (keyless, CORS-open):
-   NEXRAD radar mosaic, lightning strike density. Each is a toggleable
-   Cesium imagery layer, refreshed by re-requesting (WMS always serves
-   the latest time when TIME is omitted). */
+   NEXRAD radar mosaic. Toggleable Cesium imagery layer, refreshed by
+   re-requesting (WMS always serves the latest time when TIME is omitted). */
 import * as Cesium from 'cesium';
 
 const BASE = 'https://nowcoast.noaa.gov/geoserver/observations';
@@ -14,13 +13,6 @@ const LAYERS = {
     layers: 'conus_base_reflectivity_mosaic',
     alpha: 0.75,
   },
-  lightning: {
-    label: 'Lightning',
-    swatch: '#ffe14d',
-    url: `${BASE}/lightning_detection/ows`,
-    layers: 'lightning_density',
-    alpha: 0.8,
-  },
 };
 
 let viewer = null;
@@ -28,7 +20,8 @@ let viewer = null;
 const active = new Map();
 
 export function weatherEnabled(key) {
-  return active.has(key);
+  const layer = active.get(key);
+  return !!layer && layer.show !== false;
 }
 
 export function weatherLayers() {
@@ -38,26 +31,30 @@ export function weatherLayers() {
 export function setWeather(key, on) {
   const def = LAYERS[key];
   if (!viewer || !def) return false;
-  const existing = active.get(key);
-  if (on && !existing) {
-    try {
-      const provider = new Cesium.WebMapServiceImageryProvider({
-        url: def.url,
-        layers: def.layers,
-        parameters: { transparent: 'TRUE', format: 'image/png' },
-      });
-      const layer = viewer.imageryLayers.addImageryProvider(provider);
-      layer.alpha = def.alpha;
-      active.set(key, layer);
-    } catch (err) {
-      console.warn(`[weather] ${key} unavailable:`, err);
-      return false;
+  let layer = active.get(key);
+  if (on) {
+    if (!layer) {
+      try {
+        const provider = new Cesium.WebMapServiceImageryProvider({
+          url: def.url,
+          layers: def.layers,
+          parameters: { transparent: 'TRUE', format: 'image/png' },
+        });
+        layer = viewer.imageryLayers.addImageryProvider(provider);
+        layer.alpha = def.alpha;
+        active.set(key, layer);
+      } catch (err) {
+        console.warn(`[weather] ${key} unavailable:`, err);
+        return false;
+      }
     }
-  } else if (!on && existing) {
-    viewer.imageryLayers.remove(existing, true);
-    active.delete(key);
+    // Toggle visibility instead of add/remove — instant, no re-fetch.
+    layer.show = true;
+  } else if (layer) {
+    // Hide but keep cached for instant re-show.
+    layer.show = false;
   }
-  return active.has(key);
+  return on;
 }
 
 export function initWeather(v) {

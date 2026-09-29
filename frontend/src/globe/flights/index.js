@@ -157,9 +157,18 @@ function upsert(ac, military) {
     });
     a = { billboard: bb, hex };
     aircraft.set(hex, a);
+    // New aircraft: start at the reported position (no interpolation needed).
+    a.lat = ac.lat;
+    a.lon = ac.lon;
+    a.dispLat = ac.lat;
+    a.dispLon = ac.lon;
+  } else {
+    // Existing aircraft: set target, interpolate display position smoothly.
+    // This prevents visible jumping when API position differs from dead-reckoned.
+    a.lat = ac.lat;
+    a.lon = ac.lon;
+    if (!Number.isFinite(a.dispLat)) { a.dispLat = ac.lat; a.dispLon = ac.lon; }
   }
-  a.lat = ac.lat;
-  a.lon = ac.lon;
   // Track: null/undefined/empty means "unknown" (use movement fallback).
   // Number(null) is 0, which would falsely point the plane north.
   a.track = (ac.track == null || ac.track === '') ? NaN : Number(ac.track);
@@ -259,9 +268,19 @@ function startLoop() {
     const now = performance.now();
     const dt = Math.min((now - last) / 1000, 1);
     last = now;
+    // Interpolation factor: smooth over ~1.5s (frame-rate independent).
+    const t = 1 - Math.pow(0.001, dt / 1.5);
     for (const a of aircraft.values()) {
       deadReckon(a, dt);
-      a.billboard.position = toCartesian(a.lat, a.lon, a.alt);
+      // Smoothly interpolate display position towards target.
+      // This eliminates visible jumping when API updates arrive.
+      if (Number.isFinite(a.dispLat)) {
+        a.dispLat += (a.lat - a.dispLat) * t;
+        a.dispLon += (a.lon - a.dispLon) * t;
+      } else {
+        a.dispLat = a.lat; a.dispLon = a.lon;
+      }
+      a.billboard.position = toCartesian(a.dispLat, a.dispLon, a.alt);
     }
   });
   poll();
@@ -275,10 +294,8 @@ function stopLoop() {
     preRenderRemove();
     preRenderRemove = null;
   }
-  if (billboards) {
-    billboards.removeAll();
-  }
-  aircraft.clear();
+  // Don't clear aircraft data — keep it cached for instant re-show.
+  // Billboards are hidden via show flag in setMilitary/setCivil.
 }
 
 export function militaryEnabled() { return milOn; }
@@ -296,7 +313,12 @@ export async function setMilitary(on) {
   milOn = on;
   if (!viewer) return milOn;
   if (milOn || civOn) startLoop(); else stopLoop();
-  if (milOn) poll();
+  // Show/hide existing billboards instantly; only fetch if we have no data.
+  let hasMil = false;
+  for (const a of aircraft.values()) {
+    if (a.military) { hasMil = true; a.billboard.show = on; }
+  }
+  if (milOn && !hasMil) poll();
   return milOn;
 }
 
@@ -304,7 +326,11 @@ export async function setCivil(on) {
   civOn = on;
   if (!viewer) return civOn;
   if (milOn || civOn) startLoop(); else stopLoop();
-  if (civOn) poll();
+  let hasCiv = false;
+  for (const a of aircraft.values()) {
+    if (!a.military) { hasCiv = true; a.billboard.show = on; }
+  }
+  if (civOn && !hasCiv) poll();
   return civOn;
 }
 

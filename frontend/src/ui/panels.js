@@ -3,8 +3,7 @@
    Cross-module navigation goes through the emit bus — no import cycles. */
 import {
   store, on, emit,
-  DOMAINS, DOMAIN_LABELS, FAMILIES, FAMILY_LABELS, REGIONS,
-  regionMatches, familyOf,
+  REGIONS, regionMatches,
 } from '../data/store.js';
 import { applyFilters } from '../globe/markers.js';
 import { flyToRegion } from '../globe/camera.js';
@@ -97,7 +96,6 @@ function render(name, opts = {}) {
 
 /* ————————— Layers ————————— */
 function renderLayers(el) {
-  const counts = store.countsPerDomain();
   const nonGeo = store.events.filter((e) => !store.isGeo(e)).length;
   let html = '';
   // Live orbit layer (CelesTrak TLEs, client-side SGP4) — independent of domains.
@@ -187,32 +185,8 @@ function renderLayers(el) {
   if (nonGeo > 0) {
     html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
-  // Domain families (Live / Intel / Environment) — moved to bottom per user request.
-  for (const [fam, domains] of Object.entries(FAMILIES)) {
-    html += `<div class="layer-family"><span class="micro">${FAMILY_LABELS[fam]}</span>`;
-    for (const d of domains) {
-      const onState = store.families[fam] && store.domains[d] !== false;
-      html += `
-        <button class="layer-row ${onState ? '' : 'off'}" data-domain="${d}">
-          <span class="layer-swatch"></span>
-          <span class="layer-name">${DOMAIN_LABELS[d]}</span>
-          <span class="layer-count">${counts[d] || 0}</span>
-          <span class="layer-toggle" aria-hidden="true"></span>
-        </button>`;
-    }
-    html += '</div>';
-  }
   el.innerHTML = html;
 
-  el.querySelectorAll('.layer-row[data-domain]').forEach((row) => {
-    row.addEventListener('click', () => {
-      const d = row.dataset.domain;
-      store.domains[d] = store.domains[d] === false;
-      emit('filters');
-      applyFilters();
-      renderLayers(el);
-    });
-  });
   const orbitRow = el.querySelector('[data-orbit="satellites"]');
   if (orbitRow) {
     orbitRow.addEventListener('click', () => {
@@ -434,9 +408,7 @@ function renderFeed(el) {
 
 /* ————————— Regions ————————— */
 function renderRegions(el) {
-  const geo = store.geoEvents().filter(
-    (e) => store.families[familyOf(e.domain)] && store.domains[e.domain] !== false
-  );
+  const geo = store.geoEvents();
   el.innerHTML = REGIONS.map((r) => {
     const n = r.id === 'world' ? geo.length : geo.filter((e) => regionMatches(r.id, e)).length;
     return `
@@ -486,10 +458,7 @@ function renderGuide(el) {
         <li><span class="guide-swatch" style="background:#FF5A5A"></span><b>Critical</b> — demands attention now.</li>
       </ul>
       <h3>Layers</h3>
-      <p><b>Live</b> — disasters, space weather, signals in motion.<br>
-      <b>Intel</b> — conflict, cyber, sanctions, social.<br>
-      <b>Environment</b> — health, environment.<br>
-      Events without coordinates never reach the globe — they live in layer counts and the feed.</p>
+      <p>Events without coordinates never reach the globe — they live in the feed.</p>
       <h3>Direction</h3>
       <ul>
         <li><b>RISK-ON</b> — critical events or multiple anomalies in the last 24h.</li>

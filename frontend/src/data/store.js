@@ -1,24 +1,11 @@
 /* Central store: backend state + UI filter state, with a tiny pub/sub.
    Domains come from the backend normalize contract. */
 
-export const DOMAINS = [
-  'conflict', 'cyber', 'economic', 'health', 'environment',
-  'space', 'sanctions', 'disasters', 'signals', 'social',
-];
-
 export const DOMAIN_LABELS = {
   conflict: 'Conflict', cyber: 'Cyber', economic: 'Economic', health: 'Health',
   environment: 'Environment', space: 'Space', sanctions: 'Sanctions',
   disasters: 'Disasters', signals: 'Signals', social: 'Social',
 };
-
-// Layer families (per layout spec).
-export const FAMILIES = {
-  live: ['disasters', 'space', 'signals'],
-  intel: ['conflict', 'cyber', 'sanctions', 'social'],
-  environment: ['health', 'environment'],
-};
-export const FAMILY_LABELS = { live: 'Live', intel: 'Intel', environment: 'Environment' };
 
 export const SEV_COLORS = {
   low: '#7FCEF0',
@@ -42,13 +29,6 @@ export const REGIONS = [
     keywords: ['africa', 'sudan', 'somalia', 'nigeria', 'egypt', 'libya', 'ethiopia', 'congo', 'sahel', 'mali', 'kenya', 'chad', 'niger'] },
 ];
 
-export function familyOf(domain) {
-  for (const [fam, list] of Object.entries(FAMILIES)) {
-    if (list.includes(domain)) return fam;
-  }
-  return 'live';
-}
-
 export function regionMatches(regionId, event) {
   if (regionId === 'world') return true;
   const region = REGIONS.find((r) => r.id === regionId);
@@ -71,8 +51,6 @@ export const store = {
   streamReconnecting: false,
 
   // UI filter state
-  families: { live: true, intel: true, environment: true },
-  domains: Object.fromEntries(DOMAINS.map((d) => [d, true])),
   region: 'world',
 
   setSnapshot(snap) {
@@ -106,22 +84,9 @@ export const store = {
     return this.events.filter((e) => this.isGeo(e));
   },
 
-  // Events currently allowed on the globe by layer + region filters.
+  // Events currently allowed on the globe by the region filter.
   visibleEvents() {
-    return this.geoEvents().filter(
-      (e) =>
-        this.families[familyOf(e.domain)] &&
-        this.domains[e.domain] !== false &&
-        regionMatches(this.region, e)
-    );
-  },
-
-  countsPerDomain() {
-    const counts = Object.fromEntries(DOMAINS.map((d) => [d, 0]));
-    for (const e of this.events) {
-      if (counts[e.domain] !== undefined) counts[e.domain] += 1;
-    }
-    return counts;
+    return this.geoEvents().filter((e) => regionMatches(this.region, e));
   },
 };
 

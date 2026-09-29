@@ -17,11 +17,21 @@ function feedItem(id, time, severity, kind, text, extra) {
 
 function buildFeedItems(store, changes, newConnections, anomalies) {
   const items = [];
-  const seenIds = new Set(store.state.feed.map((f) => f.id));
+  const feed = store.state.feed || [];
+  const seenIds = new Set(feed.map((f) => f.id));
+  // Normalized titles of recent feed items (last 24h) for similarity dedup.
+  const dayAgo = Date.now() - 24 * 3600_000;
+  const recentTitles = new Set();
+  for (const f of feed) {
+    const t = f && f.at ? new Date(f.at).getTime() : 0;
+    if (t > dayAgo && f.title) recentTitles.add(normTitle(f.title));
+  }
 
   for (const c of newConnections) {
     const id = `feed-conn-${c.id}`;
     if (seenIds.has(id)) continue;
+    if (recentTitles.has(normTitle(c.title))) continue;
+    recentTitles.add(normTitle(c.title));
     items.push(
       feedItem(id, c.createdAt, c.severity, 'connection', `CORRELATION · ${c.title}`, {
         connectionId: c.id,
@@ -32,6 +42,8 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
   for (const e of changes.escalated) {
     const id = `feed-esc-${e.id}`;
     if (seenIds.has(id)) continue;
+    if (recentTitles.has(normTitle(e.title))) continue;
+    recentTitles.add(normTitle(e.title));
     items.push(
       feedItem(id, e.time, e.severity, 'escalation', `ESCALATED · ${e.title}`, {
         eventId: e.id,
@@ -41,9 +53,14 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
     );
   }
   for (const e of changes.new) {
-    if (sevRank(e.severity) < 3) continue; // only high/critical make the feed
+    // Higher threshold: only critical events make the feed (was high+critical).
+    if (sevRank(e.severity) < 4) continue;
     const id = `feed-new-${e.id}`;
     if (seenIds.has(id)) continue;
+    // Skip if a very similar headline already appeared in the last 24h
+    // (same incident reported by multiple sources).
+    if (recentTitles.has(normTitle(e.title))) continue;
+    recentTitles.add(normTitle(e.title));
     items.push(
       feedItem(id, e.time, e.severity, 'event', e.title, {
         eventId: e.id,
@@ -53,7 +70,9 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
     );
   }
   for (const a of anomalies) {
-    const id = `feed-anom-${a.source}-${Math.floor(Date.now() / 3600_000)}`;
+    // Only alert once per source per 6h, not every hour, to avoid repeats
+    // for the same ongoing anomaly.
+    const id = `feed-anom-${a.source}-${Math.floor(Date.now() / (6 * 3600_000))}`;
     if (seenIds.has(id)) continue;
     items.push(
       feedItem(
@@ -67,6 +86,11 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
     );
   }
   return items.slice(0, FEED_PER_SWEEP);
+}
+
+// Normalize a title for dedup: lowercase, strip punctuation/extra spaces.
+function normTitle(t) {
+  return String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
 function computeStatus(events, anomalies) {

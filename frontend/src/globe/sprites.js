@@ -2,6 +2,12 @@
    low #7FCEF0 glacier · moderate #FFD166 gold · high #FFB020 amber · critical #FF5A5A ember.
    No external image assets, no Ion.
 
+   Design language (2026-09-29): static markers are plain glowing dots — they
+   do NOT ping, so they carry no outer ring (rings imply a radar-ping
+   animation). The only true ping on the map is the animated pulse ring on
+   live fusion connections. Cluster badges stay as numbered discs; cyclone,
+   vessel and launch markers are literal icons.
+
    Every sprite rasterizes at 3x (SS) so pins stay crisp on DPR-3 phones.
    Drawing code works in base-CSS-pixel coordinates — makeCanvas applies
    ctx.scale(SS, SS) so line widths and radii need no manual scaling. */
@@ -26,83 +32,54 @@ function withAlpha(cssColor, a) {
   return `${cssColor}${hex}`;
 }
 
-// Point event marker: glowing dot + crisp outer ring.
-function eventSprite(severity) {
-  const key = `event-${severity}`;
-  if (cache.has(key)) return cache.get(key);
-  const color = SEV_COLORS[severity] || SEV_COLORS.low;
-  const [c, ctx] = makeCanvas(72);
-  const cx = 36;
-  const cy = 36;
-
-  // Soft halo behind everything.
-  const halo = ctx.createRadialGradient(cx, cy, 2, cx, cy, 32);
-  halo.addColorStop(0, withAlpha(color, 0.35));
+// Shared glowing-dot painter: faint halo + white-hot core melting into the
+// marker color. No outer ring — static markers must not look like pings.
+function paintGlowDot(ctx, cx, cy, color, dotR, haloR, haloAlpha) {
+  const halo = ctx.createRadialGradient(cx, cy, 2, cx, cy, haloR);
+  halo.addColorStop(0, withAlpha(color, haloAlpha));
   halo.addColorStop(1, withAlpha(color, 0));
   ctx.fillStyle = halo;
-  ctx.fillRect(0, 0, 72, 72);
+  ctx.fillRect(cx - haloR, cy - haloR, haloR * 2, haloR * 2);
 
-  // Outer ring — thin and bright.
-  ctx.beginPath();
-  ctx.arc(cx, cy, 24, 0, Math.PI * 2);
-  ctx.strokeStyle = withAlpha(color, 0.85);
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  // Solid dot with a light-catching gradient (premium feel, still flat).
-  const dot = ctx.createRadialGradient(cx - 2.5, cy - 2.5, 1, cx, cy, 9.5);
+  const dot = ctx.createRadialGradient(cx - dotR * 0.28, cy - dotR * 0.28, 1, cx, cy, dotR);
   dot.addColorStop(0, '#ffffff');
   dot.addColorStop(0.35, color);
   dot.addColorStop(1, color);
   ctx.beginPath();
-  ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+  ctx.arc(cx, cy, dotR, 0, Math.PI * 2);
   ctx.fillStyle = dot;
   ctx.fill();
 
   // Hairline dark edge so the dot reads on bright ocean tiles.
   ctx.beginPath();
-  ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+  ctx.arc(cx, cy, dotR, 0, Math.PI * 2);
   ctx.strokeStyle = 'rgba(3, 8, 16, 0.55)';
   ctx.lineWidth = 1;
   ctx.stroke();
+}
+
+// Point event marker: a plain glowing dot. Static — no ping ring.
+function eventSprite(severity) {
+  const key = `event-${severity}`;
+  if (cache.has(key)) return cache.get(key);
+  const color = SEV_COLORS[severity] || SEV_COLORS.low;
+  const [c, ctx] = makeCanvas(72);
+  paintGlowDot(ctx, 36, 36, color, 11, 32, 0.25);
 
   const img = c.toDataURL('image/png');
   cache.set(key, img);
   return img;
 }
 
-// Fusion connection marker: DISTINCT double ring (no dot) — intelligence
-// products must read differently from raw events at a glance.
+// Fusion connection endpoint: a larger glowing dot (no rings). Reads as a
+// node where a fusion line lands — distinct from raw event dots by size,
+// and honest about being static (the pulse ring provides the real ping).
 function connectionSprite(severity) {
   const key = `conn-${severity}`;
   if (cache.has(key)) return cache.get(key);
   const color = SEV_COLORS[severity] || SEV_COLORS.low;
   const [c, ctx] = makeCanvas(96);
-  const cx = 48;
-  const cy = 48;
-
-  const halo = ctx.createRadialGradient(cx, cy, 4, cx, cy, 44);
-  halo.addColorStop(0, withAlpha(color, 0.22));
-  halo.addColorStop(1, withAlpha(color, 0));
-  ctx.fillStyle = halo;
-  ctx.fillRect(0, 0, 96, 96);
-
-  ctx.strokeStyle = color;
-  ctx.globalAlpha = 0.95;
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 30, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.globalAlpha = 0.6;
-  ctx.lineWidth = 1.75;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 21, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-  ctx.fill();
+  paintGlowDot(ctx, 48, 48, color, 14, 44, 0.25);
   const img = c.toDataURL('image/png');
   cache.set(key, img);
   return img;

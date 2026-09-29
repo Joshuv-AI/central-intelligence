@@ -4,7 +4,7 @@
    distance scaling, horizon culling via EllipsoidalOccluder.
    Data: adsb.lol (ODbL 1.0 — credited in the Layers panel). */
 import * as Cesium from 'cesium';
-import { classifyAircraft, CLASS_SCALE_2D } from '../aircraft/aircraftClass.js';
+import { classifyAircraft } from '../aircraft/aircraftClass.js';
 import { aircraftIcon, FLEET_ICON_PX, FLEET_ICON_PX_RETINA } from '../aircraft/aircraftIcons.js';
 import { isTaggedMilitary } from '../aircraft/militaryRegistry.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
@@ -163,7 +163,9 @@ function upsert(ac, military) {
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
       disableDepthTestDistance: 0,
     });
-    bb.scale = (CLASS_SCALE_2D[klass] || 1) * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
+    // Uniform size for all aircraft (Joshua 2026-09-29): single scale, no
+    // per-class variation. Smaller than before. Retina ratio keeps it sharp.
+    bb.scale = 0.6 * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
     // Tint: operator-tagged red / military amber / civil blue.
     bb.color = Cesium.Color.fromCssColorString(
       taggedMil ? '#ff6b6b' : military ? '#ffb347' : '#7fd4ff'
@@ -181,11 +183,11 @@ function upsert(ac, military) {
     a.lat = ac.lat;
     a.lon = ac.lon;
     if (!Number.isFinite(a.dispLat)) { a.dispLat = ac.lat; a.dispLon = ac.lon; }
-    // Re-image if the type arrived late (audit 1.6).
+    // Re-image if the type arrived late (audit 1.6). Keep uniform scale.
     if (klass !== a.klass) {
       a.klass = klass;
       a.billboard.image = aircraftIcon(klass, FLEET_ICON_PX_RETINA);
-      a.billboard.scale = (CLASS_SCALE_2D[klass] || 1) * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
+      a.billboard.scale = 0.6 * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
     }
   }
   // Enrichment fields for richer cards (audit 1.9).

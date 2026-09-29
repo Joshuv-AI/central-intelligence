@@ -466,7 +466,6 @@ function renderSystem(el, { health } = {}) {
   const meta = store.meta || {};
   const sources = (health && health.sources) || Object.values(meta.sources || {});
   const status = meta.status || {};
-  const delta = meta.deltaSummary || {};
   const sweepAt = meta.lastSweep && typeof meta.lastSweep === 'object' ? meta.lastSweep.at : meta.lastSweep;
   const dir = status.direction || '—';
   const dirCls = dir === 'RISK-ON' ? 'dir-risk-on' : dir === 'RISK-OFF' ? 'dir-risk-off' : '';
@@ -488,11 +487,6 @@ function renderSystem(el, { health } = {}) {
       <div class="sys-stat"><span class="micro">Critical 24H</span><span class="stat-val">${status.critical24 ?? '—'}</span></div>
       <div class="sys-stat"><span class="micro">Anomalies</span><span class="stat-val">${(status.anomalies || []).length}</span></div>
     </div>
-    <div style="margin-top:14px"><span class="micro">LAST SWEEP DELTA</span></div>
-    <div class="delta-line"><span>NEW</span><span>${delta.new ?? '—'}</span></div>
-    <div class="delta-line"><span>ESCALATED</span><span>${delta.escalated ?? '—'}</span></div>
-    <div class="delta-line"><span>DE-ESCALATED</span><span>${delta.deescalated ?? '—'}</span></div>
-    <div class="delta-line"><span>RESOLVED</span><span>${delta.resolved ?? '—'}</span></div>
     <div style="margin:14px 0 6px"><span class="micro">SHARE</span></div>
     <button class="sys-share-btn" data-action="copy-link">COPY LINK TO THIS VIEW</button>
     <div class="layer-note share-note hidden">Link copied — it reopens this exact view.</div>

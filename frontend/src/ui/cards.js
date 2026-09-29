@@ -10,6 +10,7 @@ import { createOrbitRings } from '../globe/satellites/orbitRings.js';
 
 let orbitRings = null; // lazy-init on first satellite card (audit 1.14)
 let ringedNoradId = null;
+let ringTickTimer = null; // 2s Earth-rotation tick while a ring is visible
 
 let cardEl, tipEl;
 let openEventId = null;
@@ -184,6 +185,12 @@ export function openSatelliteCard(s, clientX, clientY) {
     }
     orbitRings.show(String(s.noradId), s.satrec, { color: '#67e8f9' });
     ringedNoradId = String(s.noradId);
+    // Keep the ring aligned with Earth's rotation while visible (audit 1.14).
+    if (!ringTickTimer) {
+      ringTickTimer = setInterval(() => {
+        try { orbitRings.tick(new Date()); } catch { /* ring torn down */ }
+      }, 2000);
+    }
   }
   cardEl.classList.remove('hidden');
   void cardEl.offsetWidth;
@@ -201,6 +208,11 @@ export function closeEventCard() {
   if (openEventId.startsWith('sat-') && orbitRings && ringedNoradId) {
     orbitRings.hide(ringedNoradId);
     ringedNoradId = null;
+    // No rings visible — stop the rotation tick (audit 1.14).
+    if (ringTickTimer) {
+      clearInterval(ringTickTimer);
+      ringTickTimer = null;
+    }
   }
   // Stop follow mode if a flight card was open (audit 1.8).
   if (openEventId.startsWith('flight-')) {

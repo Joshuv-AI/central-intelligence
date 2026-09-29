@@ -220,7 +220,9 @@ export async function setVessels(on) {
   if (!viewer) return enabled;
   if (enabled) startLoop(); else stopLoop();
   for (const v of vessels.values()) v.billboard.show = on;
-  if (enabled && vessels.size === 0) poll();
+  // Await the first poll so callers see the real feed state (needs_key/down/ok)
+  // instead of racing it — the toggle handler depends on this.
+  if (enabled && vessels.size === 0) await poll();
   return enabled;
 }
 

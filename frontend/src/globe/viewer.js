@@ -133,7 +133,7 @@ export function createViewer(container) {
       fallbackLayer = null;
       console.info('[basemap] Esri recovered');
     };
-    probe.src = FALLBACK_URL.replace('{z}/{x}/{y}', '2/2/1') + `?t=${Date.now()}`;
+    probe.src = ESRI_IMAGERY.replace('{z}/{y}/{x}', '2/1/2') + `?t=${Date.now()}`;
   }, 60_000);
 
   // Globe performance tuning: higher screen-space error = fewer tiles,

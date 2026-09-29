@@ -195,8 +195,9 @@ function upsert(ac, military) {
   a.emergency = ac.emergency || 'none';
   a.stale = (a.missedPolls || 0) > 0;
   // Position history for selected-flight trails (audit 1.7).
+  // Recorded AFTER altitude assignment so the point carries this poll's altitude.
   a.history = a.history || [];
-  a.history.push(toCartesian(a.lat, a.lon, a.alt));
+  a.history.push(toCartesian(a.lat, a.lon, altM));
   if (a.history.length > 120) a.history.shift(); // ~30 min at 15 s polls
   // Track: null/undefined/empty means "unknown" (use movement fallback).
   // Number(null) is 0, which would falsely point the plane north.

@@ -399,3 +399,20 @@
      Ticker positioning is controlled by mobile.css — do not override here. */
   #dock { bottom: calc(120px + env(safe-area-inset-bottom)); padding: 5px 8px; }
 }
+
+/* HUD hide toggle (keyboard shortcut "h", audit 2.20).
+   Fades the interface chrome to leave a clean globe view; press h again to restore. */
+body.hud-hidden #status-pill,
+body.hud-hidden #top-right,
+body.hud-hidden #rail,
+body.hud-hidden #panel,
+body.hud-hidden #detail-card,
+body.hud-hidden #dock,
+body.hud-hidden #hover-tip,
+body.hud-hidden .ci-telemetry {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+#status-pill, #top-right, #rail, #panel, #detail-card, #dock, #hover-tip, .ci-telemetry {
+  transition: opacity 0.25s ease;
+}

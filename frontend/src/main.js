@@ -265,10 +265,10 @@ async function init() {
   // Keyboard shortcuts: / focuses search, h toggles HUD (audit 2.20).
   bindShortcuts({
     documentRef: document,
-    searchInput: document.querySelector('.search-input'),
+    searchInput: document.getElementById('search-input'),
     actions: {
-      focusSearch: () => document.querySelector('.search-input')?.focus(),
-      toggleHud: () => document.body.classList.toggle('hud-hidden'),
+      focusSearch: () => document.getElementById('search-input')?.focus(),
+      toggleHudMeta: () => document.body.classList.toggle('hud-hidden'),
     },
   });
 

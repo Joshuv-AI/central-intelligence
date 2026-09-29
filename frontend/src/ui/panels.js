@@ -146,15 +146,23 @@ function renderLayers(el) {
     <span class="micro">ADS-B: adsb.lol</span></div>`;
   // Vessels (AIS — needs API key; honest needs_key state until approved).
   const vesOn = vesselsEnabled();
-  const vesStatus = getVesselStatus();
+  const vesStatus = getVesselStatus() || {};
+  const vesState = vesStatus.state || 'off';
+  const vesCount = vesselCount();
+  const vesCountLabel = vesState === 'needs_key' ? 'needs key'
+    : vesState === 'down' ? 'unavailable'
+    : (vesCount || '');
+  const vesSubLabel = vesState === 'needs_key' ? 'API key required'
+    : vesState === 'down' ? (vesStatus.lastErr || 'feed unavailable')
+    : 'live';
   html += `<div class="layer-family"><span class="micro">VESSELS</span>
     <div class="layer-row ${vesOn ? '' : 'off'}" data-vessels="ships">
       <span class="layer-swatch" style="background:#4ade80"></span>
       <span class="layer-name">Ships</span>
-      <span class="layer-count">${vesStatus === 'needs_key' ? 'needs key' : (vesselCount() || '')}</span>
+      <span class="layer-count">${vesCountLabel}</span>
       <span class="layer-toggle"></span>
     </div>
-    <span class="micro">AIS: ${vesStatus === 'needs_key' ? 'API key required' : 'live'}</span></div>`;
+    <span class="micro">AIS: ${vesSubLabel}</span></div>`;
   // Weather imagery (NOAA nowCOAST WMS, keyless) — independent of domains.
   html += `<div class="layer-family"><span class="micro">WEATHER</span>`;
   for (const [key, def] of Object.entries(weatherLayers())) {
@@ -282,7 +290,16 @@ function renderLayers(el) {
       vesRow.classList.toggle('off', !targetOn);
       vesRow.classList.add('busy');
       setVessels(targetOn).then((on) => {
-        vesRow.classList.toggle('off', !on);
+        // If the feed is unavailable (no key / backend down), don't leave the
+        // toggle on with nothing to show — revert to off honestly.
+        const st = (getVesselStatus() || {}).state;
+        const usable = on && st !== 'needs_key' && st !== 'down';
+        if (targetOn && !usable) {
+          setVessels(false);
+          vesRow.classList.toggle('off', true);
+        } else {
+          vesRow.classList.toggle('off', !on);
+        }
         window.dispatchEvent(new Event('dock-refresh'));
       }).catch(() => {
         vesRow.classList.toggle('off', targetOn);

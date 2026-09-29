@@ -5,7 +5,7 @@
    Data: adsb.lol (ODbL 1.0 — credited in the Layers panel). */
 import * as Cesium from 'cesium';
 import { classifyAircraft, CLASS_SCALE_2D } from '../aircraft/aircraftClass.js';
-import { aircraftIcon } from '../aircraft/aircraftIcons.js';
+import { aircraftIcon, FLEET_ICON_PX_RETINA } from '../aircraft/aircraftIcons.js';
 import { isTaggedMilitary } from '../aircraft/militaryRegistry.js';
 
 const POLL_MS = 15 * 1000;
@@ -158,7 +158,7 @@ function upsert(ac, military) {
     const taggedMil = isTaggedMilitary(hex);
     const bb = billboards.add({
       id: `flight-${hex}`,
-      image: aircraftIcon(klass),
+      image: aircraftIcon(klass, FLEET_ICON_PX_RETINA),
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
       disableDepthTestDistance: 0,
     });
@@ -183,7 +183,7 @@ function upsert(ac, military) {
     // Re-image if the type arrived late (audit 1.6).
     if (klass !== a.klass) {
       a.klass = klass;
-      a.billboard.image = aircraftIcon(klass);
+      a.billboard.image = aircraftIcon(klass, FLEET_ICON_PX_RETINA);
       a.billboard.scale = CLASS_SCALE_2D[klass] || 1;
     }
   }

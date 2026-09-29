@@ -142,6 +142,8 @@ const _b64 = (s) =>
 
 /** Fleet raster: near display size so the browser's SVG AA does the work. */
 export const FLEET_ICON_PX = 64;
+/** Raster size scaled for the device pixel ratio — crisp on retina displays. */
+export const FLEET_ICON_PX_RETINA = Math.min(192, FLEET_ICON_PX * Math.ceil(window.devicePixelRatio || 1));
 /** Tracked raster: larger source so the selected aircraft stays crisp zoomed in. */
 export const TRACKED_ICON_PX = 192;
 

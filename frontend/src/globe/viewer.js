@@ -53,7 +53,15 @@ export function createViewer(container) {
   viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#050B16');
   viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#12283f');
   viewer.scene.globe.enableLighting = false;
-  viewer.scene.fog.enabled = false;
+  // Fog re-enabled: it's a tile-culling mechanism, not just visuals. Without
+  // it, the tile queue fills with horizon tiles instead of what's on screen,
+  // slowing refinement during zoom. visualDensityScalar keeps it visually
+  // subtle while retaining the culling benefit.
+  viewer.scene.fog.enabled = true;
+  viewer.scene.fog.density = 0.0006;
+  if (viewer.scene.fog.visualDensityScalar !== undefined) {
+    viewer.scene.fog.visualDensityScalar = 0.3;
+  }
 
   // Basemap: Esri Dark Gray Canvas by default (keyless). With a free CARTO
   // key set (VITE_CARTO_KEY), use CARTO Dark Matter instead.
@@ -64,7 +72,10 @@ export function createViewer(container) {
   const imagery = new Cesium.UrlTemplateImageryProvider({
     url: ESRI_IMAGERY,
     credit: new Cesium.Credit(ESRI_IMAGERY_CREDIT, true),
-    maximumLevel: isMobile ? 17 : 19,
+    maximumLevel: isMobile ? 18 : 19,
+    // Esri World Imagery is opaque JPEG — skipping alpha channel saves
+    // texture memory and upload time.
+    hasAlphaChannel: false,
   });
   viewer.imageryLayers.addImageryProvider(imagery);
   // Reference layer: boundaries + place labels over the imagery.
@@ -79,10 +90,24 @@ export function createViewer(container) {
   // faster loads. 3 is the sweet spot on mobile: sharper than 4, snappier than 2.
   viewer.scene.globe.maximumScreenSpaceError = isMobile ? 3 : 2;
 
-  // Throttle concurrent tile requests to avoid overwhelming mobile networks.
-  // Default is unlimited; 6 per server keeps zoom responsive without stalling.
-  if (isMobile && Cesium.RequestScheduler) {
-    Cesium.RequestScheduler.maximumRequestsPerServer = 6;
+  // Bigger tile cache for zoom in/out workflows — zooming back out re-shows
+  // detail instantly instead of re-fetching.
+  viewer.scene.globe.tileCacheSize = 250;
+  // Preload sibling tiles for smoother panning (fewer pop-ins at edges).
+  viewer.scene.globe.preloadSiblings = true;
+
+  // MSAA: 4x is the default since Cesium 1.121, but it's very expensive on
+  // iPhone GPUs. 2x on mobile is the biggest fill-rate win available.
+  // (The legacy antialias context flag no longer controls this.)
+  if (isMobile) {
+    viewer.scene.msaaSamples = 2;
+  }
+
+  // Restore full request concurrency. The previous cap of 6 was starving tile
+  // refinement during fast zooms — the official default is 18, and Esri's
+  // tile hosts support HTTP/2.
+  if (Cesium.RequestScheduler) {
+    Cesium.RequestScheduler.maximumRequestsPerServer = 18;
   }
 
   // Real 3D terrain (Re:Earth quantized mesh — same terrain God's Eye View
@@ -107,6 +132,15 @@ export function createViewer(container) {
   const stopSpin = () => { userTookOver = true; };
   stopIdleSpin = stopSpin;
   viewer.scene.screenSpaceCameraController.enableRotate = true;
+  // Mobile camera tuning: calmer pinch zoom, less coasting after release,
+  // and keep the camera out of the sub-native blur zone.
+  if (isMobile) {
+    const controller = viewer.scene.screenSpaceCameraController;
+    controller.zoomFactor = 2.5; // default 5.0 — slower, calmer pinch zoom
+    controller.inertiaZoom = 0.4; // default 0.8 — crisper stops, smaller tile stampedes
+    controller.inertiaTranslate = 0.7; // default 0.9
+    controller.minimumZoomDistance = 500; // default 1m — bounds L18/19 requests
+  }
   container.addEventListener('pointerdown', stopSpin, { once: true });
   container.addEventListener('wheel', stopSpin, { once: true });
   const spin = () => {

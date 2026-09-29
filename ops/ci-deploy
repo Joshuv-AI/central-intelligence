@@ -23,6 +23,9 @@ cd "$REPO" || { log "FATAL: $REPO missing"; exit 1; }
 docker compose down >> "$LOG" 2>&1 || true
 sleep 2
 
+# Remove old image to force a truly clean build (prevents stale layer caching).
+docker rmi central-intelligence-backend:0.1.0 >> "$LOG" 2>&1 || true
+
 log "starting docker compose build --no-cache (frontend must rebuild)"
 if docker compose build --no-cache >> "$LOG" 2>&1 && docker compose up -d >> "$LOG" 2>&1; then
   log "build OK, waiting for app health (localhost:80/api/health)"

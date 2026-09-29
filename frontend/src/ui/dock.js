@@ -96,33 +96,68 @@ function render() {
   if (!chipsEl) return;
   // Only touch the DOM when something actually changed — blind re-renders
   // every 5 s would make chips unstable under the user's finger.
-  const sig = SOURCES.map((s) => `${s.id}:${dotState(s)}:${s.enabled() ? s.count() : 'x'}`).join('|')
-    + '|' + Object.keys(weatherLayers()).map((k) => `${k}:${weatherEnabled(k) ? 1 : 0}`).join('|');
+  let sig;
+  try {
+    sig = SOURCES.map((s) => {
+      try {
+        return `${s.id}:${dotState(s)}:${s.enabled() ? s.count() : 'x'}`;
+      } catch (e) {
+        return `${s.id}:error:x`;
+      }
+    }).join('|')
+      + '|' + Object.keys(weatherLayers()).map((k) => {
+        try {
+          return `${k}:${weatherEnabled(k) ? 1 : 0}`;
+        } catch (e) {
+          return `${k}:0`;
+        }
+      }).join('|');
+  } catch (e) {
+    // If signature computation fails entirely, force a render attempt
+    sig = 'force-' + Date.now();
+  }
   if (sig === lastSig) return;
   lastSig = sig;
   let html = '';
   for (const src of SOURCES) {
-    const state = dotState(src);
-    const n = src.enabled() ? src.count() : null;
-    html += `<button class="dock-chip" data-src="${src.id}" data-state="${state}"
-        aria-label="${src.name} — ${state}${n != null ? `, ${n}` : ''}"
-        title="${src.name} — ${statusLine(src)} (tap to ${src.enabled() ? 'hide' : 'show'}, hold for details)">
-      <span class="dock-dot ${state}"></span>
-      <span class="dock-label">${src.label}</span>
-      ${n != null ? `<span class="dock-count">${fmtCount(n)}</span>` : ''}
-    </button>`;
+    try {
+      const state = dotState(src);
+      const n = src.enabled() ? src.count() : null;
+      html += `<button class="dock-chip" data-src="${src.id}" data-state="${state}"
+          aria-label="${src.name} — ${state}${n != null ? `, ${n}` : ''}"
+          title="${src.name} — ${statusLine(src)} (tap to ${src.enabled() ? 'hide' : 'show'}, hold for details)">
+        <span class="dock-dot ${state}"></span>
+        <span class="dock-label">${src.label}</span>
+        ${n != null ? `<span class="dock-count">${fmtCount(n)}</span>` : ''}
+      </button>`;
+    } catch (e) {
+      // Skip sources that throw — one bad source shouldn't break the whole dock
+      continue;
+    }
   }
   // Weather layers (imagery — on/off only, no poll heartbeat).
-  for (const [key, def] of Object.entries(weatherLayers())) {
-    const on = weatherEnabled(key);
-    html += `<button class="dock-chip" data-weather="${key}" data-state="${on ? 'live' : 'off'}"
-        aria-label="${def.label} — ${on ? 'on' : 'off'}"
-        title="${def.label} — ${on ? 'on' : 'off'} (tap to toggle)">
-      <span class="dock-dot ${on ? 'live' : 'off'}"></span>
-      <span class="dock-label">${def.label.toUpperCase().slice(0, 6)}</span>
-    </button>`;
+  try {
+    for (const [key, def] of Object.entries(weatherLayers())) {
+      try {
+        const on = weatherEnabled(key);
+        html += `<button class="dock-chip" data-weather="${key}" data-state="${on ? 'live' : 'off'}"
+            aria-label="${def.label} — ${on ? 'on' : 'off'}"
+            title="${def.label} — ${on ? 'on' : 'off'} (tap to toggle)">
+          <span class="dock-dot ${on ? 'live' : 'off'}"></span>
+          <span class="dock-label">${def.label.toUpperCase().slice(0, 6)}</span>
+        </button>`;
+      } catch (e) {
+        continue;
+      }
+    }
+  } catch (e) {
+    // Weather layers failed entirely — skip them
   }
   chipsEl.innerHTML = html;
+  // Hide the dock container if no chips rendered (prevents empty pill showing)
+  if (dockEl) {
+    dockEl.style.display = html ? '' : 'none';
+  }
 
   chipsEl.querySelectorAll('.dock-chip[data-src]').forEach((chip) => {
     const src = SOURCES.find((s) => s.id === chip.dataset.src);

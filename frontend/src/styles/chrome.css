@@ -304,6 +304,10 @@
   border-radius: 999px;
   padding: 6px 10px;
 }
+/* Hide dock when no chips are rendered (prevents empty pill) */
+#dock:has(#dock-chips:empty) {
+  display: none;
+}
 #dock-chips {
   display: flex;
   align-items: center;
@@ -390,4 +394,8 @@
 @media (max-width: 640px) {
   #dock { bottom: 58px; padding: 5px 8px; }
   .dock-chip { padding: 6px 9px; }
+  /* Hide dock when empty to prevent empty pill overlapping ticker */
+  #dock:has(#dock-chips:empty) { display: none; }
+  /* Ensure ticker doesn't overlap the rail on mobile */
+  #ticker { bottom: 74px; }
 }

@@ -58,19 +58,32 @@ export function createViewer(container) {
   // Basemap: Esri Dark Gray Canvas by default (keyless). With a free CARTO
   // key set (VITE_CARTO_KEY), use CARTO Dark Matter instead.
   // Satellite basemap (Esri World Imagery, keyless) + boundaries/places overlay.
+  // Performance: on mobile, cap zoom levels lower and relax tile quality
+  // to keep pinch-zoom responsive (fewer, faster tile loads).
+  const isMobile = window.matchMedia('(max-width: 640px)').matches;
   const imagery = new Cesium.UrlTemplateImageryProvider({
     url: ESRI_IMAGERY,
     credit: new Cesium.Credit(ESRI_IMAGERY_CREDIT, true),
-    maximumLevel: 19,
+    maximumLevel: isMobile ? 17 : 19,
   });
   viewer.imageryLayers.addImageryProvider(imagery);
   // Reference layer: boundaries + place labels over the imagery.
   const ref = new Cesium.UrlTemplateImageryProvider({
     url: ESRI_PLACES,
     credit: new Cesium.Credit(ESRI_PLACES_CREDIT, true),
-    maximumLevel: 16,
+    maximumLevel: isMobile ? 14 : 16,
   });
   viewer.imageryLayers.addImageryProvider(ref);
+
+  // Globe performance tuning: higher screen-space error = fewer tiles,
+  // faster loads. Slightly softer at max zoom, much snappier interaction.
+  viewer.scene.globe.maximumScreenSpaceError = isMobile ? 4 : 2;
+
+  // Throttle concurrent tile requests to avoid overwhelming mobile networks.
+  // Default is unlimited; 6 per server keeps zoom responsive without stalling.
+  if (isMobile && Cesium.RequestScheduler) {
+    Cesium.RequestScheduler.maximumRequestsPerServer = 6;
+  }
 
   // Real 3D terrain (Re:Earth quantized mesh — same terrain God's Eye View
   // uses; keyless, CC BY 4.0, CORS-open) — resolves async; the globe starts

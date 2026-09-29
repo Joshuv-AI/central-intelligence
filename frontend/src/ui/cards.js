@@ -40,6 +40,43 @@ export function openEventCard(eventId, clientX, clientY) {
   emit('card-opened', { eventId });
 }
 
+/** Open a detail card for an earthquake (tap on quake marker). */
+export function openQuakeCard(q, clientX, clientY) {
+  if (!q || !cardEl) return;
+  openEventId = `quake-${q.id}`;
+  const when = q.time ? fmtDateTime(new Date(q.time)) : 'Unknown time';
+  const where = `${q.lat.toFixed(3)}°, ${q.lon.toFixed(3)}°`;
+  const depth = q.depthKm != null ? `${Number(q.depthKm).toFixed(1)} km` : '?';
+  cardEl.className = 'sev-moderate';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>EARTHQUAKE</div>
+    <h3 class="card-title">M${Number(q.mag).toFixed(1)} — ${esc(q.place || 'unknown location')}</h3>
+    <div class="card-fields">
+      <div class="card-field"><span class="k">Magnitude</span><span class="v">${Number(q.mag).toFixed(1)}</span></div>
+      <div class="card-field"><span class="k">Depth</span><span class="v">${esc(depth)}</span></div>
+      <div class="card-field"><span class="k">Location</span><span class="v">${esc(where)}</span></div>
+      <div class="card-field"><span class="k">Time</span><span class="v">${esc(when)}</span></div>
+      <div class="card-field"><span class="k">Source</span><span class="v">USGS</span></div>
+    </div>`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  const viewer = getViewer();
+  anchorCartesian = Cesium.Cartesian3.fromDegrees(q.lon, q.lat, 0);
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
 /** Open a detail card for a flight (tap on aircraft billboard). */
 export function openFlightCard(a, clientX, clientY) {
   if (!a || !cardEl) return;

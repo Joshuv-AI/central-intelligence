@@ -32,7 +32,9 @@ async function load() {
     const mag = Number(p.mag) || 0;
     const color = quakeColor(depthKm);
     const size = Math.max(6, Math.min(28, 4 + mag * 3.2));
+    const quakeId = f.id || `${lat.toFixed(3)}_${lon.toFixed(3)}_${p.time || ''}`;
     fresh.entities.add({
+      id: `quake-${quakeId}`,
       position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
       point: {
         pixelSize: size,
@@ -51,6 +53,14 @@ async function load() {
         pixelOffset: new Cesium.Cartesian2(0, -(size / 2 + 10)),
         scaleByDistance: new Cesium.NearFarScalar(1e5, 1.0, 2e7, 0.0),
       },
+      properties: {
+        kind: 'quake',
+        quakeId: quakeId,
+        mag: mag,
+        place: p.place || 'unknown location',
+        depthKm: depthKm,
+        time: p.time || null,
+      },
       description:
         `<b>M${mag.toFixed(1)} — ${p.place || 'unknown location'}</b><br>` +
         `Depth: ${depthKm != null ? depthKm.toFixed(1) + ' km' : '?'}<br>` +
@@ -66,6 +76,28 @@ async function load() {
 
 export function earthquakesEnabled() {
   return enabled;
+}
+
+/** Get earthquake data by ID (for tap-to-info). */
+export function getEarthquake(quakeId) {
+  if (!dataSource) return null;
+  const entity = dataSource.entities.getById(`quake-${quakeId}`);
+  if (!entity) return null;
+  const props = entity.properties;
+  const getVal = (name) => {
+    const v = props && props[name];
+    return v && typeof v.getValue === 'function' ? v.getValue() : v;
+  };
+  const carto = Cesium.Cartographic.fromCartesian(entity.position.getValue());
+  return {
+    id: quakeId,
+    mag: getVal('mag'),
+    place: getVal('place'),
+    depthKm: getVal('depthKm'),
+    time: getVal('time'),
+    lat: Cesium.Math.toDegrees(carto.latitude),
+    lon: Cesium.Math.toDegrees(carto.longitude),
+  };
 }
 
 export function earthquakeCount() {

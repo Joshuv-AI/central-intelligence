@@ -36,7 +36,7 @@ import { initStatus } from './ui/status.js';
 import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
 import { initDock } from './ui/dock.js';
-import { initCards, openEventCard, openFlightCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initCards, openEventCard, openFlightCard, openQuakeCard, closeEventCard, isCardOpen } from './ui/cards.js';
 
 buildBootWord();
 
@@ -116,6 +116,11 @@ function initGlobeClick() {
       import('./globe/flights/index.js').then(({ getAircraft }) => {
         const a = getAircraft(hit.hex);
         if (a) openFlightCard(a, ev.clientX, ev.clientY);
+      });
+    } else if (hit.type === 'quake') {
+      import('./globe/earthquakes/index.js').then(({ getEarthquake }) => {
+        const q = getEarthquake(hit.quakeId);
+        if (q) openQuakeCard(q, ev.clientX, ev.clientY);
       });
     }
   });

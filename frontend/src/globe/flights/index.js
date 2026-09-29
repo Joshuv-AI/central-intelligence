@@ -23,40 +23,98 @@ const feedStatus = {
 /** Heartbeat for the Live Source Dock: { lastOk, lastErr } per feed. */
 export function flightStatus() { return feedStatus; }
 
-// hex -> { billboard, lat, lon, track, gs, alt, lastUpdate }
+// hex -> { billboard, lat, lon, track, gs, alt, lastUpdate, missedPolls }
 const aircraft = new Map();
 
 function planeSprite(tint) {
-  const size = 48;
+  const size = 56;
   const c = document.createElement('canvas');
   c.width = c.height = size;
   const g = c.getContext('2d');
   g.translate(size / 2, size / 2);
-  g.rotate(Math.PI / 2); // draw pointing up; billboard rotation adds heading
+  // Draw pointing up (north); billboard rotation adds heading.
+  // More detailed airliner silhouette: fuselage, swept wings, tailplane,
+  // vertical stabilizer, and engine nacelles.
   g.fillStyle = tint;
-  g.strokeStyle = 'rgba(0,0,0,0.55)';
-  g.lineWidth = 2;
-  // Simple swept-wing plane silhouette.
+  g.strokeStyle = 'rgba(0,0,0,0.6)';
+  g.lineWidth = 1.5;
+
+  // Fuselage: rounded nose to tapered tail.
   g.beginPath();
-  g.moveTo(0, -20);
-  g.lineTo(4, -6);
-  g.lineTo(18, 6);
-  g.lineTo(18, 10);
-  g.lineTo(4, 4);
-  g.lineTo(2, 12);
-  g.lineTo(6, 16);
-  g.lineTo(6, 19);
-  g.lineTo(0, 17);
-  g.lineTo(-6, 19);
-  g.lineTo(-6, 16);
-  g.lineTo(-2, 12);
-  g.lineTo(-4, 4);
-  g.lineTo(-18, 10);
-  g.lineTo(-18, 6);
-  g.lineTo(-4, -6);
+  g.moveTo(0, -24);                    // nose tip
+  g.bezierCurveTo(3, -20, 3, -12, 2.5, -4);
+  g.lineTo(2.5, 10);                   // mid fuselage
+  g.bezierCurveTo(2.5, 16, 1.5, 20, 0, 22); // tail taper
+  g.bezierCurveTo(-1.5, 20, -2.5, 16, -2.5, 10);
+  g.lineTo(-2.5, -4);
+  g.bezierCurveTo(-3, -12, -3, -20, 0, -24);
   g.closePath();
   g.fill();
   g.stroke();
+
+  // Main wings: swept back, tapered.
+  g.beginPath();
+  g.moveTo(2, -2);
+  g.lineTo(22, 8);                     // right wingtip leading
+  g.lineTo(22, 11);                    // right wingtip trailing
+  g.lineTo(2, 6);                      // wing root trailing
+  g.closePath();
+  g.fill();
+  g.stroke();
+  g.beginPath();
+  g.moveTo(-2, -2);
+  g.lineTo(-22, 8);
+  g.lineTo(-22, 11);
+  g.lineTo(-2, 6);
+  g.closePath();
+  g.fill();
+  g.stroke();
+
+  // Engine nacelles under wings.
+  g.beginPath();
+  g.ellipse(9, 6, 2.5, 4, 0.15, 0, Math.PI * 2);
+  g.fill();
+  g.stroke();
+  g.beginPath();
+  g.ellipse(-9, 6, 2.5, 4, -0.15, 0, Math.PI * 2);
+  g.fill();
+  g.stroke();
+
+  // Horizontal stabilizers (tailplane).
+  g.beginPath();
+  g.moveTo(1.5, 14);
+  g.lineTo(10, 19);
+  g.lineTo(10, 21);
+  g.lineTo(1.5, 17);
+  g.closePath();
+  g.fill();
+  g.stroke();
+  g.beginPath();
+  g.moveTo(-1.5, 14);
+  g.lineTo(-10, 19);
+  g.lineTo(-10, 21);
+  g.lineTo(-1.5, 17);
+  g.closePath();
+  g.fill();
+  g.stroke();
+
+  // Vertical stabilizer.
+  g.beginPath();
+  g.moveTo(0, 12);
+  g.lineTo(0, 22);
+  g.lineTo(-2.5, 18);
+  g.lineTo(-2.5, 14);
+  g.closePath();
+  g.fillStyle = tint;
+  g.fill();
+  g.stroke();
+
+  // Cockpit windows (subtle dark band near nose).
+  g.fillStyle = 'rgba(0,0,0,0.45)';
+  g.beginPath();
+  g.ellipse(0, -18, 1.8, 2.5, 0, 0, Math.PI * 2);
+  g.fill();
+
   return c;
 }
 
@@ -102,7 +160,9 @@ function upsert(ac, military) {
   }
   a.lat = ac.lat;
   a.lon = ac.lon;
-  a.track = Number(ac.track);
+  // Track: null/undefined/empty means "unknown" (use movement fallback).
+  // Number(null) is 0, which would falsely point the plane north.
+  a.track = (ac.track == null || ac.track === '') ? NaN : Number(ac.track);
   a.gs = Number(ac.gs);
   a.alt = altM;
   a.military = military;
@@ -175,11 +235,17 @@ async function poll() {
       upsert(ac, military);
     }
   }
-  // Drop aircraft that vanished from both feeds.
+  // Drop aircraft that vanished from both feeds. Use a grace period of
+  // 3 missed polls (~45s) to avoid flickering when the API is inconsistent.
   for (const [hex, a] of aircraft) {
     if (!seen.has(hex)) {
-      billboards.remove(a.billboard);
-      aircraft.delete(hex);
+      a.missedPolls = (a.missedPolls || 0) + 1;
+      if (a.missedPolls >= 3) {
+        billboards.remove(a.billboard);
+        aircraft.delete(hex);
+      }
+    } else {
+      a.missedPolls = 0;
     }
   }
   cullHorizon();

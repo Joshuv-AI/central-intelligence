@@ -329,6 +329,17 @@ export function pickAt(clientX, clientY) {
   if (typeof id === 'string' && id.startsWith('flight-')) {
     return { type: 'flight', hex: id.slice(7) };
   }
+  // Earthquake entities: id is "quake-<id>" string.
+  if (typeof id === 'string' && id.startsWith('quake-')) {
+    return { type: 'quake', quakeId: id.slice(6) };
+  }
+  // Entity objects (earthquakes, launches, etc.) — check properties.
+  if (id && typeof id === 'object' && id.properties) {
+    const kind = propValue(id.properties, 'kind');
+    if (kind === 'quake') {
+      return { type: 'quake', quakeId: propValue(id.properties, 'quakeId') };
+    }
+  }
   const primPos = picked.primitive && picked.primitive.position;
   // Cluster hits: billboard tagged in clusterEvent, or the label's id array.
   if ((id && id.__clusterIds) || Array.isArray(id)) {

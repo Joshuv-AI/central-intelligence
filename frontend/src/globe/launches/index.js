@@ -12,35 +12,97 @@ let refreshTimer = 0;
 let enabled = false;
 
 function padSprite() {
-  const size = 40;
+  const size = 48;
   const c = document.createElement('canvas');
   c.width = c.height = size;
   const g = c.getContext('2d');
-  g.strokeStyle = '#b48cff';
-  g.lineWidth = 3;
+  const cx = size / 2;
+  // Glow backdrop.
+  const glow = g.createRadialGradient(cx, 20, 2, cx, 20, 22);
+  glow.addColorStop(0, 'rgba(180, 140, 255, 0.35)');
+  glow.addColorStop(1, 'rgba(180, 140, 255, 0)');
+  g.fillStyle = glow;
+  g.fillRect(0, 0, size, size);
+
+  // Rocket body: nose cone + fuselage with shading.
   g.lineCap = 'round';
-  // Rocket glyph: nose cone + body + fins + flame.
+  g.lineJoin = 'round';
+
+  // Main body.
+  const bodyGrad = g.createLinearGradient(cx - 6, 0, cx + 6, 0);
+  bodyGrad.addColorStop(0, '#8a6fd1');
+  bodyGrad.addColorStop(0.5, '#d0bfff');
+  bodyGrad.addColorStop(1, '#8a6fd1');
+  g.fillStyle = bodyGrad;
+  g.strokeStyle = '#5a4a9a';
+  g.lineWidth = 1.5;
   g.beginPath();
-  g.moveTo(size / 2, 6);
-  g.quadraticCurveTo(size / 2 + 7, 14, size / 2 + 5, 24);
-  g.lineTo(size / 2 + 5, 30);
-  g.lineTo(size / 2 - 5, 30);
-  g.lineTo(size / 2 - 5, 24);
-  g.quadraticCurveTo(size / 2 - 7, 14, size / 2, 6);
-  g.stroke();
-  g.beginPath();
-  g.moveTo(size / 2 - 5, 26);
-  g.lineTo(size / 2 - 10, 32);
-  g.moveTo(size / 2 + 5, 26);
-  g.lineTo(size / 2 + 10, 32);
-  g.stroke();
-  g.fillStyle = '#ffb347';
-  g.beginPath();
-  g.moveTo(size / 2 - 3, 32);
-  g.lineTo(size / 2 + 3, 32);
-  g.lineTo(size / 2, 38);
+  g.moveTo(cx, 4);                          // nose tip
+  g.quadraticCurveTo(cx + 6, 10, cx + 5, 18);
+  g.lineTo(cx + 5, 30);                     // body right
+  g.lineTo(cx - 5, 30);                     // body left
+  g.lineTo(cx - 5, 18);
+  g.quadraticCurveTo(cx - 6, 10, cx, 4);
   g.closePath();
   g.fill();
+  g.stroke();
+
+  // Nose cap.
+  g.fillStyle = '#ff5a5a';
+  g.beginPath();
+  g.moveTo(cx, 4);
+  g.quadraticCurveTo(cx + 3.5, 8, cx + 4.5, 12);
+  g.lineTo(cx - 4.5, 12);
+  g.quadraticCurveTo(cx - 3.5, 8, cx, 4);
+  g.closePath();
+  g.fill();
+
+  // Window.
+  g.fillStyle = '#1a2b4a';
+  g.beginPath();
+  g.arc(cx, 16, 2.2, 0, Math.PI * 2);
+  g.fill();
+  g.strokeStyle = '#5a4a9a';
+  g.lineWidth = 1;
+  g.stroke();
+
+  // Fins.
+  g.fillStyle = '#b48cff';
+  g.strokeStyle = '#5a4a9a';
+  g.lineWidth = 1.5;
+  g.beginPath();
+  g.moveTo(cx - 5, 24);
+  g.lineTo(cx - 11, 34);
+  g.lineTo(cx - 5, 32);
+  g.closePath();
+  g.fill();
+  g.stroke();
+  g.beginPath();
+  g.moveTo(cx + 5, 24);
+  g.lineTo(cx + 11, 34);
+  g.lineTo(cx + 5, 32);
+  g.closePath();
+  g.fill();
+  g.stroke();
+
+  // Engine nozzle.
+  g.fillStyle = '#3a3a4a';
+  g.fillRect(cx - 3, 30, 6, 3);
+
+  // Flame: layered teardrop.
+  const flameGrad = g.createLinearGradient(0, 33, 0, 44);
+  flameGrad.addColorStop(0, '#fff3b0');
+  flameGrad.addColorStop(0.4, '#ffb347');
+  flameGrad.addColorStop(1, 'rgba(255, 90, 90, 0)');
+  g.fillStyle = flameGrad;
+  g.beginPath();
+  g.moveTo(cx - 3, 33);
+  g.quadraticCurveTo(cx, 38, cx - 1.5, 44);
+  g.quadraticCurveTo(cx, 40, cx + 1.5, 44);
+  g.quadraticCurveTo(cx, 38, cx + 3, 33);
+  g.closePath();
+  g.fill();
+
   return c;
 }
 

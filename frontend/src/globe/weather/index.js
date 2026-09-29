@@ -1,7 +1,7 @@
 /* Weather imagery — NOAA nowCOAST GeoServer WMS (keyless, CORS-open):
-   NEXRAD radar mosaic, GOES visible satellite clouds, lightning strike
-   density. Each is a toggleable Cesium imagery layer, refreshed by
-   re-requesting (WMS always serves the latest time when TIME is omitted). */
+   NEXRAD radar mosaic, lightning strike density. Each is a toggleable
+   Cesium imagery layer, refreshed by re-requesting (WMS always serves
+   the latest time when TIME is omitted). */
 import * as Cesium from 'cesium';
 
 const BASE = 'https://nowcoast.noaa.gov/geoserver/observations';
@@ -13,13 +13,6 @@ const LAYERS = {
     url: `${BASE}/weather_radar/ows`,
     layers: 'conus_base_reflectivity_mosaic',
     alpha: 0.75,
-  },
-  clouds: {
-    label: 'Clouds',
-    swatch: '#cfd8e3',
-    url: `${BASE}/satellite/ows`,
-    layers: 'global_visible_imagery_mosaic',
-    alpha: 0.55,
   },
   lightning: {
     label: 'Lightning',

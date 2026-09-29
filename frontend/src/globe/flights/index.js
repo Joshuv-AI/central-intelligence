@@ -11,6 +11,10 @@ import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor
 
 const POLL_MS = 15 * 1000;
 const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600; // 1 knot = 1 NM/h; 1 NM = 1 arc-minute
+// Civilian planes only render when the camera is closer than this height
+// (Joshua 2026-09-29): zoomed-out views would try to draw thousands of
+// overlapping billboards. Military traffic is unaffected.
+const CIVIL_ZOOM_HEIGHT_M = 2_500_000;
 
 let viewer = null;
 let billboards = null;
@@ -19,13 +23,38 @@ let civOn = false;
 let pollTimer = 0;
 let preRenderRemove = null;
 let occluder = null;
+// Zoom gate for civilian traffic (Joshua 2026-09-29). Tracks whether the
+// camera is currently close enough to render civil planes.
+let civZoomIn = false;
 // Source heartbeat for the dock: last successful poll + last error, per feed.
 const feedStatus = {
   military: { lastOk: 0, lastErr: '' },
-  civil: { lastOk: 0, lastErr: '' },
+  civil: { lastOk: 0, lastErr: '', gated: false },
 };
-/** Heartbeat for the Live Source Dock: { lastOk, lastErr } per feed. */
+/** Heartbeat for the Live Source Dock: { lastOk, lastErr, gated } per feed. */
 export function flightStatus() { return feedStatus; }
+
+/** True when the camera is close enough for civilian planes to render. */
+export function civilZoomedIn() {
+  if (!viewer) return false;
+  return viewer.scene.camera.positionCartographic.height < CIVIL_ZOOM_HEIGHT_M;
+}
+
+/**
+ * Sync the civilian zoom gate. Call when the zoom may have changed or the
+ * layer toggles. On a zoom-in transition with the layer on, fetches fresh
+ * traffic immediately instead of waiting for the next 15 s tick.
+ * Returns true if it triggered a poll.
+ */
+function refreshCivilGate() {
+  const zin = civilZoomedIn();
+  feedStatus.civil.gated = civOn && !zin;
+  if (zin === civZoomIn) return false;
+  civZoomIn = zin;
+  cullHorizon(); // re-apply show flags; civilian layerOn includes the gate
+  if (zin && civOn) { poll(); return true; }
+  return false;
+}
 
 // hex -> { billboard, lat, lon, track, gs, alt, lastUpdate, missedPolls }
 const aircraft = new Map();
@@ -234,7 +263,8 @@ function cullHorizon() {
   if (!occluder) return;
   occluder.cameraPosition = viewer.scene.camera.positionWC;
   for (const a of aircraft.values()) {
-    const layerOn = a.military ? milOn : civOn;
+    // Civilian traffic is zoom-gated (Joshua 2026-09-29); military is not.
+    const layerOn = a.military ? milOn : (civOn && civZoomIn);
     const p = toCartesian(a.lat, a.lon, a.alt);
     a.billboard.show = layerOn && occluder.isPointVisible(p);
   }
@@ -250,7 +280,7 @@ async function poll() {
       .then((d) => ({ d, military: true, ok: true }))
       .catch((err) => ({ military: true, ok: false, err }))
   );
-  if (civOn) {
+  if (civOn && civZoomIn) {
     const cam = viewer.scene.camera;
     const carto = Cesium.Ellipsoid.WGS84.cartesianToCartographic(cam.positionWC);
     const lat = (carto.latitude * 180) / Math.PI;
@@ -313,6 +343,9 @@ function startLoop() {
     const now = performance.now();
     const dt = Math.min((now - last) / 1000, 1);
     last = now;
+    // Zoom gate for civilian traffic: show/hide instantly on zoom change,
+    // fetch fresh data the moment the camera comes back in range.
+    refreshCivilGate();
     // Interpolation factor: smooth over ~1.5s (frame-rate independent).
     const t = 1 - Math.pow(0.001, dt / 1.5);
     for (const a of aircraft.values()) {
@@ -372,11 +405,13 @@ export async function setCivil(on) {
   civOn = on;
   if (!viewer) return civOn;
   if (milOn || civOn) startLoop(); else stopLoop();
+  const gatePolled = refreshCivilGate(); // sync zoom state + visibility first
+  // Show/hide existing billboards instantly; only fetch if we have no data.
   let hasCiv = false;
   for (const a of aircraft.values()) {
-    if (!a.military) { hasCiv = true; a.billboard.show = on; }
+    if (!a.military) { hasCiv = true; a.billboard.show = on && civZoomIn; }
   }
-  if (civOn && !hasCiv) poll();
+  if (civOn && civZoomIn && !hasCiv && !gatePolled) poll();
   return civOn;
 }
 

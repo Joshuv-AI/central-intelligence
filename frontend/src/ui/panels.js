@@ -140,7 +140,7 @@ function renderLayers(el) {
     </div>
     <div class="layer-row ${civOn ? '' : 'off'}" data-flights="civil">
       <span class="layer-swatch" style="background:#7fd4ff"></span>
-      <span class="layer-name">Civil (near view)</span>
+      <span class="layer-name">Civil (zoom in to view)</span>
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">ADS-B: adsb.lol</span></div>`;

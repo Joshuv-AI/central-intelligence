@@ -64,6 +64,7 @@ function dotState(src) {
   if (!src.enabled()) return 'off';
   const st = src.status ? src.status() : null;
   if (st) {
+    if (st.gated) return 'gated'; // intentionally paused — zoom in to load
     if (st.lastErr) return 'error';
     if (st.lastOk && Date.now() - st.lastOk > src.staleAfter) return 'stale';
   }
@@ -79,6 +80,7 @@ function statusLine(src) {
   const st = src.status ? src.status() : null;
   const state = dotState(src);
   if (state === 'off') return 'Off';
+  if (state === 'gated') return 'Zoom in to load civil traffic';
   if (state === 'error') return `Error — ${st.lastErr || 'fetch failed'}`;
   if (state === 'stale') return `Stale — updated ${timeAgo(st.lastOk)}`;
   if (st && st.lastOk) return `Live — updated ${timeAgo(st.lastOk)}`;

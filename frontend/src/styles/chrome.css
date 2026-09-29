@@ -345,6 +345,7 @@
 }
 .dock-dot.live { background: #3ddc84; box-shadow: 0 0 6px rgba(61, 220, 132, 0.7); }
 .dock-dot.stale { background: #ffb020; box-shadow: 0 0 6px rgba(255, 176, 32, 0.7); }
+.dock-dot.gated { background: #8ab4ff; box-shadow: 0 0 6px rgba(138, 180, 255, 0.7); }
 .dock-dot.error { background: #ff5a5a; box-shadow: 0 0 6px rgba(255, 90, 90, 0.8); }
 .dock-dot.off { background: #3a4552; }
 .dock-label { font-weight: 600; }

@@ -109,22 +109,31 @@ function startInterpolator() {
   if (interpOff || !viewer) return;
   let last = performance.now();
   interpOff = viewer.scene.preRender.addEventListener(() => {
-    const now = performance.now();
-    const dt = Math.min((now - last) / 1000, 1);
-    last = now;
-    const t = 1 - Math.pow(0.001, dt / 1.5);
-    for (const s of sats) {
-      if (!s.billboard || !Number.isFinite(s.tgtLon)) continue;
-      // Shortest-path longitude delta: a satellite crossing the antimeridian
-      // must not sweep the long way around the globe.
-      let dLon = s.tgtLon - s.dispLon;
-      if (dLon > 180) dLon -= 360; else if (dLon < -180) dLon += 360;
-      s.dispLon += dLon * t;
-      if (s.dispLon > 180) s.dispLon -= 360; else if (s.dispLon < -180) s.dispLon += 360;
-      s.dispLat += (s.tgtLat - s.dispLat) * t;
-      s.dispH += (s.tgtH - s.dispH) * t;
-      s.billboard.position = Cesium.Cartesian3.fromDegrees(
-        s.dispLon, s.dispLat, s.dispH, (s._pos ||= new Cesium.Cartesian3()));
+    // Never let per-frame work kill the render loop (see flights/index.js).
+    try {
+      const now = performance.now();
+      const dt = Math.min((now - last) / 1000, 1);
+      last = now;
+      const t = 1 - Math.pow(0.001, dt / 1.5);
+      for (const s of sats) {
+        if (!s.billboard || !Number.isFinite(s.tgtLon)) continue;
+        if (!s.billboard.show) continue; // not drawn — skip the trig
+        // Shortest-path longitude delta: a satellite crossing the antimeridian
+        // must not sweep the long way around the globe.
+        let dLon = s.tgtLon - s.dispLon;
+        if (dLon > 180) dLon -= 360; else if (dLon < -180) dLon += 360;
+        s.dispLon += dLon * t;
+        if (s.dispLon > 180) s.dispLon -= 360; else if (s.dispLon < -180) s.dispLon += 360;
+        s.dispLat += (s.tgtLat - s.dispLat) * t;
+        s.dispH += (s.tgtH - s.dispH) * t;
+        // NOTE: fromDegrees is (lon, lat, height, ellipsoid, result) — the 4th
+        // slot is the ellipsoid, NOT the result. Passing the scratch in the 4th
+        // slot crashes the render loop (see flights/index.js).
+        s.billboard.position = Cesium.Cartesian3.fromDegrees(
+          s.dispLon, s.dispLat, s.dispH, undefined, (s._pos ||= new Cesium.Cartesian3()));
+      }
+    } catch (err) {
+      console.error('[satellites] interpolator error (render loop protected):', err);
     }
   });
 }

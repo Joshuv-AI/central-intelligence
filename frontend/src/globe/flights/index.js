@@ -162,7 +162,12 @@ function ensureBillboards() {
 }
 
 function toCartesian(lat, lon, altM, result) {
-  return Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(altM, 0), result);
+  // NOTE: Cartesian3.fromDegrees is (lon, lat, height, ellipsoid, result) —
+  // the 4th slot is the ELLIPSOID, not the result. A scratch Cartesian3 passed
+  // in the 4th slot is read as the ellipsoid (its .radiiSquared is undefined)
+  // and crashes the render loop inside multiplyComponents. Always pass
+  // undefined for the default WGS84 ellipsoid.
+  return Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(altM, 0), undefined, result);
 }
 
 // Advance a position by speed/track over dt seconds (flat-earth approx —
@@ -340,32 +345,56 @@ function startLoop() {
   holdContinuousRender('flights'); // keep animating while camera is parked
   let last = performance.now();
   let lastGateCheck = 0;
+  let frameNo = 0;
   preRenderRemove = viewer.scene.preRender.addEventListener(() => {
-    const now = performance.now();
-    const dt = Math.min((now - last) / 1000, 1);
-    last = now;
-    // Zoom gate for civilian traffic: check at 4 Hz, not every frame —
-    // positionCartographic allocates and the gate only flips on zoom.
-    if (now - lastGateCheck > 250) {
-      lastGateCheck = now;
-      refreshCivilGate();
-    }
-    // Interpolation factor: smooth over ~1.5s (frame-rate independent).
-    const t = 1 - Math.pow(0.001, dt / 1.5);
-    for (const a of aircraft.values()) {
-      deadReckon(a, dt);
-      // Smoothly interpolate display position towards target.
-      // This eliminates visible jumping when API updates arrive.
-      if (Number.isFinite(a.dispLat)) {
-        a.dispLat += (a.lat - a.dispLat) * t;
-        a.dispLon += (a.lon - a.dispLon) * t;
-      } else {
-        a.dispLat = a.lat; a.dispLon = a.lon;
+    // The render loop is sacred: a throw here kills rendering app-wide and
+    // pops Cesium's "Rendering has stopped" dialog. Never let per-frame work
+    // propagate (2026-09-29: a fromDegrees arg-order bug did exactly that).
+    try {
+      const now = performance.now();
+      const dt = Math.min((now - last) / 1000, 1);
+      last = now;
+      // Zoom gate for civilian traffic: check at 4 Hz, not every frame —
+      // positionCartographic allocates and the gate only flips on zoom.
+      if (now - lastGateCheck > 250) {
+        lastGateCheck = now;
+        refreshCivilGate();
       }
-      // Scratch position: assigning a fresh Cartesian3 per aircraft per frame
-      // is hundreds of allocations/frame of pure GC pressure.
-      a.billboard.position = toCartesian(a.dispLat, a.dispLon, a.alt,
-        (a._pos ||= new Cesium.Cartesian3()));
+      // Interpolation factor: smooth over ~1.5s (frame-rate independent).
+      const t = 1 - Math.pow(0.001, dt / 1.5);
+      // Adaptive stride: with hundreds of aircraft in frame, updating every
+      // plane every frame burns CPU for no visible gain (tiny icons at that
+      // range). Update 1/stride of the fleet per frame, rotating which third
+      // — motion stays smooth, cost stays flat. (Joshua 2026-09-29: zoomed-out
+      // with both filters on bugged out.)
+      const n = aircraft.size;
+      const stride = n > 700 ? 3 : n > 350 ? 2 : 1;
+      const slot = frameNo++ % stride;
+      let i = 0;
+      for (const a of aircraft.values()) {
+        // Cheap true-position advance for everyone: poll-time horizon culling
+        // reads a.lat/a.lon, so it must stay honest even for hidden planes.
+        deadReckon(a, dt);
+        if ((i++ % stride) !== slot) continue;
+        // Hidden billboards aren't drawn — skip the trig + position write.
+        // On re-show, the exponential smoothing below absorbs the gap in one
+        // frame (t ≈ 0.99 after the 1 s dt clamp), so no visible jump.
+        if (!a.billboard.show) continue;
+        // Smoothly interpolate display position towards target.
+        // This eliminates visible jumping when API updates arrive.
+        if (Number.isFinite(a.dispLat)) {
+          a.dispLat += (a.lat - a.dispLat) * t;
+          a.dispLon += (a.lon - a.dispLon) * t;
+        } else {
+          a.dispLat = a.lat; a.dispLon = a.lon;
+        }
+        // Scratch position: assigning a fresh Cartesian3 per aircraft per frame
+        // is hundreds of allocations/frame of pure GC pressure.
+        a.billboard.position = toCartesian(a.dispLat, a.dispLon, a.alt,
+          (a._pos ||= new Cesium.Cartesian3()));
+      }
+    } catch (err) {
+      console.error('[flights] interpolator error (render loop protected):', err);
     }
   });
   poll();

@@ -44,7 +44,10 @@ export function getVesselStatus() { return vesselStatus; }
 const vessels = new Map();
 
 function toCartesian(lat, lon, result) {
-  return Cesium.Cartesian3.fromDegrees(lon, lat, 0, result); // surface — ships float
+  // NOTE: fromDegrees is (lon, lat, height, ellipsoid, result) — the 4th slot
+  // is the ellipsoid, NOT the result (see flights/index.js). Pass undefined
+  // for the default WGS84 ellipsoid.
+  return Cesium.Cartesian3.fromDegrees(lon, lat, 0, undefined, result); // surface — ships float
 }
 
 function deadReckon(v, dt) {
@@ -179,20 +182,26 @@ function startLoop() {
   holdContinuousRender('vessels'); // keep animating while camera is parked
   let last = performance.now();
   preRenderRemove = viewer.scene.preRender.addEventListener(() => {
-    const now = performance.now();
-    const dt = Math.min((now - last) / 1000, 1);
-    last = now;
-    const t = 1 - Math.pow(0.001, dt / 1.5);
-    for (const v of vessels.values()) {
-      deadReckon(v, dt);
-      if (Number.isFinite(v.dispLat)) {
-        v.dispLat += (v.lat - v.dispLat) * t;
-        v.dispLon += (v.lon - v.dispLon) * t;
-      } else {
-        v.dispLat = v.lat; v.dispLon = v.lon;
+    // Never let per-frame work kill the render loop (see flights/index.js).
+    try {
+      const now = performance.now();
+      const dt = Math.min((now - last) / 1000, 1);
+      last = now;
+      const t = 1 - Math.pow(0.001, dt / 1.5);
+      for (const v of vessels.values()) {
+        deadReckon(v, dt);
+        if (!v.billboard.show) continue; // not drawn — skip the trig
+        if (Number.isFinite(v.dispLat)) {
+          v.dispLat += (v.lat - v.dispLat) * t;
+          v.dispLon += (v.lon - v.dispLon) * t;
+        } else {
+          v.dispLat = v.lat; v.dispLon = v.lon;
+        }
+        v.billboard.position = toCartesian(v.dispLat, v.dispLon,
+          (v._pos ||= new Cesium.Cartesian3())); // scratch: no per-frame alloc
       }
-      v.billboard.position = toCartesian(v.dispLat, v.dispLon,
-        (v._pos ||= new Cesium.Cartesian3())); // scratch: no per-frame alloc
+    } catch (err) {
+      console.error('[vessels] interpolator error (render loop protected):', err);
     }
   });
   poll();

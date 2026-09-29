@@ -53,7 +53,12 @@ function ensureTweenLoop() {
   const viewer = getViewer();
   if (!viewer) return;
   holdContinuousRender('marker-tweens');
-  tweenOff = viewer.scene.preRender.addEventListener(() => tickTweensAt(performance.now()));
+  tweenOff = viewer.scene.preRender.addEventListener(() => {
+    // The render loop is sacred — never let a tween throw kill it.
+    try { tickTweensAt(performance.now()); } catch (err) {
+      console.error('[markers] tween tick error (render loop protected):', err);
+    }
+  });
 }
 // Single driver: removes itself + releases the hold when tweens run out.
 function tickTweensAt(now) {
@@ -285,7 +290,12 @@ function startPulseLoop() {
   const viewer = getViewer();
   if (!viewer) return;
   holdContinuousRender('marker-pulses');
-  pulseOff = viewer.scene.preRender.addEventListener(() => pulseTick(performance.now()));
+  pulseOff = viewer.scene.preRender.addEventListener(() => {
+    // The render loop is sacred — never let a pulse throw kill it.
+    try { pulseTick(performance.now()); } catch (err) {
+      console.error('[markers] pulse tick error (render loop protected):', err);
+    }
+  });
 }
 
 function pulseTick(now) {

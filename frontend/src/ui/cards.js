@@ -5,6 +5,11 @@ import { store, on, emit, DOMAIN_LABELS } from '../data/store.js';
 import { getViewer } from '../globe/viewer.js';
 import { pickAt, screenPositionOf } from '../globe/markers.js';
 import { esc, fmtDateTime, fmtCoords } from '../data/format.js';
+import { startFollow, stopFollow } from '../globe/aircraft/followMode.js';
+import { createOrbitRings } from '../globe/satellites/orbitRings.js';
+
+let orbitRings = null; // lazy-init on first satellite card (audit 1.14)
+let ringedNoradId = null;
 
 let cardEl, tipEl;
 let openEventId = null;
@@ -86,6 +91,13 @@ export function openFlightCard(a, clientX, clientY) {
   const spdKt = Number.isFinite(a.gs) ? Math.round(a.gs) : null;
   const hdg = Number.isFinite(a.track) ? Math.round(a.track) : null;
   const where = `${a.lat.toFixed(3)}°, ${a.lon.toFixed(3)}°`;
+  // Enrichment fields (audit 1.9): type, vertical rate, squawk, emergency, data age.
+  const typeRow = a.typeCode ? `<div class="card-field"><span class="k">Type</span><span class="v mono">${esc(a.typeCode)}</span></div>` : '';
+  const vsRow = Number.isFinite(a.vertRateFpm) && a.vertRateFpm !== 0
+    ? `<div class="card-field"><span class="k">Vert rate</span><span class="v">${a.vertRateFpm > 0 ? '+' : ''}${Math.round(a.vertRateFpm).toLocaleString()} fpm</span></div>` : '';
+  const squawkRow = a.squawk ? `<div class="card-field"><span class="k">Squawk</span><span class="v mono">${esc(a.squawk)}${a.emergency && a.emergency !== 'none' ? ' ⚠ ' + esc(a.emergency.toUpperCase()) : ''}</span></div>` : '';
+  const ageRow = Number.isFinite(a.seenSec)
+    ? `<div class="card-field"><span class="k">Data age</span><span class="v">${a.seenSec < 60 ? Math.round(a.seenSec) + 's' : Math.round(a.seenSec / 60) + 'm'}${a.stale ? ' · stale' : ''}</span></div>` : '';
   cardEl.className = a.military ? 'sev-high' : 'sev-low';
   cardEl.innerHTML = `
     <button class="card-close" aria-label="Close detail">
@@ -99,11 +111,23 @@ export function openFlightCard(a, clientX, clientY) {
       ${altFt ? `<div class="card-field"><span class="k">Altitude</span><span class="v">${altFt.toLocaleString()} ft</span></div>` : ''}
       ${spdKt !== null ? `<div class="card-field"><span class="k">Speed</span><span class="v">${spdKt} kt</span></div>` : ''}
       ${hdg !== null ? `<div class="card-field"><span class="k">Heading</span><span class="v">${hdg}°</span></div>` : ''}
-    </div>`;
+      ${typeRow}${vsRow}${squawkRow}${ageRow}
+    </div>
+    <button class="card-track-btn" data-hex="${esc(a.hex)}">TRACK</button>`;
   cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
     ev.stopPropagation();
     closeEventCard();
   });
+  // TRACK button: follow-mode with generation-stamped camera (audit 1.8).
+  const trackBtn = cardEl.querySelector('.card-track-btn');
+  if (trackBtn) {
+    trackBtn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const viewer = getViewer();
+      startFollow(`flight-${a.hex}`, () => a.billboard.position, { viewer });
+      trackBtn.textContent = 'TRACKING…';
+    });
+  }
   cardEl.classList.remove('hidden');
   void cardEl.offsetWidth;
   cardEl.classList.add('open');
@@ -151,6 +175,16 @@ export function openSatelliteCard(s, clientX, clientY) {
     ev.stopPropagation();
     closeEventCard();
   });
+  // Flicker-free orbit ring (audit 1.14): show on card open, hide on close.
+  const viewer = getViewer();
+  if (s.satrec && viewer) {
+    if (!orbitRings) orbitRings = createOrbitRings(viewer);
+    if (ringedNoradId && ringedNoradId !== String(s.noradId)) {
+      orbitRings.hide(ringedNoradId);
+    }
+    orbitRings.show(String(s.noradId), s.satrec, { color: '#67e8f9' });
+    ringedNoradId = String(s.noradId);
+  }
   cardEl.classList.remove('hidden');
   void cardEl.offsetWidth;
   cardEl.classList.add('open');
@@ -163,6 +197,15 @@ export function openSatelliteCard(s, clientX, clientY) {
 
 export function closeEventCard() {
   if (!openEventId) return;
+  // Hide the orbit ring if a satellite card was open (audit 1.14).
+  if (openEventId.startsWith('sat-') && orbitRings && ringedNoradId) {
+    orbitRings.hide(ringedNoradId);
+    ringedNoradId = null;
+  }
+  // Stop follow mode if a flight card was open (audit 1.8).
+  if (openEventId.startsWith('flight-')) {
+    stopFollow('card-closed');
+  }
   openEventId = null;
   anchorCartesian = null;
   stopTracking();

@@ -35,6 +35,14 @@ import { initStatus } from './ui/status.js';
 import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
 import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initSharpen } from './globe/sharpen.js';
+import { initTelemetry } from './ui/telemetry.js';
+import { bindShortcuts } from './ui/shortcuts.js';
+import { installGenerationBumps } from './globe/cameraGen.js';
+import { initFollowMode } from './globe/aircraft/followMode.js';
+import { initVessels } from './globe/vessels/index.js';
+import { createOrbitRings } from './globe/satellites/orbitRings.js';
+import { flyToEvent } from './globe/eventFraming.js';
 
 buildBootWord();
 
@@ -146,7 +154,9 @@ function initFocusHandlers() {
     if (!e) return;
     if (Number.isFinite(e.lat) && Number.isFinite(e.lon)) {
       try {
-        await flyToPoint(e.lon, e.lat, { height: 3_500_000, duration: 1.2 });
+        // Angled cinematic framing (audit 1.4): -35° pitch shows the event
+        // against the horizon instead of a flat top-down view.
+        await flyToEvent(e.lon, e.lat, { duration: 1.2 });
       } catch { /* flight cancelled — still pulse */ }
       pulseAt(e.lon, e.lat, e.severity);
       if (openCard) {
@@ -222,9 +232,13 @@ function initEsc() {
 /* ————————— boot ————————— */
 async function init() {
   createViewer(document.getElementById('globe-container'));
+  installGenerationBumps(getViewer()); // camera generation stamping (audit 2.5)
   initSensorLooks(getViewer());
+  initSharpen(getViewer()); // baseline unsharp-mask — restrained 0.28 default (audit 1.2)
   initSatellites(getViewer());
   initFlights(getViewer());
+  initFollowMode(getViewer()); // aircraft track/follow (audit 1.8)
+  initVessels(getViewer()); // AIS vessel layer, needs_key until approved (audit 1.10)
   initWeather(getViewer());
   initCyclones(getViewer());
   initLaunches(getViewer());
@@ -240,6 +254,7 @@ async function init() {
   initRail();
   initPanels();
   initStatus();
+  initTelemetry(getViewer()); // SECTOR camera readout (audit 1.20)
   initSearch();
   initTicker();
   initCards();
@@ -247,6 +262,15 @@ async function init() {
   initGlobeClick();
   initEsc();
   initFocusHandlers();
+  // Keyboard shortcuts: / focuses search, h toggles HUD (audit 2.20).
+  bindShortcuts({
+    documentRef: document,
+    searchInput: document.querySelector('.search-input'),
+    actions: {
+      focusSearch: () => document.querySelector('.search-input')?.focus(),
+      toggleHud: () => document.body.classList.toggle('hud-hidden'),
+    },
+  });
 
   document.getElementById('error-retry').addEventListener('click', async () => {
     hideError();

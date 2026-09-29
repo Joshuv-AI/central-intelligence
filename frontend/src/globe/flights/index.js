@@ -4,6 +4,9 @@
    distance scaling, horizon culling via EllipsoidalOccluder.
    Data: adsb.lol (ODbL 1.0 — credited in the Layers panel). */
 import * as Cesium from 'cesium';
+import { classifyAircraft, CLASS_SCALE_2D } from '../aircraft/aircraftClass.js';
+import { aircraftIcon } from '../aircraft/aircraftIcons.js';
+import { isTaggedMilitary } from '../aircraft/militaryRegistry.js';
 
 const POLL_MS = 15 * 1000;
 const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600; // 1 knot = 1 NM/h; 1 NM = 1 arc-minute
@@ -148,14 +151,23 @@ function upsert(ac, military) {
   if (!hex || !Number.isFinite(ac.lat) || !Number.isFinite(ac.lon)) return;
   let a = aircraft.get(hex);
   const altM = ac.alt_baro === 'ground' ? 0 : Number(ac.alt_baro) * 0.3048 || 0;
+  // Per-class silhouette (audit 1.6): classify by ICAO type designator.
+  const typeCode = (ac.t || '').trim().toUpperCase();
+  const klass = classifyAircraft({ typeCode });
   if (!a) {
+    const taggedMil = isTaggedMilitary(hex);
     const bb = billboards.add({
       id: `flight-${hex}`,
-      image: military ? planeSprite('#ffb347') : planeSprite('#7fd4ff'),
+      image: aircraftIcon(klass),
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
       disableDepthTestDistance: 0,
     });
-    a = { billboard: bb, hex };
+    bb.scale = CLASS_SCALE_2D[klass] || 1;
+    // Tint: operator-tagged red / military amber / civil blue.
+    bb.color = Cesium.Color.fromCssColorString(
+      taggedMil ? '#ff6b6b' : military ? '#ffb347' : '#7fd4ff'
+    );
+    a = { billboard: bb, hex, klass };
     aircraft.set(hex, a);
     // New aircraft: start at the reported position (no interpolation needed).
     a.lat = ac.lat;
@@ -168,7 +180,24 @@ function upsert(ac, military) {
     a.lat = ac.lat;
     a.lon = ac.lon;
     if (!Number.isFinite(a.dispLat)) { a.dispLat = ac.lat; a.dispLon = ac.lon; }
+    // Re-image if the type arrived late (audit 1.6).
+    if (klass !== a.klass) {
+      a.klass = klass;
+      a.billboard.image = aircraftIcon(klass);
+      a.billboard.scale = CLASS_SCALE_2D[klass] || 1;
+    }
   }
+  // Enrichment fields for richer cards (audit 1.9).
+  a.typeCode = typeCode;
+  a.vertRateFpm = Number(ac.baro_rate);   // ft/min, NaN when absent
+  a.seenSec = Number(ac.seen);            // seconds since last ADS-B update
+  a.squawk = ac.squawk || '';
+  a.emergency = ac.emergency || 'none';
+  a.stale = (a.missedPolls || 0) > 0;
+  // Position history for selected-flight trails (audit 1.7).
+  a.history = a.history || [];
+  a.history.push(toCartesian(a.lat, a.lon, a.alt));
+  if (a.history.length > 120) a.history.shift(); // ~30 min at 15 s polls
   // Track: null/undefined/empty means "unknown" (use movement fallback).
   // Number(null) is 0, which would falsely point the plane north.
   a.track = (ac.track == null || ac.track === '') ? NaN : Number(ac.track);

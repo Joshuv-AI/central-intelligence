@@ -40,3 +40,42 @@ from [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
 
 The sensor manager (`frontend/src/globe/sensors/index.js`) that drives these
 shaders inside Central Intelligence is our own code.
+
+## God's Eye View audit modules (MIT)
+
+The following modules in `frontend/src/` were ported from
+[God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
+(bilawalsidhu/gods-eye-view, MIT License, © 2026 Bilawal Sidhu) during the
+2026-09-29 audit, adapted for Central Intelligence's architecture:
+
+- `globe/renderGovernor.js` — demand-driven Cesium render loop with named holds
+- `globe/generationTokens.js` — stale async generation guards
+- `globe/sharpen.js` — restrained unsharp-mask post-process stage
+- `globe/eventFraming.js` — angled cinematic event camera framing
+- `globe/cameraGuard.js` — camera ground-clearance guard
+- `globe/cameraGen.js` — camera generation stamping
+- `globe/labelQuotas.js` — shared label budget quotas
+- `globe/calloutDecollision.js` — screen-space callout decollision
+- `globe/aircraft/` — per-class silhouettes, icons, follow mode, trails, registry
+- `globe/vessels/` — AIS vessel layer (needs API key)
+- `globe/weather/` — 3D shells, GPU wind streamlines, cloud imagery
+- `globe/satellites/orbitRings.js` — flicker-free orbit rings
+- `globe/satellites/launchViz.js` — launch pad zones and ascent replay
+- `globe/sensors/scopeMask.js` — NVG/FLIR scope viewport mask
+- `globe/sensors/frustum.js` — sensor footprint projection math
+- `globe/sensors/cyberSonar.js` — opt-in acquisition sweep (off by default)
+- `globe/radio/` — web-radio layer (needs backend proxy for production)
+- `globe/annotations/` — analyst mark-up mode
+- `globe/gestures/clickGesture.js` — click/drag gesture classifier
+- `globe/imageryCompare/` — NASA GIBS date comparison (needs UI wiring)
+- `ui/telemetry.js` — camera telemetry readout
+- `ui/coordinateParser.js` — coordinate query parser
+- `ui/geocoder.js` — geocode cache with proximity bias
+- `ui/loadingStates.js` — pipeline loading state machine
+- `ui/splitFlap.js` — split-flap status transitions
+- `ui/shortcuts.js` — keyboard shortcuts
+
+Each module's header comment notes its GEV provenance. Integration is
+incremental — see the audit report at
+`~/workspace/central-intelligence-system/audits/gev-comparison-2026-09-29.md`
+for the full 72-item matrix and wiring status.

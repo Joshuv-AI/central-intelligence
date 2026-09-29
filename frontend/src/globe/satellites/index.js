@@ -123,6 +123,7 @@ export function getSatellite(idx) {
     inclination: satrec.inclo ? (satrec.inclo * 180 / Math.PI).toFixed(1) + '°' : '—',
     // Current position is updated in updatePositions; get latest from billboard.
     billboard: s.billboard,
+    satrec, // exposed for flicker-free orbit rings (audit 1.14)
   };
 }
 

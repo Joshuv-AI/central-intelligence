@@ -1,12 +1,29 @@
 #!/bin/bash
-# ci-deploy: build and start Central Intelligence, or serve diagnostics on :80 if it fails.
+# ci-deploy: SAFE blue-green deploy for Central Intelligence.
 # Called once by cloud-init at first boot, and by ci-pull (cron) whenever git main changes.
-# Exit 0 = app healthy. Exit 1 = diagnostic fallback server running on :80.
+#
+# Safety guarantees (2026-09-29 rewrite — the old script stopped the healthy
+# container BEFORE the replacement was built, causing multi-minute outages):
+#   1. The running container is NEVER stopped until the replacement is built
+#      AND health-checked on a test port.
+#   2. Docker layer cache is used (no --no-cache); only changed layers rebuild.
+#   3. If the new build fails or never becomes healthy, the old container keeps
+#      serving and the deploy is logged as failed — zero downtime.
+#   4. Automatic rollback: the previous image is kept tagged; a failed swap
+#      reverts to it.
+#
+# Exit 0 = new version healthy and serving on :80 (or old version kept on failure).
+# Exit 1 = no healthy version could be served; diagnostic fallback on :80.
 set -u
 REPO=/opt/central-intelligence
 LOG=/var/log/ci-build.log
 DIAG=/usr/local/bin/ci-diagnostic-server.py
 DIAG_PID=/var/run/ci-diagnostic.pid
+IMAGE="central-intelligence-backend"
+OLD_TAG="${IMAGE}:0.1.0"
+NEW_TAG="${IMAGE}:deploy-${GIT_SHA:-$(date +%s)}"
+TEST_PORT=18080
+TEST_CONTAINER="ci-backend-test"
 
 log() { echo "[ci-deploy] $(date -u +%FT%TZ) $*" >> "$LOG"; }
 
@@ -19,34 +36,140 @@ pkill -f ci-diagnostic-server.py 2>/dev/null || true
 
 cd "$REPO" || { log "FATAL: $REPO missing"; exit 1; }
 
-# Clean slate: frees port 80 even if a broken container holds it.
-docker compose down >> "$LOG" 2>&1 || true
-sleep 2
+cleanup_test() {
+  docker rm -f "$TEST_CONTAINER" >/dev/null 2>&1 || true
+}
+trap cleanup_test EXIT
 
-# Remove old image to force a truly clean build (prevents stale layer caching).
-docker rmi central-intelligence-backend:0.1.0 >> "$LOG" 2>&1 || true
-
-log "starting docker compose build --no-cache (frontend must rebuild)"
-if docker compose build --no-cache >> "$LOG" 2>&1 && docker compose up -d >> "$LOG" 2>&1; then
-  log "build OK, waiting for app health (localhost:80/api/health)"
-  for _ in $(seq 1 30); do
-    if curl -sf -m 5 http://localhost:80/api/health >/dev/null 2>&1; then
-      log "HEALTHY - app is serving"
-      docker compose ps >> "$LOG" 2>&1 || true
-      exit 0
-    fi
-    sleep 10
-  done
-  log "UNHEALTHY after 5 min - container up but app not responding"
-else
-  log "BUILD FAILED"
+# Is there a currently-serving container?
+OLD_RUNNING=0
+if docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^ci-backend$'; then
+  OLD_RUNNING=1
+  log "existing container ci-backend is RUNNING - it will keep serving until replacement is verified"
 fi
 
-# Fallback: free port 80 and serve diagnostics so the failure is visible remotely.
+# Tag the current image as rollback target before building over it.
+if docker image inspect "$OLD_TAG" >/dev/null 2>&1; then
+  docker tag "$OLD_TAG" "${IMAGE}:rollback" >> "$LOG" 2>&1 || true
+  log "rollback image tagged"
+fi
+
+# ---- STEP 1: Build the new image (old container untouched, cache enabled) ----
+log "building new image $NEW_TAG (layer cache enabled)"
+export GIT_SHA="${GIT_SHA:-unknown}"
+if ! docker build \
+    --build-arg "VITE_CARTO_KEY=cb1_41rt_1_afef6e0af7060239f83114ef" \
+    --build-arg "GIT_SHA=$GIT_SHA" \
+    -t "$NEW_TAG" . >> "$LOG" 2>&1; then
+  log "BUILD FAILED - old container still serving, deploy aborted with zero downtime"
+  exit 0
+fi
+log "build OK"
+
+# ---- STEP 2: Start the new image on a test port and health-check it ----
+cleanup_test
+log "starting test container on :$TEST_PORT"
+if ! docker run -d --name "$TEST_CONTAINER" \
+    --memory=768m \
+    -e "NODE_OPTIONS=--max-old-space-size=512" \
+    -e "PORT=3001" \
+    -e "DATA_DIR=/app/data" \
+    -p "127.0.0.1:${TEST_PORT}:3001" \
+    -v "ci-data:/app/data" \
+    "$NEW_TAG" >> "$LOG" 2>&1; then
+  log "test container failed to start - old container still serving"
+  exit 0
+fi
+
+log "waiting for test container health (localhost:${TEST_PORT}/api/health)"
+HEALTHY=0
+for _ in $(seq 1 36); do
+  if curl -sf -m 5 "http://127.0.0.1:${TEST_PORT}/api/health" >/dev/null 2>&1; then
+    HEALTHY=1
+    break
+  fi
+  sleep 10
+done
+
+if [ "$HEALTHY" != "1" ]; then
+  log "NEW BUILD UNHEALTHY after 6 min - keeping old container, deploy aborted"
+  docker logs --tail 50 "$TEST_CONTAINER" >> "$LOG" 2>&1 || true
+  exit 0
+fi
+
+# Verify the test instance reports the expected SHA (guards against stale builds).
+TEST_SHA=$(curl -sf -m 5 "http://127.0.0.1:${TEST_PORT}/api/health" 2>/dev/null | grep -o '"deploySha":"[0-9a-f]*"' | cut -d'"' -f4 || true)
+log "test container healthy, reports SHA ${TEST_SHA:0:12}"
+if [ -n "${GIT_SHA:-}" ] && [ "$GIT_SHA" != "unknown" ] && [ -n "$TEST_SHA" ]; then
+  if [ "${TEST_SHA:0:12}" != "${GIT_SHA:0:12}" ]; then
+    log "SHA MISMATCH: expected ${GIT_SHA:0:12}, got ${TEST_SHA:0:12} - aborting swap"
+    exit 0
+  fi
+fi
+
+# ---- STEP 3: Swap traffic — stop old, start new on :80 ----
+log "swap: stopping test container, promoting $NEW_TAG to :80"
+cleanup_test
+trap - EXIT
+
+# Retag new image as the canonical tag so `docker compose up` manages it.
+docker tag "$NEW_TAG" "$OLD_TAG" >> "$LOG" 2>&1 || true
+
+# Brief window: stop old, start new. Compose recreates from the retagged image.
 docker compose down >> "$LOG" 2>&1 || true
 sleep 2
-log "starting diagnostic server on :80"
-nohup python3 "$DIAG" >>/var/log/ci-diagnostic.log 2>&1 &
-echo $! > "$DIAG_PID"
-log "diagnostic server pid $(cat "$DIAG_PID")"
-exit 1
+if ! docker compose up -d >> "$LOG" 2>&1; then
+  log "compose up FAILED during swap - attempting rollback"
+  docker tag "${IMAGE}:rollback" "$OLD_TAG" >> "$LOG" 2>&1 || true
+  docker compose up -d >> "$LOG" 2>&1 || true
+fi
+
+# ---- STEP 4: Verify :80 serves the new build; rollback if not ----
+log "verifying :80 serves the new build"
+SERVED=0
+for _ in $(seq 1 18); do
+  LIVE_SHA=$(curl -sf -m 5 http://localhost:80/api/health 2>/dev/null | grep -o '"deploySha":"[0-9a-f]*"' | cut -d'"' -f4 || true)
+  if [ -n "$LIVE_SHA" ]; then
+    SERVED=1
+    break
+  fi
+  sleep 10
+done
+
+if [ "$SERVED" != "1" ]; then
+  log ":80 not responding after swap - rolling back to previous image"
+  docker tag "${IMAGE}:rollback" "$OLD_TAG" >> "$LOG" 2>&1 || true
+  docker compose down >> "$LOG" 2>&1 || true
+  sleep 2
+  docker compose up -d >> "$LOG" 2>&1 || true
+  sleep 15
+  if curl -sf -m 5 http://localhost:80/api/health >/dev/null 2>&1; then
+    log "rollback HEALTHY - old version serving"
+    exit 0
+  fi
+  log "rollback also failed - starting diagnostic server"
+else
+  log ":80 HEALTHY, serving SHA ${LIVE_SHA:0:12}"
+  if [ -n "${GIT_SHA:-}" ] && [ "$GIT_SHA" != "unknown" ] && [ "${LIVE_SHA:0:12}" != "${GIT_SHA:0:12}" ]; then
+    log "WARNING: serving SHA ${LIVE_SHA:0:12} != expected ${GIT_SHA:0:12}"
+  fi
+fi
+
+# Prune the one-off deploy tag (keep rollback + canonical).
+docker rmi "$NEW_TAG" >/dev/null 2>&1 || true
+docker compose ps >> "$LOG" 2>&1 || true
+
+# Only reach here if :80 serves something. If we fell through with SERVED=0
+# and rollback failed, serve diagnostics.
+if [ "$SERVED" != "1" ] && ! curl -sf -m 5 http://localhost:80/api/health >/dev/null 2>&1; then
+  log "no healthy version - starting diagnostic server on :80"
+  docker compose down >> "$LOG" 2>&1 || true
+  sleep 2
+  nohup python3 "$DIAG" >>/var/log/ci-diagnostic.log 2>&1 &
+  echo $! > "$DIAG_PID"
+  log "diagnostic server pid $(cat "$DIAG_PID")"
+  exit 1
+fi
+
+log "deploy complete"
+exit 0

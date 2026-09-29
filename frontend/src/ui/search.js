@@ -4,6 +4,8 @@
 import { store, emit, on } from '../data/store.js';
 import { esc } from '../data/format.js';
 import { flyToPoint } from '../globe/camera.js';
+import { parseCoordinateQuery } from './coordinateParser.js';
+import { createGeocodeCache, photonSearchUrl, selectBestHit, framingForType, photonResultType, searchPlace } from './geocoder.js';
 
 const MAX_RESULTS = 8;
 const PHOTON_URL = 'https://photon.komoot.io/api/';
@@ -12,6 +14,8 @@ let resultsEl;
 let activeQuery = '';
 let placeHits = [];
 let placeToken = 0;
+// Geocode cache: hits 5 min, answered misses 30 s, failures never cached (audit 1.17).
+const geoCache = createGeocodeCache();
 
 function matches(e, q) {
   const hay = `${e.title || ''} ${e.summary || ''} ${e.region || ''} ${e.source || ''}`.toLowerCase();
@@ -71,16 +75,40 @@ async function searchPlaces(q) {
     if (activeQuery === q) renderResults(currentSignalHits(), inputEl.value.trim());
     return;
   }
+  // Coordinate query? Zero network requests — fly direct (audit 1.16).
+  const coord = parseCoordinateQuery(q);
+  if (coord) {
+    if (token !== placeToken) return;
+    placeHits = [{
+      label: `COORDINATE ${coord.lat.toFixed(4)}, ${coord.lon.toFixed(4)}`,
+      lon: coord.lon,
+      lat: coord.lat,
+      isCoordinate: true,
+    }];
+    if (activeQuery === q.toLowerCase()) renderResults(currentSignalHits(), inputEl.value.trim());
+    return;
+  }
   try {
-    const res = await fetch(`${PHOTON_URL}?q=${encodeURIComponent(q)}&limit=5`);
-    if (!res.ok) throw new Error('photon ' + res.status);
-    const geo = await res.json();
+    // Cached Photon search with soft proximity bias (audit 1.17, 1.18).
+    const { place, answered } = await searchPlace(q, {
+      coordinateParser: parseCoordinateQuery,
+      photonFetch: (url) => fetch(url),
+      cache: geoCache,
+    });
     if (token !== placeToken) return; // stale
-    placeHits = (geo.features || []).map((f) => ({
-      label: placeLabel(f.properties || {}),
-      lon: f.geometry.coordinates[0],
-      lat: f.geometry.coordinates[1],
-    }));
+    if (!answered) {
+      placeHits = [{ label: 'PLACE SEARCH OFFLINE', offline: true }];
+    } else if (place) {
+      const framing = framingForType(place.type);
+      placeHits = [{
+        label: place.label,
+        lon: place.lon,
+        lat: place.lat,
+        flyHeight: framing.height,
+      }];
+    } else {
+      placeHits = [];
+    }
   } catch {
     if (token !== placeToken) return;
     placeHits = [];
@@ -151,7 +179,7 @@ export function initSearch() {
       const p = placeHits[Number(hit.dataset.placeIdx)];
       closeSearch();
       inputEl.value = '';
-      if (p) flyToPoint(p.lon, p.lat, { height: 1_500_000, duration: 1.6 });
+      if (p && !p.offline) flyToPoint(p.lon, p.lat, { height: p.flyHeight || 1_500_000, duration: 1.6 });
       return;
     }
     const eventId = hit.dataset.eventId;

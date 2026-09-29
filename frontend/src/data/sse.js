@@ -31,11 +31,19 @@ export function connectStream({ onSnapshot, onUpdate, onStatus }) {
       } catch { /* malformed payload: ignore */ }
     });
 
+    // Coalesced update delivery (audit 2.23): bursts of sweep completions
+    // collapse into one onUpdate call per turn of the event loop, so the
+    // caller never stacks overlapping /api/snapshot fetches.
+    let updateQueued = false;
     es.addEventListener('update', (ev) => {
-      try {
-        const info = JSON.parse(ev.data);
-        onUpdate && onUpdate(info);
-      } catch { /* ignore */ }
+      if (updateQueued) return;
+      updateQueued = true;
+      queueMicrotask(() => {
+        updateQueued = false;
+        try {
+          onUpdate && onUpdate(JSON.parse(ev.data));
+        } catch { /* ignore */ }
+      });
     });
 
     es.onerror = () => {

@@ -5,6 +5,11 @@
    All Ion widgets off. */
 import * as Cesium from 'cesium';
 // widgets.css is injected by vite-plugin-cesium (link tag in index.html).
+import {
+  installRenderGovernor,
+  holdContinuousRender,
+  releaseContinuousRender,
+} from './renderGovernor.js';
 
 // NOTE: Esri tile order is {z}/{y}/{x} — y before x, unlike most providers.
 const ESRI_IMAGERY = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
@@ -46,10 +51,19 @@ export function createViewer(container) {
     contextOptions: { webgl: { antialias: true } },
   });
 
+  // Idle render governor: stops the render loop when nothing animates,
+  // the biggest battery win for a parked dashboard (audit 1.1).
+  installRenderGovernor(viewer);
+
   // Atmosphere and starfield: the blue limb halo is half the wow factor.
   // (Was disabled for "polar night" — re-enabled for the GEV-grade look.)
   viewer.scene.skyBox.show = true;
   viewer.scene.skyAtmosphere.show = true;
+  // GEV-tuned limb values: the limb reads correctly against the starfield
+  // instead of default haze (audit 2.1).
+  viewer.scene.skyAtmosphere.atmosphereLightIntensity = 18;
+  viewer.scene.skyAtmosphere.saturationShift = -0.12;
+  viewer.scene.skyAtmosphere.brightnessShift = -0.08;
   viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#050B16');
   viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#12283f');
   viewer.scene.globe.enableLighting = false;
@@ -85,6 +99,42 @@ export function createViewer(container) {
     maximumLevel: isMobile ? 14 : 16,
   });
   viewer.imageryLayers.addImageryProvider(ref);
+
+  // Basemap fallback: after repeated tile failures, swap to a keyless backup
+  // instead of showing a dead globe (audit 2.3).
+  const FALLBACK_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  const FAILURE_THRESHOLD = 12;
+  let tileFailures = 0, onFallback = false, fallbackLayer = null;
+  imagery.errorEvent.addEventListener(() => {
+    tileFailures += 1;
+    if (!onFallback && tileFailures >= FAILURE_THRESHOLD) {
+      onFallback = true;
+      const layers = viewer.imageryLayers;
+      fallbackLayer = layers.addImageryProvider(
+        new Cesium.UrlTemplateImageryProvider({
+          url: FALLBACK_URL,
+          credit: new Cesium.Credit('© OpenStreetMap contributors', true),
+          maximumLevel: 19,
+        }),
+      );
+      layers.lowerToBottom(fallbackLayer); // fallback renders on top
+      console.warn('[basemap] Esri failing — on OSM fallback');
+    }
+  });
+  // Recovery probe: every 60 s, if a single Esri tile loads, restore it.
+  setInterval(() => {
+    if (!onFallback || !fallbackLayer) return;
+    const probe = new Image();
+    probe.onload = () => {
+      onFallback = false; tileFailures = 0;
+      if (viewer.imageryLayers.contains(fallbackLayer)) {
+        viewer.imageryLayers.remove(fallbackLayer, true);
+      }
+      fallbackLayer = null;
+      console.info('[basemap] Esri recovered');
+    };
+    probe.src = FALLBACK_URL.replace('{z}/{x}/{y}', '2/2/1') + `?t=${Date.now()}`;
+  }, 60_000);
 
   // Globe performance tuning: higher screen-space error = fewer tiles,
   // faster loads. 3 is the sweet spot on mobile: sharper than 4, snappier than 2.
@@ -124,6 +174,13 @@ export function createViewer(container) {
   if (isMobile) {
     viewer.scene.msaaSamples = 2;
   }
+  // Render-resolution cap: on DPR-3 phones the drawing buffer is 3x CSS
+  // size — visually indistinguishable from 2x at globe scales, but ~2.25x
+  // the fill rate. Cap effective DPR at 2 (audit 1.5).
+  if (isMobile) {
+    const dpr = window.devicePixelRatio || 1;
+    if (dpr > 2) viewer.resolutionScale = 2 / dpr;
+  }
 
   // Restore full request concurrency. The previous cap of 6 was starving tile
   // refinement during fast zooms — the official default is 18, and Esri's
@@ -150,8 +207,14 @@ export function createViewer(container) {
   });
 
   // Slow idle rotation until the user takes over (glacial, not distracting).
+  // Registered as a render-governor hold: the spin needs continuous frames,
+  // and releasing it on takeover lets the governor drop to idle (audit 1.1).
   let userTookOver = false;
-  const stopSpin = () => { userTookOver = true; };
+  holdContinuousRender('idle-spin');
+  const stopSpin = () => {
+    userTookOver = true;
+    releaseContinuousRender('idle-spin');
+  };
   stopIdleSpin = stopSpin;
   viewer.scene.screenSpaceCameraController.enableRotate = true;
   // Mobile camera tuning: calmer pinch zoom, less coasting after release,

@@ -16,6 +16,7 @@ import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/inde
 import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
 import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
 import { earthquakesEnabled, earthquakeCount, setEarthquakes } from '../globe/earthquakes/index.js';
+import { vesselsEnabled, vesselCount, setVessels, getVesselStatus } from '../globe/vessels/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -143,6 +144,17 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">ADS-B: adsb.lol</span></div>`;
+  // Vessels (AIS — needs API key; honest needs_key state until approved).
+  const vesOn = vesselsEnabled();
+  const vesStatus = getVesselStatus();
+  html += `<div class="layer-family"><span class="micro">VESSELS</span>
+    <div class="layer-row ${vesOn ? '' : 'off'}" data-vessels="ships">
+      <span class="layer-swatch" style="background:#4ade80"></span>
+      <span class="layer-name">Ships</span>
+      <span class="layer-count">${vesStatus === 'needs_key' ? 'needs key' : (vesselCount() || '')}</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">AIS: ${vesStatus === 'needs_key' ? 'API key required' : 'live'}</span></div>`;
   // Weather imagery (NOAA nowCOAST WMS, keyless) — independent of domains.
   html += `<div class="layer-family"><span class="micro">WEATHER</span>`;
   for (const [key, def] of Object.entries(weatherLayers())) {
@@ -259,6 +271,23 @@ function renderLayers(el) {
         civRow.classList.toggle('off', targetOn);
       }).finally(() => {
         civRow.classList.remove('busy');
+      });
+    });
+  }
+  // Vessels toggle (audit 1.10) — honest needs_key state when no backend.
+  const vesRow = el.querySelector('[data-vessels="ships"]');
+  if (vesRow) {
+    vesRow.addEventListener('click', () => {
+      const targetOn = !vesselsEnabled();
+      vesRow.classList.toggle('off', !targetOn);
+      vesRow.classList.add('busy');
+      setVessels(targetOn).then((on) => {
+        vesRow.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
+      }).catch(() => {
+        vesRow.classList.toggle('off', targetOn);
+      }).finally(() => {
+        vesRow.classList.remove('busy');
       });
     });
   }

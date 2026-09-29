@@ -16,7 +16,7 @@ export const DOMAIN_LABELS = {
 export const FAMILIES = {
   live: ['disasters', 'space', 'signals'],
   intel: ['conflict', 'cyber', 'sanctions', 'social'],
-  environment: ['health', 'environment', 'economic'],
+  environment: ['health', 'environment'],
 };
 export const FAMILY_LABELS = { live: 'Live', intel: 'Intel', environment: 'Environment' };
 

@@ -88,7 +88,29 @@ export function createViewer(container) {
 
   // Globe performance tuning: higher screen-space error = fewer tiles,
   // faster loads. 3 is the sweet spot on mobile: sharper than 4, snappier than 2.
-  viewer.scene.globe.maximumScreenSpaceError = isMobile ? 3 : 2;
+  const baseSSE = isMobile ? 3 : 2;
+  viewer.scene.globe.maximumScreenSpaceError = baseSSE;
+
+  // Dynamic SSE: when zoomed out (high camera altitude), force sharper tiles
+  // by lowering SSE. Low-zoom tiles are naturally blurry — without this, the
+  // globe looks soft from far away. When zoomed in, restore the base SSE for
+  // performance.
+  let sseRaf = 0;
+  const updateDynamicSSE = () => {
+    sseRaf = 0;
+    if (!viewer || viewer.isDestroyed()) return;
+    try {
+      const h = viewer.camera.positionCartographic.height;
+      let sse = baseSSE;
+      if (h > 15000000) sse = baseSSE * 0.5;      // whole globe: sharpest
+      else if (h > 8000000) sse = baseSSE * 0.65;  // continental view
+      else if (h > 3000000) sse = baseSSE * 0.8;   // regional view
+      viewer.scene.globe.maximumScreenSpaceError = sse;
+    } catch { /* camera not ready */ }
+  };
+  viewer.camera.changed.addEventListener(() => {
+    if (!sseRaf) sseRaf = requestAnimationFrame(updateDynamicSSE);
+  });
 
   // Bigger tile cache for zoom in/out workflows — zooming back out re-shows
   // detail instantly instead of re-fetching.

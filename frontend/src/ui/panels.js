@@ -10,7 +10,6 @@ import { applyFilters } from '../globe/markers.js';
 import { flyToRegion } from '../globe/camera.js';
 import { esc, timeAgo, fmtDateTime } from '../data/format.js';
 import { fetchHealth } from '../data/api.js';
-import { SENSOR_LOOKS, setSensorLook, currentSensorLook } from '../globe/sensors/index.js';
 import { satellitesEnabled, satelliteCount, setSatellites } from '../globe/satellites/index.js';
 import { firesEnabled, fireCount, setFires } from '../globe/fires/index.js';
 import { militaryEnabled, civilEnabled, setMilitary, setCivil } from '../globe/flights/index.js';
@@ -115,14 +114,6 @@ function renderLayers(el) {
     }
     html += '</div>';
   }
-  // Sensor looks (post-processing): FLIR / NVG / CRT / NOIR.
-  const activeLook = currentSensorLook();
-  html += `<div class="layer-family"><span class="micro">SENSOR</span><div class="sensor-row">`;
-  html += `<button class="sensor-btn ${!activeLook ? 'on' : ''}" data-sensor="">OFF</button>`;
-  for (const [key, { label }] of Object.entries(SENSOR_LOOKS)) {
-    html += `<button class="sensor-btn ${activeLook === key ? 'on' : ''}" data-sensor="${key}">${label}</button>`;
-  }
-  html += `</div></div>`;
   // Live orbit layer (CelesTrak TLEs, client-side SGP4) — independent of domains.
   const satsOn = satellitesEnabled();
   html += `<div class="layer-family"><span class="micro">ORBIT</span>
@@ -207,13 +198,6 @@ function renderLayers(el) {
       store.domains[d] = store.domains[d] === false;
       emit('filters');
       applyFilters();
-      renderLayers(el);
-    });
-  });
-  el.querySelectorAll('.sensor-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      setSensorLook(btn.dataset.sensor || null);
-      scheduleHashWrite();
       renderLayers(el);
     });
   });
@@ -462,7 +446,7 @@ function renderGuide(el) {
       <h3>Layers</h3>
       <p><b>Live</b> — disasters, space weather, signals in motion.<br>
       <b>Intel</b> — conflict, cyber, sanctions, social.<br>
-      <b>Environment</b> — health, environment, economic.<br>
+      <b>Environment</b> — health, environment.<br>
       Events without coordinates never reach the globe — they live in layer counts and the feed.</p>
       <h3>Direction</h3>
       <ul>

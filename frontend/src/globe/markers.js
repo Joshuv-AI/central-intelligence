@@ -63,8 +63,10 @@ export function initMarkers() {
 
   eventSource = new Cesium.CustomDataSource('events');
   eventSource.clustering.enabled = true;
-  eventSource.clustering.pixelRange = 48;
-  eventSource.clustering.minimumClusterSize = 3;
+  // Calmer clustering: clusters only form for genuinely dense groups, so a
+  // slight camera pivot doesn't snap pins in and out of cluster badges.
+  eventSource.clustering.pixelRange = 40;
+  eventSource.clustering.minimumClusterSize = 4;
   eventSource.clustering.clusterEvent.addEventListener((clustered, cluster) => {
     let maxSev = 'low';
     let maxRank = -1;
@@ -101,18 +103,23 @@ export function initMarkers() {
 }
 
 /* ——— event entities ——— */
+// Markers float slightly above the surface: pins anchored exactly on the
+// ellipsoid wink out at the limb while their sprite still overlaps visible
+// globe, which reads as flicker on small camera pivots. 1500 m is invisible
+// at every practical zoom and keeps the anchor on the visible side longer.
+const MARKER_ALT_M = 1500;
 function makeEventEntity(e) {
   const severity = SEV_RANK[e.severity] !== undefined ? e.severity : 'low';
   const entity = new Cesium.Entity({
     id: `evt-${e.id}`,
-    position: Cesium.Cartesian3.fromDegrees(e.lon, e.lat, 0),
+    position: Cesium.Cartesian3.fromDegrees(e.lon, e.lat, MARKER_ALT_M),
     billboard: {
       image: Sprites.event(severity),
       width: 34,
       height: 34,
       verticalOrigin: Cesium.VerticalOrigin.CENTER,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       disableDepthTestDistance: 0,
       color: new Cesium.Color(1, 1, 1, 1),
     },
@@ -193,7 +200,7 @@ export function syncConnections(connections) {
     if (connEntities.has(conn.id)) continue;
     const severity = SEV_RANK[conn.severity] !== undefined ? conn.severity : 'low';
     const color = Cesium.Color.fromCssColorString(SEV_COLORS[severity]);
-    const pos = Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 0);
+    const pos = Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, MARKER_ALT_M);
 
     const marker = new Cesium.Entity({
       id: `conn-${conn.id}`,
@@ -204,7 +211,7 @@ export function syncConnections(connections) {
         height: 52,
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
         disableDepthTestDistance: 0,
       },
       properties: { connectionId: conn.id, kind: 'connection', severity },
@@ -223,7 +230,7 @@ export function syncConnections(connections) {
         height: 64,
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
         disableDepthTestDistance: 0,
         scale: 0.5,
         color: color.withAlpha(0.55),
@@ -279,12 +286,12 @@ export function pulseAt(lon, lat, severity = 'low', { duration = 1400 } = {}) {
   if (!viewer || !connSource) return;
   const color = Cesium.Color.fromCssColorString(SEV_COLORS[severity] || SEV_COLORS.low);
   const ent = new Cesium.Entity({
-    position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
+    position: Cesium.Cartesian3.fromDegrees(lon, lat, MARKER_ALT_M),
     billboard: {
       image: Sprites.pulse(severity),
       width: 64,
       height: 64,
-      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       disableDepthTestDistance: 0,
     },
   });

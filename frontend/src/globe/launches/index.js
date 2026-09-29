@@ -12,17 +12,20 @@ let refreshTimer = 0;
 let enabled = false;
 
 function padSprite() {
-  const size = 48;
+  const base = 48;
+  const SS = 3; // retina-sharp on DPR-3 phones
+  const size = base * SS;
   const c = document.createElement('canvas');
   c.width = c.height = size;
   const g = c.getContext('2d');
-  const cx = size / 2;
+  g.scale(SS, SS); // draw in base coordinates
+  const cx = base / 2;
   // Glow backdrop.
   const glow = g.createRadialGradient(cx, 20, 2, cx, 20, 22);
   glow.addColorStop(0, 'rgba(180, 140, 255, 0.35)');
   glow.addColorStop(1, 'rgba(180, 140, 255, 0)');
   g.fillStyle = glow;
-  g.fillRect(0, 0, size, size);
+  g.fillRect(0, 0, base, base);
 
   // Rocket body: nose cone + fuselage with shading.
   g.lineCap = 'round';
@@ -134,6 +137,8 @@ async function load() {
       position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
       billboard: {
         image: sprite,
+        width: 48,
+        height: 48,
         scaleByDistance: new Cesium.NearFarScalar(1e5, 1.0, 3e7, 0.4),
         disableDepthTestDistance: 0,
       },

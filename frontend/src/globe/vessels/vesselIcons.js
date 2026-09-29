@@ -26,7 +26,9 @@ export function vesselIcon(type, selected = false) {
 
   const stroke = selected ? 'rgba(6,26,32,0.95)' : 'rgba(4,18,24,0.9)';
   const strokeWidth = selected ? 1.1 : 0.7;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">` +
+  // Rasterized at 96px (3x) for retina sharpness — viewBox keeps the
+  // artwork identical; billboards pin the display size to 32px.
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 32 32">` +
     `<g transform="translate(16,16)">` +
     `<path d="M0,-14 L11,10 L4,7 L0,14 L-4,7 L-11,10 Z" fill="${cssColor}" ` +
     `stroke="${stroke}" stroke-width="${strokeWidth}" stroke-linejoin="round"/>` +

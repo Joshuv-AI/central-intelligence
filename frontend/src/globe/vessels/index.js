@@ -64,6 +64,8 @@ function upsert(sv) {
     const bb = billboards.add({
       id: `vessel-${mmsi}`,
       image: vesselIcon(sv.type, false),
+      width: 32,
+      height: 32,
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.1, 4e7, 0.3),
       disableDepthTestDistance: 0,
     });

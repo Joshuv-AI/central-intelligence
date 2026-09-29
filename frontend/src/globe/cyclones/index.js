@@ -53,10 +53,13 @@ async function loadStormGIS(bin) {
 }
 
 function cycloneSprite(colorCss) {
-  const size = 56;
+  const base = 56;
+  const SS = 3; // retina-sharp on DPR-3 phones
+  const size = base * SS;
   const c = document.createElement('canvas');
   c.width = c.height = size;
   const g = c.getContext('2d');
+  g.scale(SS, SS); // draw in base coordinates
   g.strokeStyle = colorCss;
   g.lineWidth = 5;
   g.lineCap = 'round';
@@ -66,8 +69,8 @@ function cycloneSprite(colorCss) {
     for (let t = 0; t <= 1.001; t += 0.05) {
       const a = t * Math.PI * 1.6 + (arm * Math.PI * 2) / 3;
       const r = 6 + t * 19;
-      const x = size / 2 + Math.cos(a) * r;
-      const y = size / 2 + Math.sin(a) * r;
+      const x = base / 2 + Math.cos(a) * r;
+      const y = base / 2 + Math.sin(a) * r;
       if (t === 0) g.moveTo(x, y);
       else g.lineTo(x, y);
     }
@@ -75,7 +78,7 @@ function cycloneSprite(colorCss) {
   }
   g.fillStyle = colorCss;
   g.beginPath();
-  g.arc(size / 2, size / 2, 5, 0, Math.PI * 2);
+  g.arc(base / 2, base / 2, 5, 0, Math.PI * 2);
   g.fill();
   return c;
 }
@@ -97,6 +100,8 @@ async function load() {
       position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
       billboard: {
         image: cycloneSprite(color.toCssColorString()),
+        width: 56,
+        height: 56,
         scaleByDistance: new Cesium.NearFarScalar(1e5, 1.0, 3e7, 0.4),
         disableDepthTestDistance: 0,
       },

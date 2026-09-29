@@ -14,7 +14,10 @@ const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600; // 1 knot = 1 NM/h; 1 NM = 1 arc-minute
 // Civilian planes only render when the camera is closer than this height
 // (Joshua 2026-09-29): zoomed-out views would try to draw thousands of
 // overlapping billboards. Military traffic is unaffected.
-const CIVIL_ZOOM_HEIGHT_M = 2_500_000;
+// Threshold measured 2026-09-29: a full-state-of-Florida phone view (the
+// reference screenshot Joshua approved) sits at ~580-650 km camera height,
+// so civilian traffic begins appearing right around that zoom.
+const CIVIL_ZOOM_HEIGHT_M = 650_000;
 
 let viewer = null;
 let billboards = null;

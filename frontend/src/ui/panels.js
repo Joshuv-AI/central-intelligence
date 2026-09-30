@@ -152,6 +152,7 @@ function renderLayers(el) {
     : (vesCount || '');
   const vesSubLabel = vesState === 'needs_key' ? 'API key required'
     : vesState === 'down' ? (vesStatus.lastErr || 'feed unavailable')
+    : vesState === 'off' ? 'off'
     : 'live';
   html += `<div class="layer-family"><span class="micro">VESSELS</span>
     <div class="layer-row ${vesOn ? '' : 'off'}" data-vessels="ships">
@@ -160,7 +161,8 @@ function renderLayers(el) {
       <span class="layer-count">${vesCountLabel}</span>
       <span class="layer-toggle"></span>
     </div>
-    <span class="micro">AIS: ${vesSubLabel}</span></div>`;
+    <span class="micro">AIS: ${vesSubLabel}</span>
+    <div class="layer-note vessel-note hidden"></div></div>`;
   // Weather imagery (NOAA nowCOAST WMS, keyless) — independent of domains.
   html += `<div class="layer-family"><span class="micro">WEATHER</span>`;
   for (const [key, def] of Object.entries(weatherLayers())) {
@@ -257,20 +259,36 @@ function renderLayers(el) {
     });
   }
   // Vessels toggle (audit 1.10) — honest needs_key state when no backend.
+  // If the feed can't show ships, say why inline instead of silently
+  // flipping the toggle back (which reads as "the toggle is broken").
   const vesRow = el.querySelector('[data-vessels="ships"]');
+  const vesNote = el.querySelector('.vessel-note');
+  let vesNoteTimer = 0;
+  const showVesNote = (msg) => {
+    if (!vesNote) return;
+    vesNote.textContent = msg;
+    vesNote.classList.remove('hidden');
+    clearTimeout(vesNoteTimer);
+    vesNoteTimer = setTimeout(() => vesNote.classList.add('hidden'), 8000);
+  };
   if (vesRow) {
     vesRow.addEventListener('click', () => {
+      if (vesRow.classList.contains('busy')) return; // poll in flight — ignore
       const targetOn = !vesselsEnabled();
+      if (vesNote) vesNote.classList.add('hidden');
       vesRow.classList.toggle('off', !targetOn);
       vesRow.classList.add('busy');
       setVessels(targetOn).then((on) => {
         // If the feed is unavailable (no key / backend down), don't leave the
-        // toggle on with nothing to show — revert to off honestly.
+        // toggle on with nothing to show — revert to off and explain why.
         const st = (getVesselStatus() || {}).state;
         const usable = on && st !== 'needs_key' && st !== 'down';
         if (targetOn && !usable) {
           setVessels(false);
           vesRow.classList.toggle('off', true);
+          showVesNote(st === 'needs_key'
+            ? 'Live ships need an AIS key — none is configured, so there is nothing to show yet. (Free signup; your call to add one.)'
+            : 'Ship feed is unavailable right now — try again later.');
         } else {
           vesRow.classList.toggle('off', !on);
         }
@@ -535,6 +553,7 @@ function renderSystem(el, { health } = {}) {
     <div class="layer-note share-note hidden">Link copied — it reopens this exact view.</div>
     <div style="margin:14px 0 6px"><span class="micro">SOURCES · ${sorted.length}</span></div>
     ${srcRows || '<div class="panel-empty">No source data yet.</div>'}
+    ${health && health.deploySha ? `<div class="micro" style="margin-top:10px">BUILD ${esc(String(health.deploySha).slice(0, 8))} — this is the exact deploy running right now</div>` : ''}
     <div class="layer-note">Last sweep ${sweepAt ? fmtDateTime(sweepAt) : '—'} · Brain ${meta.lastBrain ? fmtDateTime(meta.lastBrain) : '—'}</div>`;
 
   // Refresh from /api/health in the background for live source states.

@@ -90,10 +90,14 @@ export function initMarkers() {
 
   eventSource = new Cesium.CustomDataSource('events');
   eventSource.clustering.enabled = true;
-  // Calmer clustering: clusters only form for genuinely dense groups, so a
-  // slight camera pivot doesn't snap pins in and out of cluster badges.
-  eventSource.clustering.pixelRange = 40;
-  eventSource.clustering.minimumClusterSize = 4;
+  // Calmer clustering: clusters only form for genuinely dense groups, and the
+  // grouping radius is generous, so a slight camera move doesn't snap pins in
+  // and out of cluster badges or reshuffle the counts. Verified against
+  // Cesium 1.145's EntityCluster: on pan/zoom-out the greedy pass does not
+  // reuse previous clusters as seeds, so a wide pixelRange is what keeps the
+  // badges dependable while moving (2026-09-30).
+  eventSource.clustering.pixelRange = 64;
+  eventSource.clustering.minimumClusterSize = 5;
   eventSource.clustering.clusterEvent.addEventListener((clustered, cluster) => {
     let maxSev = 'low';
     let maxRank = -1;

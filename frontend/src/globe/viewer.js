@@ -55,6 +55,14 @@ export function createViewer(container) {
   // the biggest battery win for a parked dashboard (audit 1.1).
   installRenderGovernor(viewer);
 
+  // Calmer camera-change reporting: camera.changed (which drives Cesium's
+  // EntityCluster re-group pass) fires only after substantial movement
+  // instead of on every nudge, so cluster badges stop reshuffling while the
+  // user makes small pans. Documented Camera property (default 0.5); the
+  // only other camera.changed listener here is the SSE updater, which is
+  // idempotent (2026-09-30).
+  viewer.camera.percentageChanged = 0.75;
+
   // Atmosphere and starfield: the blue limb halo is half the wow factor.
   // (Was disabled for "polar night" — re-enabled for the GEV-grade look.)
   viewer.scene.skyBox.show = true;
@@ -145,6 +153,14 @@ export function createViewer(container) {
   // by lowering SSE. Low-zoom tiles are naturally blurry — without this, the
   // globe looks soft from far away. When zoomed in, restore the base SSE for
   // performance.
+  //
+  // Motion-adaptive relaxation (2026-09-30): while the camera is moving
+  // (spin / zoom / pan), multiply SSE by MOTION_RELAX so far fewer tiles are
+  // in flight and the visible set converges quickly instead of churning in a
+  // perpetually blurry state. When the camera settles (moveEnd), full
+  // sharpness is restored. Smooth in motion, sharp at rest.
+  const MOTION_RELAX = 1.6;
+  let motionRelax = 1;
   let sseRaf = 0;
   const updateDynamicSSE = () => {
     sseRaf = 0;
@@ -155,11 +171,26 @@ export function createViewer(container) {
       if (h > 15000000) sse = baseSSE * 0.5;      // whole globe: sharpest
       else if (h > 8000000) sse = baseSSE * 0.65;  // continental view
       else if (h > 3000000) sse = baseSSE * 0.8;   // regional view
-      viewer.scene.globe.maximumScreenSpaceError = sse;
+      viewer.scene.globe.maximumScreenSpaceError = sse * motionRelax;
     } catch { /* camera not ready */ }
   };
   viewer.camera.changed.addEventListener(() => {
     if (!sseRaf) sseRaf = requestAnimationFrame(updateDynamicSSE);
+  });
+  // moveStart fires when any camera motion begins (user gesture, flight, or
+  // the idle auto-spin); moveEnd fires after ~500 ms of stillness
+  // (scene.cameraEventWaitTime). Documented Camera events.
+  viewer.camera.moveStart.addEventListener(() => {
+    if (motionRelax === 1) {
+      motionRelax = MOTION_RELAX;
+      updateDynamicSSE();
+    }
+  });
+  viewer.camera.moveEnd.addEventListener(() => {
+    if (motionRelax !== 1) {
+      motionRelax = 1;
+      updateDynamicSSE();
+    }
   });
 
   // Bigger tile cache for zoom in/out workflows — zooming back out re-shows

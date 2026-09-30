@@ -21,6 +21,10 @@ import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
 let current = null;
 let closeTimer = 0;
+// Async-toggle guards: survive panel re-renders (renderLayers re-runs on every
+// store 'data' event, so DOM classes alone can't track an in-flight poll).
+let vesBusy = false;
+let cycBusy = false;
 
 const META = {
   layers: { kicker: 'SIGNAL LAYERS', title: 'Layers' },
@@ -261,42 +265,57 @@ function renderLayers(el) {
   // Vessels toggle (audit 1.10) — honest needs_key state when no backend.
   // If the feed can't show ships, say why inline instead of silently
   // flipping the toggle back (which reads as "the toggle is broken").
-  const vesRow = el.querySelector('[data-vessels="ships"]');
-  const vesNote = el.querySelector('.vessel-note');
+  // NOTE: store 'data' events re-render this panel (innerHTML), so the row
+  // captured below can be detached mid-poll — always re-query the live row.
+  const vesRowSel = '[data-vessels="ships"]';
+  const liveVesRow = () => el.querySelector(vesRowSel);
+  const liveVesNote = () => el.querySelector('.vessel-note');
   let vesNoteTimer = 0;
   const showVesNote = (msg) => {
-    if (!vesNote) return;
-    vesNote.textContent = msg;
-    vesNote.classList.remove('hidden');
+    const n = liveVesNote();
+    if (!n) return;
+    n.textContent = msg;
+    n.classList.remove('hidden');
     clearTimeout(vesNoteTimer);
-    vesNoteTimer = setTimeout(() => vesNote.classList.add('hidden'), 8000);
+    vesNoteTimer = setTimeout(() => {
+      const n2 = liveVesNote();
+      if (n2) n2.classList.add('hidden');
+    }, 8000);
   };
+  const vesRow = liveVesRow();
   if (vesRow) {
     vesRow.addEventListener('click', () => {
-      if (vesRow.classList.contains('busy')) return; // poll in flight — ignore
+      const row = liveVesRow();
+      if (!row || vesBusy) return; // poll in flight — ignore
+      vesBusy = true;
       const targetOn = !vesselsEnabled();
-      if (vesNote) vesNote.classList.add('hidden');
-      vesRow.classList.toggle('off', !targetOn);
-      vesRow.classList.add('busy');
+      const note = liveVesNote();
+      if (note) note.classList.add('hidden');
+      row.classList.toggle('off', !targetOn);
+      row.classList.add('busy');
       setVessels(targetOn).then((on) => {
         // If the feed is unavailable (no key / backend down), don't leave the
         // toggle on with nothing to show — revert to off and explain why.
         const st = (getVesselStatus() || {}).state;
         const usable = on && st !== 'needs_key' && st !== 'down';
+        const r2 = liveVesRow();
         if (targetOn && !usable) {
           setVessels(false);
-          vesRow.classList.toggle('off', true);
+          if (r2) r2.classList.toggle('off', true);
           showVesNote(st === 'needs_key'
             ? 'Live ships need an AIS key — none is configured, so there is nothing to show yet. (Free signup; your call to add one.)'
             : 'Ship feed is unavailable right now — try again later.');
-        } else {
-          vesRow.classList.toggle('off', !on);
+        } else if (r2) {
+          r2.classList.toggle('off', !on);
         }
         window.dispatchEvent(new Event('dock-refresh'));
       }).catch(() => {
-        vesRow.classList.toggle('off', targetOn);
+        const r3 = liveVesRow();
+        if (r3) r3.classList.toggle('off', targetOn);
       }).finally(() => {
-        vesRow.classList.remove('busy');
+        const r4 = liveVesRow();
+        if (r4) r4.classList.remove('busy');
+        vesBusy = false;
       });
     });
   }
@@ -308,21 +327,32 @@ function renderLayers(el) {
       window.dispatchEvent(new Event('dock-refresh'));
     });
   });
-  const cycRow = el.querySelector('[data-cyclones="storms"]');
+  const cycRowSel = '[data-cyclones="storms"]';
+  const liveCycRow = () => el.querySelector(cycRowSel);
+  const cycRow = liveCycRow();
   if (cycRow) {
     cycRow.addEventListener('click', () => {
+      const row = liveCycRow();
+      if (!row || cycBusy) return;
+      cycBusy = true;
       const targetOn = !cyclonesEnabled();
-      cycRow.classList.toggle('off', !targetOn);
-      cycRow.classList.add('busy');
+      row.classList.toggle('off', !targetOn);
+      row.classList.add('busy');
       setCyclones(targetOn).then((on) => {
-        cycRow.classList.toggle('off', !on);
+        const r2 = liveCycRow();
+        if (r2) {
+          r2.classList.toggle('off', !on);
+          const countEl = r2.querySelector('[data-cyclone-count]');
+          if (countEl) countEl.textContent = cycloneCount() || '';
+        }
         window.dispatchEvent(new Event('dock-refresh'));
-        const countEl = cycRow.querySelector('[data-cyclone-count]');
-        if (countEl) countEl.textContent = cycloneCount() || '';
       }).catch(() => {
-        cycRow.classList.toggle('off', targetOn);
+        const r3 = liveCycRow();
+        if (r3) r3.classList.toggle('off', targetOn);
       }).finally(() => {
-        cycRow.classList.remove('busy');
+        const r4 = liveCycRow();
+        if (r4) r4.classList.remove('busy');
+        cycBusy = false;
       });
     });
   }

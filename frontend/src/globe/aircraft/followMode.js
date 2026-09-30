@@ -14,6 +14,7 @@
      restored (caller owns that via onRelease). */
 
 import * as Cesium from 'cesium';
+import { screenProjectedRotation, stabilizeScreenRotation } from './iconOrientation.js';
 
 let viewer = null;
 let trackedEntity = null;
@@ -21,6 +22,8 @@ let trackedId = null;
 let escapeHandler = null;
 let onReleaseCb = null;
 let crossLayerGuard = null;
+// P2: stabilized screen rotation of the tracked billboard (reset per follow).
+let followPrevRot = null;
 
 /**
  * @param {Cesium.Viewer} v
@@ -54,6 +57,8 @@ function installEscape() {
  * @param {string} [opts.image] - billboard image data URI for the tracked entity.
  * @param {number} [opts.width=28] - tracked billboard width px.
  * @param {Cesium.Color} [opts.color] - billboard tint.
+ * @param {() => number} [opts.getCourseDeg] - live course/track in degrees
+ *   clockwise from north (for the tracked icon's screen-space rotation).
  * @param {() => void} [opts.onRelease] - called on every release path.
  */
 export function startFollow(id, getPosition, opts = {}) {
@@ -62,9 +67,26 @@ export function startFollow(id, getPosition, opts = {}) {
 
   trackedId = id;
   onReleaseCb = opts.onRelease || null;
+  followPrevRot = null;
 
   const positionProperty = new Cesium.CallbackProperty(() => {
     return getPosition() || Cesium.Cartesian3.ZERO;
+  }, false);
+
+  // P2: the tracked billboard gets the same screen-projected rotation as the
+  // fleet icons (audit P1) — without it the followed plane has no heading at
+  // all (billboard rotation defaults to 0, nose north forever).
+  const rotationProperty = new Cesium.CallbackProperty(() => {
+    try {
+      const pos = getPosition();
+      const course = typeof opts.getCourseDeg === 'function' ? opts.getCourseDeg() : NaN;
+      const next = screenProjectedRotation(viewer.scene, pos,
+        Number.isFinite(course) ? course : 0, followPrevRot);
+      followPrevRot = stabilizeScreenRotation(followPrevRot, next);
+      return followPrevRot ?? 0;
+    } catch {
+      return followPrevRot ?? 0;
+    }
   }, false);
 
   // Calibrated frame: behind + above, distance scaled to altitude.
@@ -81,6 +103,7 @@ export function startFollow(id, getPosition, opts = {}) {
       width: opts.width || 28,
       height: opts.width || 28,
       color: opts.color || Cesium.Color.CYAN,
+      rotation: rotationProperty,
       sizeInMeters: false,
       scaleByDistance: new Cesium.NearFarScalar(1000, 3.0, 8000000, 0.5),
       disableDepthTestDistance: Number.POSITIVE_INFINITY, // never buried in terrain
@@ -114,7 +137,7 @@ export function startFollow(id, getPosition, opts = {}) {
 
 /**
  * Stop following. Camera stays exactly where it is.
- * @param {string} [reason] - 'user' | 'escape' | 'card-close' | 'switch' | 'handoff' | 'evicted'
+ * @param {string} [reason] - 'user' | 'escape' | 'card-close' | 'switch' | 'handoff' | 'evicted' | 'layer-off' | 'zoom-gate'
  * @param {object} [opts]
  * @param {boolean} [opts.keepViewerTrack] - another layer owns the camera; don't clear it.
  */

@@ -11,6 +11,7 @@ import { nightVisionShader } from './surveillance.js';
 import { retroShader } from './retro.js';
 import { noirShader } from './noir.js';
 import { initScopeMask, setScopeMaskEnabled } from './scopeMask.js';
+import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 
 export const SENSOR_LOOKS = {
   flir: { label: 'FLIR', shader: thermalShader },
@@ -85,11 +86,20 @@ export function initSensorLooks(viewer) {
       }
       if (stage.enabled && 'time' in u) u.time = t;
     }
-    if (needsTick()) rafId = requestAnimationFrame(tick);
+    if (needsTick()) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      // R1: settled — release the hold so the scene can return to
+      // demand-driven idle rendering. (Without this, an animated look fades
+      // out, the rAF loop ends, but the governor never re-enters idle and
+      // the effects freeze visually while the loop keeps burning frames.)
+      releaseContinuousRender('sensors');
+    }
   };
   const kickTick = () => {
     if (!rafId) {
       last = performance.now();
+      holdContinuousRender('sensors'); // R1: keep animating while ticking
       rafId = requestAnimationFrame(tick);
     }
   };

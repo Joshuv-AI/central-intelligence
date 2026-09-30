@@ -8,9 +8,10 @@ import { classifyAircraft } from '../aircraft/aircraftClass.js';
 import { aircraftIcon, FLEET_ICON_PX, FLEET_ICON_PX_RETINA } from '../aircraft/aircraftIcons.js';
 import { isTaggedMilitary } from '../aircraft/militaryRegistry.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
+import { screenProjectedRotation, stabilizeScreenRotation } from '../aircraft/iconOrientation.js';
+import { followedId, stopFollow } from '../aircraft/followMode.js';
 
 const POLL_MS = 15 * 1000;
-const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600; // 1 knot = 1 NM/h; 1 NM = 1 arc-minute
 // Civilian planes only render when the camera is closer than this height
 // (Joshua 2026-09-29): zoomed-out views would try to draw thousands of
 // overlapping billboards. Military traffic is unaffected.
@@ -58,10 +59,25 @@ function refreshCivilGate() {
   const zin = civilZoomedIn();
   feedStatus.civil.gated = civOn && !zin;
   if (zin === civZoomIn) return false;
+  const wasIn = civZoomIn;
   civZoomIn = zin;
   cullHorizon(); // re-apply show flags; civilian layerOn includes the gate
+  // F2: zooming out past the civil gate while tracking a civil aircraft —
+  // its data layer just disappeared, so release the follow instead of
+  // freezing on a hidden, aging ghost.
+  if (wasIn && !zin) releaseFollowIf((a) => !a.military, 'zoom-gate');
   if (zin && civOn) { poll(); return true; }
   return false;
+}
+
+// Stop following the tracked aircraft when `pred` matches it (F2): its data
+// layer just disappeared (layer turned off / zoom gate closed). The camera
+// releases in place instead of freezing on a ghost.
+function releaseFollowIf(pred, reason) {
+  const fid = followedId();
+  if (!fid || !fid.startsWith('flight-')) return;
+  const fa = aircraft.get(fid.slice('flight-'.length));
+  if (fa && pred(fa)) stopFollow(reason);
 }
 
 // hex -> { billboard, lat, lon, track, gs, alt, lastUpdate, missedPolls }
@@ -178,22 +194,88 @@ function toCartesian(lat, lon, altM, result) {
   return Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(altM, 0), undefined, result);
 }
 
-// Advance a position by speed/track over dt seconds (flat-earth approx —
-// fine for 15 s hops: at 500 kt that's ~2 NM).
+// Advance a position by speed/track over dt seconds. Constant-rate-turn
+// integration (ported from God's Eye View motionModel.js, MIT): the track
+// itself rotates through the turn, so a banking aircraft follows an arc
+// instead of drifting off its curved path — straight-line DR can be ~1.4 km
+// off over a 15 s poll at 500 kt in a standard-rate turn (audit S2).
+const MS_PER_KNOT = 0.514444;
+const M_PER_DEG_LAT = 111320; // spherical approx, matches GEV
+function norm180(d) { d = (d + 180) % 360; if (d < 0) d += 360; return d - 180; }
+function norm360(d) { d %= 360; if (d < 0) d += 360; return d; }
 function deadReckon(a, dt) {
   if (!Number.isFinite(a.track) || !Number.isFinite(a.gs) || a.gs <= 0) return;
-  const dDeg = a.gs * KNOTS_TO_DEG_LAT_PER_S * dt;
+  const speedMps = a.gs * MS_PER_KNOT;
+  const w = ((a.turnRateDps || 0) * Math.PI) / 180; // turn rate, rad/s
   const tr = (a.track * Math.PI) / 180;
-  a.lat += dDeg * Math.cos(tr);
+  let eastM, northM;
+  if (Math.abs(w) < 1e-4) {
+    eastM = speedMps * Math.sin(tr) * dt;
+    northM = speedMps * Math.cos(tr) * dt;
+  } else {
+    eastM = (speedMps / w) * (Math.cos(tr) - Math.cos(tr + w * dt));
+    northM = (speedMps / w) * (Math.sin(tr + w * dt) - Math.sin(tr));
+    a.track = norm360(a.track + (a.turnRateDps || 0) * dt);
+  }
+  a.lat += northM / M_PER_DEG_LAT;
   const cosLat = Math.cos((a.lat * Math.PI) / 180);
-  a.lon += (dDeg * Math.sin(tr)) / Math.max(cosLat, 0.2);
+  a.lon += eastM / (M_PER_DEG_LAT * Math.max(cosLat, 0.2));
+}
+
+// Turn-rate estimate from recent REPORTED tracks (audit S2): mean signed
+// track change per second over the last few polls. Noise floor 0.4 °/s and
+// ±4 °/s clamp keep fix jitter from manufacturing a spin. Only feed samples
+// are used — never the turn-evolved a.track the interpolator maintains.
+function estimateTurnRateDps(samples) {
+  let sum = 0, n = 0;
+  for (let i = 1; i < samples.length; i++) {
+    const dt = samples[i].tSec - samples[i - 1].tSec;
+    if (dt < 2 || dt > 120) continue;
+    const d = norm180(samples[i].trackDeg - samples[i - 1].trackDeg);
+    if (!Number.isFinite(d)) continue;
+    sum += d / dt;
+    n++;
+  }
+  if (!n) return 0;
+  const rate = sum / n;
+  if (Math.abs(rate) < 0.4) return 0;
+  return Math.max(-4, Math.min(4, rate));
 }
 
 function upsert(ac, military) {
   const hex = ac.hex;
   if (!hex || !Number.isFinite(ac.lat) || !Number.isFinite(ac.lon)) return;
   let a = aircraft.get(hex);
+  // P4: prefer geometric altitude (feet → m) for RENDERING — alt_geom is
+  // already referenced to the WGS84 ellipsoid, so it needs no MSL offset.
+  // The card keeps showing barometric altitude (a.alt, pilot-true MSL).
+  const altGeomM = Number(ac.alt_geom) * 0.3048;
+  const renderAltM = ac.alt_baro === 'ground' ? 0
+    : Number.isFinite(altGeomM) && altGeomM > 0 ? altGeomM
+    : Number(ac.alt_baro) * 0.3048 || 0;
   const altM = ac.alt_baro === 'ground' ? 0 : Number(ac.alt_baro) * 0.3048 || 0;
+  // F4: unwrap longitude to the nearest ±360° equivalent of the current
+  // display position, so antimeridian crossings interpolate the short way
+  // instead of sending the follow camera on a 360° sweep.
+  // S1: adsb.lol positions are routinely stale (seen_pos = seconds since the
+  // last ADS-B update). Advance the reported fix along its track/speed by
+  // that age BEFORE storing it, so the baseline isn't behind truth.
+  let fixLat = ac.lat, fixLon = ac.lon;
+  const refLon = a && Number.isFinite(a.dispLon) ? a.dispLon
+    : a && Number.isFinite(a.lon) ? a.lon : fixLon;
+  while (fixLon - refLon > 180) fixLon -= 360;
+  while (fixLon - refLon < -180) fixLon += 360;
+  const fixAgeSec = Number(ac.seen_pos) || 0;
+  const reportedTrack = (ac.track == null || ac.track === '') ? NaN : Number(ac.track);
+  if (fixAgeSec > 0 && fixAgeSec < 300) {
+    const probe = {
+      lat: fixLat, lon: fixLon, track: reportedTrack,
+      gs: Number(ac.gs), turnRateDps: a ? a.turnRateDps : 0,
+    };
+    deadReckon(probe, fixAgeSec);
+    fixLat = probe.lat;
+    fixLon = probe.lon;
+  }
   // Per-class silhouette (audit 1.6): classify by ICAO type designator.
   const typeCode = (ac.t || '').trim().toUpperCase();
   const klass = classifyAircraft({ typeCode });
@@ -203,7 +285,10 @@ function upsert(ac, military) {
       id: `flight-${hex}`,
       image: aircraftIcon(klass, FLEET_ICON_PX_RETINA),
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
-      disableDepthTestDistance: 0,
+      // P5: never buried under terrain — horizon culling via EllipsoidalOccluder
+      // already hides far-side aircraft, so depth testing only ever hides
+      // aircraft that should be visible (e.g. grounded, at 0 m ellipsoid).
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
     });
     // Uniform size per layer (Joshua 2026-09-29): military 0.6, civilian 0.45
     // so dense blue traffic looks less cluttered. Retina ratio keeps it sharp.
@@ -214,17 +299,18 @@ function upsert(ac, military) {
     );
     a = { billboard: bb, hex, klass, military: !!military };
     aircraft.set(hex, a);
-    // New aircraft: start at the reported position (no interpolation needed).
-    a.lat = ac.lat;
-    a.lon = ac.lon;
-    a.dispLat = ac.lat;
-    a.dispLon = ac.lon;
+    // New aircraft: start at the pre-advanced reported position (S1) —
+    // no interpolation needed.
+    a.lat = fixLat;
+    a.lon = fixLon;
+    a.dispLat = fixLat;
+    a.dispLon = fixLon;
   } else {
     // Existing aircraft: set target, interpolate display position smoothly.
     // This prevents visible jumping when API position differs from dead-reckoned.
-    a.lat = ac.lat;
-    a.lon = ac.lon;
-    if (!Number.isFinite(a.dispLat)) { a.dispLat = ac.lat; a.dispLon = ac.lon; }
+    a.lat = fixLat;
+    a.lon = fixLon;
+    if (!Number.isFinite(a.dispLat)) { a.dispLat = fixLat; a.dispLon = fixLon; }
     // Re-image if the type arrived late (audit 1.6). Re-scale if the
     // military/civil classification changed between feeds.
     if (klass !== a.klass || !!military !== !!a.military) {
@@ -238,23 +324,33 @@ function upsert(ac, military) {
   a.typeCode = typeCode;
   a.vertRateFpm = Number(ac.baro_rate);   // ft/min, NaN when absent
   a.seenSec = Number(ac.seen);            // seconds since last ADS-B update
+  a.seenPosSec = Number(ac.seen_pos);     // seconds since last POSITION update (S1)
   a.squawk = ac.squawk || '';
   a.emergency = ac.emergency || 'none';
   a.stale = (a.missedPolls || 0) > 0;
   // Position history for selected-flight trails (audit 1.7).
   // Recorded AFTER altitude assignment so the point carries this poll's altitude.
   a.history = a.history || [];
-  a.history.push(toCartesian(a.lat, a.lon, altM));
+  a.history.push(toCartesian(a.lat, a.lon, renderAltM));
   if (a.history.length > 120) a.history.shift(); // ~30 min at 15 s polls
   // Track: null/undefined/empty means "unknown" (use movement fallback).
   // Number(null) is 0, which would falsely point the plane north.
-  a.track = (ac.track == null || ac.track === '') ? NaN : Number(ac.track);
+  a.track = reportedTrack;
   a.gs = Number(ac.gs);
-  a.alt = altM;
+  // S2: turn-rate estimate from recent reported tracks (see deadReckon).
+  const nowSec = performance.now() / 1000;
+  a.turnSamples = a.turnSamples || [];
+  if (Number.isFinite(a.track)) {
+    a.turnSamples.push({ trackDeg: a.track, tSec: nowSec });
+    if (a.turnSamples.length > 3) a.turnSamples.shift();
+  }
+  a.turnRateDps = estimateTurnRateDps(a.turnSamples);
+  a.alt = altM;               // baro MSL — card display stays pilot-true (P4)
+  a.renderAltM = renderAltM;  // ellipsoidal — what the globe actually draws (P4)
   a.military = military;
   a.label = (ac.flight || '').trim() || ac.r || hex;
   a.lastUpdate = performance.now();
-  a.billboard.position = toCartesian(a.lat, a.lon, a.alt);
+  a.billboard.position = toCartesian(a.lat, a.lon, a.renderAltM);
   // Heading: prefer ADS-B track, else estimate from position delta,
   // else keep last rotation (never snap back to 0).
   let heading = null;
@@ -268,7 +364,15 @@ function upsert(ac, military) {
     if (heading < 0) heading += 360;
   }
   if (heading !== null) {
-    a.billboard.rotation = (heading * Math.PI) / 180;
+    // P1: rotation is computed in SCREEN space (camera-basis projection),
+    // not raw heading — raw heading is mirrored and camera-blind.
+    a.courseDeg = heading;
+    const proj = screenProjectedRotation(viewer.scene, a.billboard.position,
+      heading, Number.isFinite(a.rotation) ? a.rotation : null);
+    if (proj !== null) {
+      a.billboard.rotation = proj;
+      a.rotation = proj;
+    }
   }
   a.prevLat = a.lat;
   a.prevLon = a.lon;
@@ -277,10 +381,14 @@ function upsert(ac, military) {
 function cullHorizon() {
   if (!occluder) return;
   occluder.cameraPosition = viewer.scene.camera.positionWC;
+  const fid = followedId();
   for (const a of aircraft.values()) {
+    // F7: the tracked aircraft's fleet billboard stays hidden for the whole
+    // follow (the tracked entity renders it) — a poll must not un-hide it.
+    if (fid === `flight-${a.hex}`) continue;
     // Civilian traffic is zoom-gated (Joshua 2026-09-29); military is not.
     const layerOn = a.military ? milOn : (civOn && civZoomIn);
-    const p = toCartesian(a.lat, a.lon, a.alt);
+    const p = toCartesian(a.lat, a.lon, a.renderAltM ?? a.alt);
     a.billboard.show = layerOn && occluder.isPointVisible(p);
   }
 }
@@ -339,6 +447,9 @@ async function poll() {
     if (!seen.has(hex)) {
       a.missedPolls = (a.missedPolls || 0) + 1;
       if (a.missedPolls >= 3) {
+        // F1: if the camera is following this aircraft, release the follow
+        // BEFORE deleting it — otherwise the camera freezes on a ghost.
+        if (followedId() === `flight-${hex}`) stopFollow('evicted');
         billboards.remove(a.billboard);
         aircraft.delete(hex);
       }
@@ -400,8 +511,29 @@ function startLoop() {
         }
         // Scratch position: assigning a fresh Cartesian3 per aircraft per frame
         // is hundreds of allocations/frame of pure GC pressure.
-        a.billboard.position = toCartesian(a.dispLat, a.dispLon, a.alt,
-          (a._pos ||= new Cesium.Cartesian3()));
+        a.billboard.position = toCartesian(a.dispLat, a.dispLon,
+          a.renderAltM ?? a.alt, (a._pos ||= new Cesium.Cartesian3()));
+      }
+      // P1: screen-space icon orientation pass. Recompute when the camera
+      // pose changed (the projection is camera-relative) or 1 s elapsed so
+      // course changes still update while parked. Stabilized with a 0.5°
+      // deadband; writes only on real change (no per-frame churn).
+      const sig = cameraPoseSignature();
+      if (sig !== lastCamSig || now - lastRotPass > 1000) {
+        lastCamSig = sig;
+        lastRotPass = now;
+        const scene = viewer.scene;
+        for (const a of aircraft.values()) {
+          if (!a.billboard.show) continue;
+          const prev = Number.isFinite(a.rotation) ? a.rotation : null;
+          const next = screenProjectedRotation(scene, a.billboard.position,
+            Number.isFinite(a.courseDeg) ? a.courseDeg : 0, prev);
+          const stable = stabilizeScreenRotation(prev, next);
+          if (stable !== null && stable !== a.rotation) {
+            a.billboard.rotation = stable;
+            a.rotation = stable;
+          }
+        }
       }
     } catch (err) {
       console.error('[flights] interpolator error (render loop protected):', err);
@@ -409,6 +541,18 @@ function startLoop() {
   });
   poll();
   pollTimer = setInterval(poll, POLL_MS);
+}
+
+// Camera-pose signature for the P1 orientation pass: the screen projection
+// only needs recomputing when the camera actually moved. Rounded so parked
+// sub-pixel jitter doesn't trigger a pass.
+let lastCamSig = '';
+let lastRotPass = 0;
+function cameraPoseSignature() {
+  const c = viewer.scene.camera;
+  const p = c.positionWC;
+  return p.x.toFixed(0) + ',' + p.y.toFixed(0) + ',' + p.z.toFixed(0) + ',' +
+    c.heading.toFixed(3) + ',' + c.pitch.toFixed(3) + ',' + c.roll.toFixed(3);
 }
 
 function stopLoop() {
@@ -443,6 +587,8 @@ export async function setMilitary(on) {
   for (const a of aircraft.values()) {
     if (a.military) { hasMil = true; a.billboard.show = on; }
   }
+  // F2: layer turned off while tracking a military aircraft — release.
+  if (!on) releaseFollowIf((a) => a.military, 'layer-off');
   if (milOn && !hasMil) poll();
   return milOn;
 }
@@ -457,9 +603,14 @@ export async function setCivil(on) {
   for (const a of aircraft.values()) {
     if (!a.military) { hasCiv = true; a.billboard.show = on && civZoomIn; }
   }
+  // F2: layer turned off while tracking a civil aircraft — release.
+  if (!on) releaseFollowIf((a) => !a.military, 'layer-off');
   if (civOn && civZoomIn && !hasCiv && !gatePolled) poll();
   return civOn;
 }
+
+/** Re-apply horizon + layer visibility (restores the fleet billboard after follow release, F7). */
+export function refreshAircraftVisibility() { cullHorizon(); }
 
 export function initFlights(v) {
   viewer = v;

@@ -21,6 +21,7 @@
 import * as Cesium from 'cesium';
 import { vesselIcon } from './vesselIcons.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
+import { screenProjectedRotation, stabilizeScreenRotation } from '../aircraft/iconOrientation.js';
 
 const POLL_MS = 30 * 1000;
 const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600;
@@ -70,7 +71,10 @@ function upsert(sv) {
       width: 32,
       height: 32,
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.1, 4e7, 0.3),
-      disableDepthTestDistance: 0,
+      // P5: never buried under terrain — horizon culling already hides
+      // far-side vessels, so depth testing only hides ones that should
+      // be visible.
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
     });
     v = { billboard: bb, mmsi, history: [] };
     vessels.set(mmsi, v);
@@ -85,17 +89,25 @@ function upsert(sv) {
   }
   v.sog = Number(sv.sog);
   v.cog = Number(sv.cog);
-  // Heading preferred, else course-over-ground; chevron points north at rotation 0.
-  const hdg = Number.isFinite(sv.heading) ? sv.heading
+  v.heading = Number.isFinite(sv.heading) ? sv.heading
     : Number.isFinite(sv.cog) ? sv.cog : NaN;
-  if (Number.isFinite(hdg)) v.billboard.rotation = (hdg * Math.PI) / 180;
-  v.heading = hdg;
   v.name = String(sv.name || '').trim();
   v.type = sv.type;
   v.navStatus = sv.navStatus || '';
   v.lastUpdate = Date.now();
   v.missedPolls = 0;
   v.billboard.position = toCartesian(v.lat, v.lon);
+  // P1: rotation in SCREEN space (camera-basis projection) — raw heading is
+  // mirrored and camera-blind. Chevron points north at rotation 0.
+  if (Number.isFinite(v.heading)) {
+    v.courseDeg = v.heading;
+    const proj = screenProjectedRotation(viewer.scene, v.billboard.position,
+      v.heading, Number.isFinite(v.rotation) ? v.rotation : null);
+    if (proj !== null) {
+      v.billboard.rotation = proj;
+      v.rotation = proj;
+    }
+  }
   // Ring buffer for trail seeding.
   v.history.push(toCartesian(v.lat, v.lon));
   if (v.history.length > HISTORY_MAX) v.history.shift();
@@ -200,12 +212,41 @@ function startLoop() {
         v.billboard.position = toCartesian(v.dispLat, v.dispLon,
           (v._pos ||= new Cesium.Cartesian3())); // scratch: no per-frame alloc
       }
+      // P1: screen-space icon orientation pass — recompute when the camera
+      // pose changed or 1 s elapsed; 0.5° deadband, write only on change.
+      const sig = cameraPoseSignature();
+      if (sig !== lastCamSig || now - lastRotPass > 1000) {
+        lastCamSig = sig;
+        lastRotPass = now;
+        const scene = viewer.scene;
+        for (const v of vessels.values()) {
+          if (!v.billboard.show) continue;
+          const prev = Number.isFinite(v.rotation) ? v.rotation : null;
+          const next = screenProjectedRotation(scene, v.billboard.position,
+            Number.isFinite(v.courseDeg) ? v.courseDeg : 0, prev);
+          const stable = stabilizeScreenRotation(prev, next);
+          if (stable !== null && stable !== v.rotation) {
+            v.billboard.rotation = stable;
+            v.rotation = stable;
+          }
+        }
+      }
     } catch (err) {
       console.error('[vessels] interpolator error (render loop protected):', err);
     }
   });
   poll();
   pollTimer = setInterval(poll, POLL_MS);
+}
+
+// Camera-pose signature for the P1 orientation pass (see flights/index.js).
+let lastCamSig = '';
+let lastRotPass = 0;
+function cameraPoseSignature() {
+  const c = viewer.scene.camera;
+  const p = c.positionWC;
+  return p.x.toFixed(0) + ',' + p.y.toFixed(0) + ',' + p.z.toFixed(0) + ',' +
+    c.heading.toFixed(3) + ',' + c.pitch.toFixed(3) + ',' + c.roll.toFixed(3);
 }
 
 function stopLoop() {

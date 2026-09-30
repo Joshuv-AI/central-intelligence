@@ -6,6 +6,7 @@ import { getViewer } from '../globe/viewer.js';
 import { pickAt, screenPositionOf } from '../globe/markers.js';
 import { esc, fmtDateTime, fmtCoords } from '../data/format.js';
 import { startFollow, stopFollow } from '../globe/aircraft/followMode.js';
+import { getAircraft, refreshAircraftVisibility } from '../globe/flights/index.js';
 import { createOrbitRings } from '../globe/satellites/orbitRings.js';
 
 let orbitRings = null; // lazy-init on first satellite card (audit 1.14)
@@ -18,6 +19,9 @@ let anchorCartesian = null;
 let postRenderHandler = null;
 let hoverRaf = 0;
 let lastHover = 0;
+// Scratch for the follow-mode position provider (P3): reused every frame,
+// never allocated per frame.
+const _followPos = new Cesium.Cartesian3();
 
 function isMobile() {
   return window.matchMedia('(max-width: 768px)').matches;
@@ -91,14 +95,19 @@ export function openFlightCard(a, clientX, clientY) {
   const altFt = a.alt > 0 ? Math.round(a.alt * 3.28084) : 0;
   const spdKt = Number.isFinite(a.gs) ? Math.round(a.gs) : null;
   const hdg = Number.isFinite(a.track) ? Math.round(a.track) : null;
-  const where = `${a.lat.toFixed(3)}°, ${a.lon.toFixed(3)}°`;
+  // F4: a.lon may be antimeridian-unwrapped (±360) for interpolation —
+  // normalize back to ±180 for display.
+  const dispLon = ((a.lon + 540) % 360) - 180;
+  const where = `${a.lat.toFixed(3)}°, ${dispLon.toFixed(3)}°`;
   // Enrichment fields (audit 1.9): type, vertical rate, squawk, emergency, data age.
   const typeRow = a.typeCode ? `<div class="card-field"><span class="k">Type</span><span class="v mono">${esc(a.typeCode)}</span></div>` : '';
   const vsRow = Number.isFinite(a.vertRateFpm) && a.vertRateFpm !== 0
     ? `<div class="card-field"><span class="k">Vert rate</span><span class="v">${a.vertRateFpm > 0 ? '+' : ''}${Math.round(a.vertRateFpm).toLocaleString()} fpm</span></div>` : '';
   const squawkRow = a.squawk ? `<div class="card-field"><span class="k">Squawk</span><span class="v mono">${esc(a.squawk)}${a.emergency && a.emergency !== 'none' ? ' ⚠ ' + esc(a.emergency.toUpperCase()) : ''}</span></div>` : '';
-  const ageRow = Number.isFinite(a.seenSec)
-    ? `<div class="card-field"><span class="k">Data age</span><span class="v">${a.seenSec < 60 ? Math.round(a.seenSec) + 's' : Math.round(a.seenSec / 60) + 'm'}${a.stale ? ' · stale' : ''}</span></div>` : '';
+  const ageSec = Number.isFinite(a.seenPosSec) ? a.seenPosSec
+    : Number.isFinite(a.seenSec) ? a.seenSec : NaN;
+  const ageRow = Number.isFinite(ageSec)
+    ? `<div class="card-field"><span class="k">Data age</span><span class="v">${ageSec < 60 ? Math.round(ageSec) + 's' : Math.round(ageSec / 60) + 'm'}${a.stale ? ' · stale' : ''}</span></div>` : '';
   cardEl.className = a.military ? 'sev-high' : 'sev-low';
   cardEl.innerHTML = `
     <button class="card-close" aria-label="Close detail">
@@ -127,13 +136,34 @@ export function openFlightCard(a, clientX, clientY) {
       const viewer = getViewer();
       // Pass the actual aircraft silhouette and tint — without these,
       // follow mode renders a default cyan square (audit 2026-09-29).
-      startFollow(`flight-${a.hex}`, () => a.billboard.position, {
+      // F7: hide the fleet billboard while tracked so the plane isn't
+      // double-rendered; onRelease restores it via refreshAircraftVisibility.
+      // P3: the follow position is computed inline from the per-frame
+      // dead-reckoned (lat, lon, renderAltM) — not the chased billboard
+      // position — so it never lags behind the interpolation stride and
+      // keeps working while the fleet billboard is hidden.
+      const hex = a.hex;
+      const ok = startFollow(`flight-${hex}`, () => {
+        const fa = getAircraft(hex);
+        if (!fa) { stopFollow('evicted'); return null; }
+        return Cesium.Cartesian3.fromDegrees(fa.lon, fa.lat,
+          Math.max(fa.renderAltM ?? fa.alt ?? 0, 0), undefined, _followPos);
+      }, {
         viewer,
         image: a.billboard.image,
         color: a.billboard.color,
         width: 64,
+        altitudeM: a.alt, // meters — calibrates the viewFrom range
+        getCourseDeg: () => {
+          const fa = getAircraft(hex);
+          return fa && Number.isFinite(fa.courseDeg) ? fa.courseDeg : NaN;
+        },
+        onRelease: () => { refreshAircraftVisibility(); },
       });
-      trackBtn.textContent = 'TRACKING…';
+      if (ok) {
+        a.billboard.show = false;
+        trackBtn.textContent = 'TRACKING…';
+      }
     });
   }
   cardEl.classList.remove('hidden');

@@ -58,6 +58,9 @@ The following modules in `frontend/src/` were ported from
 - `globe/calloutDecollision.js` — screen-space callout decollision
 - `globe/aircraft/` — per-class silhouettes, icons, follow mode, trails, registry
 - `globe/vessels/` — AIS vessel layer (needs API key)
+- `globe/aircraft/iconOrientation.js` — screen-space icon orientation
+  (camera-basis course projection + rotation stabilization), wired into the
+  flights/vessels per-frame loops and follow mode
 - `globe/weather/` — 3D shells, GPU wind streamlines, cloud imagery
 - `globe/satellites/orbitRings.js` — flicker-free orbit rings
 - `globe/satellites/launchViz.js` — launch pad zones and ascent replay

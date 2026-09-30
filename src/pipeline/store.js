@@ -53,8 +53,14 @@ class Store {
   }
 
   pushFeed(items) {
+    // 48h TTL: stale items age out so the feed never accumulates dead noise.
+    const cutoff = Date.now() - 48 * 3600_000;
     this.state.feed = items
       .concat(this.state.feed)
+      .filter((f) => {
+        const t = f && f.time ? new Date(f.time).getTime() : 0;
+        return Number.isFinite(t) && t > cutoff;
+      })
       .slice(0, this.feedLimit);
     this._write('feed');
   }

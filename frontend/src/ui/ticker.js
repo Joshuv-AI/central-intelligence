@@ -22,7 +22,7 @@ function show(i) {
   const f = list[i % list.length];
   textEl.classList.add('swap');
   setTimeout(() => {
-    textEl.textContent = f.text || '';
+    textEl.textContent = f.headline || f.text || '';
     // Severity tint comes from the sev-* class scope (--sev var).
     dotEl.className = `ticker-dot sev-${f.severity || 'low'}`;
     textEl.classList.remove('swap');

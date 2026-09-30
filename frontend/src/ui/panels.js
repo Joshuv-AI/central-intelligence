@@ -377,24 +377,56 @@ function renderConnections(el, { focusId } = {}) {
 
 /* ————————— Feed ————————— */
 const KIND_LABELS = { connection: 'CORRELATION', escalation: 'ESCALATION', event: 'EVENT', anomaly: 'ANOMALY' };
+// Feed v2: stories, not raw rows. Connections sharing a cause collapse into
+// one story card with a plain-language "why it matters" line, so a glance
+// gives the picture instead of a scroll through near-duplicates.
+function feedKindLabel(f) {
+  if (f.kind === 'connection') return f.count > 1 ? 'STORY' : 'LINK';
+  return KIND_LABELS[f.kind] || String(f.kind || '').toUpperCase();
+}
+
+function renderFeedBrief(el) {
+  const status = store.meta && store.meta.status;
+  if (!status) return '';
+  const dir = status.direction || 'MIXED';
+  const dirClass = dir === 'RISK-ON' ? 'sev-critical' : dir === 'RISK-OFF' ? 'sev-low' : 'sev-moderate';
+  const hot = status.hot24 || 0;
+  const crit = status.critical24 || 0;
+  return `<div class="feed-brief ${dirClass}">
+    <span class="feed-brief-dir">${esc(dir)}</span>
+    <span class="feed-brief-stats">${hot} hot / 24h · ${crit} critical</span>
+  </div>`;
+}
 
 function renderFeed(el) {
   const feed = store.feed || [];
   if (feed.length === 0) {
-    el.innerHTML = `<div class="panel-empty"><span class="micro">QUIET</span>No feed items yet. New correlations, escalations and anomalies stream in here after each sweep.</div>`;
+    el.innerHTML = `<div class="panel-empty"><span class="micro">QUIET</span>No feed items yet. New stories, escalations and anomalies stream in here after each sweep.</div>`;
     return;
   }
-  el.innerHTML = feed
-    .map((f) => `
+  el.innerHTML =
+    renderFeedBrief(el) +
+    feed
+      .map((f) => {
+        const headline = f.headline || f.text || '';
+        const sub = f.sub || '';
+        const countBadge =
+          f.count > 1 ? `<span class="feed-count">+${f.count - 1} more</span>` : '';
+        return `
       <button class="feed-item sev-${f.severity || 'low'}" data-feed-id="${esc(f.id)}">
         <span class="feed-dot"></span>
-        <span>
-          <span class="feed-kind">${esc(KIND_LABELS[f.kind] || String(f.kind || '').toUpperCase())}</span>
-          <span class="feed-text">${esc(f.text)}</span>
-          <span class="feed-time">${fmtDateTime(f.time)} · ${timeAgo(f.time)} AGO</span>
+        <span class="feed-body">
+          <span class="feed-top">
+            <span class="feed-kind">${esc(feedKindLabel(f))}</span>
+            ${countBadge}
+            <span class="feed-time">${timeAgo(f.time)} AGO</span>
+          </span>
+          <span class="feed-headline">${esc(headline)}</span>
+          ${sub ? `<span class="feed-sub">${esc(sub)}</span>` : ''}
         </span>
-      </button>`)
-    .join('');
+      </button>`;
+      })
+      .join('');
 
   el.querySelectorAll('.feed-item').forEach((item) => {
     item.addEventListener('click', () => {

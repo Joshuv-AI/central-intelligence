@@ -9,10 +9,91 @@ const { runFusion } = require('./fusion');
 const { sevRank } = require('./intel_tags');
 
 const FEED_PER_SWEEP = 30;
+const FEED_TTL_MS = 48 * 3600_000;
 const DAY_MS = 86400_000;
+// Feed quality gate: only high-tier connections (score >= 65) become feed
+// stories. Low-score tag-overlap correlations (e.g. toxic-release -> disease
+// reports) stay visible on the globe but out of the feed.
+const FEED_MIN_CONNECTION_SCORE = 65;
 
 function feedItem(id, time, severity, kind, text, extra) {
   return { id, time, severity, kind, text, ...(extra || {}) };
+}
+
+// Most common non-unknown region across a connection's chain.
+function topRegion(chain) {
+  const counts = {};
+  for (const e of chain || []) {
+    const r = e && e.region;
+    if (!r || /unknown/i.test(r)) continue;
+    counts[r] = (counts[r] || 0) + 1;
+  }
+  let best = null;
+  let n = 0;
+  for (const [r, c] of Object.entries(counts)) {
+    if (c > n) {
+      best = r;
+      n = c;
+    }
+  }
+  return best;
+}
+
+// Plain-language "why this matters" for a connection, from its score parts.
+function connectionWhy(c) {
+  const bits = [];
+  const tags = (c.tags || []).slice(0, 2);
+  if (tags.length) bits.push(`shared ${tags.join(' + ')}`);
+  const p = c.scoreParts || {};
+  if ((p.cascade || 0) >= 7) bits.push('possible causal chain');
+  if ((p.proximity || 0) >= 10) bits.push('close together in time and place');
+  else if ((p.proximity || 0) >= 5) bits.push('near in time or place');
+  return bits.join(' · ') || 'linked across sources';
+}
+
+function cleanConnTitle(t) {
+  return String(t || '').replace(/^[A-Z]+\/[A-Z]+\/[A-Z]+>\s*/, '').trim();
+}
+
+// Collapse connections sharing a cause event into one story item.
+function storyItems(newConnections, seenIds, recentTitles) {
+  const byCause = new Map();
+  for (const c of newConnections) {
+    if ((c.score || 0) < FEED_MIN_CONNECTION_SCORE) continue;
+    const causeId = (c.chain && c.chain[0] && c.chain[0].eventId) || c.id;
+    if (!byCause.has(causeId)) byCause.set(causeId, []);
+    byCause.get(causeId).push(c);
+  }
+  const items = [];
+  for (const group of byCause.values()) {
+    group.sort((a, b) => (b.score || 0) - (a.score || 0));
+    const top = group[0];
+    const id = `feed-story-${top.id}`;
+    if (seenIds.has(id)) continue;
+    seenIds.add(id);
+    const causeTitle = cleanConnTitle(
+      (top.chain && top.chain[0] && top.chain[0].title) || ''
+    );
+    const n = group.length;
+    const headline =
+      n > 1 ? `${causeTitle} — ${n} linked events` : cleanConnTitle(top.title);
+    if (recentTitles.has(normTitle(headline))) continue;
+    recentTitles.add(normTitle(headline));
+    const region = topRegion(top.chain);
+    const why = connectionWhy(top);
+    const sub = [why, region].filter(Boolean).join(' · ');
+    items.push(
+      feedItem(id, top.createdAt, top.severity, 'connection', headline, {
+        headline,
+        sub,
+        region,
+        count: n,
+        connectionId: top.id,
+        url: null,
+      })
+    );
+  }
+  return items;
 }
 
 function buildFeedItems(store, changes, newConnections, anomalies) {
@@ -23,29 +104,26 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
   const dayAgo = Date.now() - 24 * 3600_000;
   const recentTitles = new Set();
   for (const f of feed) {
-    const t = f && f.at ? new Date(f.at).getTime() : 0;
-    if (t > dayAgo && f.title) recentTitles.add(normTitle(f.title));
+    const t = f && f.time ? new Date(f.time).getTime() : 0;
+    const title = f && (f.headline || f.text);
+    if (t > dayAgo && title) recentTitles.add(normTitle(title));
   }
 
-  for (const c of newConnections) {
-    const id = `feed-conn-${c.id}`;
-    if (seenIds.has(id)) continue;
-    if (recentTitles.has(normTitle(c.title))) continue;
-    recentTitles.add(normTitle(c.title));
-    items.push(
-      feedItem(id, c.createdAt, c.severity, 'connection', `CORRELATION · ${c.title}`, {
-        connectionId: c.id,
-        url: null,
-      })
-    );
+  // Connections become one story per cause event (grouped, quality-gated).
+  for (const item of storyItems(newConnections, seenIds, recentTitles)) {
+    items.push(item);
   }
   for (const e of changes.escalated) {
     const id = `feed-esc-${e.id}`;
     if (seenIds.has(id)) continue;
     if (recentTitles.has(normTitle(e.title))) continue;
     recentTitles.add(normTitle(e.title));
+    const sub = [e.source, e.region].filter(Boolean).join(' · ');
     items.push(
       feedItem(id, e.time, e.severity, 'escalation', `ESCALATED · ${e.title}`, {
+        headline: e.title,
+        sub,
+        region: e.region || null,
         eventId: e.id,
         url: e.url,
         source: e.source,
@@ -61,8 +139,12 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
     // (same incident reported by multiple sources).
     if (recentTitles.has(normTitle(e.title))) continue;
     recentTitles.add(normTitle(e.title));
+    const sub = [e.source, e.region].filter(Boolean).join(' · ');
     items.push(
       feedItem(id, e.time, e.severity, 'event', e.title, {
+        headline: e.title,
+        sub,
+        region: e.region || null,
         eventId: e.id,
         url: e.url,
         source: e.source,
@@ -74,6 +156,7 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
     // for the same ongoing anomaly.
     const id = `feed-anom-${a.source}-${Math.floor(Date.now() / (6 * 3600_000))}`;
     if (seenIds.has(id)) continue;
+    const headline = `Unusual volume from ${a.source}`;
     items.push(
       feedItem(
         id,
@@ -81,7 +164,11 @@ function buildFeedItems(store, changes, newConnections, anomalies) {
         'moderate',
         'anomaly',
         `ANOMALY · unusual volume from ${a.source}: ${a.count} events (baseline ${a.mean})`,
-        { source: a.source }
+        {
+          headline,
+          sub: `${a.count} events vs baseline ${a.mean}`,
+          source: a.source,
+        }
       )
     );
   }

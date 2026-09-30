@@ -19,5 +19,5 @@ module.exports = {
   fetchTimeoutMs: parseInt(process.env.FETCH_TIMEOUT_MS || '60000', 10),
 
   // Max items kept in the public feed.
-  feedLimit: parseInt(process.env.FEED_LIMIT || '200', 10),
+  feedLimit: parseInt(process.env.FEED_LIMIT || '60', 10),
 };

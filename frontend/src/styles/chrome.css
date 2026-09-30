@@ -410,6 +410,32 @@ body.hud-hidden #panel,
 body.hud-hidden #detail-card,
 body.hud-hidden #dock,
 body.hud-hidden #hover-tip,
+/* ——— Camera telemetry HUD chip ——— */
+.ci-telemetry {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  color: var(--frost);
+  background: rgba(5, 11, 22, 0.55);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 999px;
+  padding: 6px 14px;
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+/* Never visible during first load — appears only once the system is ready. */
+body.is-loading .ci-telemetry {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 body.hud-hidden .ci-telemetry {
   opacity: 0 !important;
   pointer-events: none !important;

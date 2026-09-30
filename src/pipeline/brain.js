@@ -11,10 +11,14 @@ const { sevRank } = require('./intel_tags');
 const FEED_PER_SWEEP = 30;
 const FEED_TTL_MS = 48 * 3600_000;
 const DAY_MS = 86400_000;
-// Feed quality gate: only high-tier connections (score >= 65) become feed
-// stories. Low-score tag-overlap correlations (e.g. toxic-release -> disease
-// reports) stay visible on the globe but out of the feed.
-const FEED_MIN_CONNECTION_SCORE = 65;
+// Feed quality gate: only strong connections (score >= 75) become feed
+// stories, and only when the link has real substance — a causal chain
+// (cascade >= 7) or genuinely close in time and place (proximity >= 10).
+// Severity-padded tag-overlap correlations (e.g. toxic-release -> disease
+// reports sharing "health + population") stay visible on the globe as pins
+// but out of the feed. The feed is a digest, not a firehose.
+const FEED_MIN_CONNECTION_SCORE = 75;
+const FEED_MAX_STORIES_PER_SWEEP = 5;
 
 function feedItem(id, time, severity, kind, text, extra) {
   return { id, time, severity, kind, text, ...(extra || {}) };
@@ -56,16 +60,26 @@ function cleanConnTitle(t) {
 }
 
 // Collapse connections sharing a cause event into one story item.
+/** True when a connection is strong and substantive enough for the feed. */
+function feedWorthyConnection(c) {
+  if (!c || (c.score || 0) < FEED_MIN_CONNECTION_SCORE) return false;
+  const p = c.scoreParts || {};
+  return (p.cascade || 0) >= 7 || (p.proximity || 0) >= 10;
+}
 function storyItems(newConnections, seenIds, recentTitles) {
   const byCause = new Map();
   for (const c of newConnections) {
-    if ((c.score || 0) < FEED_MIN_CONNECTION_SCORE) continue;
+    if (!feedWorthyConnection(c)) continue;
     const causeId = (c.chain && c.chain[0] && c.chain[0].eventId) || c.id;
     if (!byCause.has(causeId)) byCause.set(causeId, []);
     byCause.get(causeId).push(c);
   }
+  // Strongest stories first; cap how many new stories one sweep can add.
+  const groups = [...byCause.values()].sort(
+    (a, b) => (b[0].score || 0) - (a[0].score || 0)
+  );
   const items = [];
-  for (const group of byCause.values()) {
+  for (const group of groups.slice(0, FEED_MAX_STORIES_PER_SWEEP)) {
     group.sort((a, b) => (b.score || 0) - (a.score || 0));
     const top = group[0];
     const id = `feed-story-${top.id}`;
@@ -299,4 +313,4 @@ function runBrain(store) {
   };
 }
 
-module.exports = { runBrain };
+module.exports = { runBrain, storyItems, feedWorthyConnection };

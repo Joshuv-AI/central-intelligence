@@ -12,7 +12,12 @@ export function buildBootWord() {
   let i = 0;
   for (const ch of WORD) {
     const s = document.createElement('span');
-    s.textContent = ch === ' ' ? ' ' : ch;
+    if (ch === ' ') {
+      s.textContent = ' ';
+      s.className = 'sp'; // mobile CSS wraps the wordmark on this span
+    } else {
+      s.textContent = ch;
+    }
     s.style.setProperty('--d', `${0.35 + i * 0.045}s`);
     wrap.appendChild(s);
     i += 1;
@@ -31,6 +36,7 @@ export function runBoot(readyPromise) {
   if (reducedMotion()) {
     return readyPromise.then(() => {
       boot.classList.add('done');
+      document.body.classList.remove('is-loading');
       setTimeout(() => boot.remove(), 60);
     });
   }
@@ -38,6 +44,7 @@ export function runBoot(readyPromise) {
   const minTime = new Promise((r) => setTimeout(r, MIN_MS));
   return Promise.all([readyPromise, minTime]).then(() => {
     boot.classList.add('done');
+    document.body.classList.remove('is-loading');
     return new Promise((resolve) => {
       setTimeout(() => {
         boot.remove();

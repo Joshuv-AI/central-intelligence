@@ -106,7 +106,7 @@ export function startFollow(id, getPosition, opts = {}) {
       rotation: rotationProperty,
       sizeInMeters: false,
       scaleByDistance: new Cesium.NearFarScalar(1000, 3.0, 8000000, 0.5),
-      disableDepthTestDistance: Number.POSITIVE_INFINITY, // never buried in terrain
+      disableDepthTestDistance: 200000, // close-range relief only; globe occludes far side
     },
   });
   trackedEntity.viewFrom = new Cesium.Cartesian3(

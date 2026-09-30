@@ -22,7 +22,7 @@ const CIVIL_ZOOM_HEIGHT_M = 650_000;
 // Billboard base scales (Joshua 2026-09-29): military keeps the uniform 0.6;
 // civilian blue planes are smaller (0.45) so dense civil traffic reads as
 // less cluttered. Multiplied by the retina ratio below, as before.
-const MIL_SCALE = 0.6;
+const MIL_SCALE = 0.5;
 const CIV_SCALE = 0.45;
 
 let viewer = null;
@@ -285,13 +285,15 @@ function upsert(ac, military) {
       id: `flight-${hex}`,
       image: aircraftIcon(klass, FLEET_ICON_PX_RETINA),
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.4, 4e7, 0.35),
-      // P5: never buried under terrain — horizon culling via EllipsoidalOccluder
-      // already hides far-side aircraft, so depth testing only ever hides
-      // aircraft that should be visible (e.g. grounded, at 0 m ellipsoid).
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      // Depth-test relief only at close range: within 200 km the billboard
+      // skips depth testing so grounded aircraft stay visible through
+      // terrain (P5). Beyond that the globe depth-occludes normally, so
+      // far-side aircraft can never draw through the planet (Joshua
+      // 2026-09-30 — INF let opposite-side planes show through the globe).
+      disableDepthTestDistance: 200000,
     });
-    // Uniform size per layer (Joshua 2026-09-29): military 0.6, civilian 0.45
-    // so dense blue traffic looks less cluttered. Retina ratio keeps it sharp.
+    // Uniform size per layer (Joshua 2026-09-29/30): military 0.5, civilian
+    // 0.45 so dense traffic looks less cluttered. Retina ratio keeps it sharp.
     bb.scale = (military ? MIL_SCALE : CIV_SCALE) * (FLEET_ICON_PX / FLEET_ICON_PX_RETINA);
     // Tint: operator-tagged red / military amber / civil blue.
     bb.color = Cesium.Color.fromCssColorString(

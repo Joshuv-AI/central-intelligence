@@ -71,10 +71,11 @@ function upsert(sv) {
       width: 32,
       height: 32,
       scaleByDistance: new Cesium.NearFarScalar(2e5, 1.1, 4e7, 0.3),
-      // P5: never buried under terrain — horizon culling already hides
-      // far-side vessels, so depth testing only hides ones that should
-      // be visible.
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      // Depth-test relief only at close range: within 200 km the billboard
+      // skips depth testing so vessels stay visible through terrain. Beyond
+      // that the globe depth-occludes normally, so far-side vessels can
+      // never draw through the planet (Joshua 2026-09-30).
+      disableDepthTestDistance: 200000,
     });
     v = { billboard: bb, mmsi, history: [] };
     vessels.set(mmsi, v);

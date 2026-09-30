@@ -61,21 +61,11 @@ The following modules in `frontend/src/` were ported from
 - `globe/aircraft/iconOrientation.js` — screen-space icon orientation
   (camera-basis course projection + rotation stabilization), wired into the
   flights/vessels per-frame loops and follow mode
-- `globe/weather/` — 3D shells, GPU wind streamlines, cloud imagery
+- `globe/weather/` — weather imagery layers
 - `globe/satellites/orbitRings.js` — flicker-free orbit rings
-- `globe/satellites/launchViz.js` — launch pad zones and ascent replay
 - `globe/sensors/scopeMask.js` — NVG/FLIR scope viewport mask
-- `globe/sensors/frustum.js` — sensor footprint projection math
-- `globe/sensors/cyberSonar.js` — opt-in acquisition sweep (off by default)
-- `globe/radio/` — web-radio layer (needs backend proxy for production)
-- `globe/annotations/` — analyst mark-up mode
-- `globe/gestures/clickGesture.js` — click/drag gesture classifier
-- `globe/imageryCompare/` — NASA GIBS date comparison (needs UI wiring)
-- `ui/telemetry.js` — camera telemetry readout
 - `ui/coordinateParser.js` — coordinate query parser
 - `ui/geocoder.js` — geocode cache with proximity bias
-- `ui/loadingStates.js` — pipeline loading state machine
-- `ui/splitFlap.js` — split-flap status transitions
 - `ui/shortcuts.js` — keyboard shortcuts
 
 Each module's header comment notes its GEV provenance. Integration is

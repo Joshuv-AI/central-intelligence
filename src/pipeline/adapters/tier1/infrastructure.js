@@ -1,9 +1,8 @@
 // Central Intelligence — infrastructure status (unique signals only).
-// EIA and Cloudflare Radar are covered by their own adapters and skipped here.
+// Cloudflare Radar is covered by its own adapter and skipped here.
 // This adapter emits maritime chokepoint traffic statuses from IMF PortWatch
 // (daily AIS-derived transit counts, public ArcGIS REST, keyless).
-// US power-grid status has no verifiable keyless feed (EIA/GridStatus need
-// keys) and is left to the economic EIA adapter.
+// US power-grid status has no verifiable keyless feed, so it is skipped.
 "use strict";
 
 const UA = "Central-Intelligence/1.0";

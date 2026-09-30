@@ -19,10 +19,8 @@ let timer = 0;
 let refreshTimer = 0;
 let enabled = false;
 let dotImage = null;
-// Source heartbeat for the dock.
+// Last fetch outcome (internal diagnostics).
 const srcStatus = { lastOk: 0, lastErr: '' };
-/** Heartbeat for the Live Source Dock: { lastOk, lastErr }. */
-export function satelliteStatus() { return srcStatus; }
 
 function makeDotImage() {
   const c = document.createElement('canvas');

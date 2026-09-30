@@ -27,7 +27,8 @@ services:
       # (gitignored — never commit it). Without it the Ships layer reports
       # "no key on server" instead of connecting.
     env_file:
-      - .env
+      - path: .env
+        required: false
     restart: unless-stopped
     # Caddy (Phase 0) reverse-proxies 443 -> this container.
 

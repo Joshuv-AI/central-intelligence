@@ -1,4 +1,4 @@
-# Central Intelligence — full system, linux/arm64 (Oracle Ampere A1).
+# Central Intelligence — full system (multi-arch; runs on GCP e2-micro x86_64).
 #
 # Stage 1 builds the Vite/Cesium frontend. Stage 2 is the Node backend,
 # which serves the built frontend as static files (same origin, port 3001).

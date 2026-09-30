@@ -70,7 +70,6 @@ function onShipsReady(state) {
     }
     emit('data'); // re-render — count label flips from '…' to the live count
   }
-  window.dispatchEvent(new Event('dock-refresh'));
 }
 
 const LAYER_READY_ROWS = {
@@ -98,7 +97,6 @@ function bindLayerReadyOnce() {
       const countEl = row.querySelector(cfg.count);
       if (countEl) countEl.textContent = cfg.getCount() || '';
     }
-    window.dispatchEvent(new Event('dock-refresh'));
   });
 }
 
@@ -282,7 +280,6 @@ function renderLayers(el) {
       orbitRow.classList.add('busy');
       setSatellites(targetOn).then((on) => {
         orbitRow.classList.toggle('off', !on);
-        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = orbitRow.querySelector('[data-sat-count]');
         if (countEl) countEl.textContent = satelliteCount() || '';
       }).catch(() => {
@@ -300,7 +297,6 @@ function renderLayers(el) {
       quakeRow.classList.add('busy');
       setEarthquakes(targetOn).then((on) => {
         quakeRow.classList.toggle('off', !on);
-        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = quakeRow.querySelector('[data-quake-count]');
         if (countEl) countEl.textContent = earthquakeCount() || '';
       }).catch(() => {
@@ -318,7 +314,6 @@ function renderLayers(el) {
       milRow.classList.add('busy');
       setMilitary(targetOn).then((on) => {
         milRow.classList.toggle('off', !on);
-        window.dispatchEvent(new Event('dock-refresh'));
       }).catch(() => {
         milRow.classList.toggle('off', targetOn);
       }).finally(() => {
@@ -334,7 +329,6 @@ function renderLayers(el) {
       civRow.classList.add('busy');
       setCivil(targetOn).then((on) => {
         civRow.classList.toggle('off', !on);
-        window.dispatchEvent(new Event('dock-refresh'));
       }).catch(() => {
         civRow.classList.toggle('off', targetOn);
       }).finally(() => {
@@ -367,7 +361,6 @@ function renderLayers(el) {
         // state (ok / auth_failed / down / no_key) to onShipsReady.
         const r2 = liveVesRow();
         if (r2) r2.classList.toggle('off', !on);
-        window.dispatchEvent(new Event('dock-refresh'));
         emit('data'); // re-render layers now — count label shows connecting/live
       }).catch(() => {
         const r3 = liveVesRow();
@@ -384,7 +377,6 @@ function renderLayers(el) {
       const key = row.dataset.weather;
       const on = setWeather(key, !weatherEnabled(key));
       row.classList.toggle('off', !on);
-      window.dispatchEvent(new Event('dock-refresh'));
     });
   });
   const cycRowSel = '[data-cyclones="storms"]';
@@ -405,7 +397,6 @@ function renderLayers(el) {
           const countEl = r2.querySelector('[data-cyclone-count]');
           if (countEl) countEl.textContent = cycloneCount() || '';
         }
-        window.dispatchEvent(new Event('dock-refresh'));
       }).catch(() => {
         const r3 = liveCycRow();
         if (r3) r3.classList.toggle('off', targetOn);
@@ -424,7 +415,6 @@ function renderLayers(el) {
       launchRow.classList.add('busy');
       setLaunches(targetOn).then((on) => {
         launchRow.classList.toggle('off', !on);
-        window.dispatchEvent(new Event('dock-refresh'));
         const countEl = launchRow.querySelector('[data-launch-count]');
         if (countEl) countEl.textContent = launchCount() || '';
       }).catch(() => {

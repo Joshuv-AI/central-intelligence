@@ -55,7 +55,7 @@ src/
       index.js        registry: 37 sources across 3 tiers
       tier1/          13 stubs — ~15 min (conflict, disasters, cyber KEV, space wx…)
       tier2/          18 stubs — ~30–60 min (sanctions, health, social, environment…)
-      tier3/          6 stubs  — daily (economic: FRED, BLS, EIA, Treasury…)
+      tier3/          6 stubs  — daily (economic: BLS, Treasury…)
 ```
 
 ## Pipeline (Phase 1 skeleton)

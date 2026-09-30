@@ -11,9 +11,7 @@
    (server's key rejected), 'down', 'ok'. The layer NEVER fabricates
    vessel positions.
 
-   Selection: tap a chevron → getVessel(mmsi) → card via ui/cards.js.
-   Trails: vesselTrails reuses the shared createTrailManager; seed from
-   the per-vessel position history ring buffer kept here. */
+   (Tap-to-info card is not wired yet — vessels render without cards.) */
 
 import * as Cesium from 'cesium';
 import { vesselIcon } from './vesselIcons.js';
@@ -301,13 +299,7 @@ function stopLoop() {
 export function vesselsEnabled() { return enabled; }
 /** Vessel count for the dock. */
 export function vesselCount() { return vessels.size; }
-/** Get vessel record by MMSI (for tap-to-info). */
-export function getVessel(mmsi) { return vessels.get(String(mmsi)) || null; }
-/** Position history (oldest→newest Cartesian3) for trail seeding. */
-export function getVesselHistory(mmsi) {
-  const v = vessels.get(String(mmsi));
-  return v ? v.history.slice() : [];
-}
+
 
 export async function setVessels(on) {
   enabled = on;

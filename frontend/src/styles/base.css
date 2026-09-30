@@ -52,10 +52,8 @@ button:focus-visible, input:focus-visible {
 ::selection { background: rgba(127, 206, 240, 0.3); }
 
 /* Slim scrollbars for panels. */
-#panel-body::-webkit-scrollbar,
-#search-results::-webkit-scrollbar { width: 6px; }
-#panel-body::-webkit-scrollbar-thumb,
-#search-results::-webkit-scrollbar-thumb {
+#panel-body::-webkit-scrollbar { width: 6px; }
+#panel-body::-webkit-scrollbar-thumb {
   background: rgba(127, 206, 240, 0.25);
   border-radius: 3px;
 }

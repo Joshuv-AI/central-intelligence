@@ -6,9 +6,16 @@
    decodes the `landuse` layer with the bundled minimal MVT decoder below
    (no npm deps; GEV used @mapbox/vector-tile + pbf — same wire format),
    keeps features with `class === 'military'`, clips each polygon ring to its
-   tile core, and renders a dot + clamped outline per fragment. Dots and
-   outlines live in one CustomDataSource, removed on disable so an off layer
-   costs nothing.
+   tile core, and renders a dot + outline per fragment. Dots and outlines
+   live in one CustomDataSource, removed on disable so an off layer costs
+   nothing.
+
+   2026-09-30 (Joshua: toggle showed nothing): the fetch was gated on camera
+   height < 2M m, so at the default global view nothing ever loaded. Now, when
+   zoomed out past the gate, the layer fetches the 4x4 z9 tiles around the
+   view center instead of nothing — the layer always shows something.
+   Outlines render as regular polylines at 500 m, not ground-clamped (same
+   iOS GroundPolylinePrimitive crash as the cable layer).
 
    ODbL attribution: "© OpenMapTiles © OpenStreetMap contributors" is added
    to the scene credit display while the layer is on.
@@ -356,11 +363,12 @@ function renderRecords(next) {
     entities.add({
       id: `${rec.id}:outline`,
       polyline: {
+        // Regular polyline at 500 m — NOT clampToGround (GroundPolylinePrimitive
+        // crashes iOS under 4x MSAA + real terrain; see cable layer fix).
         positions: rec.ring.map(([lon, lat]) =>
-          Cesium.Cartesian3.fromDegrees(lon, lat)),
+          Cesium.Cartesian3.fromDegrees(lon, lat, 500)),
         width: 2,
         material: dotColor.withAlpha(0.85),
-        clampToGround: true,
       },
     });
   }
@@ -372,14 +380,32 @@ async function refresh() {
   const gen = generation;
   clearTimeout(fetchTimer);
   const height = viewer.scene.camera.positionCartographic.height;
-  if (height >= FETCH_HEIGHT_M) return; // below min zoom 9: keep last data
   const rect = viewer.camera.computeViewRectangle();
   if (!rect) return;
-  const tiles = tilesForView(rect, TILE_Z);
-  if (!tiles) return;
-  if (tiles.length > MAX_TILES) {
-    // Refuse over-wide views instead of sampling a corner (GEV rule).
-    return;
+  let tiles;
+  if (height >= FETCH_HEIGHT_M) {
+    // Zoomed out past min zoom 9: fetch the 4x4 z9 tiles around the view
+    // center so the layer shows something instead of nothing.
+    const center = viewer.camera.positionCartographic;
+    const c = lonLatToTile(
+      Cesium.Math.toDegrees(center.longitude),
+      Cesium.Math.toDegrees(center.latitude),
+      TILE_Z,
+    );
+    const n = 2 ** TILE_Z;
+    tiles = [];
+    for (let dy = -2; dy <= 1; dy++)
+      for (let dx = -2; dx <= 1; dx++) {
+        const x = c.x + dx, y = c.y + dy;
+        if (x >= 0 && x < n && y >= 0 && y < n) tiles.push({ z: TILE_Z, x, y });
+      }
+  } else {
+    tiles = tilesForView(rect, TILE_Z);
+    if (!tiles) return;
+    if (tiles.length > MAX_TILES) {
+      // Refuse over-wide views instead of sampling a corner (GEV rule).
+      return;
+    }
   }
   let template;
   try {

@@ -4,11 +4,19 @@
    removed/relicensed if this project goes commercial.
    Attribution required in the UI: "© TeleGeography — submarinecablemap.com"
 
-   What it does: renders 712 submarine cable systems as subtle clamped-to-
-   ground route polylines (one color) plus 1,917 landing-point markers.
-   Zero network at runtime — both GeoJSON files are bundled and imported.
-   Layer defaults OFF; entities are built on first enable and the data source
-   is removed (not hidden) on disable, so an off layer costs nothing.
+   What it does: renders 712 submarine cable systems as subtle route polylines
+   plus 1,917 landing-point markers. Zero network at runtime — both GeoJSON
+   files are bundled and imported. Layer defaults OFF; entities are built on
+   first enable and the data source is removed (not hidden) on disable, so an
+   off layer costs nothing.
+
+   2026-09-30 crash fix (Joshua: enabling crashed his phone, forced reload):
+   cable polylines were `clampToGround` GroundPolylinePrimitives, which are
+   unsafe on iOS tile-based GPUs under CI's 4x MSAA + real terrain (works
+   headless on the ellipsoid, dies on device). They now render as regular
+   polylines at a fixed 1000 m — visually identical at globe zooms, none of
+   the ground-primitive path. Landing points keep CLAMP_TO_GROUND (cheap
+   billboard clamping, not a ground primitive).
 
    Ported rendering pattern from God's Eye View src/layers/submarineCables/
    (MIT), simplified: no reference stems, no overlay label lane, no per-cable
@@ -20,6 +28,7 @@ import LANDINGS from '../../data/landing-point-geo.json';
 const CABLE_COLOR = '#2dd4bf'; // teal, subtle
 const LANDING_COLOR = '#fbbf24'; // amber
 const MAX_LINE_VERTICES = 400; // cap degenerate lines; honest trim, keeps shape
+const CABLE_HEIGHT_M = 1000; // regular (non-clamped) polylines sit just above the surface
 
 let viewer = null;
 let enabled = false;
@@ -36,6 +45,8 @@ function buildEntities() {
   const ds = new Cesium.CustomDataSource('submarine-cables');
   const cableColor = Cesium.Color.fromCssColorString(CABLE_COLOR).withAlpha(0.55);
   const entities = ds.entities;
+  entities.suspendEvents();
+  try {
   let cableCount = 0;
   for (const feature of CABLES.features || []) {
     const name = cleanText(feature?.properties?.name) || 'Unnamed cable';
@@ -58,10 +69,11 @@ function buildEntities() {
         id: `cable:${cableCount}:${i}`,
         name,
         polyline: {
-          positions: pts.map(([lon, lat]) => Cesium.Cartesian3.fromDegrees(lon, lat)),
+          // NOTE: intentionally NOT clampToGround — ground-clamped polylines
+          // (GroundPolylinePrimitive) crash iOS under 4x MSAA + real terrain.
+          positions: pts.map(([lon, lat]) => Cesium.Cartesian3.fromDegrees(lon, lat, CABLE_HEIGHT_M)),
           width: 1.5,
           material: cableColor,
-          clampToGround: true,
         },
       });
     }
@@ -89,6 +101,9 @@ function buildEntities() {
       },
     });
     landingCount++;
+  }
+  } finally {
+    entities.resumeEvents();
   }
   return ds;
 }

@@ -36,7 +36,6 @@ import { haltIdleSpin } from './globe/viewer.js';
 import { initRail } from './ui/rail.js';
 import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from './ui/panels.js';
 import { initStatus } from './ui/status.js';
-import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
 import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, closeEventCard, isCardOpen } from './ui/cards.js';
 import { initSharpen } from './globe/sharpen.js';
@@ -246,7 +245,6 @@ function initEsc() {
     if (ev.key !== 'Escape') return;
     if (isCardOpen()) closeEventCard();
     else if (isPanelOpen()) closePanel();
-    else closeSearch();
   });
 }
 
@@ -279,19 +277,16 @@ async function init() {
   initRail();
   initPanels();
   initStatus();
-  initSearch();
   initTicker();
   initCards();
   initRegionMenu();
   initGlobeClick();
   initEsc();
   initFocusHandlers();
-  // Keyboard shortcuts: / focuses search, h toggles HUD (audit 2.20).
+  // Keyboard shortcuts: h toggles HUD (audit 2.20).
   bindShortcuts({
     documentRef: document,
-    searchInput: document.getElementById('search-input'),
     actions: {
-      focusSearch: () => document.getElementById('search-input')?.focus(),
       toggleHudMeta: () => document.body.classList.toggle('hud-hidden'),
     },
   });

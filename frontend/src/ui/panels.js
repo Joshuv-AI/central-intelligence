@@ -289,7 +289,7 @@ function renderLayers(el) {
     <span class="micro">© TeleGeography — submarinecablemap.com</span>
     <div class="layer-row ${infOn ? '' : 'off'}" data-intel="infrastructure">
       <span class="layer-swatch" style="background:#22d3ee"></span>
-      <span class="layer-name">Infrastructure (datacenters, dams)</span>
+      <span class="layer-name">Datacenters</span>
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">© OpenStreetMap contributors (ODbL)</span></div>`;

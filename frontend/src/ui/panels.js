@@ -79,6 +79,7 @@ const LAYER_READY_ROWS = {
   quakes:   { row: '[data-quakes="usgs"]',       count: '[data-quake-count]',   getCount: earthquakeCount, enabled: earthquakesEnabled },
   launches: { row: '[data-launches="upcoming"]', count: '[data-launch-count]',  getCount: launchCount,     enabled: launchesEnabled },
   cyclones: { row: '[data-cyclones="storms"]',   count: '[data-cyclone-count]', getCount: cycloneCount,    enabled: cyclonesEnabled },
+  satellites: { row: '[data-orbit="satellites"]', count: '[data-sat-count]',   getCount: satelliteCount,  enabled: satellitesEnabled },
 };
 
 function bindLayerReadyOnce() {

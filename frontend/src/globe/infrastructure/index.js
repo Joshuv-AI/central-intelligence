@@ -38,10 +38,15 @@ function ensureLayers() {
     data: DATACENTERS,
     name: 'Datacenters',
     color: '#22d3ee', // cyan
-    dotPx: 9,
+    dotPx: 5, // smaller markers: was 9, which overloaded the globe at 4,351 features
     stemHeightM: 3000,
-    maxHeightM: 12_000_000,
-    detailHeightM: 2_500_000,
+    // Zoom-gated rendering: dots only appear below 650 km camera height
+    // (same gate convention as civil flights in globe/flights/index.js —
+    // CIVIL_ZOOM_HEIGHT_M = 650_000), so the global view stays clean and the
+    // layer no longer floods the globe with dots. Stems + labels only below
+    // 250 km, i.e. genuinely zoomed into a region.
+    maxHeightM: 650_000,
+    detailHeightM: 250_000,
     labelMax: 120,
   });
 }

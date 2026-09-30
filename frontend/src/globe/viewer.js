@@ -212,19 +212,37 @@ export function createViewer(container) {
   // globe looks soft from far away. When zoomed in, restore the base SSE for
   // performance.
   //
-  // Motion-adaptive relaxation (2026-09-30): while the camera is moving
-  // (spin / zoom / pan), multiply SSE by MOTION_RELAX so far fewer tiles are
-  // in flight and the visible set converges quickly instead of churning in a
-  // perpetually blurry state. When the camera settles (moveEnd), full
-  // sharpness is restored. Smooth in motion, sharp at rest.
+  // Motion-adaptive relaxation (2026-09-30): while the camera is ZOOMING
+  // (height genuinely changing), multiply SSE by MOTION_RELAX so far fewer
+  // tiles are in flight and the visible set converges quickly instead of
+  // churning in a perpetually blurry state. When the camera settles
+  // (moveEnd), full sharpness is restored.
+  //
+  // Rotation-only moves are deliberately EXCLUDED (2026-09-30): relaxing SSE
+  // on every moveStart — including pure rotations, pans, and the idle
+  // auto-spin — blurred newly-visible edge tiles for no benefit (the tile
+  // set barely changes at constant height) and forced a full refinement
+  // re-render on every moveEnd, which read as the globe "distorting" on
+  // every slight turn. Relaxation now engages only once the camera height
+  // has changed by ZOOM_RELAX_RATIO since the move began — a genuine zoom.
   const MOTION_RELAX = 1.3;
+  const ZOOM_RELAX_RATIO = 1.15; // ≥15% height change since moveStart = zoom
   let motionRelax = 1;
+  let moveStartHeight = 0;
   let sseRaf = 0;
   const updateDynamicSSE = () => {
     sseRaf = 0;
     if (!viewer || viewer.isDestroyed()) return;
     try {
       const h = viewer.camera.positionCartographic.height;
+      // Zoom-gated relaxation: compare against the height when this move
+      // began. Rotations/pans hold height constant, so they keep full SSE.
+      if (moveStartHeight > 0 && Number.isFinite(h) && h > 0) {
+        const ratio =
+          Math.max(h, moveStartHeight) / Math.min(h, moveStartHeight);
+        const wantRelax = ratio >= ZOOM_RELAX_RATIO ? MOTION_RELAX : 1;
+        if (wantRelax !== motionRelax) motionRelax = wantRelax;
+      }
       let sse = baseSSE;
       if (h > 15000000) sse = baseSSE * 0.5;      // whole globe: sharpest
       else if (h > 8000000) sse = baseSSE * 0.65;  // continental view
@@ -238,13 +256,22 @@ export function createViewer(container) {
   // moveStart fires when any camera motion begins (user gesture, flight, or
   // the idle auto-spin); moveEnd fires after ~500 ms of stillness
   // (scene.cameraEventWaitTime). Documented Camera events.
+  //
+  // The height baseline is recorded here; updateDynamicSSE (driven by
+  // camera.changed) engages the motion relaxation only once the height has
+  // genuinely changed — a zoom. Pure rotations/pans and the idle spin keep
+  // full sharpness for the whole gesture: no blur-while-turning, no
+  // refinement re-render on settle.
   viewer.camera.moveStart.addEventListener(() => {
-    if (motionRelax === 1) {
-      motionRelax = MOTION_RELAX;
-      updateDynamicSSE();
+    try {
+      const h = viewer.camera.positionCartographic.height;
+      moveStartHeight = Number.isFinite(h) && h > 0 ? h : 0;
+    } catch {
+      moveStartHeight = 0;
     }
   });
   viewer.camera.moveEnd.addEventListener(() => {
+    moveStartHeight = 0;
     if (motionRelax !== 1) {
       motionRelax = 1;
       updateDynamicSSE();

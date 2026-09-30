@@ -5,10 +5,13 @@
 import * as Cesium from 'cesium';
 import * as satellite from 'satellite.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
+import { makeBackgroundLoader } from '../layerLoad.js';
 import { isHidden, registerPoll } from '../../data/visibility.js';
 import { pickRenderAltitudeM } from '../../data/renderAltitude.js';
 
-const GROUPS = ['stations', 'visual', 'weather', 'noaa', 'goes'];
+// CelesTrak retired GROUP=noaa (it now returns "Invalid query ... not
+// found"); goes already covers the NOAA GEO birds, so it is dropped.
+const GROUPS = ['stations', 'visual', 'weather', 'goes'];
 const TLE_URL = (g) =>
   `https://celestrak.org/NORAD/elements/gp.php?GROUP=${g}&FORMAT=tle`;
 const REFRESH_MS = 60 * 60 * 1000;
@@ -55,16 +58,23 @@ function parseTLE(text, group) {
 }
 
 async function loadTLEs() {
-  const all = [];
-  let okGroups = 0;
-  for (const group of GROUPS) {
-    try {
+  // Parallel: on a slow mobile link one stalled group must not hold the rest
+  // hostage, and a dead group must not fail the whole layer.
+  const results = await Promise.allSettled(
+    GROUPS.map(async (group) => {
       const res = await fetch(TLE_URL(group));
       if (!res.ok) throw new Error('celestrak ' + res.status);
-      all.push(...parseTLE(await res.text(), group));
+      return { group, sats: parseTLE(await res.text(), group) };
+    }),
+  );
+  const all = [];
+  let okGroups = 0;
+  for (const r of results) {
+    if (r.status === 'fulfilled') {
+      all.push(...r.value.sats);
       okGroups++;
-    } catch (err) {
-      console.warn(`[satellites] ${group} unavailable:`, err);
+    } else {
+      console.warn('[satellites] group unavailable:', r.reason);
     }
   }
   if (okGroups > 0) {
@@ -78,7 +88,11 @@ async function loadTLEs() {
 
 /** Hourly TLE re-fetch body (extracted for the visibility gate + return refresh). */
 async function refreshTLEs() {
-  sats = await loadTLEs();
+  const loaded = await loadTLEs();
+  // A failed hourly refresh must not blank a working layer — keep the old
+  // catalog until a fetch actually returns satellites.
+  if (loaded.length === 0) return;
+  sats = loaded;
   if (enabled) {
     buildBillboards();
     updatePositions();
@@ -202,10 +216,13 @@ export function satelliteCount() {
   return sats.length;
 }
 
-let satGen = 0;
+// Background first-load (Joshua 2026-09-30): the toggle resolves instantly,
+// the TLE fetch lands off the critical path, and the Layers panel is told
+// via 'layer-ready'. A total failure flips the layer back off so the toggle
+// is never left ON with nothing on the globe.
+const firstLoad = makeBackgroundLoader('satellites');
 
 export async function setSatellites(on) {
-  const gen = ++satGen;
   if (on === enabled && billboards) return enabled;
   enabled = on;
   if (!viewer) return enabled;
@@ -217,14 +234,23 @@ export async function setSatellites(on) {
       viewer.scene.primitives.add(billboards);
     }
     billboards.show = true;
-    // Load TLEs in background — don't block the toggle. The gen check
-    // ensures we don't build if user toggled off during load.
+    // Load TLEs in background — don't block the toggle. The loader is
+    // single-flight: a toggle-off mid-load just skips the build below.
     if (sats.length === 0) {
-      loadTLEs().then((loaded) => {
-        if (gen !== satGen || !enabled) return;
-        sats = loaded;
-        buildBillboards();
-        updatePositions();
+      firstLoad.ensure(async () => {
+        try {
+          const loaded = await loadTLEs();
+          if (loaded.length === 0)
+            throw new Error('CelesTrak returned no satellites');
+          sats = loaded;
+          if (!enabled) return; // toggled off mid-load — keep the cache
+          buildBillboards();
+          updatePositions();
+        } catch (err) {
+          enabled = false;
+          if (billboards) billboards.show = false;
+          throw err;
+        }
       });
     } else {
       buildBillboards();

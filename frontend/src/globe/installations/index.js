@@ -13,7 +13,13 @@
    2026-09-30 (Joshua: toggle showed nothing): the fetch was gated on camera
    height < 2M m, so at the default global view nothing ever loaded. Now, when
    zoomed out past the gate, the layer fetches the 4x4 z9 tiles around the
-   view center instead of nothing — the layer always shows something.
+   view center instead of nothing.
+   2026-09-30 (zoom-gate + dead-band fix): refresh() had a dead band — below
+   the 2M gate but with the view spanning more than 16 z9 tiles, tilesForView
+   refused and the layer kept (empty) last data, so mid-zoom views showed
+   nothing too. Now over-wide/dateline views fall back to the 4x4 center
+   patch, and a zoom gate skips refreshes on rotation-only moves (refetch
+   only when height changes ≥15% or the center moves ≥1.4°).
    Outlines render as regular polylines at 500 m, not ground-clamped (same
    iOS GroundPolylinePrimitive crash as the cable layer).
 
@@ -52,6 +58,15 @@ let moveEndRemove = null;
 let debounceTimer = 0;
 let generation = 0;        // stale-fetch guard
 let fetchTimer = 0;
+// Zoom gate (globe-smoothness): rotation-only camera settles must not refetch.
+// A refresh is only worthwhile when the height changed meaningfully (≥15%
+// ratio) or the view center moved by more than half the z9 patch width
+// (~1.4°), i.e. genuinely new territory is under the camera.
+let lastFetchHeight = 0;   // 0 = never fetched (forces first refresh)
+let lastFetchLon = 0;
+let lastFetchLat = 0;
+const HEIGHT_RATIO_GATE = 1.15;
+const CENTER_MOVE_GATE_DEG = 1.4;
 
 const credit = new Cesium.Credit(
   '© OpenMapTiles © OpenStreetMap contributors',
@@ -301,13 +316,50 @@ function tilesForView(rect, z) {
   const east = Cesium.Math.toDegrees(rect.east);
   const south = Cesium.Math.toDegrees(rect.south);
   const north = Cesium.Math.toDegrees(rect.north);
-  if (west > east) return null; // dateline-crossing view: keep last data
+  if (west > east) return null; // dateline-crossing view: caller falls back
   const nw = lonLatToTile(west, north, z);
   const se = lonLatToTile(east, south, z);
+  // Estimate before allocating: over-wide views fall back to the center
+  // patch instead of building (and discarding) a huge tile array.
+  if ((se.x - nw.x + 1) * (se.y - nw.y + 1) > MAX_TILES) return [];
   const tiles = [];
   for (let y = nw.y; y <= se.y; y++)
     for (let x = nw.x; x <= se.x; x++) tiles.push({ z, x, y });
   return tiles;
+}
+
+/** 4x4 z9 tiles around the view center — the honest fallback when the view
+    is wider than the tile cap or crosses the dateline. */
+function centerPatchTiles() {
+  const center = viewer.camera.positionCartographic;
+  const c = lonLatToTile(
+    Cesium.Math.toDegrees(center.longitude),
+    Cesium.Math.toDegrees(center.latitude),
+    TILE_Z,
+  );
+  const n = 2 ** TILE_Z;
+  const tiles = [];
+  for (let dy = -2; dy <= 1; dy++)
+    for (let dx = -2; dx <= 1; dx++) {
+      const x = c.x + dx, y = c.y + dy;
+      if (x >= 0 && x < n && y >= 0 && y < n) tiles.push({ z: TILE_Z, x, y });
+    }
+  return tiles;
+}
+
+/** True when a refetch is worthwhile: first run, meaningful zoom change, or
+    the center moved onto genuinely new territory. Pure rotation (same height,
+    same patch of ground) returns false so moveEnd doesn't refetch. */
+function zoomGatePassed(height, lonDeg, latDeg) {
+  if (lastFetchHeight <= 0) return true;
+  const ratio =
+    Math.max(height, lastFetchHeight) / Math.min(height, lastFetchHeight);
+  if (ratio >= HEIGHT_RATIO_GATE) return true;
+  const dLat = Math.abs(latDeg - lastFetchLat);
+  let dLon = Math.abs(lonDeg - lastFetchLon);
+  if (dLon > 180) dLon = 360 - dLon;
+  const moved = Math.max(dLat, dLon * Math.cos((latDeg * Math.PI) / 180));
+  return moved >= CENTER_MOVE_GATE_DEG;
 }
 
 async function fetchTile(template, tile, signal) {
@@ -379,34 +431,35 @@ async function refresh() {
   if (!enabled || !viewer) return;
   const gen = generation;
   clearTimeout(fetchTimer);
-  const height = viewer.scene.camera.positionCartographic.height;
+  const carto = viewer.scene.camera.positionCartographic;
+  const height = carto.height;
+  const lonDeg = Cesium.Math.toDegrees(carto.longitude);
+  const latDeg = Cesium.Math.toDegrees(carto.latitude);
+  // Zoom gate: rotation-only settles keep existing data, no refetch.
+  if (!zoomGatePassed(height, lonDeg, latDeg)) return;
   const rect = viewer.camera.computeViewRectangle();
   if (!rect) return;
   let tiles;
   if (height >= FETCH_HEIGHT_M) {
-    // Zoomed out past min zoom 9: fetch the 4x4 z9 tiles around the view
-    // center so the layer shows something instead of nothing.
-    const center = viewer.camera.positionCartographic;
-    const c = lonLatToTile(
-      Cesium.Math.toDegrees(center.longitude),
-      Cesium.Math.toDegrees(center.latitude),
-      TILE_Z,
-    );
-    const n = 2 ** TILE_Z;
-    tiles = [];
-    for (let dy = -2; dy <= 1; dy++)
-      for (let dx = -2; dx <= 1; dx++) {
-        const x = c.x + dx, y = c.y + dy;
-        if (x >= 0 && x < n && y >= 0 && y < n) tiles.push({ z: TILE_Z, x, y });
-      }
+    // Zoomed out past min zoom 9: the 4x4 z9 patch around the view center.
+    tiles = centerPatchTiles();
   } else {
     tiles = tilesForView(rect, TILE_Z);
-    if (!tiles) return;
-    if (tiles.length > MAX_TILES) {
-      // Refuse over-wide views instead of sampling a corner (GEV rule).
-      return;
+    if (!tiles || tiles.length > MAX_TILES || tiles.length === 0) {
+      // Over-wide or dateline-crossing view: fall back to the center patch
+      // instead of keeping (usually empty) last data — this was the dead
+      // band where mid-zoom views showed nothing.
+      tiles = centerPatchTiles();
     }
   }
+  // Gate passed: remember this fetch so the next settle can skip. Recorded
+  // after the attempt (not before) so a total network failure doesn't latch
+  // the gate shut — the next moveEnd will retry.
+  const rememberFetch = () => {
+    lastFetchHeight = height;
+    lastFetchLon = lonDeg;
+    lastFetchLat = latDeg;
+  };
   let template;
   try {
     template = await resolveTemplate();
@@ -436,6 +489,7 @@ async function refresh() {
     },
   );
   await Promise.all(workers);
+  rememberFetch();
   if (gen !== generation || !enabled) return;
   results.sort((a, b) => b.area - a.area);
   renderRecords(results.slice(0, MAX_RENDERED));
@@ -474,6 +528,7 @@ export function setInstallations(on) {
       moveEndRemove = viewer.camera.moveEnd.addEventListener(scheduleRefresh);
     }
     showCredit();
+    lastFetchHeight = 0; // force a fresh fetch (dataSource was destroyed)
     refresh().catch(() => {});
   } else {
     generation++; // abandon in-flight fetches

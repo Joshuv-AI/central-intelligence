@@ -4,7 +4,7 @@
    removed/relicensed if this project goes commercial.
    Attribution required in the UI: "© TeleGeography — submarinecablemap.com"
 
-   What it does: renders 712 submarine cable systems as subtle route polylines
+   What it does: renders 712 submarine cable systems as crisp route polylines
    plus 1,917 landing-point markers. Zero network at runtime — both GeoJSON
    files are bundled and imported. Layer defaults OFF; entities are built on
    first enable and the data source is removed (not hidden) on disable, so an
@@ -20,7 +20,7 @@
 
    Ported rendering pattern from God's Eye View src/layers/submarineCables/
    (MIT), simplified: no reference stems, no overlay label lane, no per-cable
-   colors — one subtle color for the whole dataset. */
+   colors — one crisp near-opaque color for the whole dataset. */
 import * as Cesium from 'cesium';
 import CABLES from '../../data/cable-geo.json';
 import LANDINGS from '../../data/landing-point-geo.json';
@@ -43,7 +43,10 @@ function cleanText(v) {
 
 function buildEntities() {
   const ds = new Cesium.CustomDataSource('submarine-cables');
-  const cableColor = Cesium.Color.fromCssColorString(CABLE_COLOR).withAlpha(0.55);
+  const cableColor = Cesium.Color.fromCssColorString(CABLE_COLOR).withAlpha(0.9);
+  // Near-opaque + whole-pixel width: translucent thin lines wash out and look
+  // blurry over bright terrain/ocean; width 2 renders crisp under 4x MSAA
+  // (fractional widths get a gray antialiased fringe).
   const entities = ds.entities;
   entities.suspendEvents();
   try {
@@ -72,8 +75,10 @@ function buildEntities() {
           // NOTE: intentionally NOT clampToGround — ground-clamped polylines
           // (GroundPolylinePrimitive) crash iOS under 4x MSAA + real terrain.
           positions: pts.map(([lon, lat]) => Cesium.Cartesian3.fromDegrees(lon, lat, CABLE_HEIGHT_M)),
-          width: 1.5,
+          width: 2, // whole-pixel width — crisper than 1.5 under MSAA
           material: cableColor,
+          // arcType defaults to GEODESIC with 1-degree granularity, so
+          // segments already interpolate as smooth surface-hugging arcs.
         },
       });
     }

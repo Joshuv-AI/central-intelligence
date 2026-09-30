@@ -15,7 +15,7 @@ import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/inde
 import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
 import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
 import { earthquakesEnabled, earthquakeCount, setEarthquakes } from '../globe/earthquakes/index.js';
-import { vesselsEnabled, vesselCount, setVessels, getVesselStatus, saveAisKeyAndConnect, clearAisKey, getAisKey, hasAisKey } from '../globe/vessels/index.js';
+import { vesselsEnabled, vesselCount, setVessels, getVesselStatus } from '../globe/vessels/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -25,10 +25,82 @@ let closeTimer = 0;
 // store 'data' event, so DOM classes alone can't track an in-flight poll).
 let vesBusy = false;
 let cycBusy = false;
-// AIS key form draft: renderLayers rebuilds innerHTML on every store 'data'
-// event, so the typed key and focus are preserved here across re-renders.
-let aisKeyDraft = '';
-let aisKeyHadFocus = false;
+// Background layer loads (Joshua 2026-09-30): toggles resolve instantly and
+// each layer module dispatches 'layer-ready' when its first fetch lands (or
+// fails). Bound once; renderLayers re-runs on every store 'data' event.
+let layerReadyBound = false;
+let shipsNoteTimer = 0;
+
+/** Show a transient note under the Ships row (module-level: the global
+    layer-ready listener needs it too). */
+function showShipsNote(msg, ms = 8000) {
+  if (!bodyEl) return;
+  const n = bodyEl.querySelector('.vessel-note');
+  if (!n) return;
+  n.textContent = msg;
+  n.classList.remove('hidden');
+  clearTimeout(shipsNoteTimer);
+  shipsNoteTimer = setTimeout(() => {
+    const n2 = bodyEl && bodyEl.querySelector('.vessel-note');
+    if (n2) n2.classList.add('hidden');
+  }, ms);
+}
+
+/** Terminal AIS stream states from the background connect (vessels). */
+function onShipsReady(state) {
+  if (!bodyEl) return;
+  const row = bodyEl.querySelector('[data-vessels="ships"]');
+  if (state === 'down') {
+    // Connection dead — don't leave the toggle on with nothing to show.
+    if (vesselsEnabled()) setVessels(false);
+    if (row) { row.classList.toggle('off', true); row.classList.remove('busy'); }
+    showShipsNote('Ship feed is unavailable right now — try again later.');
+  } else if (state === 'no_key') {
+    if (row) row.classList.remove('busy');
+    emit('data'); // re-render — row shows "no key on server"
+    showShipsNote('No AISStream key on the server yet — ships stay off until one is set.');
+  } else if (state === 'auth_failed') {
+    if (row) row.classList.remove('busy');
+    emit('data'); // re-render — row shows the rejected state
+    showShipsNote('The server\u2019s AISStream key was rejected — it needs replacing on the server.');
+  } else if (state === 'ok') {
+    if (row) {
+      row.classList.toggle('off', !vesselsEnabled());
+      row.classList.remove('busy');
+    }
+    emit('data'); // re-render — count label flips from '…' to the live count
+  }
+  window.dispatchEvent(new Event('dock-refresh'));
+}
+
+const LAYER_READY_ROWS = {
+  quakes:   { row: '[data-quakes="usgs"]',       count: '[data-quake-count]',   getCount: earthquakeCount, enabled: earthquakesEnabled },
+  launches: { row: '[data-launches="upcoming"]', count: '[data-launch-count]',  getCount: launchCount,     enabled: launchesEnabled },
+  cyclones: { row: '[data-cyclones="storms"]',   count: '[data-cyclone-count]', getCount: cycloneCount,    enabled: cyclonesEnabled },
+};
+
+function bindLayerReadyOnce() {
+  if (layerReadyBound) return;
+  layerReadyBound = true;
+  window.addEventListener('layer-ready', (ev) => {
+    const detail = (ev && ev.detail) || {};
+    const { layer, failed, state } = detail;
+    if (!layer || !bodyEl) return;
+    if (layer === 'ships') { onShipsReady(state); return; }
+    const cfg = LAYER_READY_ROWS[layer];
+    if (!cfg) return;
+    const row = bodyEl.querySelector(cfg.row);
+    if (row) {
+      // Success: confirm the row; failure: the module already flipped itself
+      // off — revert the optimistic toggle.
+      row.classList.toggle('off', !cfg.enabled());
+      row.classList.remove('busy');
+      const countEl = row.querySelector(cfg.count);
+      if (countEl) countEl.textContent = cfg.getCount() || '';
+    }
+    window.dispatchEvent(new Event('dock-refresh'));
+  });
+}
 
 const META = {
   layers: { kicker: 'SIGNAL LAYERS', title: 'Layers' },
@@ -104,14 +176,6 @@ function render(name, opts = {}) {
 
 /* ————————— Layers ————————— */
 function renderLayers(el) {
-  // Preserve the AIS key draft + focus before the innerHTML rebuild.
-  const keyInputBefore = el.querySelector('.ais-key-input');
-  if (keyInputBefore) {
-    aisKeyDraft = keyInputBefore.value;
-    aisKeyHadFocus = document.activeElement === keyInputBefore;
-  } else {
-    aisKeyHadFocus = false;
-  }
   const nonGeo = store.events.filter((e) => !store.isGeo(e)).length;
   let html = '';
   // Live orbit layer (CelesTrak TLEs, client-side SGP4) — independent of domains.
@@ -149,7 +213,7 @@ function renderLayers(el) {
   html += `<div class="layer-family"><span class="micro">FLIGHTS</span>
     <div class="layer-row ${milOn ? '' : 'off'}" data-flights="military">
       <span class="layer-swatch" style="background:#ffb347"></span>
-      <span class="layer-name">Military</span>
+      <span class="layer-name">Military (zoom in to view)</span>
       <span class="layer-toggle"></span>
     </div>
     <div class="layer-row ${civOn ? '' : 'off'}" data-flights="civil">
@@ -158,23 +222,22 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">ADS-B: adsb.lol</span></div>`;
-  // Vessels (AISStream — the key lives in this browser only; honest states).
+  // Vessels (server-side AISStream hub — the key lives on the server, never in the browser).
   const vesOn = vesselsEnabled();
   const vesStatus = getVesselStatus() || {};
   const vesState = vesStatus.state || 'off';
   const vesCount = vesselCount();
-  const vesCountLabel = vesState === 'needs_key' ? 'needs key'
+  const vesCountLabel = vesState === 'no_key' ? 'no key'
     : vesState === 'auth_failed' ? 'bad key'
     : vesState === 'connecting' ? '…'
     : vesState === 'down' ? 'unavailable'
     : (vesCount || '');
-  const vesSubLabel = vesState === 'needs_key' ? 'API key required'
-    : vesState === 'auth_failed' ? 'key rejected — check it'
+  const vesSubLabel = vesState === 'no_key' ? 'server key not set'
+    : vesState === 'auth_failed' ? 'server key rejected'
     : vesState === 'connecting' ? 'connecting…'
     : vesState === 'down' ? (vesStatus.lastErr || 'feed unavailable')
     : vesState === 'off' ? 'off'
     : 'live';
-  const showKeyForm = vesOn && (vesState === 'needs_key' || vesState === 'auth_failed' || vesState === 'down');
   html += `<div class="layer-family"><span class="micro">VESSELS</span>
     <div class="layer-row ${vesOn ? '' : 'off'}" data-vessels="ships">
       <span class="layer-swatch" style="background:#4ade80"></span>
@@ -183,11 +246,6 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">AIS: ${vesSubLabel}</span>
-    ${showKeyForm ? `<div class="ais-key-form">
-      <input class="ais-key-input" type="password" placeholder="Paste AISStream key" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(aisKeyDraft)}" aria-label="AISStream API key">
-      <span class="ais-key-btns"><button class="ais-key-save">SAVE</button>${hasAisKey() ? `<button class="ais-key-clear">CLEAR</button>` : ''}</span>
-      <div class="micro ais-key-hint">Free key: aisstream.io → API Keys. Stored only in this browser — never sent to our server.</div>
-    </div>` : ''}
     <div class="layer-note vessel-note hidden"></div></div>`;
   // Weather imagery (NOAA nowCOAST WMS, keyless) — independent of domains.
   html += `<div class="layer-family"><span class="micro">WEATHER</span>`;
@@ -292,18 +350,6 @@ function renderLayers(el) {
   const vesRowSel = '[data-vessels="ships"]';
   const liveVesRow = () => el.querySelector(vesRowSel);
   const liveVesNote = () => el.querySelector('.vessel-note');
-  let vesNoteTimer = 0;
-  const showVesNote = (msg) => {
-    const n = liveVesNote();
-    if (!n) return;
-    n.textContent = msg;
-    n.classList.remove('hidden');
-    clearTimeout(vesNoteTimer);
-    vesNoteTimer = setTimeout(() => {
-      const n2 = liveVesNote();
-      if (n2) n2.classList.add('hidden');
-    }, 8000);
-  };
   const vesRow = liveVesRow();
   if (vesRow) {
     vesRow.addEventListener('click', () => {
@@ -316,26 +362,13 @@ function renderLayers(el) {
       row.classList.toggle('off', !targetOn);
       row.classList.add('busy');
       setVessels(targetOn).then((on) => {
-        const st = (getVesselStatus() || {}).state;
+        // setVessels resolves instantly now (Joshua 2026-09-30) — the hub
+        // connects in the background and 'layer-ready' carries the terminal
+        // state (ok / auth_failed / down / no_key) to onShipsReady.
         const r2 = liveVesRow();
-        if (targetOn && st === 'down') {
-          // Connection dead — don't leave the toggle on with nothing to show.
-          setVessels(false);
-          if (r2) r2.classList.toggle('off', true);
-          showVesNote('Ship feed is unavailable right now — try again later.');
-        } else {
-          if (r2) r2.classList.toggle('off', !on);
-          if (targetOn && st === 'needs_key') {
-            emit('data'); // re-render layers now — shows the key form / new state immediately
-            showVesNote('Paste your free AISStream key below — it stays in this browser only.');
-          } else if (targetOn && st === 'auth_failed') {
-            emit('data');
-            showVesNote('AISStream rejected that key — check the paste and try again.');
-          } else {
-            window.dispatchEvent(new Event('dock-refresh'));
-            emit('data'); // re-render layers now — shows the key form / new state immediately
-          }
-        }
+        if (r2) r2.classList.toggle('off', !on);
+        window.dispatchEvent(new Event('dock-refresh'));
+        emit('data'); // re-render layers now — count label shows connecting/live
       }).catch(() => {
         const r3 = liveVesRow();
         if (r3) r3.classList.toggle('off', targetOn);
@@ -344,35 +377,6 @@ function renderLayers(el) {
         if (r4) r4.classList.remove('busy');
         vesBusy = false;
       });
-    });
-  }
-  // AIS key form (shown under the Ships row while needs_key/auth_failed).
-  const keyInput = el.querySelector('.ais-key-input');
-  if (keyInput) {
-    if (aisKeyHadFocus) { try { keyInput.focus({ preventScroll: true }); } catch { keyInput.focus(); } }
-    keyInput.addEventListener('input', () => { aisKeyDraft = keyInput.value; });
-    const saveBtn = el.querySelector('.ais-key-save');
-    const doSave = async () => {
-      const k = keyInput.value.trim();
-      if (!k) { showVesNote('Paste your AISStream key first.'); return; }
-      if (saveBtn) saveBtn.disabled = true;
-      aisKeyDraft = '';
-      const st = await saveAisKeyAndConnect(k);
-      if (saveBtn) saveBtn.disabled = false;
-      emit('data'); // re-render layers first (connecting → live), then note
-      if (st === 'auth_failed') showVesNote('AISStream rejected that key — check the paste and try again.');
-      else if (st === 'down') showVesNote('Could not reach AISStream — try again in a bit.');
-    };
-    keyInput.addEventListener('keydown', (ev) => {
-      if (ev.key === 'Enter') { ev.preventDefault(); doSave(); }
-    });
-    if (saveBtn) saveBtn.addEventListener('click', doSave);
-    const clearBtn = el.querySelector('.ais-key-clear');
-    if (clearBtn) clearBtn.addEventListener('click', () => {
-      clearAisKey();
-      aisKeyDraft = '';
-      emit('data');
-      showVesNote('Key cleared — the ship feed stays off until a new key is saved.');
     });
   }
   el.querySelectorAll('[data-weather]').forEach((row) => {
@@ -430,6 +434,8 @@ function renderLayers(el) {
       });
     });
   }
+  // Background layer loads notify via 'layer-ready' (bound once globally).
+  bindLayerReadyOnce();
 }
 
 /* ————————— Connections ————————— */

@@ -9,6 +9,8 @@ const { Store } = require('./pipeline/store');
 const { startScheduler } = require('./pipeline/scheduler');
 const { apiRoutes } = require('./api/routes');
 const { proxyRoutes } = require('./api/proxy');
+const { aisRoutes } = require('./ais/routes');
+const { createHub } = require('./ais/hub');
 const sse = require('./lib/sse');
 
 const store = new Store(config.dataDir, config.feedLimit);
@@ -25,6 +27,7 @@ app.disable('x-powered-by');
 app.use(express.json({ limit: '256kb' }));
 
 app.use('/api', apiRoutes(store));
+app.use('/api', aisRoutes(createHub()));
 app.use('/proxy', proxyRoutes());
 
 // Serve the built frontend (Vite dist is copied to ./public in the Docker
@@ -42,7 +45,7 @@ if (fs.existsSync(path.join(publicDir, 'index.html'))) {
       name: 'central-intelligence-backend',
       version: '0.1.0',
       license: 'AGPL-3.0-only',
-      endpoints: ['GET /api/health', 'GET /api/snapshot', 'GET /api/events', 'GET /api/stream', '/proxy/*'],
+      endpoints: ['GET /api/health', 'GET /api/snapshot', 'GET /api/events', 'GET /api/stream', 'GET /api/vessels/status', 'GET /api/vessels/stream (SSE)', '/proxy/*'],
     });
   });
 }

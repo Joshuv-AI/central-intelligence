@@ -3,6 +3,9 @@
    queried directly as GeoJSON). 10-minute refresh.
    Data: NOAA National Hurricane Center (US public domain). */
 import * as Cesium from 'cesium';
+import { makeBackgroundLoader } from '../layerLoad.js';
+
+const firstLoad = makeBackgroundLoader('cyclones');
 
 const MAPSERVER =
   'https://mapservices.weather.noaa.gov/tropical/rest/services/tropical/NHC_tropical_weather/MapServer';
@@ -208,13 +211,16 @@ export async function setCyclones(on) {
   if (!viewer) return enabled;
   if (on) {
     if (!dataSource) {
-      try {
-        await refresh();
-      } catch (err) {
-        console.warn('[cyclones] unavailable:', err);
-        enabled = false;
-        return enabled;
-      }
+      // First load runs in the background (Joshua 2026-09-30): the toggle
+      // resolves instantly and the layer populates when the fetch lands.
+      firstLoad.ensure(async () => {
+        try {
+          await refresh();
+        } catch (err) {
+          enabled = false;
+          throw err;
+        }
+      });
     } else {
       dataSource.show = true;
     }

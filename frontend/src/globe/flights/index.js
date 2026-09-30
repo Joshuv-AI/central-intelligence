@@ -14,11 +14,16 @@ import { followedId, stopFollow } from '../aircraft/followMode.js';
 const POLL_MS = 15 * 1000;
 // Civilian planes only render when the camera is closer than this height
 // (Joshua 2026-09-29): zoomed-out views would try to draw thousands of
-// overlapping billboards. Military traffic is unaffected.
+// overlapping billboards.
 // Threshold measured 2026-09-29: a full-state-of-Florida phone view (the
 // reference screenshot Joshua approved) sits at ~580-650 km camera height,
 // so civilian traffic begins appearing right around that zoom.
 const CIVIL_ZOOM_HEIGHT_M = 650_000;
+// Military planes get their own, wider zoom gate (Joshua 2026-09-30): they
+// render only when zoomed in to about the eastern-US screenshot level (~4M m
+// camera height) — fully zoomed-out views hide them entirely, which also
+// saves the per-frame cost of hundreds of military billboards.
+const MIL_ZOOM_HEIGHT_M = 4_000_000;
 // Billboard base scales (Joshua 2026-09-29): military keeps the uniform 0.6;
 // civilian blue planes are smaller (0.45) so dense civil traffic reads as
 // less cluttered. Multiplied by the retina ratio below, as before.
@@ -35,6 +40,9 @@ let occluder = null;
 // Zoom gate for civilian traffic (Joshua 2026-09-29). Tracks whether the
 // camera is currently close enough to render civil planes.
 let civZoomIn = false;
+// Zoom gate for military traffic (Joshua 2026-09-30): same idea, wider
+// threshold — military planes render only at screenshot-level zoom or closer.
+let milZoomIn = false;
 // Source heartbeat for the dock: last successful poll + last error, per feed.
 const feedStatus = {
   military: { lastOk: 0, lastErr: '' },
@@ -47,6 +55,33 @@ export function flightStatus() { return feedStatus; }
 export function civilZoomedIn() {
   if (!viewer) return false;
   return viewer.scene.camera.positionCartographic.height < CIVIL_ZOOM_HEIGHT_M;
+}
+
+/** True when the camera is close enough for military planes to render. */
+export function militaryZoomedIn() {
+  if (!viewer) return false;
+  return viewer.scene.camera.positionCartographic.height < MIL_ZOOM_HEIGHT_M;
+}
+
+/**
+ * Sync the military zoom gate. Same contract as refreshCivilGate: call when
+ * the zoom may have changed or the layer toggles; fetches fresh traffic
+ * immediately on a zoom-in transition with the layer on.
+ * Returns true if it triggered a poll.
+ */
+function refreshMilGate() {
+  const zin = militaryZoomedIn();
+  feedStatus.military.gated = milOn && !zin;
+  if (zin === milZoomIn) return false;
+  const wasIn = milZoomIn;
+  milZoomIn = zin;
+  cullHorizon(); // re-apply show flags; military layerOn includes the gate
+  // Zooming out past the military gate while tracking a military aircraft —
+  // its data layer just disappeared, so release the follow instead of
+  // freezing on a hidden, aging ghost.
+  if (wasIn && !zin) releaseFollowIf((a) => a.military, 'zoom-gate');
+  if (zin && milOn) { poll(); return true; }
+  return false;
 }
 
 /**
@@ -388,8 +423,8 @@ function cullHorizon() {
     // F7: the tracked aircraft's fleet billboard stays hidden for the whole
     // follow (the tracked entity renders it) — a poll must not un-hide it.
     if (fid === `flight-${a.hex}`) continue;
-    // Civilian traffic is zoom-gated (Joshua 2026-09-29); military is not.
-    const layerOn = a.military ? milOn : (civOn && civZoomIn);
+    // Both fleets are zoom-gated (Joshua 2026-09-29 civil, 2026-09-30 military).
+    const layerOn = a.military ? (milOn && milZoomIn) : (civOn && civZoomIn);
     const p = toCartesian(a.lat, a.lon, a.renderAltM ?? a.alt);
     a.billboard.show = layerOn && occluder.isPointVisible(p);
   }
@@ -400,7 +435,7 @@ let pollGen = 0;
 async function poll() {
   const gen = ++pollGen;
   const jobs = [];
-  if (milOn) jobs.push(
+  if (milOn && milZoomIn) jobs.push(
     fetch('/proxy/adsblol/mil').then((r) => r.json())
       .then((d) => ({ d, military: true, ok: true }))
       .catch((err) => ({ military: true, ok: false, err }))
@@ -477,11 +512,12 @@ function startLoop() {
       const now = performance.now();
       const dt = Math.min((now - last) / 1000, 1);
       last = now;
-      // Zoom gate for civilian traffic: check at 4 Hz, not every frame —
-      // positionCartographic allocates and the gate only flips on zoom.
+      // Zoom gates for both fleets: check at 4 Hz, not every frame —
+      // positionCartographic allocates and the gates only flip on zoom.
       if (now - lastGateCheck > 250) {
         lastGateCheck = now;
         refreshCivilGate();
+        refreshMilGate();
       }
       // Interpolation factor: smooth over ~1.5s (frame-rate independent).
       const t = 1 - Math.pow(0.001, dt / 1.5);
@@ -588,14 +624,15 @@ export async function setMilitary(on) {
   milOn = on;
   if (!viewer) return milOn;
   if (milOn || civOn) startLoop(); else stopLoop();
+  const gatePolled = refreshMilGate(); // sync zoom state + visibility first
   // Show/hide existing billboards instantly; only fetch if we have no data.
   let hasMil = false;
   for (const a of aircraft.values()) {
-    if (a.military) { hasMil = true; a.billboard.show = on; }
+    if (a.military) { hasMil = true; a.billboard.show = on && milZoomIn; }
   }
   // F2: layer turned off while tracking a military aircraft — release.
   if (!on) releaseFollowIf((a) => a.military, 'layer-off');
-  if (milOn && !hasMil) poll();
+  if (milOn && milZoomIn && !hasMil && !gatePolled) poll();
   return milOn;
 }
 

@@ -2,6 +2,7 @@
    Upcoming launches as pad markers with NET countdown labels. 30-minute
    refresh. Data: The Space Devs (free API). */
 import * as Cesium from 'cesium';
+import { makeBackgroundLoader } from '../layerLoad.js';
 
 const URL = 'https://ll.thespacedevs.com/2.3.0/launches/upcoming/?limit=40&ordering=net';
 const REFRESH_MS = 30 * 60 * 1000;
@@ -11,6 +12,12 @@ let dataSource = null;
 let refreshTimer = 0;
 let enabled = false;
 
+const firstLoad = makeBackgroundLoader('launches');
+
+/* Launch marker, premium badge style (Joshua 2026-09-30 — the cartoon rocket
+   looked cheap). A dark mission-patch disc with a violet glow, thin bright
+   rim, and a minimal geometric liftoff glyph: a slim rocket silhouette in
+   pale silver with a small cyan exhaust flick. */
 function padSprite() {
   const base = 48;
   const SS = 3; // retina-sharp on DPR-3 phones
@@ -20,89 +27,78 @@ function padSprite() {
   const g = c.getContext('2d');
   g.scale(SS, SS); // draw in base coordinates
   const cx = base / 2;
-  // Glow backdrop.
-  const glow = g.createRadialGradient(cx, 20, 2, cx, 20, 22);
-  glow.addColorStop(0, 'rgba(180, 140, 255, 0.35)');
-  glow.addColorStop(1, 'rgba(180, 140, 255, 0)');
+  const cy = base / 2;
+
+  // Soft violet halo.
+  let glow = g.createRadialGradient(cx, cy, 4, cx, cy, 23);
+  glow.addColorStop(0, 'rgba(150, 130, 255, 0.30)');
+  glow.addColorStop(1, 'rgba(150, 130, 255, 0)');
   g.fillStyle = glow;
   g.fillRect(0, 0, base, base);
 
-  // Rocket body: nose cone + fuselage with shading.
-  g.lineCap = 'round';
-  g.lineJoin = 'round';
-
-  // Main body.
-  const bodyGrad = g.createLinearGradient(cx - 6, 0, cx + 6, 0);
-  bodyGrad.addColorStop(0, '#8a6fd1');
-  bodyGrad.addColorStop(0.5, '#d0bfff');
-  bodyGrad.addColorStop(1, '#8a6fd1');
-  g.fillStyle = bodyGrad;
-  g.strokeStyle = '#5a4a9a';
-  g.lineWidth = 1.5;
+  // Badge disc: dark navy, subtly lighter at top.
+  const discR = 14.5;
+  const discGrad = g.createLinearGradient(0, cy - discR, 0, cy + discR);
+  discGrad.addColorStop(0, '#232c4e');
+  discGrad.addColorStop(1, '#12172c');
+  g.fillStyle = discGrad;
   g.beginPath();
-  g.moveTo(cx, 4);                          // nose tip
-  g.quadraticCurveTo(cx + 6, 10, cx + 5, 18);
-  g.lineTo(cx + 5, 30);                     // body right
-  g.lineTo(cx - 5, 30);                     // body left
-  g.lineTo(cx - 5, 18);
-  g.quadraticCurveTo(cx - 6, 10, cx, 4);
-  g.closePath();
+  g.arc(cx, cy, discR, 0, Math.PI * 2);
   g.fill();
+
+  // Thin bright rim.
+  const rimGrad = g.createLinearGradient(cx - discR, 0, cx + discR, 0);
+  rimGrad.addColorStop(0, '#6f7bd8');
+  rimGrad.addColorStop(0.5, '#c3cbff');
+  rimGrad.addColorStop(1, '#6f7bd8');
+  g.strokeStyle = rimGrad;
+  g.lineWidth = 1.6;
+  g.beginPath();
+  g.arc(cx, cy, discR - 0.8, 0, Math.PI * 2);
   g.stroke();
 
-  // Nose cap.
-  g.fillStyle = '#ff5a5a';
-  g.beginPath();
-  g.moveTo(cx, 4);
-  g.quadraticCurveTo(cx + 3.5, 8, cx + 4.5, 12);
-  g.lineTo(cx - 4.5, 12);
-  g.quadraticCurveTo(cx - 3.5, 8, cx, 4);
-  g.closePath();
-  g.fill();
-
-  // Window.
-  g.fillStyle = '#1a2b4a';
-  g.beginPath();
-  g.arc(cx, 16, 2.2, 0, Math.PI * 2);
-  g.fill();
-  g.strokeStyle = '#5a4a9a';
+  // Faint outer tracking ring.
+  g.strokeStyle = 'rgba(150, 160, 255, 0.28)';
   g.lineWidth = 1;
+  g.beginPath();
+  g.arc(cx, cy, discR + 3.5, 0, Math.PI * 2);
   g.stroke();
 
-  // Fins.
-  g.fillStyle = '#b48cff';
-  g.strokeStyle = '#5a4a9a';
-  g.lineWidth = 1.5;
+  // Minimal rocket glyph, pointing up, in pale silver.
+  g.fillStyle = '#e9edff';
+  // Nose + body as one slim shape.
   g.beginPath();
-  g.moveTo(cx - 5, 24);
-  g.lineTo(cx - 11, 34);
-  g.lineTo(cx - 5, 32);
+  g.moveTo(cx, cy - 9.5);                       // nose tip
+  g.quadraticCurveTo(cx + 3.4, cy - 5.5, cx + 3.4, cy - 1);
+  g.lineTo(cx + 3.4, cy + 5.5);                 // body right
+  g.lineTo(cx - 3.4, cy + 5.5);                 // body left
+  g.lineTo(cx - 3.4, cy - 1);
+  g.quadraticCurveTo(cx - 3.4, cy - 5.5, cx, cy - 9.5);
   g.closePath();
   g.fill();
-  g.stroke();
+  // Fins: two small swept triangles.
+  g.fillStyle = '#a9b3e8';
   g.beginPath();
-  g.moveTo(cx + 5, 24);
-  g.lineTo(cx + 11, 34);
-  g.lineTo(cx + 5, 32);
+  g.moveTo(cx - 3.4, cy + 1.5);
+  g.lineTo(cx - 7.2, cy + 7.5);
+  g.lineTo(cx - 3.4, cy + 6.8);
   g.closePath();
   g.fill();
-  g.stroke();
-
-  // Engine nozzle.
-  g.fillStyle = '#3a3a4a';
-  g.fillRect(cx - 3, 30, 6, 3);
-
-  // Flame: layered teardrop.
-  const flameGrad = g.createLinearGradient(0, 33, 0, 44);
-  flameGrad.addColorStop(0, '#fff3b0');
-  flameGrad.addColorStop(0.4, '#ffb347');
-  flameGrad.addColorStop(1, 'rgba(255, 90, 90, 0)');
+  g.beginPath();
+  g.moveTo(cx + 3.4, cy + 1.5);
+  g.lineTo(cx + 7.2, cy + 7.5);
+  g.lineTo(cx + 3.4, cy + 6.8);
+  g.closePath();
+  g.fill();
+  // Exhaust: small cyan flick under the nozzle.
+  const flameGrad = g.createLinearGradient(0, cy + 5.5, 0, cy + 11.5);
+  flameGrad.addColorStop(0, 'rgba(155, 232, 255, 0.95)');
+  flameGrad.addColorStop(1, 'rgba(155, 232, 255, 0)');
   g.fillStyle = flameGrad;
   g.beginPath();
-  g.moveTo(cx - 3, 33);
-  g.quadraticCurveTo(cx, 38, cx - 1.5, 44);
-  g.quadraticCurveTo(cx, 40, cx + 1.5, 44);
-  g.quadraticCurveTo(cx, 38, cx + 3, 33);
+  g.moveTo(cx - 2.2, cy + 5.5);
+  g.lineTo(cx + 2.2, cy + 5.5);
+  g.lineTo(cx, cy + 11.5);
   g.closePath();
   g.fill();
 
@@ -196,13 +192,16 @@ export async function setLaunches(on) {
   if (!viewer) return enabled;
   if (on) {
     if (!dataSource) {
-      try {
-        await refresh();
-      } catch (err) {
-        console.warn('[launches] unavailable:', err);
-        enabled = false;
-        return enabled;
-      }
+      // First load runs in the background (Joshua 2026-09-30): the toggle
+      // resolves instantly and the layer populates when the fetch lands.
+      firstLoad.ensure(async () => {
+        try {
+          await refresh();
+        } catch (err) {
+          enabled = false;
+          throw err;
+        }
+      });
     } else {
       dataSource.show = true;
     }

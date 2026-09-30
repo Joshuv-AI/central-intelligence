@@ -1,13 +1,14 @@
-/* AIS vessel layer — real ships via AISStream (Joshua's direction 2026-09-30).
-   Structure mirrors frontend/src/globe/flights/index.js: one
-   BillboardCollection, dead reckoning between fixes, horizon culling via
-   EllipsoidalOccluder.
+/* AIS vessel layer — real ships via the server-side AISStream hub
+   (Joshua 2026-09-30: AISStream keys must stay server-side, so the browser
+   no longer opens the AISStream WebSocket itself). The backend holds the
+   key (AISSTREAM_KEY env on the server, never in the repo or the browser)
+   and fans vessel positions out over SSE at /api/vessels/stream. This
+   module keeps the same rendering: one BillboardCollection, dead reckoning
+   between fixes, horizon culling via EllipsoidalOccluder.
 
-   DATA HONESTY: positions stream live from AISStream over a WebSocket opened
-   directly from this browser (see ./aisStream.js). The API key lives ONLY in
-   this browser's localStorage — never in the repo, never on our backend.
-   Honest states: 'needs_key' (no key saved yet), 'connecting',
-   'auth_failed' (key rejected), 'down', 'ok'. The layer NEVER fabricates
+   DATA HONESTY: positions stream live from the server hub. Honest states:
+   'no_key' (server has no key configured), 'connecting', 'auth_failed'
+   (server's key rejected), 'down', 'ok'. The layer NEVER fabricates
    vessel positions.
 
    Selection: tap a chevron → getVessel(mmsi) → card via ui/cards.js.
@@ -16,7 +17,6 @@
 
 import * as Cesium from 'cesium';
 import { vesselIcon } from './vesselIcons.js';
-import { createAisStream, getAisKey, setAisKey, hasAisKey } from './aisStream.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 import { screenProjectedRotation, stabilizeScreenRotation } from '../aircraft/iconOrientation.js';
 
@@ -36,7 +36,7 @@ let occluder = null;
 let lastCullAt = 0;
 
 // Layer status for the dock / System Status:
-// 'needs_key' | 'connecting' | 'auth_failed' | 'down' | 'ok' | 'off'
+// 'no_key' | 'connecting' | 'auth_failed' | 'down' | 'ok' | 'off'
 const vesselStatus = { state: 'off', lastOk: 0, lastErr: '' };
 /** Honest layer status: { state, lastOk, lastErr }. */
 export function getVesselStatus() { return vesselStatus; }
@@ -159,7 +159,9 @@ function ensureBillboards() {
   );
 }
 
-// Resolves on the first terminal stream state: 'ok' | 'auth_failed' | 'down'.
+// Resolves on the first terminal hub state: 'ok' | 'auth_failed' | 'down' |
+// 'no_key'. Also notifies the Layers panel once via 'layer-ready' (later
+// status changes update the dock quietly without touching the toggle).
 function connectStream() {
   return new Promise((resolve) => {
     let done = false;
@@ -167,32 +169,60 @@ function connectStream() {
       if (done) return;
       done = true;
       clearTimeout(timer);
+      window.dispatchEvent(
+        new CustomEvent('layer-ready', { detail: { layer: 'ships', state } })
+      );
       resolve(state);
     };
-    const timer = setTimeout(() => finish('down'), 12000);
-    stream = createAisStream({
-      onVessel: (sv) => upsert(sv),
-      onState: (state, detail) => {
-        if (state === 'connecting') {
-          vesselStatus.state = 'connecting';
-          vesselStatus.lastErr = '';
-        } else if (state === 'ok') {
-          vesselStatus.state = 'ok';
-          vesselStatus.lastOk = Date.now();
-          vesselStatus.lastErr = '';
-          finish('ok');
-        } else if (state === 'auth_failed') {
-          vesselStatus.state = 'auth_failed';
-          vesselStatus.lastErr = detail || 'key rejected';
-          finish('auth_failed');
-        } else { // 'down'
-          vesselStatus.state = 'down';
-          vesselStatus.lastErr = detail || 'connection lost';
-          finish('down');
-        }
-      },
+    const timer = setTimeout(() => finish('down'), 15000);
+    const applyStatus = (s) => {
+      if (!s || typeof s !== 'object') return;
+      const st = s.state;
+      if (st === 'ok') {
+        vesselStatus.state = 'ok';
+        vesselStatus.lastOk = Date.now();
+        vesselStatus.lastErr = '';
+        finish('ok');
+      } else if (st === 'auth_failed') {
+        vesselStatus.state = 'auth_failed';
+        vesselStatus.lastErr = s.lastErr || 'key rejected';
+        finish('auth_failed');
+      } else if (st === 'no_key') {
+        vesselStatus.state = 'no_key';
+        vesselStatus.lastErr = 'no AISStream key on server';
+        finish('no_key');
+      } else if (st === 'connecting' || st === 'down') {
+        vesselStatus.state = st;
+        vesselStatus.lastErr = s.lastErr || '';
+        if (st === 'down') finish('down');
+      }
+    };
+    let es;
+    try {
+      es = new EventSource('/api/vessels/stream');
+    } catch (err) {
+      vesselStatus.state = 'down';
+      vesselStatus.lastErr = String((err && err.message) || err);
+      finish('down');
+      return;
+    }
+    stream = es;
+    es.addEventListener('status', (ev) => {
+      try { applyStatus(JSON.parse(ev.data)); } catch { /* malformed: ignore */ }
     });
-    stream.connect();
+    es.addEventListener('vessels', (ev) => {
+      let batch;
+      try { batch = JSON.parse(ev.data); } catch { return; }
+      if (Array.isArray(batch)) for (const sv of batch) upsert(sv);
+    });
+    es.onerror = () => {
+      // EventSource retries on its own; only the FIRST terminal state
+      // resolves the toggle promise — later drops just mark us down.
+      if (!done) {
+        vesselStatus.state = 'down';
+        vesselStatus.lastErr = 'stream unreachable';
+      }
+    };
   });
 }
 
@@ -259,7 +289,7 @@ function cameraPoseSignature() {
 function stopLoop() {
   if (sweepTimer) clearInterval(sweepTimer);
   sweepTimer = 0;
-  if (stream) { stream.disconnect(); stream = null; }
+  if (stream) { try { stream.close(); } catch { /* noop */ } stream = null; }
   if (preRenderRemove) {
     preRenderRemove();
     preRenderRemove = null;
@@ -284,47 +314,18 @@ export async function setVessels(on) {
   if (!viewer) return enabled;
   if (enabled) {
     startLoop();
-    if (!hasAisKey()) {
-      // Waiting on Joshua's key — stay "on" so the layers panel can show
-      // the key form instead of silently flipping the toggle back off.
-      vesselStatus.state = 'needs_key';
-      vesselStatus.lastErr = 'AISStream key not saved yet';
-      return enabled;
-    }
-    // Await the first terminal state so callers see reality
-    // (ok / auth_failed / down) instead of racing the socket.
-    await connectStream();
+    // Connect in the background (Joshua 2026-09-30): the toggle resolves
+    // instantly; the hub's terminal state (ok / auth_failed / down /
+    // no_key) arrives via 'layer-ready' instead of blocking here.
+    // The key lives on the server — the browser never sees it.
+    vesselStatus.state = 'connecting';
+    vesselStatus.lastErr = '';
+    connectStream();
   } else {
     stopLoop();
   }
   return enabled;
 }
-
-/** Save the AISStream key (localStorage, this browser only) and connect
-    if the layer is on. Returns the resulting status state. */
-export async function saveAisKeyAndConnect(key) {
-  setAisKey(key);
-  if (!enabled || !viewer) {
-    vesselStatus.state = hasAisKey() ? vesselStatus.state : 'needs_key';
-    return vesselStatus.state;
-  }
-  if (stream) { stream.disconnect(); stream = null; }
-  await connectStream();
-  return vesselStatus.state;
-}
-
-/** Forget the saved key and drop the connection. */
-export function clearAisKey() {
-  setAisKey('');
-  if (stream) { stream.disconnect(); stream = null; }
-  if (enabled) {
-    vesselStatus.state = 'needs_key';
-    vesselStatus.lastErr = 'AISStream key removed';
-  }
-  return vesselStatus.state;
-}
-
-export { getAisKey, hasAisKey };
 
 export function initVessels(v) {
   viewer = v;

@@ -2,6 +2,7 @@
    direct browser fetch). Marker size scales with magnitude; color encodes
    depth. 15-minute refresh. Data: USGS (US public domain). */
 import * as Cesium from 'cesium';
+import { makeBackgroundLoader } from '../layerLoad.js';
 
 const URL =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson';
@@ -18,6 +19,60 @@ function quakeColor(depthKm) {
   return Cesium.Color.fromHsl(0.02 + t * 0.6, 0.95, 0.55);
 }
 
+// Shade a Cesium color toward white (amt > 0) or black (amt < 0), |amt|<=1.
+function shade(color, amt) {
+  const t = Math.max(-1, Math.min(1, amt));
+  const target = t >= 0 ? Cesium.Color.WHITE : Cesium.Color.BLACK;
+  return Cesium.Color.lerp(color, target, Math.abs(t), new Cesium.Color());
+}
+
+// Premium quake marker (Joshua 2026-09-30): a glowing orb — bright core,
+// saturated mid, darker rim, soft outer halo — instead of the flat dot.
+// Sprites are cached by (color, disc size); a day of M4.5+ quakes is small.
+const quakeSpriteCache = new Map();
+function quakeSprite(color, discPx) {
+  const key = `${color.toCssColorString()}|${discPx}`;
+  const hit = quakeSpriteCache.get(key);
+  if (hit) return hit;
+  const pad = Math.ceil(discPx * 0.9); // halo padding around the disc
+  const S = discPx + pad * 2;
+  const c = document.createElement('canvas');
+  c.width = c.height = S;
+  const g = c.getContext('2d');
+  const cx = S / 2;
+  const r = discPx / 2;
+  // Outer halo: color glow fading to transparent.
+  let grad = g.createRadialGradient(cx, cx, r * 0.5, cx, cx, r + pad);
+  grad.addColorStop(0, color.withAlpha(0.38).toCssColorString());
+  grad.addColorStop(1, color.withAlpha(0).toCssColorString());
+  g.fillStyle = grad;
+  g.beginPath();
+  g.arc(cx, cx, r + pad, 0, Math.PI * 2);
+  g.fill();
+  // Disc: hot core -> saturated color -> darker edge.
+  grad = g.createRadialGradient(cx, cx, 0, cx, cx, r);
+  grad.addColorStop(0, shade(color, 0.6).toCssColorString());
+  grad.addColorStop(0.45, color.toCssColorString());
+  grad.addColorStop(1, shade(color, -0.22).toCssColorString());
+  g.fillStyle = grad;
+  g.beginPath();
+  g.arc(cx, cx, r, 0, Math.PI * 2);
+  g.fill();
+  // Rim light.
+  g.strokeStyle = shade(color, 0.32).withAlpha(0.9).toCssColorString();
+  g.lineWidth = Math.max(1.5, discPx * 0.07);
+  g.beginPath();
+  g.arc(cx, cx, r - g.lineWidth / 2, 0, Math.PI * 2);
+  g.stroke();
+  const sprite = { image: c, px: S };
+  quakeSpriteCache.set(key, sprite);
+  if (quakeSpriteCache.size > 80) {
+    quakeSpriteCache.delete(quakeSpriteCache.keys().next().value);
+  }
+  return sprite;
+}
+const firstLoad = makeBackgroundLoader('quakes');
+
 async function load() {
   const res = await fetch(URL);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -32,16 +87,17 @@ async function load() {
     const mag = Number(p.mag) || 0;
     const color = quakeColor(depthKm);
     const size = Math.max(6, Math.min(28, 4 + mag * 3.2));
+    const sprite = quakeSprite(color, Math.round(size));
     const quakeId = f.id || `${lat.toFixed(3)}_${lon.toFixed(3)}_${p.time || ''}`;
     fresh.entities.add({
       id: `quake-${quakeId}`,
       position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
-      point: {
-        pixelSize: size,
-        color: color.withAlpha(0.85),
-        outlineColor: Cesium.Color.BLACK,
-        outlineWidth: 1,
+      billboard: {
+        image: sprite.image,
+        width: sprite.px,
+        height: sprite.px,
         disableDepthTestDistance: 0,
+        scaleByDistance: new Cesium.NearFarScalar(2e5, 1.0, 3e7, 0.45),
       },
       label: {
         text: `M${mag.toFixed(1)}`,
@@ -126,13 +182,17 @@ export async function setEarthquakes(on) {
   if (!viewer) return enabled;
   if (on) {
     if (!dataSource) {
-      try {
-        await refresh();
-      } catch (err) {
-        console.warn('[earthquakes] unavailable:', err);
-        enabled = false;
-        return enabled;
-      }
+      // First load runs in the background (Joshua 2026-09-30): the toggle
+      // resolves instantly and the layer populates when the fetch lands.
+      // A failed load flips the layer back off and notifies the panel.
+      firstLoad.ensure(async () => {
+        try {
+          await refresh();
+        } catch (err) {
+          enabled = false;
+          throw err;
+        }
+      });
     } else {
       dataSource.show = true;
     }

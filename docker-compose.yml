@@ -23,6 +23,11 @@ services:
       PORT: "3001"
       DATA_DIR: /app/data
       # TIER1_MS / TIER2_MS / TIER3_MS / FETCH_TIMEOUT_MS can be overridden here.
+      # AISSTREAM_KEY is read from /opt/central-intelligence/.env on the host
+      # (gitignored — never commit it). Without it the Ships layer reports
+      # "no key on server" instead of connecting.
+    env_file:
+      - .env
     restart: unless-stopped
     # Caddy (Phase 0) reverse-proxies 443 -> this container.
 

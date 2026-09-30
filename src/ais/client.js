@@ -1,43 +1,29 @@
-/* AISStream WebSocket client — real vessel positions, direct from the browser.
-   Joshua's direction 2026-09-30: wire real ships via a free AISStream key
-   instead of removing the Ships layer.
+// Central Intelligence — server-side AISStream client.
+//
+// The AISStream API key MUST stay server-side (aisstream.io docs, Sep 2026:
+// keys must remain server-side; direct browser WebSocket connections are
+// not permitted). This module runs in Node (built-in WebSocket client,
+// Node >= 22) and keeps exactly ONE subscription per account — well under
+// AISStream's 3-connections-per-account limit — no matter how many globe
+// viewers are attached.
+//
+// Protocol (https://aisstream.io/documentation):
+// - wss://stream.aisstream.io/v0/stream
+// - subscription JSON must go out within 3 s of open
+// - server sends binary WebSocket frames containing UTF-8 JSON
+//
+// Callbacks:
+//   onVessel(vessel) — one validated position report
+//   onState(state, detail) — 'connecting' | 'ok' | 'auth_failed' | 'down'
 
-   KEY PRIVACY: the key lives ONLY in this browser (localStorage). It is
-   never sent to our backend, never committed anywhere, never leaves the
-   device except inside the wss subscription message to AISStream itself.
-   Free signup: https://aisstream.io (sign in → API Keys page).
-
-   Protocol (https://aisstream.io/documentation):
-   - wss://stream.aisstream.io/v0/stream
-   - send the subscription JSON within 3 s of open, or the server drops us
-   - server sends binary WebSocket frames containing UTF-8 JSON
-   - limits: 3 subscribed connections per account, 3 open per IP — we keep
-     exactly one socket while the Ships layer is on. */
-
-const ENDPOINT = 'wss://stream.aisstream.io/v0/stream';
-const LS_KEY = 'ci.aisstream.key';
+const ENDPOINT = process.env.AISSTREAM_ENDPOINT || 'wss://stream.aisstream.io/v0/stream';
 // Whole world, one box: [[[lat1, lon1], [lat2, lon2]]].
 const WORLD_BOX = [[[-90, -180], [90, 180]]];
 const POSITION_TYPES = ['PositionReport', 'StandardClassBPositionReport'];
 
-const SILENCE_MS = 90 * 1000;      // no data this long → reconnect
+const SILENCE_MS = 90 * 1000; // no data this long → reconnect
 const WATCHDOG_MS = 15 * 1000;
-const MAX_BACKOFF_MS = 60 * 1000;
-
-export function getAisKey() {
-  try { return (localStorage.getItem(LS_KEY) || '').trim(); }
-  catch { return ''; }
-}
-export function setAisKey(k) {
-  try {
-    const v = String(k || '').trim();
-    if (v) localStorage.setItem(LS_KEY, v);
-    else localStorage.removeItem(LS_KEY);
-  } catch { /* storage unavailable — key simply won't persist */ }
-}
-export function hasAisKey() { return getAisKey().length > 0; }
-
-const utf8 = new TextDecoder('utf-8');
+const MAX_BACKOFF_MS = 5 * 60 * 1000;
 
 function parseMeta(meta) {
   if (!meta) return null;
@@ -71,10 +57,7 @@ function parseReport(msg) {
   };
 }
 
-/* One managed AISStream connection. Callbacks:
-   onVessel(vessel) — one validated position report
-   onState(state, detail) — 'connecting' | 'ok' | 'auth_failed' | 'down' */
-export function createAisStream({ onVessel, onState }) {
+function createClient({ apiKey, onVessel, onState }) {
   let ws = null;
   let wantOpen = false;
   let backoffMs = 2000;
@@ -85,15 +68,14 @@ export function createAisStream({ onVessel, onState }) {
   let lastMsgAt = 0;
   let gotData = false;
 
-  function setState(s, detail) {
-    try { onState && onState(s, detail); } catch (err) { console.error('[ais]', err); }
-  }
+  const setState = (s, detail) => {
+    try { onState && onState(s, detail); } catch (err) { console.error('[ais] state cb:', err); }
+  };
 
   function cleanup() {
     clearTimeout(reconnectTimer); reconnectTimer = 0;
     clearInterval(watchdogTimer); watchdogTimer = 0;
     if (ws) {
-      ws.onopen = ws.onclose = ws.onerror = ws.onmessage = null;
       try { ws.close(); } catch { /* already dead */ }
       ws = null;
     }
@@ -103,46 +85,37 @@ export function createAisStream({ onVessel, onState }) {
     if (!wantOpen || reconnectTimer) return;
     const wait = backoffMs;
     backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
-    reconnectTimer = setTimeout(() => {
-      reconnectTimer = 0;
-      if (wantOpen) open();
-    }, wait);
+    reconnectTimer = setTimeout(() => { reconnectTimer = 0; if (wantOpen) open(); }, wait);
   }
 
   function startWatchdog() {
     clearInterval(watchdogTimer);
     watchdogTimer = setInterval(() => {
-      if (!ws || ws.readyState !== WebSocket.OPEN) return;
+      if (!ws || ws.readyState !== 1) return; // 1 = OPEN
       if (Date.now() - lastMsgAt > SILENCE_MS) {
-        // Stream went quiet — drop it and reconnect rather than
-        // showing a frozen ocean.
-        try { ws.close(); } catch { /* noop */ }
+        try { ws.close(); } catch { /* noop */ } // close → reconnect
       }
     }, WATCHDOG_MS);
   }
 
   function handleText(text) {
     let msg = null;
-    try { msg = JSON.parse(text); } catch { return; } // ignore malformed frames
-    if (msg && msg.MessageType === 'SubscriptionConfirmation') {
-      lastMsgAt = Date.now();
-      return;
-    }
+    try { msg = JSON.parse(text); } catch { return; }
+    if (msg && msg.MessageType === 'SubscriptionConfirmation') { lastMsgAt = Date.now(); return; }
     const v = parseReport(msg);
     if (!v) return;
     lastMsgAt = Date.now();
     if (!gotData) {
       gotData = true;
-      backoffMs = 2000; // healthy stream — reset backoff
+      backoffMs = 2000;
       setState('ok');
     }
-    try { onVessel && onVessel(v); } catch (err) { console.error('[ais] vessel handler:', err); }
+    try { onVessel && onVessel(v); } catch (err) { console.error('[ais] vessel cb:', err); }
   }
 
   function open() {
     cleanup();
-    const key = getAisKey();
-    if (!key) { setState('down', 'no key'); return; }
+    if (!apiKey) { setState('down', 'no key'); return; }
     setState('connecting');
     openedAt = Date.now();
     lastMsgAt = Date.now();
@@ -160,10 +133,9 @@ export function createAisStream({ onVessel, onState }) {
     ws.binaryType = 'arraybuffer';
     ws.onopen = () => {
       didOpen = true;
-      // Subscription MUST go out within 3 s — send it immediately.
       try {
         ws.send(JSON.stringify({
-          APIKey: key,
+          APIKey: apiKey,
           BoundingBoxes: WORLD_BOX,
           FilterMessageTypes: POSITION_TYPES,
         }));
@@ -179,9 +151,9 @@ export function createAisStream({ onVessel, onState }) {
       const d = ev.data;
       if (typeof d === 'string') handleText(d);
       else if (d instanceof ArrayBuffer) {
-        try { handleText(utf8.decode(d)); } catch { /* ignore bad frame */ }
-      } else if (typeof Blob !== 'undefined' && d instanceof Blob) {
-        d.text().then(handleText).catch(() => { /* ignore bad frame */ });
+        try { handleText(Buffer.from(d).toString('utf-8')); } catch { /* ignore */ }
+      } else if (d && typeof d.text === 'function') {
+        d.text().then(handleText).catch(() => { /* ignore */ });
       }
     };
     ws.onerror = () => { /* close follows; handled in onclose */ };
@@ -190,16 +162,12 @@ export function createAisStream({ onVessel, onState }) {
       ws = null;
       if (!wantOpen) return;
       if (!didOpen) {
-        // Never got a socket at all — network/proxy failure, not the key.
         setState('down', 'network unreachable');
         scheduleReconnect();
         return;
       }
-      // Opened, then closed before any data, shortly after subscribing →
-      // the key was almost certainly rejected (bad paste / revoked). Say so
-      // honestly instead of silently retrying forever.
       if (!gotData && Date.now() - openedAt < 8000) {
-        backoffMs = MAX_BACKOFF_MS; // don't hammer a bad key
+        backoffMs = MAX_BACKOFF_MS; // don't hammer a rejected key
         setState('auth_failed', 'key rejected by AISStream');
         scheduleReconnect();
         return;
@@ -211,9 +179,8 @@ export function createAisStream({ onVessel, onState }) {
 
   return {
     connect() { wantOpen = true; backoffMs = 2000; open(); },
-    disconnect() {
-      wantOpen = false;
-      cleanup();
-    },
+    disconnect() { wantOpen = false; cleanup(); },
   };
 }
+
+module.exports = { createClient };

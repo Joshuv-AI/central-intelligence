@@ -237,7 +237,7 @@ async function init() {
   initSatellites(getViewer());
   initFlights(getViewer());
   initFollowMode(getViewer()); // aircraft track/follow (audit 1.8)
-  initVessels(getViewer()); // AIS vessel layer, needs_key until approved (audit 1.10)
+  initVessels(getViewer()); // AIS vessel layer — key entered in-app, browser-only (2026-09-29)
   initWeather(getViewer());
   initCyclones(getViewer());
   initLaunches(getViewer());

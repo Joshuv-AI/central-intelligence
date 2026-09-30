@@ -15,7 +15,7 @@ import { weatherLayers, weatherEnabled, setWeather } from '../globe/weather/inde
 import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/index.js';
 import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
 import { earthquakesEnabled, earthquakeCount, setEarthquakes } from '../globe/earthquakes/index.js';
-import { vesselsEnabled, vesselCount, setVessels, getVesselStatus } from '../globe/vessels/index.js';
+import { vesselsEnabled, vesselCount, setVessels, getVesselStatus, saveAisKeyAndConnect, clearAisKey, getAisKey, hasAisKey } from '../globe/vessels/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -25,6 +25,10 @@ let closeTimer = 0;
 // store 'data' event, so DOM classes alone can't track an in-flight poll).
 let vesBusy = false;
 let cycBusy = false;
+// AIS key form draft: renderLayers rebuilds innerHTML on every store 'data'
+// event, so the typed key and focus are preserved here across re-renders.
+let aisKeyDraft = '';
+let aisKeyHadFocus = false;
 
 const META = {
   layers: { kicker: 'SIGNAL LAYERS', title: 'Layers' },
@@ -100,6 +104,14 @@ function render(name, opts = {}) {
 
 /* ————————— Layers ————————— */
 function renderLayers(el) {
+  // Preserve the AIS key draft + focus before the innerHTML rebuild.
+  const keyInputBefore = el.querySelector('.ais-key-input');
+  if (keyInputBefore) {
+    aisKeyDraft = keyInputBefore.value;
+    aisKeyHadFocus = document.activeElement === keyInputBefore;
+  } else {
+    aisKeyHadFocus = false;
+  }
   const nonGeo = store.events.filter((e) => !store.isGeo(e)).length;
   let html = '';
   // Live orbit layer (CelesTrak TLEs, client-side SGP4) — independent of domains.
@@ -146,18 +158,23 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">ADS-B: adsb.lol</span></div>`;
-  // Vessels (AIS — needs API key; honest needs_key state until approved).
+  // Vessels (AISStream — the key lives in this browser only; honest states).
   const vesOn = vesselsEnabled();
   const vesStatus = getVesselStatus() || {};
   const vesState = vesStatus.state || 'off';
   const vesCount = vesselCount();
   const vesCountLabel = vesState === 'needs_key' ? 'needs key'
+    : vesState === 'auth_failed' ? 'bad key'
+    : vesState === 'connecting' ? '…'
     : vesState === 'down' ? 'unavailable'
     : (vesCount || '');
   const vesSubLabel = vesState === 'needs_key' ? 'API key required'
+    : vesState === 'auth_failed' ? 'key rejected — check it'
+    : vesState === 'connecting' ? 'connecting…'
     : vesState === 'down' ? (vesStatus.lastErr || 'feed unavailable')
     : vesState === 'off' ? 'off'
     : 'live';
+  const showKeyForm = vesOn && (vesState === 'needs_key' || vesState === 'auth_failed' || vesState === 'down');
   html += `<div class="layer-family"><span class="micro">VESSELS</span>
     <div class="layer-row ${vesOn ? '' : 'off'}" data-vessels="ships">
       <span class="layer-swatch" style="background:#4ade80"></span>
@@ -166,6 +183,11 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">AIS: ${vesSubLabel}</span>
+    ${showKeyForm ? `<div class="ais-key-form">
+      <input class="ais-key-input" type="password" placeholder="Paste AISStream key" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(aisKeyDraft)}" aria-label="AISStream API key">
+      <span class="ais-key-btns"><button class="ais-key-save">SAVE</button>${hasAisKey() ? `<button class="ais-key-clear">CLEAR</button>` : ''}</span>
+      <div class="micro ais-key-hint">Free key: aisstream.io → API Keys. Stored only in this browser — never sent to our server.</div>
+    </div>` : ''}
     <div class="layer-note vessel-note hidden"></div></div>`;
   // Weather imagery (NOAA nowCOAST WMS, keyless) — independent of domains.
   html += `<div class="layer-family"><span class="micro">WEATHER</span>`;
@@ -262,9 +284,9 @@ function renderLayers(el) {
       });
     });
   }
-  // Vessels toggle (audit 1.10) — honest needs_key state when no backend.
-  // If the feed can't show ships, say why inline instead of silently
-  // flipping the toggle back (which reads as "the toggle is broken").
+  // Vessels toggle — honest states. When the key is missing or rejected the
+  // toggle stays ON and the key form appears below; only a dead connection
+  // flips it back off. (Silently reverting reads as "the toggle is broken".)
   // NOTE: store 'data' events re-render this panel (innerHTML), so the row
   // captured below can be detached mid-poll — always re-query the live row.
   const vesRowSel = '[data-vessels="ships"]';
@@ -294,21 +316,26 @@ function renderLayers(el) {
       row.classList.toggle('off', !targetOn);
       row.classList.add('busy');
       setVessels(targetOn).then((on) => {
-        // If the feed is unavailable (no key / backend down), don't leave the
-        // toggle on with nothing to show — revert to off and explain why.
         const st = (getVesselStatus() || {}).state;
-        const usable = on && st !== 'needs_key' && st !== 'down';
         const r2 = liveVesRow();
-        if (targetOn && !usable) {
+        if (targetOn && st === 'down') {
+          // Connection dead — don't leave the toggle on with nothing to show.
           setVessels(false);
           if (r2) r2.classList.toggle('off', true);
-          showVesNote(st === 'needs_key'
-            ? 'Live ships need an AIS key — none is configured, so there is nothing to show yet. (Free signup; your call to add one.)'
-            : 'Ship feed is unavailable right now — try again later.');
-        } else if (r2) {
-          r2.classList.toggle('off', !on);
+          showVesNote('Ship feed is unavailable right now — try again later.');
+        } else {
+          if (r2) r2.classList.toggle('off', !on);
+          if (targetOn && st === 'needs_key') {
+            emit('data'); // re-render layers now — shows the key form / new state immediately
+            showVesNote('Paste your free AISStream key below — it stays in this browser only.');
+          } else if (targetOn && st === 'auth_failed') {
+            emit('data');
+            showVesNote('AISStream rejected that key — check the paste and try again.');
+          } else {
+            window.dispatchEvent(new Event('dock-refresh'));
+            emit('data'); // re-render layers now — shows the key form / new state immediately
+          }
         }
-        window.dispatchEvent(new Event('dock-refresh'));
       }).catch(() => {
         const r3 = liveVesRow();
         if (r3) r3.classList.toggle('off', targetOn);
@@ -317,6 +344,35 @@ function renderLayers(el) {
         if (r4) r4.classList.remove('busy');
         vesBusy = false;
       });
+    });
+  }
+  // AIS key form (shown under the Ships row while needs_key/auth_failed).
+  const keyInput = el.querySelector('.ais-key-input');
+  if (keyInput) {
+    if (aisKeyHadFocus) { try { keyInput.focus({ preventScroll: true }); } catch { keyInput.focus(); } }
+    keyInput.addEventListener('input', () => { aisKeyDraft = keyInput.value; });
+    const saveBtn = el.querySelector('.ais-key-save');
+    const doSave = async () => {
+      const k = keyInput.value.trim();
+      if (!k) { showVesNote('Paste your AISStream key first.'); return; }
+      if (saveBtn) saveBtn.disabled = true;
+      aisKeyDraft = '';
+      const st = await saveAisKeyAndConnect(k);
+      if (saveBtn) saveBtn.disabled = false;
+      emit('data'); // re-render layers first (connecting → live), then note
+      if (st === 'auth_failed') showVesNote('AISStream rejected that key — check the paste and try again.');
+      else if (st === 'down') showVesNote('Could not reach AISStream — try again in a bit.');
+    };
+    keyInput.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter') { ev.preventDefault(); doSave(); }
+    });
+    if (saveBtn) saveBtn.addEventListener('click', doSave);
+    const clearBtn = el.querySelector('.ais-key-clear');
+    if (clearBtn) clearBtn.addEventListener('click', () => {
+      clearAisKey();
+      aisKeyDraft = '';
+      emit('data');
+      showVesNote('Key cleared — the ship feed stays off until a new key is saved.');
     });
   }
   el.querySelectorAll('[data-weather]').forEach((row) => {

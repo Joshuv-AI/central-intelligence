@@ -1,18 +1,14 @@
-/* AIS vessel layer — NEW capability (CI has no ships today).
+/* AIS vessel layer — real ships via AISStream (Joshua's direction 2026-09-30).
    Structure mirrors frontend/src/globe/flights/index.js: one
-   BillboardCollection, 30 s polls, dead reckoning between polls,
-   horizon culling via EllipsoidalOccluder.
+   BillboardCollection, dead reckoning between fixes, horizon culling via
+   EllipsoidalOccluder.
 
-   DATA HONESTY: there is no reliable keyless AIS source. The layer polls
-   the backend proxy `/proxy/ais/live` and reports honest states —
-   'needs_key' (AISSTREAM_API_KEY not configured), 'ok', 'degraded',
-   'down'. The layer NEVER fabricates vessel positions. Adding the AIS
-   provider key needs Joshua's explicit approval (no accounts/billing
-   chosen here).
-
-   Expected proxy response (backend normalizes AISStream):
-     { status: 'ok'|'needs_key'|'degraded'|'down', vessels: [
-       { mmsi, name, lat, lon, sog, cog, heading, type, navStatus } ] }
+   DATA HONESTY: positions stream live from AISStream over a WebSocket opened
+   directly from this browser (see ./aisStream.js). The API key lives ONLY in
+   this browser's localStorage — never in the repo, never on our backend.
+   Honest states: 'needs_key' (no key saved yet), 'connecting',
+   'auth_failed' (key rejected), 'down', 'ok'. The layer NEVER fabricates
+   vessel positions.
 
    Selection: tap a chevron → getVessel(mmsi) → card via ui/cards.js.
    Trails: vesselTrails reuses the shared createTrailManager; seed from
@@ -20,28 +16,33 @@
 
 import * as Cesium from 'cesium';
 import { vesselIcon } from './vesselIcons.js';
+import { createAisStream, getAisKey, setAisKey, hasAisKey } from './aisStream.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 import { screenProjectedRotation, stabilizeScreenRotation } from '../aircraft/iconOrientation.js';
 
-const POLL_MS = 30 * 1000;
 const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600;
-const HISTORY_MAX = 120; // ~1 h of 30 s fixes per vessel, for trail seeding
+const HISTORY_MAX = 120; // ~1 h of fixes per vessel, for trail seeding
+const STALE_MS = 10 * 60 * 1000; // drop vessels silent this long
+const SWEEP_MS = 60 * 1000;
+const MAX_VESSELS = 25000; // globe can't usefully show more; drop oldest first
 
 let viewer = null;
 let billboards = null;
 let enabled = false;
-let pollTimer = 0;
+let stream = null;
+let sweepTimer = 0;
 let preRenderRemove = null;
 let occluder = null;
-let pollGen = 0;
+let lastCullAt = 0;
 
-// Layer status for the dock / System Status: 'needs_key' | 'ok' | 'degraded' | 'down' | 'off'
+// Layer status for the dock / System Status:
+// 'needs_key' | 'connecting' | 'auth_failed' | 'down' | 'ok' | 'off'
 const vesselStatus = { state: 'off', lastOk: 0, lastErr: '' };
 /** Honest layer status: { state, lastOk, lastErr }. */
 export function getVesselStatus() { return vesselStatus; }
 
 // mmsi -> { billboard, lat, lon, sog, cog, heading, name, type, navStatus,
-//            lastUpdate, missedPolls, history: [Cartesian3...] }
+//            lastUpdate, history: [Cartesian3...] }
 const vessels = new Map();
 
 function toCartesian(lat, lon, result) {
@@ -65,6 +66,7 @@ function upsert(sv) {
   if (!mmsi || !Number.isFinite(sv.lat) || !Number.isFinite(sv.lon)) return;
   let v = vessels.get(mmsi);
   if (!v) {
+    if (vessels.size >= MAX_VESSELS) pruneOldest();
     const bb = billboards.add({
       id: `vessel-${mmsi}`,
       image: vesselIcon(sv.type, false),
@@ -96,7 +98,6 @@ function upsert(sv) {
   v.type = sv.type;
   v.navStatus = sv.navStatus || '';
   v.lastUpdate = Date.now();
-  v.missedPolls = 0;
   v.billboard.position = toCartesian(v.lat, v.lon);
   // P1: rotation in SCREEN space (camera-basis projection) — raw heading is
   // mirrored and camera-blind. Chevron points north at rotation 0.
@@ -112,6 +113,31 @@ function upsert(sv) {
   // Ring buffer for trail seeding.
   v.history.push(toCartesian(v.lat, v.lon));
   if (v.history.length > HISTORY_MAX) v.history.shift();
+  // Horizon culling is O(vessels); throttle it on a hot stream.
+  const now = Date.now();
+  if (now - lastCullAt > 5000) { lastCullAt = now; cullHorizon(); }
+}
+
+// Drop the oldest silent vessels until we're back under the cap.
+function pruneOldest() {
+  const sorted = [...vessels.entries()].sort((a, b) => a[1].lastUpdate - b[1].lastUpdate);
+  for (const [mmsi, v] of sorted) {
+    if (vessels.size <= MAX_VESSELS * 0.8) break;
+    billboards.remove(v.billboard);
+    vessels.delete(mmsi);
+  }
+}
+
+// Periodic sweep: drop vessels silent longer than STALE_MS.
+function sweepStale() {
+  const now = Date.now();
+  for (const [mmsi, v] of vessels) {
+    if (now - v.lastUpdate > STALE_MS) {
+      billboards.remove(v.billboard);
+      vessels.delete(mmsi);
+    }
+  }
+  cullHorizon();
 }
 
 function cullHorizon() {
@@ -121,62 +147,6 @@ function cullHorizon() {
     const p = toCartesian(v.lat, v.lon);
     v.billboard.show = enabled && occluder.isPointVisible(p);
   }
-}
-
-async function poll() {
-  const gen = ++pollGen;
-  let payload = null;
-  let errText = '';
-  try {
-    const res = await fetch('/proxy/ais/live?maxRows=8000');
-    payload = await res.json();
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  } catch (err) {
-    errText = String((err && err.message) || err || 'fetch failed');
-  }
-  if (gen !== pollGen) return; // stale poll
-
-  if (!payload) {
-    vesselStatus.state = 'down';
-    vesselStatus.lastErr = errText;
-    console.warn('[vessels] poll failed:', errText);
-    return;
-  }
-  const state = payload.status || 'ok';
-  if (state === 'needs_key') {
-    vesselStatus.state = 'needs_key';
-    vesselStatus.lastErr = 'AIS provider key not configured';
-    return; // no data — and we say so, honestly
-  }
-  if (state === 'down') {
-    vesselStatus.state = 'down';
-    vesselStatus.lastErr = payload.error || 'AIS feed down';
-    return;
-  }
-  vesselStatus.state = state === 'degraded' ? 'degraded' : 'ok';
-  vesselStatus.lastOk = Date.now();
-  vesselStatus.lastErr = state === 'degraded' ? (payload.error || 'degraded') : '';
-
-  const seen = new Set();
-  for (const sv of payload.vessels || []) {
-    if (!sv.mmsi) continue;
-    seen.add(String(sv.mmsi));
-    upsert(sv);
-  }
-  // Drop vessels that vanished: 3 missed polls (~90 s) grace.
-  for (const [mmsi, v] of vessels) {
-    if (!seen.has(mmsi)) {
-      v.missedPolls = (v.missedPolls || 0) + 1;
-      v.stale = true;
-      if (v.missedPolls >= 3) {
-        billboards.remove(v.billboard);
-        vessels.delete(mmsi);
-      }
-    } else {
-      v.stale = false;
-    }
-  }
-  cullHorizon();
 }
 
 function ensureBillboards() {
@@ -189,8 +159,45 @@ function ensureBillboards() {
   );
 }
 
+// Resolves on the first terminal stream state: 'ok' | 'auth_failed' | 'down'.
+function connectStream() {
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = (state) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      resolve(state);
+    };
+    const timer = setTimeout(() => finish('down'), 12000);
+    stream = createAisStream({
+      onVessel: (sv) => upsert(sv),
+      onState: (state, detail) => {
+        if (state === 'connecting') {
+          vesselStatus.state = 'connecting';
+          vesselStatus.lastErr = '';
+        } else if (state === 'ok') {
+          vesselStatus.state = 'ok';
+          vesselStatus.lastOk = Date.now();
+          vesselStatus.lastErr = '';
+          finish('ok');
+        } else if (state === 'auth_failed') {
+          vesselStatus.state = 'auth_failed';
+          vesselStatus.lastErr = detail || 'key rejected';
+          finish('auth_failed');
+        } else { // 'down'
+          vesselStatus.state = 'down';
+          vesselStatus.lastErr = detail || 'connection lost';
+          finish('down');
+        }
+      },
+    });
+    stream.connect();
+  });
+}
+
 function startLoop() {
-  if (pollTimer || !enabled) return;
+  if (preRenderRemove || !enabled) return;
   ensureBillboards();
   holdContinuousRender('vessels'); // keep animating while camera is parked
   let last = performance.now();
@@ -236,8 +243,7 @@ function startLoop() {
       console.error('[vessels] interpolator error (render loop protected):', err);
     }
   });
-  poll();
-  pollTimer = setInterval(poll, POLL_MS);
+  sweepTimer = setInterval(sweepStale, SWEEP_MS);
 }
 
 // Camera-pose signature for the P1 orientation pass (see flights/index.js).
@@ -251,8 +257,9 @@ function cameraPoseSignature() {
 }
 
 function stopLoop() {
-  if (pollTimer) clearInterval(pollTimer);
-  pollTimer = 0;
+  if (sweepTimer) clearInterval(sweepTimer);
+  sweepTimer = 0;
+  if (stream) { stream.disconnect(); stream = null; }
   if (preRenderRemove) {
     preRenderRemove();
     preRenderRemove = null;
@@ -275,13 +282,49 @@ export function getVesselHistory(mmsi) {
 export async function setVessels(on) {
   enabled = on;
   if (!viewer) return enabled;
-  if (enabled) startLoop(); else stopLoop();
-  for (const v of vessels.values()) v.billboard.show = on;
-  // Await the first poll so callers see the real feed state (needs_key/down/ok)
-  // instead of racing it — the toggle handler depends on this.
-  if (enabled && vessels.size === 0) await poll();
+  if (enabled) {
+    startLoop();
+    if (!hasAisKey()) {
+      // Waiting on Joshua's key — stay "on" so the layers panel can show
+      // the key form instead of silently flipping the toggle back off.
+      vesselStatus.state = 'needs_key';
+      vesselStatus.lastErr = 'AISStream key not saved yet';
+      return enabled;
+    }
+    // Await the first terminal state so callers see reality
+    // (ok / auth_failed / down) instead of racing the socket.
+    await connectStream();
+  } else {
+    stopLoop();
+  }
   return enabled;
 }
+
+/** Save the AISStream key (localStorage, this browser only) and connect
+    if the layer is on. Returns the resulting status state. */
+export async function saveAisKeyAndConnect(key) {
+  setAisKey(key);
+  if (!enabled || !viewer) {
+    vesselStatus.state = hasAisKey() ? vesselStatus.state : 'needs_key';
+    return vesselStatus.state;
+  }
+  if (stream) { stream.disconnect(); stream = null; }
+  await connectStream();
+  return vesselStatus.state;
+}
+
+/** Forget the saved key and drop the connection. */
+export function clearAisKey() {
+  setAisKey('');
+  if (stream) { stream.disconnect(); stream = null; }
+  if (enabled) {
+    vesselStatus.state = 'needs_key';
+    vesselStatus.lastErr = 'AISStream key removed';
+  }
+  return vesselStatus.state;
+}
+
+export { getAisKey, hasAisKey };
 
 export function initVessels(v) {
   viewer = v;

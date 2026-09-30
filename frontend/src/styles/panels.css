@@ -122,6 +122,44 @@
   line-height: 1.5;
 }
 
+/* ——— AIS key form (Ships layer) ——— */
+.ais-key-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px 4px;
+}
+.ais-key-input {
+  background: rgba(10, 20, 34, 0.55);
+  border: 1px solid rgba(127, 206, 240, 0.25);
+  border-radius: 8px;
+  color: var(--ice-white);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 8px 10px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+.ais-key-input:focus { border-color: rgba(127, 206, 240, 0.6); }
+.ais-key-input::placeholder { color: rgba(156, 200, 226, 0.45); }
+.ais-key-btns { display: flex; gap: 6px; }
+.ais-key-save, .ais-key-clear {
+  flex: 1;
+  padding: 7px 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(127, 206, 240, 0.25);
+  background: rgba(127, 206, 240, 0.12);
+  color: var(--ice-white);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+.ais-key-save:disabled { opacity: 0.5; cursor: default; }
+.ais-key-clear { background: transparent; color: var(--frost); }
+.ais-key-hint { opacity: 0.6; line-height: 1.5; }
+
 /* ——— Sensor look buttons ——— */
 .sensor-row {
   display: flex;

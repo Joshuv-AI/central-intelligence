@@ -92,6 +92,4 @@
 
   #error-state { padding: 26px 22px; }
 
-  /* Telemetry HUD: drop below the top pill row on small screens. */
-  .ci-telemetry { top: 58px; font-size: 9px; letter-spacing: 0.1em; }
 }

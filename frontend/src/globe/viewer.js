@@ -55,13 +55,15 @@ export function createViewer(container) {
   // the biggest battery win for a parked dashboard (audit 1.1).
   installRenderGovernor(viewer);
 
-  // Calmer camera-change reporting: camera.changed (which drives Cesium's
-  // EntityCluster re-group pass) fires only after substantial movement
-  // instead of on every nudge, so cluster badges stop reshuffling while the
-  // user makes small pans. Documented Camera property (default 0.5); the
-  // only other camera.changed listener here is the SSE updater, which is
-  // idempotent (2026-09-30).
-  viewer.camera.percentageChanged = 0.75;
+  // Cluster stability: camera.changed drives Cesium's EntityCluster greedy
+  // re-group pass, which reshuffles badges on slight pans/spins. Set the
+  // threshold very high so the auto pass effectively never fires — clusters
+  // regroup ONLY on genuine deep zooms via the moveEnd handler in markers.js
+  // (zoom-gated re-clustering, 2026-09-30). Documented Camera property
+  // (default 0.5). The only other camera.changed listener here is the SSE
+  // updater, which is idempotent and also driven directly by
+  // moveStart/moveEnd (2026-09-30).
+  viewer.camera.percentageChanged = 8;
 
   // Atmosphere and starfield: the blue limb halo is half the wow factor.
   // (Was disabled for "polar night" — re-enabled for the GEV-grade look.)
@@ -159,7 +161,7 @@ export function createViewer(container) {
   // in flight and the visible set converges quickly instead of churning in a
   // perpetually blurry state. When the camera settles (moveEnd), full
   // sharpness is restored. Smooth in motion, sharp at rest.
-  const MOTION_RELAX = 1.6;
+  const MOTION_RELAX = 1.3;
   let motionRelax = 1;
   let sseRaf = 0;
   const updateDynamicSSE = () => {

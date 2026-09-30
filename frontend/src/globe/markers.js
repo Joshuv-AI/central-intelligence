@@ -98,6 +98,36 @@ export function initMarkers() {
   // badges dependable while moving (2026-09-30).
   eventSource.clustering.pixelRange = 64;
   eventSource.clustering.minimumClusterSize = 5;
+  // Zoom-gated re-clustering (2026-09-30): Cesium's EntityCluster re-runs its
+  // greedy grouping pass on every camera.changed, which reshuffles badges on
+  // slight pans/spins and reads as buggy. Auto regrouping is therefore
+  // disabled (viewer.js sets camera.percentageChanged very high), and
+  // clusters refresh ONLY here — when the camera settles after a genuine
+  // zoom (≥1.6× height change). Spins and pans never regroup: badges stay
+  // world-anchored, glide with the globe, and counts hold still. A deep zoom
+  // in (or back out) re-runs the grouping so badges split/merge into the
+  // correct places and numbers for that zoom level.
+  let lastClusterHeight = 0;
+  const ZOOM_RECLUSTER_RATIO = 1.6;
+  viewer.camera.moveEnd.addEventListener(() => {
+    try {
+      if (!eventSource || !eventSource.clustering.enabled) return;
+      const h = viewer.camera.positionCartographic.height;
+      if (!Number.isFinite(h) || h <= 0) return;
+      if (!lastClusterHeight) { lastClusterHeight = h; return; }
+      const ratio = Math.max(h, lastClusterHeight) / Math.min(h, lastClusterHeight);
+      if (ratio >= ZOOM_RECLUSTER_RATIO) {
+        lastClusterHeight = h;
+        // Nudge pixelRange off and back through the public setter: marks the
+        // clusterer dirty so it rebuilds on the next update, without
+        // destroying the cluster collections (no flash).
+        const c = eventSource.clustering;
+        const pr = c.pixelRange;
+        c.pixelRange = pr + 1;
+        c.pixelRange = pr;
+      }
+    } catch { /* camera not ready — try on the next settle */ }
+  });
   eventSource.clustering.clusterEvent.addEventListener((clustered, cluster) => {
     let maxSev = 'low';
     let maxRank = -1;

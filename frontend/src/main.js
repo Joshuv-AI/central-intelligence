@@ -36,7 +36,6 @@ import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
 import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, closeEventCard, isCardOpen } from './ui/cards.js';
 import { initSharpen } from './globe/sharpen.js';
-import { initTelemetry } from './ui/telemetry.js';
 import { bindShortcuts } from './ui/shortcuts.js';
 import { installGenerationBumps } from './globe/cameraGen.js';
 import { initFollowMode } from './globe/aircraft/followMode.js';
@@ -254,7 +253,6 @@ async function init() {
   initRail();
   initPanels();
   initStatus();
-  initTelemetry(getViewer()); // SECTOR camera readout (audit 1.20)
   initSearch();
   initTicker();
   initCards();

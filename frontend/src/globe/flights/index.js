@@ -10,6 +10,8 @@ import { isTaggedMilitary } from '../aircraft/militaryRegistry.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 import { screenProjectedRotation, stabilizeScreenRotation } from '../aircraft/iconOrientation.js';
 import { followedId, stopFollow } from '../aircraft/followMode.js';
+import { isHidden, registerPoll } from '../../data/visibility.js';
+import { pickRenderAltitudeM } from '../../data/renderAltitude.js';
 
 const POLL_MS = 15 * 1000;
 // Civilian planes only render when the camera is closer than this height
@@ -281,13 +283,23 @@ function upsert(ac, military) {
   const hex = ac.hex;
   if (!hex || !Number.isFinite(ac.lat) || !Number.isFinite(ac.lon)) return;
   let a = aircraft.get(hex);
-  // P4: prefer geometric altitude (feet → m) for RENDERING — alt_geom is
-  // already referenced to the WGS84 ellipsoid, so it needs no MSL offset.
-  // The card keeps showing barometric altitude (a.alt, pilot-true MSL).
+  // P4/T5: canonical render-altitude resolver — alt_geom is already WGS84
+  // ellipsoidal, so it goes in verbatim; baro is the MSL fallback (CI has no
+  // geoid module yet, so baro falls back uncorrected for now). The `> 0` gate
+  // on alt_geom and the final `?? 0` preserve the pre-T5 behavior exactly:
+  // on-ground contacts render at 0 (CI has no ground cache, so surfaceM is
+  // the standing 0 policy). The resolver never invents a fallback — the
+  // caller keeps its own. The card keeps showing barometric altitude (a.alt,
+  // pilot-true MSL).
   const altGeomM = Number(ac.alt_geom) * 0.3048;
-  const renderAltM = ac.alt_baro === 'ground' ? 0
-    : Number.isFinite(altGeomM) && altGeomM > 0 ? altGeomM
-    : Number(ac.alt_baro) * 0.3048 || 0;
+  const altBaroM = Number(ac.alt_baro) * 0.3048;
+  const onGround = ac.alt_baro === 'ground';
+  const renderAltM = pickRenderAltitudeM({
+    geoAltM: Number.isFinite(altGeomM) && altGeomM > 0 ? altGeomM : undefined,
+    baroAltM: Number.isFinite(altBaroM) ? altBaroM : undefined,
+    onGround,
+    surfaceM: onGround ? 0 : undefined,
+  }) ?? 0;
   const altM = ac.alt_baro === 'ground' ? 0 : Number(ac.alt_baro) * 0.3048 || 0;
   // F4: unwrap longitude to the nearest ±360° equivalent of the current
   // display position, so antimeridian crossings interpolate the short way
@@ -582,7 +594,9 @@ function startLoop() {
     }
   });
   poll();
-  pollTimer = setInterval(poll, POLL_MS);
+  // A4-1: skip polls while the tab is hidden; one refresh fires on return.
+  pollTimer = setInterval(() => { if (!isHidden()) poll(); }, POLL_MS);
+  registerPoll('flights', poll);
 }
 
 // Camera-pose signature for the P1 orientation pass: the screen projection
@@ -658,3 +672,6 @@ export function refreshAircraftVisibility() { cullHorizon(); }
 export function initFlights(v) {
   viewer = v;
 }
+
+/** Iterate every live aircraft record (awareness/proximity queries). */
+export function forEachAircraft(cb) { for (const a of aircraft.values()) cb(a); }

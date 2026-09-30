@@ -4,6 +4,8 @@
    Data: NOAA National Hurricane Center (US public domain). */
 import * as Cesium from 'cesium';
 import { makeBackgroundLoader } from '../layerLoad.js';
+import { isHidden, registerPoll } from '../../data/visibility.js';
+import { pickRenderAltitudeM } from '../../data/renderAltitude.js';
 
 const firstLoad = makeBackgroundLoader('cyclones');
 
@@ -99,8 +101,11 @@ async function load() {
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
     const color = stormColor(s.classification);
     const name = s.name && s.name !== 'Unknown' ? s.name : s.id;
+    // T5: storm markers are surface contacts — canonical resolver with the
+    // standing 0 m surface policy (resolves to 0, as the old literal did).
+    const stormH = pickRenderAltitudeM({ onGround: true, surfaceM: 0 }) ?? 0;
     fresh.entities.add({
-      position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
+      position: Cesium.Cartesian3.fromDegrees(lon, lat, stormH),
       billboard: {
         image: cycloneSprite(color.toCssColorString()),
         width: 56,
@@ -165,8 +170,11 @@ async function load() {
         for (const f of gis.points.features || []) {
           if (f.geometry && f.geometry.type === 'Point') {
             const [lo, la] = f.geometry.coordinates;
+            // T5: forecast points are surface contacts — canonical resolver,
+            // 0 m surface policy (resolves to 0, as the old literal did).
+            const ptH = pickRenderAltitudeM({ onGround: true, surfaceM: 0 }) ?? 0;
             fresh.entities.add({
-              position: Cesium.Cartesian3.fromDegrees(lo, la, 0),
+              position: Cesium.Cartesian3.fromDegrees(lo, la, ptH),
               point: { pixelSize: 6, color, outlineColor: Cesium.Color.BLACK, outlineWidth: 1 },
             });
           }
@@ -225,9 +233,12 @@ export async function setCyclones(on) {
       dataSource.show = true;
     }
     if (!refreshTimer) {
+      // A4-1: skip refreshes while the tab is hidden; one fires on return.
       refreshTimer = setInterval(() => {
+        if (isHidden()) return;
         refresh().catch((err) => console.warn('[cyclones] refresh failed:', err));
       }, REFRESH_MS);
+      registerPoll('cyclones', refresh);
     }
   } else if (dataSource) {
     dataSource.show = false;

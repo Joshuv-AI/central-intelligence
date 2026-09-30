@@ -27,6 +27,10 @@ import { initWeather } from './globe/weather/index.js';
 import { initCyclones } from './globe/cyclones/index.js';
 import { initLaunches } from './globe/launches/index.js';
 import { initEarthquakes } from './globe/earthquakes/index.js';
+import { initInstallations } from './globe/installations/index.js';
+import { initSubmarineCables } from './globe/submarineCables/index.js';
+import { initInfrastructure } from './globe/infrastructure/index.js';
+import { initAwareness } from './globe/awareness/index.js';
 import { readSceneFromHash, applyScene, initShareTracking } from './globe/share.js';
 import { haltIdleSpin } from './globe/viewer.js';
 import { initRail } from './ui/rail.js';
@@ -34,11 +38,11 @@ import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from '
 import { initStatus } from './ui/status.js';
 import { initSearch, closeSearch } from './ui/search.js';
 import { initTicker } from './ui/ticker.js';
-import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, closeEventCard, isCardOpen } from './ui/cards.js';
 import { initSharpen } from './globe/sharpen.js';
 import { bindShortcuts } from './ui/shortcuts.js';
 import { installGenerationBumps } from './globe/cameraGen.js';
-import { initFollowMode } from './globe/aircraft/followMode.js';
+import { initFollowMode, followedId } from './globe/aircraft/followMode.js';
 import { initVessels } from './globe/vessels/index.js';
 import { createOrbitRings } from './globe/satellites/orbitRings.js';
 import { flyToEvent } from './globe/eventFraming.js';
@@ -117,10 +121,28 @@ function initGlobeClick() {
     } else if (hit.type === 'connection') {
       emit('focus-connection', { connectionId: hit.connectionId });
     } else if (hit.type === 'flight') {
+      // UX-2: tapping the tracked entity itself must NOT untrack it.
+      // followMode renders its own pickable billboard (id "flight-<hex>") for
+      // the tracked plane — just re-open its card (data refresh) and return
+      // early, without anything that stops follow. A different flight while
+      // following keeps the normal behavior below.
+      if (followedId() === 'flight-' + hit.hex) {
+        import('./globe/flights/index.js').then(({ getAircraft }) => {
+          const a = getAircraft(hit.hex);
+          if (a) openFlightCard(a, ev.clientX, ev.clientY);
+        });
+        return;
+      }
       // Dynamically import to avoid circular deps (flights imports viewer).
       import('./globe/flights/index.js').then(({ getAircraft }) => {
         const a = getAircraft(hit.hex);
         if (a) openFlightCard(a, ev.clientX, ev.clientY);
+      });
+    } else if (hit.type === 'vessel') {
+      // UX-1: vessels are pickable — dynamically import to avoid circular deps.
+      import('./globe/vessels/index.js').then(({ getVessel }) => {
+        const v = getVessel(hit.mmsi);
+        if (v) openVesselCard(v, ev.clientX, ev.clientY);
       });
     } else if (hit.type === 'quake') {
       import('./globe/earthquakes/index.js').then(({ getEarthquake }) => {
@@ -242,6 +264,10 @@ async function init() {
   initCyclones(getViewer());
   initLaunches(getViewer());
   initEarthquakes(getViewer());
+  initInstallations(getViewer());
+  initSubmarineCables(getViewer());
+  initInfrastructure(getViewer());
+  initAwareness(getViewer()); // subject-centered proximity awareness (GEV audit T1/L1)
   const sharedScene = readSceneFromHash();
   if (sharedScene) {
     applyScene(sharedScene); // shared link? restore that exact view, no drift
@@ -287,8 +313,8 @@ async function init() {
   connectStream({
     onSnapshot: (snap) => applySnapshot(snap),
     onUpdate: () => refreshSnapshot(),
-    onStatus: (connected, reconnecting) =>
-      emit('stream-status', { connected, reconnecting }),
+    onStatus: (connected, reconnecting, attempt) =>
+      emit('stream-status', { connected, reconnecting, attempt }),
   });
 }
 

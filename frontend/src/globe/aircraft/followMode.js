@@ -96,6 +96,10 @@ export function startFollow(id, getPosition, opts = {}) {
   );
 
   trackedEntity = viewer.entities.add({
+    // UX-2: stamp the tracked id on the entity so a tap on it picks with
+    // id "flight-<hex>" (markers.js routes it back to the flight branch
+    // instead of closeEventCard -> stopFollow).
+    id,
     position: positionProperty,
     trackingReferenceFrame: Cesium.TrackingReferenceFrame.ENU,
     billboard: {

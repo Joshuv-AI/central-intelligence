@@ -3,6 +3,8 @@
    refresh. Data: The Space Devs (free API). */
 import * as Cesium from 'cesium';
 import { makeBackgroundLoader } from '../layerLoad.js';
+import { isHidden, registerPoll } from '../../data/visibility.js';
+import { pickRenderAltitudeM } from '../../data/renderAltitude.js';
 
 const URL = 'https://ll.thespacedevs.com/2.3.0/launches/upcoming/?limit=40&ordering=net';
 const REFRESH_MS = 30 * 60 * 1000;
@@ -129,8 +131,11 @@ async function load() {
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
     const rocket = (l.rocket && l.rocket.configuration && l.rocket.configuration.name) || l.name || 'Launch';
     const mission = l.mission && l.mission.name ? ` · ${l.mission.name}` : '';
+    // T5: launch pads are surface contacts — canonical resolver with the
+    // standing 0 m surface policy (resolves to 0, as the old literal did).
+    const padH = pickRenderAltitudeM({ onGround: true, surfaceM: 0 }) ?? 0;
     fresh.entities.add({
-      position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
+      position: Cesium.Cartesian3.fromDegrees(lon, lat, padH),
       billboard: {
         image: sprite,
         width: 48,
@@ -206,9 +211,12 @@ export async function setLaunches(on) {
       dataSource.show = true;
     }
     if (!refreshTimer) {
+      // A4-1: skip refreshes while the tab is hidden; one fires on return.
       refreshTimer = setInterval(() => {
+        if (isHidden()) return;
         refresh().catch((err) => console.warn('[launches] refresh failed:', err));
       }, REFRESH_MS);
+      registerPoll('launches', refresh);
     }
   } else if (dataSource) {
     dataSource.show = false;

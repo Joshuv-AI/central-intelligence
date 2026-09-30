@@ -16,6 +16,9 @@ import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/in
 import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
 import { earthquakesEnabled, earthquakeCount, setEarthquakes } from '../globe/earthquakes/index.js';
 import { vesselsEnabled, vesselCount, setVessels, getVesselStatus } from '../globe/vessels/index.js';
+import { installationsEnabled, setInstallations } from '../globe/installations/index.js';
+import { submarineCablesEnabled, setSubmarineCables } from '../globe/submarineCables/index.js';
+import { infrastructureEnabled, setInfrastructure } from '../globe/infrastructure/index.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -266,6 +269,30 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">Storms: NOAA NHC</span></div>`;
+  // Intel layers (audit T2/T3/T4): tile-sourced military land, bundled
+  // TeleGeography cable routes, bundled OSM infrastructure points.
+  const instOn = installationsEnabled();
+  const cabOn = submarineCablesEnabled();
+  const infOn = infrastructureEnabled();
+  html += `<div class="layer-family"><span class="micro">INTEL LAYERS</span>
+    <div class="layer-row ${instOn ? '' : 'off'}" data-intel="installations">
+      <span class="layer-swatch" style="background:#9ca6b0"></span>
+      <span class="layer-name">Military installations</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">© OpenMapTiles © OpenStreetMap contributors</span>
+    <div class="layer-row ${cabOn ? '' : 'off'}" data-intel="cables">
+      <span class="layer-swatch" style="background:#2dd4bf"></span>
+      <span class="layer-name">Submarine cables</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">© TeleGeography — submarinecablemap.com</span>
+    <div class="layer-row ${infOn ? '' : 'off'}" data-intel="infrastructure">
+      <span class="layer-swatch" style="background:#22d3ee"></span>
+      <span class="layer-name">Infrastructure (datacenters, dams)</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">© OpenStreetMap contributors (ODbL)</span></div>`;
   if (nonGeo > 0) {
     html += `<div class="layer-note">${nonGeo} event${nonGeo === 1 ? '' : 's'} without coordinates live${nonGeo === 1 ? 's' : ''} in the feed and layer counts, not on the globe.</div>`;
   }
@@ -376,6 +403,17 @@ function renderLayers(el) {
     row.addEventListener('click', () => {
       const key = row.dataset.weather;
       const on = setWeather(key, !weatherEnabled(key));
+      row.classList.toggle('off', !on);
+    });
+  });
+  // Intel layers (audit T2/T3/T4) — simple sync toggles, like weather rows.
+  el.querySelectorAll('[data-intel]').forEach((row) => {
+    row.addEventListener('click', () => {
+      const key = row.dataset.intel;
+      let on;
+      if (key === 'installations') on = setInstallations(!installationsEnabled());
+      else if (key === 'cables') on = setSubmarineCables(!submarineCablesEnabled());
+      else on = setInfrastructure(!infrastructureEnabled());
       row.classList.toggle('off', !on);
     });
   });

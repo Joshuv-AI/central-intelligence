@@ -5,6 +5,8 @@
 import * as Cesium from 'cesium';
 import * as satellite from 'satellite.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
+import { isHidden, registerPoll } from '../../data/visibility.js';
+import { pickRenderAltitudeM } from '../../data/renderAltitude.js';
 
 const GROUPS = ['stations', 'visual', 'weather', 'noaa', 'goes'];
 const TLE_URL = (g) =>
@@ -74,6 +76,15 @@ async function loadTLEs() {
   return all;
 }
 
+/** Hourly TLE re-fetch body (extracted for the visibility gate + return refresh). */
+async function refreshTLEs() {
+  sats = await loadTLEs();
+  if (enabled) {
+    buildBillboards();
+    updatePositions();
+  }
+}
+
 function updatePositions() {
   if (!billboards || sats.length === 0) return;
   const now = new Date();
@@ -92,7 +103,11 @@ function updatePositions() {
     // visibly jumping each tick while the globe turns.
     s.tgtLon = satellite.degreesLong(geo.longitude);
     s.tgtLat = satellite.degreesLat(geo.latitude);
-    s.tgtH = Math.max(0, geo.height * 1000); // km -> m
+    // T5: SGP4's eciToGeodetic height is already WGS84-ellipsoidal (km),
+    // so it goes into the canonical resolver as geoAltM verbatim. The
+    // Math.max(0, …) floor is the caller's own pre-T5 policy, preserved —
+    // the resolver never invents a fallback.
+    s.tgtH = Math.max(0, pickRenderAltitudeM({ geoAltM: geo.height * 1000 }) ?? 0); // km -> m
     if (!Number.isFinite(s.dispLon)) {
       s.dispLon = s.tgtLon; s.dispLat = s.tgtLat; s.dispH = s.tgtH;
     }
@@ -215,17 +230,20 @@ export async function setSatellites(on) {
       buildBillboards();
       updatePositions();
     }
-    if (!timer) timer = setInterval(updatePositions, TICK_MS);
+    // A4-1: skip the 2 s SGP4 tick while the tab is hidden; one tick on return.
+    if (!timer) {
+      timer = setInterval(() => { if (!isHidden()) updatePositions(); }, TICK_MS);
+      registerPoll('satellites', updatePositions);
+    }
     holdContinuousRender('satellites'); // keep animating while camera is parked
     startInterpolator(); // per-frame glide between 2 s SGP4 ticks
     if (!refreshTimer) {
-      refreshTimer = setInterval(async () => {
-        sats = await loadTLEs();
-        if (enabled) {
-          buildBillboards();
-          updatePositions();
-        }
+      refreshTimer = setInterval(() => {
+        // A4-1: skip the hourly TLE re-fetch while hidden; one on return.
+        if (isHidden()) return;
+        refreshTLEs();
       }, REFRESH_MS);
+      registerPoll('satellites-tle', refreshTLEs);
     }
   } else {
     if (billboards) billboards.show = false;

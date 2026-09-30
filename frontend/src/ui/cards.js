@@ -8,6 +8,7 @@ import { esc, fmtDateTime, fmtCoords } from '../data/format.js';
 import { startFollow, stopFollow } from '../globe/aircraft/followMode.js';
 import { getAircraft, refreshAircraftVisibility } from '../globe/flights/index.js';
 import { createOrbitRings } from '../globe/satellites/orbitRings.js';
+import { renderProximityHTML, setAwarenessSubject, clearAwarenessSubject } from '../globe/awareness/index.js';
 
 let orbitRings = null; // lazy-init on first satellite card (audit 1.14)
 let ringedNoradId = null;
@@ -34,6 +35,7 @@ export function openEventCard(eventId, clientX, clientY) {
   if (!e || !cardEl) return;
   openEventId = eventId;
   renderCard(e);
+  if (Number.isFinite(e.lat) && Number.isFinite(e.lon)) setAwarenessSubject(e.lon, e.lat, e.title);
   cardEl.classList.remove('hidden');
   void cardEl.offsetWidth;
   cardEl.classList.add('open');
@@ -181,6 +183,58 @@ export function openFlightCard(a, clientX, clientY) {
   emit('card-opened', { eventId: openEventId });
 }
 
+/** Open a detail card for a vessel (tap on vessel billboard). */
+export function openVesselCard(v, clientX, clientY) {
+  if (!v || !cardEl) return;
+  // Use a synthetic ID so closeEventCard works.
+  openEventId = `vessel-${v.mmsi}`;
+  const sog = Number.isFinite(v.sog) ? `${v.sog.toFixed(1)} kt` : '—';
+  const cog = Number.isFinite(v.cog) ? `${Math.round(v.cog)}°` : '—';
+  const hdg = Number.isFinite(v.heading) ? `${Math.round(v.heading)}°` : '—';
+  const ageMs = Number.isFinite(v.lastUpdate) ? Date.now() - v.lastUpdate : NaN;
+  const age = Number.isFinite(ageMs)
+    ? (ageMs < 60000
+      ? `${Math.max(0, Math.round(ageMs / 1000))}s ago`
+      : `${Math.round(ageMs / 60000)}m ago`)
+    : '—';
+  const lat = Number.isFinite(v.dispLat) ? v.dispLat : v.lat;
+  const lon = Number.isFinite(v.dispLon) ? v.dispLon : v.lon;
+  cardEl.className = 'sev-low';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>VESSEL · AIS</div>
+    <h3 class="card-title">${esc(v.name || `MMSI ${v.mmsi}`)}</h3>
+    <div class="card-fields">
+      <div class="card-field"><span class="k">MMSI</span><span class="v mono">${esc(String(v.mmsi))}</span></div>
+      <div class="card-field"><span class="k">Position</span><span class="v">${esc(fmtCoords(lat, lon))}</span></div>
+      ${v.type ? `<div class="card-field"><span class="k">Type</span><span class="v">${esc(v.type)}</span></div>` : ''}
+      <div class="card-field"><span class="k">SOG</span><span class="v">${esc(sog)}</span></div>
+      <div class="card-field"><span class="k">COG</span><span class="v">${esc(cog)}</span></div>
+      ${hdg !== '—' ? `<div class="card-field"><span class="k">Heading</span><span class="v">${esc(hdg)}</span></div>` : ''}
+      ${v.navStatus ? `<div class="card-field"><span class="k">Nav status</span><span class="v">${esc(v.navStatus)}</span></div>` : ''}
+      <div class="card-field"><span class="k">Data age</span><span class="v">${esc(age)}</span></div>
+      <div class="card-field"><span class="k">Source</span><span class="v">AISStream via server hub</span></div>
+    </div>`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  const viewer = getViewer();
+  anchorCartesian = (Number.isFinite(lat) && Number.isFinite(lon))
+    ? Cesium.Cartesian3.fromDegrees(lon, lat, 0)
+    : null;
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
 export function openSatelliteCard(s, clientX, clientY) {
   if (!s || !cardEl) return;
   openEventId = `sat-${s.noradId}`;
@@ -261,6 +315,7 @@ export function closeEventCard() {
   openEventId = null;
   anchorCartesian = null;
   stopTracking();
+  clearAwarenessSubject();
   if (cardEl) {
     cardEl.classList.remove('open');
     setTimeout(() => { if (!openEventId) cardEl.classList.add('hidden'); }, 220);
@@ -291,6 +346,7 @@ function renderCard(e) {
         <span class="micro">LINKED CONNECTIONS</span>
         ${conns.map((c) => `<button class="card-conn" data-conn-id="${esc(c.id)}">${esc(c.title)}</button>`).join('')}
       </div>` : ''}
+    ${Number.isFinite(e.lat) && Number.isFinite(e.lon) ? renderProximityHTML(e.lon, e.lat) : ''}
     ${e.url ? `<a class="card-src" href="${esc(e.url)}" target="_blank" rel="noopener">SOURCE →</a>` : ''}`;
 
   cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
@@ -398,7 +454,9 @@ export function initCards() {
   on('close-panels', closeEventCard);
   on('data', () => {
     // If the open event vanished from state, close quietly.
-    // (Flight cards use synthetic 'flight-<hex>' IDs — leave them alone.)
-    if (openEventId && !String(openEventId).startsWith('flight-') && !store.eventById(openEventId)) closeEventCard();
+    // (Flight and vessel cards use synthetic 'flight-<hex>' / 'vessel-<mmsi>'
+    // IDs — leave them alone.)
+    const idStr = String(openEventId);
+    if (openEventId && !idStr.startsWith('flight-') && !idStr.startsWith('vessel-') && !store.eventById(openEventId)) closeEventCard();
   });
 }

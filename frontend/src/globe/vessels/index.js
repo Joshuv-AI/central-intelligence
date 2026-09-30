@@ -17,6 +17,8 @@ import * as Cesium from 'cesium';
 import { vesselIcon } from './vesselIcons.js';
 import { holdContinuousRender, releaseContinuousRender } from '../renderGovernor.js';
 import { screenProjectedRotation, stabilizeScreenRotation } from '../aircraft/iconOrientation.js';
+import { pickRenderAltitudeM } from '../../data/renderAltitude.js';
+import { isHidden, registerPoll } from '../../data/visibility.js';
 
 const KNOTS_TO_DEG_LAT_PER_S = 1 / 3600;
 const HISTORY_MAX = 120; // ~1 h of fixes per vessel, for trail seeding
@@ -47,7 +49,12 @@ function toCartesian(lat, lon, result) {
   // NOTE: fromDegrees is (lon, lat, height, ellipsoid, result) — the 4th slot
   // is the ellipsoid, NOT the result (see flights/index.js). Pass undefined
   // for the default WGS84 ellipsoid.
-  return Cesium.Cartesian3.fromDegrees(lon, lat, 0, undefined, result); // surface — ships float
+  // T5: routed through the canonical render-altitude resolver for
+  // consistency — ships are surface contacts by definition (onGround with
+  // the standing 0 m surface policy), so this resolves to 0 exactly as the
+  // old literal did. No behavior change.
+  const h = pickRenderAltitudeM({ onGround: true, surfaceM: 0 }) ?? 0;
+  return Cesium.Cartesian3.fromDegrees(lon, lat, h, undefined, result);
 }
 
 function deadReckon(v, dt) {
@@ -271,7 +278,9 @@ function startLoop() {
       console.error('[vessels] interpolator error (render loop protected):', err);
     }
   });
-  sweepTimer = setInterval(sweepStale, SWEEP_MS);
+  // A4-1: skip sweeps while the tab is hidden; one sweep fires on return.
+  sweepTimer = setInterval(() => { if (!isHidden()) sweepStale(); }, SWEEP_MS);
+  registerPoll('vessels', sweepStale);
 }
 
 // Camera-pose signature for the P1 orientation pass (see flights/index.js).
@@ -300,6 +309,9 @@ export function vesselsEnabled() { return enabled; }
 /** Vessel count for the dock. */
 export function vesselCount() { return vessels.size; }
 
+/** Look up a vessel by MMSI (string or number). */
+export function getVessel(mmsi) { return vessels.get(String(mmsi)) || null; }
+
 
 export async function setVessels(on) {
   enabled = on;
@@ -322,3 +334,6 @@ export async function setVessels(on) {
 export function initVessels(v) {
   viewer = v;
 }
+
+/** Iterate every live vessel record (awareness/proximity queries). */
+export function forEachVessel(cb) { for (const v of vessels.values()) cb(v); }

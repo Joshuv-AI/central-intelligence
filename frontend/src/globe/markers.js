@@ -168,6 +168,13 @@ export function initMarkers() {
 // ellipsoid wink out at the limb while their sprite still overlaps visible
 // globe, which reads as flicker on small camera pivots. 1500 m is invisible
 // at every practical zoom and keeps the anchor on the visible side longer.
+//
+// T5 (render-altitude resolver, src/data/renderAltitude.js): this constant
+// is deliberately NOT routed through pickRenderAltitudeM. The resolver
+// answers the datum question ("is this height MSL or ellipsoidal?") for
+// contacts whose height describes their real-world position; event pins are
+// a UI affordance — a fixed visual float above the surface, not a position
+// reading — so the explicit constant is the honest encoding.
 const MARKER_ALT_M = 1500;
 function makeEventEntity(e) {
   const severity = SEV_RANK[e.severity] !== undefined ? e.severity : 'low';
@@ -415,6 +422,16 @@ export function pickAt(clientX, clientY) {
   // Earthquake entities: id is "quake-<id>" string.
   if (typeof id === 'string' && id.startsWith('quake-')) {
     return { type: 'quake', quakeId: id.slice(6) };
+  }
+  // Vessel billboards: id is "vessel-<mmsi>" string.
+  if (typeof id === 'string' && id.startsWith('vessel-')) {
+    return { type: 'vessel', mmsi: id.slice(7) };
+  }
+  // Follow-mode tracked entity: a Cesium Entity whose own id is "flight-<hex>"
+  // (startFollow stamps the tracked id on it). Tapping it hits the flight
+  // branch instead of falling through to closeEventCard (UX-2).
+  if (id && typeof id === 'object' && typeof id.id === 'string' && id.id.startsWith('flight-')) {
+    return { type: 'flight', hex: id.id.slice(7) };
   }
   // Entity objects (earthquakes, launches, etc.) — check properties.
   if (id && typeof id === 'object' && id.properties) {

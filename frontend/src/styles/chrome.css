@@ -51,6 +51,56 @@
 .status-meta .dir-risk-off { color: var(--aurora); }
 .status-meta .dir-mixed { color: var(--frost); }
 
+/* ——— Reconnecting pill (top-center, UX-3) ——— */
+#reconnect-pill {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 90, 90, 0.45);
+  border-radius: 999px;
+  padding: 7px 8px 7px 14px;
+  box-shadow: var(--shadow-deep), 0 0 12px rgba(255, 90, 90, 0.25);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ember);
+  white-space: nowrap;
+  max-width: calc(100vw - 32px);
+}
+#reconnect-pill::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ember);
+  flex: none;
+  animation: livePulse 1.2s ease-in-out infinite;
+}
+.reconnect-x {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--frost);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.reconnect-x:hover { color: var(--ember); border-color: rgba(255, 90, 90, 0.45); }
+
 /* ——— Top-right: search + region ——— */
 #top-right {
   position: fixed;
@@ -292,11 +342,12 @@
 /* HUD hide toggle (keyboard shortcut "h", audit 2.20).
    Fades the interface chrome to leave a clean globe view; press h again to restore. */
 body.hud-hidden #status-pill,
+body.hud-hidden #reconnect-pill,
 body.hud-hidden #top-right,
 body.hud-hidden #rail,
 body.hud-hidden #panel,
 body.hud-hidden #detail-card,
 body.hud-hidden #hover-tip,
-#status-pill, #top-right, #rail, #panel, #detail-card, #hover-tip {
+#status-pill, #reconnect-pill, #top-right, #rail, #panel, #detail-card, #hover-tip {
   transition: opacity 0.25s ease;
 }

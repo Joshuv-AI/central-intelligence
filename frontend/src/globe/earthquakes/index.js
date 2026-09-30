@@ -3,6 +3,8 @@
    depth. 15-minute refresh. Data: USGS (US public domain). */
 import * as Cesium from 'cesium';
 import { makeBackgroundLoader } from '../layerLoad.js';
+import { isHidden, registerPoll } from '../../data/visibility.js';
+import { pickRenderAltitudeM } from '../../data/renderAltitude.js';
 
 const URL =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson';
@@ -89,9 +91,13 @@ async function load() {
     const size = Math.max(6, Math.min(28, 4 + mag * 3.2));
     const sprite = quakeSprite(color, Math.round(size));
     const quakeId = f.id || `${lat.toFixed(3)}_${lon.toFixed(3)}_${p.time || ''}`;
+    // T5: quake markers are surface contacts (depth feeds color only, not
+    // position) — routed through the canonical resolver with the standing
+    // 0 m surface policy. Resolves to 0 exactly as the old literal did.
+    const quakeH = pickRenderAltitudeM({ onGround: true, surfaceM: 0 }) ?? 0;
     fresh.entities.add({
       id: `quake-${quakeId}`,
-      position: Cesium.Cartesian3.fromDegrees(lon, lat, 0),
+      position: Cesium.Cartesian3.fromDegrees(lon, lat, quakeH),
       billboard: {
         image: sprite.image,
         width: sprite.px,
@@ -197,9 +203,12 @@ export async function setEarthquakes(on) {
       dataSource.show = true;
     }
     if (!refreshTimer) {
+      // A4-1: skip refreshes while the tab is hidden; one fires on return.
       refreshTimer = setInterval(() => {
+        if (isHidden()) return;
         refresh().catch((err) => console.warn('[earthquakes] refresh failed:', err));
       }, REFRESH_MS);
+      registerPoll('earthquakes', refresh);
     }
   } else if (dataSource) {
     dataSource.show = false;

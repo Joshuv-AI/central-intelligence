@@ -10,8 +10,8 @@ export function connectStream({ onSnapshot, onUpdate, onStatus }) {
   let closed = false;
   let retryTimer = null;
 
-  const setStatus = (connected, reconnecting) => {
-    try { onStatus && onStatus(connected, reconnecting); } catch { /* never break the app */ }
+  const setStatus = (connected, reconnecting, attemptNum) => {
+    try { onStatus && onStatus(connected, reconnecting, attemptNum); } catch { /* never break the app */ }
   };
 
   function open() {
@@ -25,7 +25,7 @@ export function connectStream({ onSnapshot, onUpdate, onStatus }) {
 
     es.addEventListener('snapshot', (ev) => {
       attempt = 0;
-      setStatus(true, false);
+      setStatus(true, false, 0);
       try {
         onSnapshot && onSnapshot(JSON.parse(ev.data));
       } catch { /* malformed payload: ignore */ }
@@ -49,7 +49,7 @@ export function connectStream({ onSnapshot, onUpdate, onStatus }) {
     es.onerror = () => {
       try { es.close(); } catch { /* noop */ }
       es = null;
-      setStatus(false, true);
+      setStatus(false, true, attempt + 1); // the retry about to be scheduled
       scheduleRetry();
     };
   }

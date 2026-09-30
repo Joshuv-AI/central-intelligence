@@ -156,7 +156,10 @@ export function openFlightCard(a, clientX, clientY) {
         altitudeM: a.alt, // meters — calibrates the viewFrom range
         getCourseDeg: () => {
           const fa = getAircraft(hex);
-          return fa && Number.isFinite(fa.courseDeg) ? fa.courseDeg : NaN;
+          if (!fa) return NaN;
+          // S2: track is turn-evolved per frame; fall back to last known course.
+          return Number.isFinite(fa.track) ? fa.track
+            : Number.isFinite(fa.courseDeg) ? fa.courseDeg : NaN;
         },
         onRelease: () => { refreshAircraftVisibility(); },
       });

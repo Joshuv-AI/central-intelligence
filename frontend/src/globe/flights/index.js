@@ -526,8 +526,12 @@ function startLoop() {
         for (const a of aircraft.values()) {
           if (!a.billboard.show) continue;
           const prev = Number.isFinite(a.rotation) ? a.rotation : null;
+          // S2: a.track is turn-evolved every frame by deadReckon, so the
+          // icon follows the arc — not just the last reported heading.
+          const course = Number.isFinite(a.track) ? a.track
+            : Number.isFinite(a.courseDeg) ? a.courseDeg : 0;
           const next = screenProjectedRotation(scene, a.billboard.position,
-            Number.isFinite(a.courseDeg) ? a.courseDeg : 0, prev);
+            course, prev);
           const stable = stabilizeScreenRotation(prev, next);
           if (stable !== null && stable !== a.rotation) {
             a.billboard.rotation = stable;

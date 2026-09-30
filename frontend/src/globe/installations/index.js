@@ -58,16 +58,16 @@ let tileTemplate = null;   // resolved from TileJSON once
 let moveEndRemove = null;
 let debounceTimer = 0;
 let generation = 0;        // stale-fetch guard
-let fetchTimer = 0;
-// Zoom gate (globe-smoothness): rotation-only camera settles must not refetch.
-// A refresh is only worthwhile when the height changed meaningfully (≥15%
-// ratio) or the view center moved by more than half the z9 patch width
-// (~1.4°), i.e. genuinely new territory is under the camera.
-let lastFetchHeight = 0;   // 0 = never fetched (forces first refresh)
-let lastFetchLon = 0;
-let lastFetchLat = 0;
-const HEIGHT_RATIO_GATE = 1.15;
-const CENTER_MOVE_GATE_DEG = 1.4;
+// Tile cache (Joshua 2026-09-30 — the layer felt "slow and patchy" because
+// every refresh re-fetched every tile from the network and blanked the screen
+// while waiting). Decoded tiles are cached per session, so revisiting ground
+// is instant; refreshes render cached coverage immediately and fetch only the
+// missing tiles in the background. The tile set itself is the gate: pure
+// rotation over already-cached ground is a no-op, and any move onto new
+// territory fetches just the new tiles — no height/center heuristics.
+const tileCache = new Map(); // "z/x/y" -> decoded records[]
+const MAX_CACHED_TILES = 96; // session cap; oldest tiles evicted first
+let renderedTileKey = '';    // sorted tile keys of the currently rendered set
 
 const credit = new Cesium.Credit(
   '© OpenMapTiles © OpenStreetMap contributors',
@@ -348,27 +348,38 @@ function centerPatchTiles() {
   return tiles;
 }
 
-/** True when a refetch is worthwhile: first run, meaningful zoom change, or
-    the center moved onto genuinely new territory. Pure rotation (same height,
-    same patch of ground) returns false so moveEnd doesn't refetch. */
-function zoomGatePassed(height, lonDeg, latDeg) {
-  if (lastFetchHeight <= 0) return true;
-  const ratio =
-    Math.max(height, lastFetchHeight) / Math.min(height, lastFetchHeight);
-  if (ratio >= HEIGHT_RATIO_GATE) return true;
-  const dLat = Math.abs(latDeg - lastFetchLat);
-  let dLon = Math.abs(lonDeg - lastFetchLon);
-  if (dLon > 180) dLon = 360 - dLon;
-  const moved = Math.max(dLat, dLon * Math.cos((latDeg * Math.PI) / 180));
-  return moved >= CENTER_MOVE_GATE_DEG;
+function tileKey(t) {
+  return `${t.z}/${t.x}/${t.y}`;
 }
 
-async function fetchTile(template, tile, signal) {
+function cacheTile(t, recs) {
+  const k = tileKey(t);
+  if (!tileCache.has(k) && tileCache.size >= MAX_CACHED_TILES) {
+    // Evict the oldest tile (Maps iterate in insertion order).
+    tileCache.delete(tileCache.keys().next().value);
+  }
+  tileCache.set(k, recs);
+}
+
+/** Render the union of cached records for these tiles, biggest first. Called
+    immediately on every refresh so the user never stares at a blank layer
+    while missing tiles download. */
+function renderFromCache(tiles) {
+  const all = [];
+  for (const t of tiles) {
+    const recs = tileCache.get(tileKey(t));
+    if (recs) all.push(...recs);
+  }
+  all.sort((a, b) => b.area - a.area);
+  renderRecords(all.slice(0, MAX_RENDERED));
+}
+
+async function fetchTile(template, tile) {
   const url = template
     .replace('{z}', String(tile.z))
     .replace('{x}', String(tile.x))
     .replace('{y}', String(tile.y));
-  const res = await fetch(url, { signal });
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
   return new Uint8Array(await res.arrayBuffer());
 }
@@ -475,13 +486,7 @@ function renderRecords(next) {
 async function refresh() {
   if (!enabled || !viewer) return;
   const gen = generation;
-  clearTimeout(fetchTimer);
-  const carto = viewer.scene.camera.positionCartographic;
-  const height = carto.height;
-  const lonDeg = Cesium.Math.toDegrees(carto.longitude);
-  const latDeg = Cesium.Math.toDegrees(carto.latitude);
-  // Zoom gate: rotation-only settles keep existing data, no refetch.
-  if (!zoomGatePassed(height, lonDeg, latDeg)) return;
+  const height = viewer.scene.camera.positionCartographic.height;
   const rect = viewer.camera.computeViewRectangle();
   if (!rect) return;
   let tiles;
@@ -497,14 +502,21 @@ async function refresh() {
       tiles = centerPatchTiles();
     }
   }
-  // Gate passed: remember this fetch so the next settle can skip. Recorded
-  // after the attempt (not before) so a total network failure doesn't latch
-  // the gate shut — the next moveEnd will retry.
-  const rememberFetch = () => {
-    lastFetchHeight = height;
-    lastFetchLon = lonDeg;
-    lastFetchLat = latDeg;
-  };
+  const keyStr = tiles.map(tileKey).sort().join(',');
+  if (keyStr === renderedTileKey) return; // already showing this exact set
+  if (window.__ciQa) window.__ciQa.lastTiles = tiles.map(tileKey); // QA visibility
+  // Show cached coverage NOW — never blank the layer while fetching.
+  renderFromCache(tiles);
+  renderedTileKey = keyStr;
+  const missing = tiles.filter((t) => !tileCache.has(tileKey(t)));
+  if (window.__ciQa)
+    window.__ciQa.lastFetch = {
+      key: keyStr,
+      tiles: tiles.length,
+      missing: missing.length,
+      cacheSize: tileCache.size,
+    };
+  if (missing.length === 0) return;
   let template;
   try {
     template = await resolveTemplate();
@@ -512,32 +524,30 @@ async function refresh() {
     return;
   }
   if (gen !== generation || !enabled) return;
-  const controller = new AbortController();
-  fetchTimer = 0;
-  const results = [];
-  // Bounded concurrency (4 in flight).
+  // Bounded concurrency (4 in flight), network only for uncached tiles.
   let idx = 0;
   const workers = Array.from(
-    { length: Math.min(4, tiles.length) },
+    { length: Math.min(4, missing.length) },
     async () => {
-      while (idx < tiles.length) {
-        const tile = tiles[idx++];
+      while (idx < missing.length) {
+        const tile = missing[idx++];
         try {
-          const bytes = await fetchTile(template, tile, controller.signal);
+          const bytes = await fetchTile(template, tile);
           if (gen !== generation || !enabled) return;
-          results.push(...decodeMilitaryTile(bytes, tile.z, tile.x, tile.y));
+          cacheTile(tile, decodeMilitaryTile(bytes, tile.z, tile.x, tile.y));
         } catch (err) {
-          if (err?.name !== 'AbortError')
-            console.warn('[installations] tile failed:', tile, err?.message || err);
+          console.warn('[installations] tile failed:', tile, err?.message || err);
         }
       }
     },
   );
   await Promise.all(workers);
-  rememberFetch();
   if (gen !== generation || !enabled) return;
-  results.sort((a, b) => b.area - a.area);
-  renderRecords(results.slice(0, MAX_RENDERED));
+  // Re-render only if the camera still wants this tile set (the user may
+  // have moved on mid-fetch — their refresh will handle the new set).
+  if (tiles.map(tileKey).sort().join(',') === renderedTileKey) {
+    renderFromCache(tiles);
+  }
 }
 
 function scheduleRefresh() {
@@ -588,7 +598,7 @@ export function setInstallations(on) {
       moveEndRemove = viewer.camera.moveEnd.addEventListener(scheduleRefresh);
     }
     showCredit();
-    lastFetchHeight = 0; // force a fresh fetch (dataSource was destroyed)
+    renderedTileKey = ''; // force a fresh render (dataSource was destroyed)
     refresh().catch(() => {});
   } else {
     generation++; // abandon in-flight fetches

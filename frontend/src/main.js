@@ -37,7 +37,7 @@ import { initRail } from './ui/rail.js';
 import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from './ui/panels.js';
 import { initStatus } from './ui/status.js';
 import { initTicker } from './ui/ticker.js';
-import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, openDatacenterCard, openInstallationCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, openDatacenterCard, openInstallationCard, openLaunchCard, closeEventCard, isCardOpen } from './ui/cards.js';
 import { initSharpen } from './globe/sharpen.js';
 import { bindShortcuts } from './ui/shortcuts.js';
 import { installGenerationBumps } from './globe/cameraGen.js';
@@ -162,6 +162,11 @@ function initGlobeClick() {
       import('./globe/installations/index.js').then(({ getInstallation }) => {
         const inst = getInstallation(hit.instId);
         if (inst) openInstallationCard(inst, ev.clientX, ev.clientY);
+      });
+    } else if (hit.type === 'launch') {
+      import('./globe/launches/index.js').then(({ getLaunch }) => {
+        const l = getLaunch(hit.launchId);
+        if (l) openLaunchCard(l, ev.clientX, ev.clientY);
       });
     }
   });
@@ -331,6 +336,44 @@ const appReady = init().catch((err) => {
 runBoot(appReady).then(() => {
   const globe = document.getElementById('globe-container');
   if (globe) globe.classList.add('ready');
+  // Hidden QA hook for automated visual tests (?qahook=1). Not part of the UI;
+  // lets a test script move the camera and project coordinates to screen px.
+  if (new URLSearchParams(location.search).has('qahook')) {
+    const viewer = getViewer();
+    if (viewer) {
+      window.__ciQa = {
+        viewer, // QA only: lets tests inspect data sources
+        setView(lon, lat, height) {
+          viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(lon, lat, height),
+          });
+        },
+        nudge() {
+          // Tests use setView, which doesn't raise moveEnd; real user drags do.
+          viewer.camera.moveEnd.raiseEvent();
+        },
+        getCam() {
+          const c = viewer.camera.positionCartographic;
+          return {
+            lon: Cesium.Math.toDegrees(c.longitude),
+            lat: Cesium.Math.toDegrees(c.latitude),
+            height: c.height,
+          };
+        },
+        toScreen(lon, lat, h = 0) {
+          const c = Cesium.SceneTransforms.worldToWindowCoordinates(
+            viewer.scene,
+            Cesium.Cartesian3.fromDegrees(lon, lat, h),
+          );
+          return c ? { x: c.x, y: c.y } : null;
+        },
+        dsCount(name) {
+          const ds = viewer.dataSources.getByName(name)[0];
+          return ds ? ds.entities.values.length : -1;
+        },
+      };
+    }
+  }
 });
 
 // Read-only diagnostics handle (data already rendered in the DOM).

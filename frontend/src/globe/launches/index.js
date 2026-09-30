@@ -13,6 +13,12 @@ let viewer = null;
 let dataSource = null;
 let refreshTimer = 0;
 let enabled = false;
+let launches = []; // [{ id, name, net, rocket, mission, agency, pad, status, lat, lon }] — for click cards
+
+/** Find a launch record by its entity id (e.g. "launch-<id>"). */
+export function getLaunch(launchId) {
+  return launches.find((l) => `launch-${l.id}` === launchId) || null;
+}
 
 const firstLoad = makeBackgroundLoader('launches');
 
@@ -124,6 +130,7 @@ async function load() {
 
   const fresh = new Cesium.CustomDataSource('launches');
   const sprite = padSprite();
+  const next = [];
   for (const l of data.results || []) {
     const pad = l.pad || {};
     const lat = Number(pad.latitude);
@@ -131,10 +138,23 @@ async function load() {
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
     const rocket = (l.rocket && l.rocket.configuration && l.rocket.configuration.name) || l.name || 'Launch';
     const mission = l.mission && l.mission.name ? ` · ${l.mission.name}` : '';
+    next.push({
+      id: l.id,
+      name: l.name || rocket,
+      net: l.net || null,
+      rocket,
+      mission: (l.mission && l.mission.name) || null,
+      agency: (l.launch_service_provider && l.launch_service_provider.name) || null,
+      pad: pad.name || null,
+      status: (l.status && l.status.name) || null,
+      lat,
+      lon,
+    });
     // T5: launch pads are surface contacts — canonical resolver with the
     // standing 0 m surface policy (resolves to 0, as the old literal did).
     const padH = pickRenderAltitudeM({ onGround: true, surfaceM: 0 }) ?? 0;
     fresh.entities.add({
+      id: `launch-${l.id}`,
       position: Cesium.Cartesian3.fromDegrees(lon, lat, padH),
       billboard: {
         image: sprite,
@@ -160,6 +180,7 @@ async function load() {
         `Status: ${(l.status && l.status.name) || '?'}`,
     });
   }
+  launches = next;
 
   if (dataSource) viewer.dataSources.remove(dataSource, true);
   dataSource = fresh;

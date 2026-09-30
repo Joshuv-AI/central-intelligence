@@ -157,6 +157,60 @@ export function openInstallationCard(inst, clientX, clientY) {
 }
 
 /** Open a detail card for a flight (tap on aircraft billboard). */
+/** Open a detail card for a rocket launch (tap on the pad marker). */
+export function openLaunchCard(l, clientX, clientY) {
+  if (!l || !cardEl) return;
+  openEventId = `launch-${l.id}`;
+  const where = `${l.lat.toFixed(3)}°, ${l.lon.toFixed(3)}°`;
+  let net = 'TBD';
+  if (l.net) {
+    const ms = new Date(l.net).getTime() - Date.now();
+    if (Number.isFinite(ms)) {
+      if (ms < 0) net = 'Launched';
+      else {
+        const d = Math.floor(ms / 86400000);
+        const h = Math.floor((ms % 86400000) / 3600000);
+        const m = Math.floor((ms % 3600000) / 60000);
+        net = d > 0 ? `T-${d}d ${h}h` : `T-${h}h ${m}m`;
+      }
+    }
+  }
+  const agencyRow = l.agency ? `<div class="card-field"><span class="k">Agency</span><span class="v">${esc(l.agency)}</span></div>` : '';
+  const missionRow = l.mission ? `<div class="card-field"><span class="k">Mission</span><span class="v">${esc(l.mission)}</span></div>` : '';
+  const padRow = l.pad ? `<div class="card-field"><span class="k">Pad</span><span class="v">${esc(l.pad)}</span></div>` : '';
+  cardEl.className = 'sev-moderate';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>ROCKET LAUNCH</div>
+    <h3 class="card-title">${esc(l.name || 'Launch')}</h3>
+    <div class="card-fields">
+      <div class="card-field"><span class="k">Countdown</span><span class="v mono">${esc(net)}</span></div>
+      <div class="card-field"><span class="k">Rocket</span><span class="v">${esc(l.rocket || 'Unknown')}</span></div>
+      ${missionRow}
+      ${agencyRow}
+      ${padRow}
+      <div class="card-field"><span class="k">Status</span><span class="v">${esc(l.status || 'Unknown')}</span></div>
+      <div class="card-field"><span class="k">Location</span><span class="v">${esc(where)}</span></div>
+      <div class="card-field"><span class="k">Source</span><span class="v">The Space Devs</span></div>
+    </div>`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  const viewer = getViewer();
+  anchorCartesian = Cesium.Cartesian3.fromDegrees(l.lon, l.lat, 0);
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
 export function openFlightCard(a, clientX, clientY) {
   if (!a || !cardEl) return;
   // Use a synthetic ID so closeEventCard works.

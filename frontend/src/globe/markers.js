@@ -444,6 +444,10 @@ export function pickAt(clientX, clientY) {
     const instId = raw.endsWith(':outline') ? raw.slice(0, -8) : raw;
     return { type: 'installation', instId };
   }
+  // Rocket launch pad entities: entity id is "launch-<space-devs-id>".
+  if (id && typeof id === 'object' && typeof id.id === 'string' && id.id.startsWith('launch-')) {
+    return { type: 'launch', launchId: id.id };
+  }
   // Entity objects (earthquakes, launches, etc.) — check properties.
   if (id && typeof id === 'object' && id.properties) {
     const kind = propValue(id.properties, 'kind');

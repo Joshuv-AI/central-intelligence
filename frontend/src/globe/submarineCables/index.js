@@ -75,7 +75,7 @@ function buildEntities() {
           // NOTE: intentionally NOT clampToGround — ground-clamped polylines
           // (GroundPolylinePrimitive) crash iOS under 4x MSAA + real terrain.
           positions: pts.map(([lon, lat]) => Cesium.Cartesian3.fromDegrees(lon, lat, CABLE_HEIGHT_M)),
-          width: 1.5, // thinner than the 2px pass — crisper than the original 0.55-alpha 1.5px
+          width: 1, // ~30% thinner than the 1.5px pass (Joshua 2026-09-30) — whole-pixel, stays crisp under MSAA
           material: cableColor,
           // arcType defaults to GEODESIC with 1-degree granularity, so
           // segments already interpolate as smooth surface-hugging arcs.

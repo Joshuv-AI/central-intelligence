@@ -18,6 +18,13 @@ let datacenterLayer = null;
 
 export function infrastructureEnabled() { return enabled; }
 
+/** Point record for a datacenter billboard (for the detail card). */
+export function getDatacenter(idx) {
+  const pts = datacenterLayer?.points;
+  const p = pts && pts[idx];
+  return p ? { idx, name: p.name, operator: p.sub, lon: p.lon, lat: p.lat } : null;
+}
+
 export function setInfrastructure(on) {
   enabled = on;
   if (!viewer) return enabled;
@@ -38,7 +45,8 @@ function ensureLayers() {
     data: DATACENTERS,
     name: 'Datacenters',
     color: '#22d3ee', // cyan
-    dotPx: 5, // smaller markers: was 9, which overloaded the globe at 4,351 features
+    dotPx: 7, // slightly larger than the 5px pass (9px overloaded the globe at 4,351 features)
+    idPrefix: 'dc-', // clickable: billboards carry `dc-<index>` ids so pickAt can open a detail card.
     stemHeightM: 3000,
     // Zoom-gated rendering: dots only appear below 650 km camera height
     // (same gate convention as civil flights in globe/flights/index.js —

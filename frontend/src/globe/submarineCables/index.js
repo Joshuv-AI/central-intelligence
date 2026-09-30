@@ -44,9 +44,9 @@ function cleanText(v) {
 function buildEntities() {
   const ds = new Cesium.CustomDataSource('submarine-cables');
   const cableColor = Cesium.Color.fromCssColorString(CABLE_COLOR).withAlpha(0.9);
-  // Near-opaque + whole-pixel width: translucent thin lines wash out and look
-  // blurry over bright terrain/ocean; width 2 renders crisp under 4x MSAA
-  // (fractional widths get a gray antialiased fringe).
+  // Near-opaque + thin width: translucent thin lines wash out and look blurry
+  // over bright terrain/ocean; 1.5px at 0.9 alpha stays crisp (Joshua 2026-09-30:
+  // 2px was too heavy, original 1.5px/0.55 too faint).
   const entities = ds.entities;
   entities.suspendEvents();
   try {
@@ -75,7 +75,7 @@ function buildEntities() {
           // NOTE: intentionally NOT clampToGround — ground-clamped polylines
           // (GroundPolylinePrimitive) crash iOS under 4x MSAA + real terrain.
           positions: pts.map(([lon, lat]) => Cesium.Cartesian3.fromDegrees(lon, lat, CABLE_HEIGHT_M)),
-          width: 2, // whole-pixel width — crisper than 1.5 under MSAA
+          width: 1.5, // thinner than the 2px pass — crisper than the original 0.55-alpha 1.5px
           material: cableColor,
           // arcType defaults to GEODESIC with 1-degree granularity, so
           // segments already interpolate as smooth surface-hugging arcs.

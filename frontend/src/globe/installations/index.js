@@ -47,7 +47,8 @@ const MAX_RENDERED = 600;         // feature cap, biggest-first
 const LABEL_CAP = 24;             // label budget for NAMED records only
 const FETCH_HEIGHT_M = 2_000_000; // ~zoom 9 gate (metres, camera height)
 const DEBOUNCE_MS = 300;
-const DOT_COLOR = '#9ca6b0';      // GEV military_land
+const DOT_COLOR = '#ff7a1a';      // vivid orange — visible on ocean and terrain
+const MARKER_PX = 18;             // diamond billboard size (Joshua 2026-09-30: grey dots were hard to see)
 
 let viewer = null;
 let enabled = false;
@@ -372,6 +373,49 @@ async function fetchTile(template, tile, signal) {
   return new Uint8Array(await res.arrayBuffer());
 }
 
+/** Diamond marker sprite (canvas) — more distinctive than a round dot and
+    high-contrast on both ocean and terrain. Cached per color. */
+let diamondSprite = null;
+function getDiamondSprite() {
+  if (diamondSprite) return diamondSprite;
+  const S = MARKER_PX + 8;
+  const c = document.createElement('canvas');
+  c.width = c.height = S;
+  const g = c.getContext('2d');
+  const cx = S / 2;
+  const r = MARKER_PX / 2;
+  // Soft glow halo.
+  const glow = g.createRadialGradient(cx, cx, 0, cx, cx, r + 4);
+  const col = Cesium.Color.fromCssColorString(DOT_COLOR);
+  glow.addColorStop(0, col.withAlpha(0.35).toCssColorString());
+  glow.addColorStop(1, col.withAlpha(0).toCssColorString());
+  g.fillStyle = glow;
+  g.fillRect(0, 0, S, S);
+  // Diamond with dark border.
+  g.beginPath();
+  g.moveTo(cx, cx - r);
+  g.lineTo(cx + r, cx);
+  g.lineTo(cx, cx + r);
+  g.lineTo(cx - r, cx);
+  g.closePath();
+  g.fillStyle = DOT_COLOR;
+  g.fill();
+  g.lineWidth = 2;
+  g.strokeStyle = 'rgba(10,10,12,0.9)';
+  g.stroke();
+  // Small bright core so it reads at a glance.
+  g.beginPath();
+  g.moveTo(cx, cx - r * 0.38);
+  g.lineTo(cx + r * 0.38, cx);
+  g.lineTo(cx, cx + r * 0.38);
+  g.lineTo(cx - r * 0.38, cx);
+  g.closePath();
+  g.fillStyle = 'rgba(255,255,255,0.85)';
+  g.fill();
+  diamondSprite = c;
+  return diamondSprite;
+}
+
 function renderRecords(next) {
   records = next;
   if (!dataSource) {
@@ -383,17 +427,18 @@ function renderRecords(next) {
   const entities = dataSource.entities;
   entities.suspendEvents();
   const dotColor = Cesium.Color.fromCssColorString(DOT_COLOR);
+  const markerImg = getDiamondSprite();
   let labeled = 0;
   for (const rec of records) {
     entities.add({
-      id: rec.id,
+      id: `mil-${rec.id}`,
       position: Cesium.Cartesian3.fromDegrees(rec.lon, rec.lat),
-      point: {
-        pixelSize: 7,
-        color: dotColor,
-        outlineColor: Cesium.Color.BLACK.withAlpha(0.8),
-        outlineWidth: 1,
+      billboard: {
+        image: markerImg,
+        width: MARKER_PX + 8,
+        height: MARKER_PX + 8,
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+        disableDepthTestDistance: 150000,
       },
       // Label budget (24): applies to NAMED records only. The landuse layer
       // carries no names, so this stays dormant until the named-point
@@ -413,14 +458,14 @@ function renderRecords(next) {
     });
     if (rec.name !== 'Military area') labeled++;
     entities.add({
-      id: `${rec.id}:outline`,
+      id: `mil-${rec.id}:outline`,
       polyline: {
         // Regular polyline at 500 m — NOT clampToGround (GroundPolylinePrimitive
         // crashes iOS under 4x MSAA + real terrain; see cable layer fix).
         positions: rec.ring.map(([lon, lat]) =>
           Cesium.Cartesian3.fromDegrees(lon, lat, 500)),
-        width: 2,
-        material: dotColor.withAlpha(0.85),
+        width: 2.5,
+        material: dotColor.withAlpha(0.9),
       },
     });
   }
@@ -518,6 +563,21 @@ export function installationsEnabled() { return enabled; }
 /** Iterate the currently rendered installations. cb receives {lat, lon, name}. */
 export function forEachInstallation(cb) {
   for (const rec of records) cb({ lat: rec.lat, lon: rec.lon, name: rec.name });
+}
+
+/** Find a rendered installation by its pick id (the part after `mil-`). */
+export function getInstallation(instId) {
+  const rec = records.find((r) => String(r.id) === String(instId));
+  if (!rec) return null;
+  // area is in square degrees — convert to km² at the record's latitude.
+  const km2 = rec.area * 111.32 * 111.32 * Math.cos((rec.lat * Math.PI) / 180);
+  return {
+    id: rec.id,
+    name: rec.name,
+    lon: rec.lon,
+    lat: rec.lat,
+    areaKm2: km2,
+  };
 }
 
 export function setInstallations(on) {

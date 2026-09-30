@@ -89,6 +89,73 @@ export function openQuakeCard(q, clientX, clientY) {
   emit('card-opened', { eventId: openEventId });
 }
 
+/** Open a detail card for a datacenter (tap on datacenter dot). */
+export function openDatacenterCard(dc, clientX, clientY) {
+  if (!dc || !cardEl) return;
+  openEventId = `dc-${dc.idx}`;
+  const where = `${dc.lat.toFixed(3)}°, ${dc.lon.toFixed(3)}°`;
+  cardEl.className = 'sev-moderate';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>DATACENTER</div>
+    <h3 class="card-title">${esc(dc.name || 'Datacenter')}</h3>
+    <div class="card-fields">
+      <div class="card-field"><span class="k">Operator</span><span class="v">${esc(dc.operator || 'Unknown')}</span></div>
+      <div class="card-field"><span class="k">Location</span><span class="v">${esc(where)}</span></div>
+      <div class="card-field"><span class="k">Source</span><span class="v">OpenStreetMap</span></div>
+    </div>`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  const viewer = getViewer();
+  anchorCartesian = Cesium.Cartesian3.fromDegrees(dc.lon, dc.lat, 0);
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
+/** Open a detail card for a military installation (tap on marker or footprint). */
+export function openInstallationCard(inst, clientX, clientY) {
+  if (!inst || !cardEl) return;
+  openEventId = `mil-${inst.id}`;
+  const where = `${inst.lat.toFixed(3)}°, ${inst.lon.toFixed(3)}°`;
+  const area = inst.areaKm2 > 0.01 ? `≈ ${inst.areaKm2.toFixed(1)} km²` : '—';
+  cardEl.className = 'sev-moderate';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>MILITARY INSTALLATION</div>
+    <h3 class="card-title">Military installation</h3>
+    <div class="card-fields">
+      <div class="card-field"><span class="k">Location</span><span class="v">${esc(where)}</span></div>
+      <div class="card-field"><span class="k">Footprint</span><span class="v">${esc(area)}</span></div>
+      <div class="card-field"><span class="k">Source</span><span class="v">OpenFreeMap / OSM</span></div>
+    </div>`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  const viewer = getViewer();
+  anchorCartesian = Cesium.Cartesian3.fromDegrees(inst.lon, inst.lat, 0);
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
 /** Open a detail card for a flight (tap on aircraft billboard). */
 export function openFlightCard(a, clientX, clientY) {
   if (!a || !cardEl) return;

@@ -103,8 +103,11 @@ export function createLocalGeojsonLayer(viewer, config) {
   billboards.show = stems.show = labels.show = false;
 
   const dotSprite = makeDotSprite(config.color || '#ffffff', dotPx);
-  for (const pt of points) {
+  const idPrefix = config.idPrefix || null; // e.g. 'dc-' — makes billboards pickable for detail cards
+  for (let i = 0; i < points.length; i++) {
+    const pt = points[i];
     billboards.add({
+      ...(idPrefix ? { id: `${idPrefix}${i}` } : null),
       image: dotSprite,
       width: dotPx + 8,
       height: dotPx + 8,
@@ -159,6 +162,7 @@ export function createLocalGeojsonLayer(viewer, config) {
   const layer = {
     id: config.id,
     count: points.length,
+    points, // exposed for detail-card getters (e.g. getDatacenter)
     enabled: false,
     show() {
       layer.enabled = true;

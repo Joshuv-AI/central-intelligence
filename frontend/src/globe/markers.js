@@ -427,11 +427,22 @@ export function pickAt(clientX, clientY) {
   if (typeof id === 'string' && id.startsWith('vessel-')) {
     return { type: 'vessel', mmsi: id.slice(7) };
   }
+  // Datacenter billboards (localGeojson engine): id is "dc-<index>" string.
+  if (typeof id === 'string' && id.startsWith('dc-')) {
+    return { type: 'datacenter', dcIdx: parseInt(id.slice(3), 10) };
+  }
   // Follow-mode tracked entity: a Cesium Entity whose own id is "flight-<hex>"
   // (startFollow stamps the tracked id on it). Tapping it hits the flight
   // branch instead of falling through to closeEventCard (UX-2).
   if (id && typeof id === 'object' && typeof id.id === 'string' && id.id.startsWith('flight-')) {
     return { type: 'flight', hex: id.id.slice(7) };
+  }
+  // Military installation entities: entity id is "mil-<recId>" (dot) or
+  // "mil-<recId>:outline" (footprint polyline) — both open the same card.
+  if (id && typeof id === 'object' && typeof id.id === 'string' && id.id.startsWith('mil-')) {
+    const raw = id.id.slice(4);
+    const instId = raw.endsWith(':outline') ? raw.slice(0, -8) : raw;
+    return { type: 'installation', instId };
   }
   // Entity objects (earthquakes, launches, etc.) — check properties.
   if (id && typeof id === 'object' && id.properties) {

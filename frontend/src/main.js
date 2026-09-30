@@ -37,7 +37,7 @@ import { initRail } from './ui/rail.js';
 import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from './ui/panels.js';
 import { initStatus } from './ui/status.js';
 import { initTicker } from './ui/ticker.js';
-import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, openDatacenterCard, openInstallationCard, closeEventCard, isCardOpen } from './ui/cards.js';
 import { initSharpen } from './globe/sharpen.js';
 import { bindShortcuts } from './ui/shortcuts.js';
 import { installGenerationBumps } from './globe/cameraGen.js';
@@ -152,6 +152,16 @@ function initGlobeClick() {
       import('./globe/satellites/index.js').then(({ getSatellite }) => {
         const s = getSatellite(hit.satIdx);
         if (s) openSatelliteCard(s, ev.clientX, ev.clientY);
+      });
+    } else if (hit.type === 'datacenter') {
+      import('./globe/infrastructure/index.js').then(({ getDatacenter }) => {
+        const d = getDatacenter(hit.dcIdx);
+        if (d) openDatacenterCard(d, ev.clientX, ev.clientY);
+      });
+    } else if (hit.type === 'installation') {
+      import('./globe/installations/index.js').then(({ getInstallation }) => {
+        const inst = getInstallation(hit.instId);
+        if (inst) openInstallationCard(inst, ev.clientX, ev.clientY);
       });
     }
   });

@@ -40,16 +40,17 @@ if [ "$LOCAL_SHA" != "$REMOTE_SHA" ]; then
   # next tick retries instead of deploying stale code under a new SHA.
   SYNC_OK=0
   if command -v rsync >/dev/null 2>&1; then
-    if rsync -a --exclude='.git' --delete "$EXTRACTED/" "$REPO/" >> "$LOG" 2>&1; then
+    # --exclude='.env': server secrets (WINDY_API_KEY, AISSTREAM_KEY) live in
+    # /opt/central-intelligence/.env on the host and must survive redeploys.
+    if rsync -a --exclude='.git' --exclude='.env' --delete "$EXTRACTED/" "$REPO/" >> "$LOG" 2>&1; then
       SYNC_OK=1
     else
       echo "[ci-pull] $(date -u +%FT%TZ) rsync failed for ${REMOTE_SHA:0:12}" >> "$LOG"
     fi
   else
     echo "[ci-pull] $(date -u +%FT%TZ) rsync not found, using cp fallback" >> "$LOG"
-    # cp fallback: clear repo (keep dir), copy new tree. No --delete semantics
-    # for individual files, but a full clear+copy is equivalent.
-    if find "$REPO" -mindepth 1 -delete >> "$LOG" 2>&1 && cp -a "$EXTRACTED/." "$REPO/" >> "$LOG" 2>&1; then
+    # cp fallback: clear repo (keep dir and .env secrets), copy new tree.
+    if find "$REPO" -mindepth 1 ! -name '.env' -delete >> "$LOG" 2>&1 && cp -a "$EXTRACTED/." "$REPO/" >> "$LOG" 2>&1; then
       SYNC_OK=1
     else
       echo "[ci-pull] $(date -u +%FT%TZ) cp fallback failed for ${REMOTE_SHA:0:12}" >> "$LOG"

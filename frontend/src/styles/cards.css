@@ -102,6 +102,31 @@
 }
 .card-src:hover { border-color: var(--glacier); }
 
+/* Public camera card: thumbnail (links to windy.com) + live player. */
+.card-cam-thumb {
+  display: block;
+  margin: 2px 0 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--hairline-soft);
+}
+.card-cam-thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.card-cam-player {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--hairline-soft);
+  border-radius: 8px;
+  margin: 8px 0 2px;
+  background: #000;
+}
+
 /* Hover preview tooltip (desktop, lightweight). */
 #hover-tip {
   position: fixed;

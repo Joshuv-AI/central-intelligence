@@ -89,6 +89,51 @@ export function openQuakeCard(q, clientX, clientY) {
   emit('card-opened', { eventId: openEventId });
 }
 
+/** Open a detail card for a public camera (tap on camera marker). */
+export function openCameraCard(cam, clientX, clientY) {
+  if (!cam || !cardEl) return;
+  openEventId = `cam-${cam.id}`;
+  const where = `${cam.lat.toFixed(3)}°, ${cam.lon.toFixed(3)}°`;
+  const loc = [cam.city, cam.country].filter(Boolean).join(', ');
+  // Free-tier term: thumbnails link out to windy.com.
+  const thumb = cam.thumbnailUrl
+    ? `<a class="card-cam-thumb" href="${esc(cam.windyUrl)}" target="_blank" rel="noopener"><img src="${esc(cam.thumbnailUrl)}" alt="${esc(cam.title || 'Public camera')}" loading="lazy"></a>`
+    : '';
+  const player = cam.playerEmbedUrl
+    ? `<iframe class="card-cam-player" src="${esc(cam.playerEmbedUrl)}" width="300" height="169" allowfullscreen loading="lazy" title="${esc(cam.title || 'Public camera')}"></iframe>`
+    : '';
+  cardEl.className = 'sev-low';
+  cardEl.innerHTML = `
+    <button class="card-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="card-kind"><span class="kind-dot"></span>PUBLIC CAMERA</div>
+    <h3 class="card-title">${esc(cam.title || 'Public camera')}</h3>
+    ${thumb}
+    <div class="card-fields">
+      ${loc ? `<div class="card-field"><span class="k">Location</span><span class="v">${esc(loc)}</span></div>` : ''}
+      <div class="card-field"><span class="k">Coordinates</span><span class="v">${esc(where)}</span></div>
+      ${cam.status ? `<div class="card-field"><span class="k">Status</span><span class="v">${esc(cam.status)}</span></div>` : ''}
+      <div class="card-field"><span class="k">Source</span><span class="v">Imagery: Windy.com</span></div>
+    </div>
+    ${player}
+    ${cam.windyUrl ? `<a class="card-src" href="${esc(cam.windyUrl)}" target="_blank" rel="noopener">View on Windy →</a>` : ''}`;
+  cardEl.querySelector('.card-close').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    closeEventCard();
+  });
+  cardEl.classList.remove('hidden');
+  void cardEl.offsetWidth;
+  cardEl.classList.add('open');
+  const viewer = getViewer();
+  anchorCartesian = Cesium.Cartesian3.fromDegrees(cam.lon, cam.lat, 0);
+  if (!isMobile()) {
+    placeCard(clientX, clientY);
+    startTracking();
+  }
+  emit('card-opened', { eventId: openEventId });
+}
+
 /** Open a detail card for a datacenter (tap on datacenter dot). */
 export function openDatacenterCard(dc, clientX, clientY) {
   if (!dc || !cardEl) return;

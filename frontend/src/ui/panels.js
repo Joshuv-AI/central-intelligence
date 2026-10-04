@@ -16,9 +16,11 @@ import { cyclonesEnabled, cycloneCount, setCyclones } from '../globe/cyclones/in
 import { launchesEnabled, launchCount, setLaunches } from '../globe/launches/index.js';
 import { earthquakesEnabled, earthquakeCount, setEarthquakes } from '../globe/earthquakes/index.js';
 import { vesselsEnabled, vesselCount, setVessels, getVesselStatus } from '../globe/vessels/index.js';
+import { camerasEnabled, cameraCount, camerasNoKey, setCameras } from '../globe/cameras/index.js';
 import { installationsEnabled, setInstallations } from '../globe/installations/index.js';
 import { submarineCablesEnabled, setSubmarineCables } from '../globe/submarineCables/index.js';
 import { infrastructureEnabled, setInfrastructure } from '../globe/infrastructure/index.js';
+import { basemapMode, setBasemapMode, BASEMAP_DARK, BASEMAP_SATELLITE } from '../globe/basemap.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
 
 let panelEl, bodyEl, titleEl, kickerEl, closeBtn, handleEl;
@@ -33,6 +35,22 @@ let cycBusy = false;
 // fails). Bound once; renderLayers re-runs on every store 'data' event.
 let layerReadyBound = false;
 let shipsNoteTimer = 0;
+let camerasNoteTimer = 0;
+
+/** Show a transient note under the Cameras row (module-level: the global
+    layer-ready listener needs it too). */
+function showCamerasNote(msg, ms = 8000) {
+  if (!bodyEl) return;
+  const n = bodyEl.querySelector('.cam-note');
+  if (!n) return;
+  n.textContent = msg;
+  n.classList.remove('hidden');
+  clearTimeout(camerasNoteTimer);
+  camerasNoteTimer = setTimeout(() => {
+    const n2 = bodyEl && bodyEl.querySelector('.cam-note');
+    if (n2) n2.classList.add('hidden');
+  }, ms);
+}
 
 /** Show a transient note under the Ships row (module-level: the global
     layer-ready listener needs it too). */
@@ -80,6 +98,7 @@ const LAYER_READY_ROWS = {
   launches: { row: '[data-launches="upcoming"]', count: '[data-launch-count]',  getCount: launchCount,     enabled: launchesEnabled },
   cyclones: { row: '[data-cyclones="storms"]',   count: '[data-cyclone-count]', getCount: cycloneCount,    enabled: cyclonesEnabled },
   satellites: { row: '[data-orbit="satellites"]', count: '[data-sat-count]',   getCount: satelliteCount,  enabled: satellitesEnabled },
+  cameras:  { row: '[data-cameras="windy"]',     count: '[data-cam-count]',     getCount: cameraCount,     enabled: camerasEnabled, noKey: camerasNoKey },
 };
 
 function bindLayerReadyOnce() {
@@ -90,6 +109,20 @@ function bindLayerReadyOnce() {
     const { layer, failed, state } = detail;
     if (!layer || !bodyEl) return;
     if (layer === 'ships') { onShipsReady(state); return; }
+    if (layer === 'cameras' && state === 'no_key') {
+      // Terminal: the server has no Windy key. The module already flipped
+      // itself off — label the row honestly so it doesn't read as broken.
+      const row = bodyEl.querySelector('[data-cameras="windy"]');
+      if (row) {
+        row.classList.toggle('off', true);
+        row.classList.remove('busy');
+        const countEl = row.querySelector('[data-cam-count]');
+        if (countEl) countEl.textContent = 'no key';
+      }
+      emit('data'); // re-render — micro label reads "server key not set"
+      showCamerasNote('No Windy key on the server yet — public cameras stay off until one is set.');
+      return;
+    }
     const cfg = LAYER_READY_ROWS[layer];
     if (!cfg) return;
     const row = bodyEl.querySelector(cfg.row);
@@ -99,7 +132,9 @@ function bindLayerReadyOnce() {
       row.classList.toggle('off', !cfg.enabled());
       row.classList.remove('busy');
       const countEl = row.querySelector(cfg.count);
-      if (countEl) countEl.textContent = cfg.getCount() || '';
+      // A cameras no-key flag outranks the numeric count (a second, generic
+      // failed event follows the no_key one — don't let it erase the label).
+      if (countEl) countEl.textContent = (cfg.noKey && cfg.noKey()) ? 'no key' : (cfg.getCount() || '');
     }
   });
 }
@@ -180,6 +215,21 @@ function render(name, opts = {}) {
 function renderLayers(el) {
   const nonGeo = store.events.filter((e) => !store.isGeo(e)).length;
   let html = '';
+  // Basemap: dark vector-style default (fast, crisp), satellite toggle.
+  // Choice persists in localStorage via globe/basemap.js.
+  const bmMode = basemapMode();
+  html += `<div class="layer-family"><span class="micro">BASEMAP</span>
+    <div class="layer-row ${bmMode === BASEMAP_DARK ? '' : 'off'}" data-basemap="${BASEMAP_DARK}">
+      <span class="layer-swatch" style="background:#1b2430"></span>
+      <span class="layer-name">Dark</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <div class="layer-row ${bmMode === BASEMAP_SATELLITE ? '' : 'off'}" data-basemap="${BASEMAP_SATELLITE}">
+      <span class="layer-swatch" style="background:#2f6b3a"></span>
+      <span class="layer-name">Satellite</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">Dark: © OpenStreetMap © CARTO · Satellite: Esri</span></div>`;
   // Live orbit layer (CelesTrak TLEs, client-side SGP4) — independent of domains.
   const satsOn = satellitesEnabled();
   html += `<div class="layer-family"><span class="micro">ORBIT</span>
@@ -249,6 +299,19 @@ function renderLayers(el) {
     </div>
     <span class="micro">AIS: ${vesSubLabel}</span>
     <div class="layer-note vessel-note hidden"></div></div>`;
+  // Public cameras (Windy webcams via our backend — key lives on the server).
+  const camsOn = camerasEnabled();
+  const camNoKey = camerasNoKey();
+  const camCountLabel = camNoKey ? 'no key' : (cameraCount() || '');
+  html += `<div class="layer-family"><span class="micro">CAMERAS</span>
+    <div class="layer-row ${camsOn ? '' : 'off'}" data-cameras="windy">
+      <span class="layer-swatch" style="background:#22d3ee"></span>
+      <span class="layer-name">Public cameras</span>
+      <span class="layer-count" data-cam-count>${camCountLabel}</span>
+      <span class="layer-toggle"></span>
+    </div>
+    <span class="micro">${camNoKey ? 'server key not set' : 'Cameras: Windy.com'}</span>
+    <div class="layer-note cam-note hidden"></div></div>`;
   // Weather imagery (NOAA nowCOAST WMS, keyless) — independent of domains.
   html += `<div class="layer-family"><span class="micro">WEATHER</span>`;
   for (const [key, def] of Object.entries(weatherLayers())) {
@@ -334,6 +397,23 @@ function renderLayers(el) {
       });
     });
   }
+  const camRow = el.querySelector('[data-cameras="windy"]');
+  if (camRow) {
+    camRow.addEventListener('click', () => {
+      const targetOn = !camerasEnabled();
+      camRow.classList.toggle('off', !targetOn);
+      camRow.classList.add('busy');
+      setCameras(targetOn).then((on) => {
+        camRow.classList.toggle('off', !on);
+        const countEl = camRow.querySelector('[data-cam-count]');
+        if (countEl) countEl.textContent = camerasNoKey() ? 'no key' : (cameraCount() || '');
+      }).catch(() => {
+        camRow.classList.toggle('off', targetOn);
+      }).finally(() => {
+        camRow.classList.remove('busy');
+      });
+    });
+  }
   const milRow = el.querySelector('[data-flights="military"]');
   if (milRow) {
     milRow.addEventListener('click', () => {
@@ -405,6 +485,17 @@ function renderLayers(el) {
       const key = row.dataset.weather;
       const on = setWeather(key, !weatherEnabled(key));
       row.classList.toggle('off', !on);
+    });
+  });
+  // Basemap switcher — radio behavior: exactly one active. setBasemapMode is
+  // sync and persists to localStorage; re-render picks up the classes too.
+  el.querySelectorAll('[data-basemap]').forEach((row) => {
+    row.addEventListener('click', () => {
+      const mode = row.dataset.basemap === BASEMAP_SATELLITE ? BASEMAP_SATELLITE : BASEMAP_DARK;
+      setBasemapMode(mode);
+      el.querySelectorAll('[data-basemap]').forEach((r) => {
+        r.classList.toggle('off', r.dataset.basemap !== mode);
+      });
     });
   });
   // Intel layers (audit T2/T3/T4) — simple sync toggles, like weather rows.

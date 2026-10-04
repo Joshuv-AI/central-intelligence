@@ -423,6 +423,10 @@ export function pickAt(clientX, clientY) {
   if (typeof id === 'string' && id.startsWith('quake-')) {
     return { type: 'quake', quakeId: id.slice(6) };
   }
+  // Public camera entities: id is "cam-<id>" string.
+  if (typeof id === 'string' && id.startsWith('cam-')) {
+    return { type: 'camera', camId: id.slice(4) };
+  }
   // Vessel billboards: id is "vessel-<mmsi>" string.
   if (typeof id === 'string' && id.startsWith('vessel-')) {
     return { type: 'vessel', mmsi: id.slice(7) };
@@ -448,11 +452,14 @@ export function pickAt(clientX, clientY) {
   if (id && typeof id === 'object' && typeof id.id === 'string' && id.id.startsWith('launch-')) {
     return { type: 'launch', launchId: id.id };
   }
-  // Entity objects (earthquakes, launches, etc.) — check properties.
+  // Entity objects (earthquakes, cameras, launches, etc.) — check properties.
   if (id && typeof id === 'object' && id.properties) {
     const kind = propValue(id.properties, 'kind');
     if (kind === 'quake') {
       return { type: 'quake', quakeId: propValue(id.properties, 'quakeId') };
+    }
+    if (kind === 'cam') {
+      return { type: 'camera', camId: propValue(id.properties, 'camId') };
     }
   }
   const primPos = picked.primitive && picked.primitive.position;

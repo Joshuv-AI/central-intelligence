@@ -26,6 +26,8 @@ services:
       # AISSTREAM_KEY is read from /opt/central-intelligence/.env on the host
       # (gitignored — never commit it). Without it the Ships layer reports
       # "no key on server" instead of connecting.
+      # WINDY_API_KEY is read the same way (free key at https://api.windy.com).
+      # Without it /api/cameras answers 503 cameras_unavailable.
     env_file:
       - path: .env
         required: false

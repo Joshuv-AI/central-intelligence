@@ -1,9 +1,12 @@
 // Central Intelligence — public API routes.
 const express = require('express');
 const sse = require('../lib/sse');
+const { registerCamerasRoutes } = require('./cameras');
 
 function apiRoutes(store) {
   const router = express.Router();
+
+  registerCamerasRoutes(router);
 
   // Per-source health for the status pill.
   router.get('/health', (req, res) => {

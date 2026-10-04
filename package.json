@@ -11,7 +11,7 @@
   "name": "central-intelligence-backend",
   "scripts": {
     "start": "node src/index.js",
-    "test": "node test/brain.test.js && node test/scheduler.test.js"
+    "test": "node test/brain.test.js && node test/scheduler.test.js && node test/cameras.test.js"
   },
   "type": "commonjs",
   "version": "0.1.0"

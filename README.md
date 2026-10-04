@@ -17,7 +17,8 @@ npm start          # listens on :3001
 ```
 
 Environment overrides: `PORT`, `DATA_DIR`, `TIER1_MS`, `TIER2_MS`, `TIER3_MS`,
-`FETCH_TIMEOUT_MS`, `FEED_LIMIT`.
+`FETCH_TIMEOUT_MS`, `FEED_LIMIT`, `AISSTREAM_KEY` (ships layer), `WINDY_API_KEY`
+(public cameras layer — free key at https://api.windy.com).
 
 ## Run with Docker (the VM path)
 

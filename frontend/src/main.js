@@ -27,6 +27,7 @@ import { initWeather } from './globe/weather/index.js';
 import { initCyclones } from './globe/cyclones/index.js';
 import { initLaunches } from './globe/launches/index.js';
 import { initEarthquakes } from './globe/earthquakes/index.js';
+import { initCameras } from './globe/cameras/index.js';
 import { initInstallations } from './globe/installations/index.js';
 import { initSubmarineCables } from './globe/submarineCables/index.js';
 import { initInfrastructure } from './globe/infrastructure/index.js';
@@ -37,7 +38,7 @@ import { initRail } from './ui/rail.js';
 import { initPanels, openPanel, closePanel, isPanelOpen, syncRegionPill } from './ui/panels.js';
 import { initStatus } from './ui/status.js';
 import { initTicker } from './ui/ticker.js';
-import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, openDatacenterCard, openInstallationCard, openLaunchCard, closeEventCard, isCardOpen } from './ui/cards.js';
+import { initCards, openEventCard, openFlightCard, openQuakeCard, openSatelliteCard, openVesselCard, openDatacenterCard, openInstallationCard, openLaunchCard, openCameraCard, closeEventCard, isCardOpen } from './ui/cards.js';
 import { initSharpen } from './globe/sharpen.js';
 import { bindShortcuts } from './ui/shortcuts.js';
 import { installGenerationBumps } from './globe/cameraGen.js';
@@ -147,6 +148,12 @@ function initGlobeClick() {
       import('./globe/earthquakes/index.js').then(({ getEarthquake }) => {
         const q = getEarthquake(hit.quakeId);
         if (q) openQuakeCard(q, ev.clientX, ev.clientY);
+      });
+    } else if (hit.type === 'camera') {
+      // Dynamically import to avoid circular deps (cameras owns its viewer ref).
+      import('./globe/cameras/index.js').then(({ getCamera }) => {
+        const c = getCamera(hit.camId);
+        if (c) openCameraCard(c, ev.clientX, ev.clientY);
       });
     } else if (hit.type === 'satellite') {
       import('./globe/satellites/index.js').then(({ getSatellite }) => {
@@ -277,6 +284,7 @@ async function init() {
   initCyclones(getViewer());
   initLaunches(getViewer());
   initEarthquakes(getViewer());
+  initCameras(getViewer());
   initInstallations(getViewer());
   initSubmarineCables(getViewer());
   initInfrastructure(getViewer());

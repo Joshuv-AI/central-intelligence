@@ -1,5 +1,7 @@
 /* Cesium viewer — keyless by constraint (no Ion token):
-   Esri World Imagery (satellite) + Boundaries & Places overlay, all keyless;
+   CARTO Dark Matter (dark_all) is the default basemap; Esri World Imagery
+   (satellite) + Boundaries & Places overlay stays as a toggleable option
+   (basemap swap logic lives in basemap.js).
    Re:Earth quantized-mesh terrain for real relief (async upgrade from the
    ellipsoid) — same terrain God's Eye View uses, keyless, CC BY 4.0.
    All Ion widgets off. */
@@ -10,12 +12,8 @@ import {
   holdContinuousRender,
   releaseContinuousRender,
 } from './renderGovernor.js';
+import { initBasemap } from './basemap.js';
 
-// NOTE: Esri tile order is {z}/{y}/{x} — y before x, unlike most providers.
-const ESRI_IMAGERY = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-const ESRI_IMAGERY_CREDIT = 'Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community';
-const ESRI_PLACES = 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}';
-const ESRI_PLACES_CREDIT = 'Esri, HERE, Garmin, (c) OpenStreetMap contributors, and the GIS user community';
 const REEARTH_TERRAIN = 'https://terrain.reearth.land/cesium-mesh/ellipsoid';
 const REEARTH_TERRAIN_CREDIT = 'Terrain: Re:Earth, Mapterhorn, EGM2008 (NGA), Protomaps, © OpenStreetMap contributors';
 
@@ -143,64 +141,11 @@ export function createViewer(container) {
     viewer.scene.fog.visualDensityScalar = 0.3;
   }
 
-  // Basemap: Esri Dark Gray Canvas by default (keyless). With a free CARTO
-  // key set (VITE_CARTO_KEY), use CARTO Dark Matter instead.
-  // Satellite basemap (Esri World Imagery, keyless) + boundaries/places overlay.
-  // Performance: on mobile, cap zoom levels lower and relax tile quality
-  // to keep pinch-zoom responsive (fewer, faster tile loads).
-  const isMobile = window.matchMedia('(max-width: 640px)').matches;
-  const imagery = new Cesium.UrlTemplateImageryProvider({
-    url: ESRI_IMAGERY,
-    credit: new Cesium.Credit(ESRI_IMAGERY_CREDIT, true),
-    maximumLevel: 19,
-    // Esri World Imagery is opaque JPEG — skipping alpha channel saves
-    // texture memory and upload time.
-    hasAlphaChannel: false,
-  });
-  viewer.imageryLayers.addImageryProvider(imagery);
-  // Reference layer: boundaries + place labels over the imagery.
-  const ref = new Cesium.UrlTemplateImageryProvider({
-    url: ESRI_PLACES,
-    credit: new Cesium.Credit(ESRI_PLACES_CREDIT, true),
-    maximumLevel: 16,
-  });
-  viewer.imageryLayers.addImageryProvider(ref);
-
-  // Basemap fallback: after repeated tile failures, swap to a keyless backup
-  // instead of showing a dead globe (audit 2.3).
-  const FALLBACK_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-  const FAILURE_THRESHOLD = 12;
-  let tileFailures = 0, onFallback = false, fallbackLayer = null;
-  imagery.errorEvent.addEventListener(() => {
-    tileFailures += 1;
-    if (!onFallback && tileFailures >= FAILURE_THRESHOLD) {
-      onFallback = true;
-      const layers = viewer.imageryLayers;
-      fallbackLayer = layers.addImageryProvider(
-        new Cesium.UrlTemplateImageryProvider({
-          url: FALLBACK_URL,
-          credit: new Cesium.Credit('© OpenStreetMap contributors', true),
-          maximumLevel: 19,
-        }),
-      );
-      layers.lowerToBottom(fallbackLayer); // fallback renders on top
-      console.warn('[basemap] Esri failing — on OSM fallback');
-    }
-  });
-  // Recovery probe: every 60 s, if a single Esri tile loads, restore it.
-  setInterval(() => {
-    if (!onFallback || !fallbackLayer) return;
-    const probe = new Image();
-    probe.onload = () => {
-      onFallback = false; tileFailures = 0;
-      if (viewer.imageryLayers.contains(fallbackLayer)) {
-        viewer.imageryLayers.remove(fallbackLayer, true);
-      }
-      fallbackLayer = null;
-      console.info('[basemap] Esri recovered');
-    };
-    probe.src = ESRI_IMAGERY.replace('{z}/{y}/{x}', '2/1/2') + `?t=${Date.now()}`;
-  }, 60_000);
+  // Basemap: CARTO Dark Matter by default, Esri satellite as a toggleable
+  // option. Layer install/removal, mode persistence ('ci-basemap'), and the
+  // satellite-path OSM fallback all live in basemap.js — swapping modes
+  // removes the old layers cleanly, so no duplicates or leaks.
+  initBasemap(viewer);
 
   // Globe quality: full tile refinement on all devices. SSE 2 is the
   // quality baseline — the mobile relaxation to 3 was a visible regression.
@@ -326,6 +271,14 @@ export function createViewer(container) {
   };
   stopIdleSpin = stopSpin;
   viewer.scene.screenSpaceCameraController.enableRotate = true;
+  const isMobile = window.matchMedia('(max-width: 640px)').matches;
+  // Desktop camera calming: Cesium's defaults are twitchier than they need
+  // to be. Calmer values apply on all devices first; the stricter mobile
+  // overrides below still run after on phones.
+  const cameraController = viewer.scene.screenSpaceCameraController;
+  cameraController.zoomFactor = 3.5; // default 5.0 — gentler wheel zoom
+  cameraController.inertiaZoom = 0.6; // default 0.8 — less zoom coasting
+  cameraController.inertiaTranslate = 0.8; // default 0.9 — less pan coasting
   // Mobile camera tuning: calmer pinch zoom, less coasting after release,
   // and keep the camera out of the sub-native blur zone.
   if (isMobile) {

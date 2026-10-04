@@ -1,23 +1,23 @@
 [
   {
     "id": "fusion-ae485eef0fa3",
-    "title": "Tropical Cyclone — United States → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 92,
+    "title": "Tropical Cyclone — United States → Hurricane Nolo — Eastern Pacific (Cat 3)",
+    "summary": "These 2 events may be connected through shared population, infrastructure, health impacts. Spanning disasters.",
+    "severity": "high",
+    "score": 72,
     "scoreParts": {
-      "severity": 40,
+      "severity": 30,
       "confidence": 12,
-      "cascade": 25,
+      "cascade": 15,
       "proximity": 15
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
       "population",
       "infrastructure",
       "health",
-      "supply_chain",
-      "power_grid"
+      "supply chain",
+      "power grid"
     ],
     "chain": [
       {
@@ -25,21 +25,21 @@
         "role": "cause",
         "title": "Tropical Cyclone — United States",
         "severity": "moderate",
-        "time": "2026-09-28T22:07:30",
-        "lat": 17.7,
-        "lon": -163.1,
+        "time": "2026-10-03T22:00:21",
+        "lat": 23.2,
+        "lon": -173.1,
         "region": "United States",
         "source": "gdacs",
-        "url": "https://www.gdacs.org/event/TC?eventid=1001321&episodeid=33"
+        "url": "https://www.gdacs.org/event/TC?eventid=1001321&episodeid=53"
       },
       {
         "eventId": "nhc_ep152026",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
+        "title": "Hurricane Nolo — Eastern Pacific (Cat 3)",
+        "severity": "high",
+        "time": "2026-10-04T00:00:00.000Z",
+        "lat": 23.3,
+        "lon": -174.1,
         "region": "Eastern Pacific",
         "source": "noaa_hurricanes",
         "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
@@ -49,995 +49,937 @@
       "gdacs_TC_1001321",
       "nhc_ep152026"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.247Z"
   },
   {
-    "id": "fusion-79e6e3f41d77",
-    "title": "Tropical Cyclone — Japan → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "id": "fusion-8b4b53ddfd74",
+    "title": "CVE-2026-97637 — CVSS 9.8 (CRITICAL) → BGP announcement collapse at Microsoft (AS8075)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
     "severity": "critical",
-    "score": 84,
+    "score": 66,
     "scoreParts": {
       "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
-      "population",
       "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
+      "comms"
     ],
     "chain": [
       {
-        "eventId": "gdacs_TC_1001327",
+        "eventId": "CVE-2026-97637",
         "role": "cause",
-        "title": "Tropical Cyclone — Japan",
-        "severity": "moderate",
-        "time": "2026-09-28T22:26:00",
-        "lat": 28.1,
-        "lon": 133.2,
-        "region": "Japan",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/TC?eventid=1001327&episodeid=23"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "title": "CVE-2026-97637 — CVSS 9.8 (CRITICAL)",
         "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_TC_1001327",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-579967c1141d",
-    "title": "Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_TC_1001330",
-        "role": "cause",
-        "title": "Tropical Cyclone — Unknown region",
-        "severity": "moderate",
-        "time": "2026-09-28T21:54:52",
-        "lat": 36.5,
-        "lon": -48.7,
+        "time": "2026-10-02T08:17:05.660",
+        "lat": null,
+        "lon": null,
         "region": null,
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/TC?eventid=1001330&episodeid=2"
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97637"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "ripe-drop-8075-2026-10-03T12:00:00",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_TC_1001330",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-40fc3523554a",
-    "title": "Tropical Cyclone — Unknown region → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_TC_1001323",
-        "role": "cause",
-        "title": "Tropical Cyclone — Unknown region",
-        "severity": "moderate",
-        "time": "2026-09-28T20:52:23",
-        "lat": 26.6,
-        "lon": -45.3,
-        "region": null,
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/TC?eventid=1001323&episodeid=35"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_TC_1001323",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-6121ab3c4bfa",
-    "title": "Tropical Cyclone — Mexico → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_TC_1001329",
-        "role": "cause",
-        "title": "Tropical Cyclone — Mexico",
-        "severity": "moderate",
-        "time": "2026-09-28T20:41:27",
-        "lat": 14.2,
-        "lon": -102.1,
-        "region": "Mexico",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/TC?eventid=1001329&episodeid=7"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_TC_1001329",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-28fb2b595824",
-    "title": "Earthquake — Japan → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568526",
-        "role": "cause",
-        "title": "Earthquake — Japan",
-        "severity": "moderate",
-        "time": "2026-09-28T20:25:29",
-        "lat": 36.0809,
-        "lon": 139.7782,
-        "region": "Japan",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568526&episodeid=1736608"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568526",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-467b9b862a09",
-    "title": "Earthquake — Taiwan → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568519",
-        "role": "cause",
-        "title": "Earthquake — Taiwan",
-        "severity": "moderate",
-        "time": "2026-09-28T19:01:05",
-        "lat": 23.702,
-        "lon": 121.8063,
-        "region": "Taiwan",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568519&episodeid=1736600"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568519",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-1e1b1f2ec2db",
-    "title": "Earthquake — Eastern Gulf Of Aden → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568514",
-        "role": "cause",
-        "title": "Earthquake — Eastern Gulf Of Aden",
-        "severity": "moderate",
-        "time": "2026-09-28T17:54:54",
-        "lat": 13.3879,
-        "lon": 51.4935,
-        "region": "Eastern Gulf Of Aden",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568514&episodeid=1736594"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568514",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-b8a295667559",
-    "title": "Earthquake — Indonesia → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568498",
-        "role": "cause",
-        "title": "Earthquake — Indonesia",
-        "severity": "moderate",
-        "time": "2026-09-28T16:49:43",
-        "lat": 5.2548,
-        "lon": 94.3303,
-        "region": "Indonesia",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568498&episodeid=1736586"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568498",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-f8de05564977",
-    "title": "Earthquake — Philippines → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568497",
-        "role": "cause",
-        "title": "Earthquake — Philippines",
-        "severity": "moderate",
-        "time": "2026-09-28T15:41:43",
-        "lat": 5.634,
-        "lon": 127.0338,
-        "region": "Philippines",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568497&episodeid=1736578"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568497",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-182ec6412428",
-    "title": "Earthquake — North Of Svalbard → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568477",
-        "role": "cause",
-        "title": "Earthquake — North Of Svalbard",
-        "severity": "moderate",
-        "time": "2026-09-28T15:28:44",
-        "lat": 82.6385,
-        "lon": -7.1923,
-        "region": "North Of Svalbard",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568477&episodeid=1736553"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568477",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-461ae0356210",
-    "title": "Earthquake — Solomon Islands → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568493",
-        "role": "cause",
-        "title": "Earthquake — Solomon Islands",
-        "severity": "moderate",
-        "time": "2026-09-28T14:59:03",
-        "lat": -9.5835,
-        "lon": 159.5458,
-        "region": "Solomon Islands",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568493&episodeid=1736570"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568493",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-03c3048f37f0",
-    "title": "Earthquake — Fiji → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
-    "severity": "critical",
-    "score": 84,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_EQ_1568474",
-        "role": "cause",
-        "title": "Earthquake — Fiji",
-        "severity": "moderate",
-        "time": "2026-09-28T12:54:50",
-        "lat": -20.6932,
-        "lon": -178.4971,
-        "region": "Fiji",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568474&episodeid=1736549"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
-      }
-    ],
-    "eventIds": [
-      "gdacs_EQ_1568474",
-      "nhc_ep152026"
-    ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
-  },
-  {
-    "id": "fusion-8b3bc4b52a58",
-    "title": "Tropical Cyclone — Mexico → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). major disaster — watch supply chain and food. 2 events across disasters.",
-    "severity": "critical",
-    "score": 82,
-    "scoreParts": {
-      "severity": 40,
-      "confidence": 10,
-      "cascade": 25,
-      "proximity": 7
-    },
-    "tier": "critical",
-    "tags": [
-      "population",
-      "infrastructure",
-      "health",
-      "supply_chain",
-      "food",
-      "power_grid"
-    ],
-    "chain": [
-      {
-        "eventId": "gdacs_TC_1001325",
-        "role": "cause",
-        "title": "Tropical Cyclone — Mexico",
+        "title": "BGP announcement collapse at Microsoft (AS8075)",
         "severity": "high",
-        "time": "2026-09-28T22:30:15",
-        "lat": 25,
-        "lon": -113,
-        "region": "Mexico",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/TC?eventid=1001325&episodeid=33"
-      },
-      {
-        "eventId": "nhc_ep152026",
-        "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "time": "2026-10-03T12:00:00",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "ripe_ris",
+        "url": "https://stat.ripe.net/AS8075#tabId=routing"
       }
     ],
     "eventIds": [
-      "gdacs_TC_1001325",
-      "nhc_ep152026"
+      "CVE-2026-97637",
+      "ripe-drop-8075-2026-10-03T12:00:00"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.245Z"
   },
   {
-    "id": "fusion-aa025d7803e8",
-    "title": "Flood — Indonesia → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "id": "fusion-d5ead497d805",
+    "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability → CVE-2026-97637 — CVSS 9.8 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
     "severity": "critical",
-    "score": 82,
+    "score": 66,
     "scoreParts": {
       "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 5
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
-      "population",
       "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
+      "comms"
     ],
     "chain": [
       {
-        "eventId": "gdacs_FL_1104168",
+        "eventId": "cisa-kev:CVE-2026-104286",
         "role": "cause",
-        "title": "Flood — Indonesia",
-        "severity": "moderate",
-        "time": "2026-09-28T10:04:26",
-        "lat": 2.1924,
-        "lon": 99.3812,
-        "region": "Indonesia",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/FL?eventid=1104168&episodeid=3"
+        "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability",
+        "severity": "high",
+        "time": "2026-10-01T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "CVE-2026-97637",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "title": "CVE-2026-97637 — CVSS 9.8 (CRITICAL)",
         "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "time": "2026-10-02T08:17:05.660",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97637"
       }
     ],
     "eventIds": [
-      "gdacs_FL_1104168",
-      "nhc_ep152026"
+      "cisa-kev:CVE-2026-104286",
+      "CVE-2026-97637"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.245Z"
   },
   {
-    "id": "fusion-0fc3f8dd83b0",
-    "title": "Flood — Myanmar → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "id": "fusion-ca2e634ce174",
+    "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vuln… → CVE-2026-97637 — CVSS 9.8 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
     "severity": "critical",
-    "score": 82,
+    "score": 66,
     "scoreParts": {
       "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 5
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
-      "population",
       "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
+      "comms"
     ],
     "chain": [
       {
-        "eventId": "gdacs_FL_1104011",
+        "eventId": "cisa-kev:CVE-2026-76504",
         "role": "cause",
-        "title": "Flood — Myanmar",
-        "severity": "moderate",
-        "time": "2026-09-28T10:04:17",
-        "lat": 12.1092,
-        "lon": 98.8165,
-        "region": "Myanmar",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/FL?eventid=1104011&episodeid=27"
+        "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vulnerability",
+        "severity": "high",
+        "time": "2026-09-30T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "CVE-2026-97637",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "title": "CVE-2026-97637 — CVSS 9.8 (CRITICAL)",
         "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "time": "2026-10-02T08:17:05.660",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97637"
       }
     ],
     "eventIds": [
-      "gdacs_FL_1104011",
-      "nhc_ep152026"
+      "cisa-kev:CVE-2026-76504",
+      "CVE-2026-97637"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.245Z"
   },
   {
-    "id": "fusion-baa02b6279d4",
-    "title": "Earthquake — Philippines → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "id": "fusion-152fd0a115df",
+    "title": "CVE-2026-93698 — CVSS 9.9 (CRITICAL) → BGP announcement collapse at Microsoft (AS8075)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
     "severity": "critical",
-    "score": 82,
+    "score": 66,
     "scoreParts": {
       "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 5
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
-      "population",
       "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
+      "comms"
     ],
     "chain": [
       {
-        "eventId": "gdacs_EQ_1568450",
+        "eventId": "CVE-2026-93698",
         "role": "cause",
-        "title": "Earthquake — Philippines",
-        "severity": "moderate",
-        "time": "2026-09-28T09:57:02",
-        "lat": 9.9585,
-        "lon": 126.6861,
-        "region": "Philippines",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568450&episodeid=1736534"
+        "title": "CVE-2026-93698 — CVSS 9.9 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T07:16:39.027",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93698"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "ripe-drop-8075-2026-10-03T12:00:00",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "BGP announcement collapse at Microsoft (AS8075)",
+        "severity": "high",
+        "time": "2026-10-03T12:00:00",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "ripe_ris",
+        "url": "https://stat.ripe.net/AS8075#tabId=routing"
       }
     ],
     "eventIds": [
-      "gdacs_EQ_1568450",
-      "nhc_ep152026"
+      "CVE-2026-93698",
+      "ripe-drop-8075-2026-10-03T12:00:00"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.245Z"
   },
   {
-    "id": "fusion-fdd87e8580e5",
-    "title": "Earthquake — Canada → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "id": "fusion-78746cb5f6b5",
+    "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability → CVE-2026-93698 — CVSS 9.9 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
     "severity": "critical",
-    "score": 82,
+    "score": 66,
     "scoreParts": {
       "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 5
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
-      "population",
       "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
+      "comms"
     ],
     "chain": [
       {
-        "eventId": "gdacs_EQ_1568457",
+        "eventId": "cisa-kev:CVE-2026-104286",
         "role": "cause",
-        "title": "Earthquake — Canada",
-        "severity": "moderate",
-        "time": "2026-09-28T09:54:03",
-        "lat": 50.171,
-        "lon": -129.6785,
-        "region": "Canada",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568457&episodeid=1736531"
+        "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability",
+        "severity": "high",
+        "time": "2026-10-01T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "CVE-2026-93698",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "title": "CVE-2026-93698 — CVSS 9.9 (CRITICAL)",
         "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "time": "2026-10-02T07:16:39.027",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93698"
       }
     ],
     "eventIds": [
-      "gdacs_EQ_1568457",
-      "nhc_ep152026"
+      "cisa-kev:CVE-2026-104286",
+      "CVE-2026-93698"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.245Z"
   },
   {
-    "id": "fusion-c2303e21021c",
-    "title": "Flood — Guinea → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "id": "fusion-12bf45dce9fa",
+    "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vuln… → CVE-2026-93698 — CVSS 9.9 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
     "severity": "critical",
-    "score": 82,
+    "score": 66,
     "scoreParts": {
       "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 5
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
-      "population",
       "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
+      "comms"
     ],
     "chain": [
       {
-        "eventId": "gdacs_FL_1104178",
+        "eventId": "cisa-kev:CVE-2026-76504",
         "role": "cause",
-        "title": "Flood — Guinea",
-        "severity": "moderate",
-        "time": "2026-09-28T09:24:44",
-        "lat": 8.3926,
-        "lon": -8.8573,
-        "region": "Guinea",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/FL?eventid=1104178&episodeid=4"
+        "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vulnerability",
+        "severity": "high",
+        "time": "2026-09-30T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "CVE-2026-93698",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
+        "title": "CVE-2026-93698 — CVSS 9.9 (CRITICAL)",
         "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "time": "2026-10-02T07:16:39.027",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93698"
       }
     ],
     "eventIds": [
-      "gdacs_FL_1104178",
-      "nhc_ep152026"
+      "cisa-kev:CVE-2026-76504",
+      "CVE-2026-93698"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.245Z"
   },
   {
-    "id": "fusion-d3f682fad6c4",
-    "title": "Earthquake — New Zealand → Hurricane Nolo — Eastern Pacific (Cat 4)",
-    "summary": "Linked by shared impact (population, infrastructure, health, supply_chain). 2 events across disasters.",
+    "id": "fusion-c8410d0f760b",
+    "title": "CVE-2026-93697 — CVSS 9 (CRITICAL) → BGP announcement collapse at Microsoft (AS8075)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
     "severity": "critical",
-    "score": 82,
+    "score": 66,
     "scoreParts": {
       "severity": 40,
-      "confidence": 12,
-      "cascade": 25,
-      "proximity": 5
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
     },
-    "tier": "critical",
+    "tier": "standard",
     "tags": [
-      "population",
       "infrastructure",
-      "health",
-      "supply_chain",
-      "power_grid"
+      "comms"
     ],
     "chain": [
       {
-        "eventId": "gdacs_EQ_1568451",
+        "eventId": "CVE-2026-93697",
         "role": "cause",
-        "title": "Earthquake — New Zealand",
-        "severity": "moderate",
-        "time": "2026-09-28T08:41:03",
-        "lat": -36.8177,
-        "lon": 179.6666,
-        "region": "New Zealand",
-        "source": "gdacs",
-        "url": "https://www.gdacs.org/event/EQ?eventid=1568451&episodeid=1736522"
+        "title": "CVE-2026-93697 — CVSS 9 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T07:16:38.893",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93697"
       },
       {
-        "eventId": "nhc_ep152026",
+        "eventId": "ripe-drop-8075-2026-10-03T12:00:00",
         "role": "effect",
-        "title": "Hurricane Nolo — Eastern Pacific (Cat 4)",
-        "severity": "critical",
-        "time": "2026-09-28T21:00:00.000Z",
-        "lat": 17.7,
-        "lon": -163.1,
-        "region": "Eastern Pacific",
-        "source": "noaa_hurricanes",
-        "url": "https://www.nhc.noaa.gov/text/HFOTCPCP2.shtml"
+        "title": "BGP announcement collapse at Microsoft (AS8075)",
+        "severity": "high",
+        "time": "2026-10-03T12:00:00",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "ripe_ris",
+        "url": "https://stat.ripe.net/AS8075#tabId=routing"
       }
     ],
     "eventIds": [
-      "gdacs_EQ_1568451",
-      "nhc_ep152026"
+      "CVE-2026-93697",
+      "ripe-drop-8075-2026-10-03T12:00:00"
     ],
-    "createdAt": "2026-09-28T22:35:02.878Z"
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-6135d5b99989",
+    "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability → CVE-2026-93697 — CVSS 9 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-104286",
+        "role": "cause",
+        "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability",
+        "severity": "high",
+        "time": "2026-10-01T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-93697",
+        "role": "effect",
+        "title": "CVE-2026-93697 — CVSS 9 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T07:16:38.893",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93697"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-104286",
+      "CVE-2026-93697"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-5e8e27b24bc1",
+    "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vuln… → CVE-2026-93697 — CVSS 9 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-76504",
+        "role": "cause",
+        "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vulnerability",
+        "severity": "high",
+        "time": "2026-09-30T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-93697",
+        "role": "effect",
+        "title": "CVE-2026-93697 — CVSS 9 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T07:16:38.893",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93697"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-76504",
+      "CVE-2026-93697"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-72264ca95679",
+    "title": "CVE-2026-93029 — CVSS 9 (CRITICAL) → BGP announcement collapse at Microsoft (AS8075)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "CVE-2026-93029",
+        "role": "cause",
+        "title": "CVE-2026-93029 — CVSS 9 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T07:16:38.733",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93029"
+      },
+      {
+        "eventId": "ripe-drop-8075-2026-10-03T12:00:00",
+        "role": "effect",
+        "title": "BGP announcement collapse at Microsoft (AS8075)",
+        "severity": "high",
+        "time": "2026-10-03T12:00:00",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "ripe_ris",
+        "url": "https://stat.ripe.net/AS8075#tabId=routing"
+      }
+    ],
+    "eventIds": [
+      "CVE-2026-93029",
+      "ripe-drop-8075-2026-10-03T12:00:00"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-db964cf69697",
+    "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability → CVE-2026-93029 — CVSS 9 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-104286",
+        "role": "cause",
+        "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability",
+        "severity": "high",
+        "time": "2026-10-01T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-93029",
+        "role": "effect",
+        "title": "CVE-2026-93029 — CVSS 9 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T07:16:38.733",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93029"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-104286",
+      "CVE-2026-93029"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-c042ff126c31",
+    "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vuln… → CVE-2026-93029 — CVSS 9 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-76504",
+        "role": "cause",
+        "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vulnerability",
+        "severity": "high",
+        "time": "2026-09-30T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-93029",
+        "role": "effect",
+        "title": "CVE-2026-93029 — CVSS 9 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T07:16:38.733",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93029"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-76504",
+      "CVE-2026-93029"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-da6cae3b5053",
+    "title": "CVE-2026-15896 — CVSS 9.1 (CRITICAL) → BGP announcement collapse at Microsoft (AS8075)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "CVE-2026-15896",
+        "role": "cause",
+        "title": "CVE-2026-15896 — CVSS 9.1 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T06:16:40.773",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15896"
+      },
+      {
+        "eventId": "ripe-drop-8075-2026-10-03T12:00:00",
+        "role": "effect",
+        "title": "BGP announcement collapse at Microsoft (AS8075)",
+        "severity": "high",
+        "time": "2026-10-03T12:00:00",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "ripe_ris",
+        "url": "https://stat.ripe.net/AS8075#tabId=routing"
+      }
+    ],
+    "eventIds": [
+      "CVE-2026-15896",
+      "ripe-drop-8075-2026-10-03T12:00:00"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-9e60641546af",
+    "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability → CVE-2026-15896 — CVSS 9.1 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-104286",
+        "role": "cause",
+        "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability",
+        "severity": "high",
+        "time": "2026-10-01T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-15896",
+        "role": "effect",
+        "title": "CVE-2026-15896 — CVSS 9.1 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T06:16:40.773",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15896"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-104286",
+      "CVE-2026-15896"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-9410d5d9b1a9",
+    "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vuln… → CVE-2026-15896 — CVSS 9.1 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-76504",
+        "role": "cause",
+        "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vulnerability",
+        "severity": "high",
+        "time": "2026-09-30T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-15896",
+        "role": "effect",
+        "title": "CVE-2026-15896 — CVSS 9.1 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T06:16:40.773",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15896"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-76504",
+      "CVE-2026-15896"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-b34a63a8d593",
+    "title": "CVE-2026-19660 — CVSS 9.8 (CRITICAL) → BGP announcement collapse at Microsoft (AS8075)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "CVE-2026-19660",
+        "role": "cause",
+        "title": "CVE-2026-19660 — CVSS 9.8 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T05:16:38.430",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19660"
+      },
+      {
+        "eventId": "ripe-drop-8075-2026-10-03T12:00:00",
+        "role": "effect",
+        "title": "BGP announcement collapse at Microsoft (AS8075)",
+        "severity": "high",
+        "time": "2026-10-03T12:00:00",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "ripe_ris",
+        "url": "https://stat.ripe.net/AS8075#tabId=routing"
+      }
+    ],
+    "eventIds": [
+      "CVE-2026-19660",
+      "ripe-drop-8075-2026-10-03T12:00:00"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-bef9b11d612e",
+    "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability → CVE-2026-19660 — CVSS 9.8 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-104286",
+        "role": "cause",
+        "title": "CVE-2026-104286: Fortinet FortiMail Path Traversal Vulnerability",
+        "severity": "high",
+        "time": "2026-10-01T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-19660",
+        "role": "effect",
+        "title": "CVE-2026-19660 — CVSS 9.8 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T05:16:38.430",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19660"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-104286",
+      "CVE-2026-19660"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-694937d1de30",
+    "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vuln… → CVE-2026-19660 — CVSS 9.8 (CRITICAL)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "cisa-kev:CVE-2026-76504",
+        "role": "cause",
+        "title": "CVE-2026-76504: Cisco Catalyst SD-WAN Manager Hex Encoding Vulnerability",
+        "severity": "high",
+        "time": "2026-09-30T00:00:00.000Z",
+        "lat": null,
+        "lon": null,
+        "region": "Global",
+        "source": "cisa_kev",
+        "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "eventId": "CVE-2026-19660",
+        "role": "effect",
+        "title": "CVE-2026-19660 — CVSS 9.8 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T05:16:38.430",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19660"
+      }
+    ],
+    "eventIds": [
+      "cisa-kev:CVE-2026-76504",
+      "CVE-2026-19660"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
+  },
+  {
+    "id": "fusion-597423fce733",
+    "title": "CVE-2026-14378 — CVSS 9.8 (CRITICAL) → BGP announcement collapse at Microsoft (AS8075)",
+    "summary": "These 2 events may be connected through shared infrastructure, comms impacts. severe cyber incident — watch critical infrastructure. Spanning cyber.",
+    "severity": "critical",
+    "score": 66,
+    "scoreParts": {
+      "severity": 40,
+      "confidence": 20,
+      "cascade": 0,
+      "proximity": 6
+    },
+    "tier": "standard",
+    "tags": [
+      "infrastructure",
+      "comms"
+    ],
+    "chain": [
+      {
+        "eventId": "CVE-2026-14378",
+        "role": "cause",
+        "title": "CVE-2026-14378 — CVSS 9.8 (CRITICAL)",
+        "severity": "critical",
+        "time": "2026-10-02T04:18:06.277",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "nvd_cve",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-14378"
+      },
+      {
+        "eventId": "ripe-drop-8075-2026-10-03T12:00:00",
+        "role": "effect",
+        "title": "BGP announcement collapse at Microsoft (AS8075)",
+        "severity": "high",
+        "time": "2026-10-03T12:00:00",
+        "lat": null,
+        "lon": null,
+        "region": null,
+        "source": "ripe_ris",
+        "url": "https://stat.ripe.net/AS8075#tabId=routing"
+      }
+    ],
+    "eventIds": [
+      "CVE-2026-14378",
+      "ripe-drop-8075-2026-10-03T12:00:00"
+    ],
+    "createdAt": "2026-10-04T02:05:51.245Z"
   }
 ]

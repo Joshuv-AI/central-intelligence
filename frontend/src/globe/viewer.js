@@ -2,8 +2,7 @@
    CARTO Dark Matter (dark_all) is the default basemap; Esri World Imagery
    (satellite) + Boundaries & Places overlay stays as a toggleable option
    (basemap swap logic lives in basemap.js).
-   Re:Earth quantized-mesh terrain for real relief (async upgrade from the
-   ellipsoid) — same terrain God's Eye View uses, keyless, CC BY 4.0.
+   Esri Terrain3D for real relief (async upgrade from the ellipsoid).
    All Ion widgets off. */
 import * as Cesium from 'cesium';
 // widgets.css is injected by vite-plugin-cesium (link tag in index.html).
@@ -14,64 +13,8 @@ import {
 } from './renderGovernor.js';
 import { initBasemap } from './basemap.js';
 
-const REEARTH_TERRAIN = 'https://terrain.reearth.land/cesium-mesh/ellipsoid';
-const REEARTH_TERRAIN_CREDIT = 'Terrain: Re:Earth, Mapterhorn, EGM2008 (NGA), Protomaps, © OpenStreetMap contributors';
-
-// F1: Re:Earth 429-retry policy, adapted from God's Eye View's terrainRetry.js.
-// GEV's policy hooks Cesium Resource.retryCallback per tile; CI's provider
-// comes from fromUrl's layer.json bootstrap, so the same policy (3 attempts,
-// exponential backoff 750 ms base → 15 s max, one SHARED cooldown across
-// attempts, Retry-After honored) wraps the bootstrap instead.
-const TERRAIN_RETRY_ATTEMPTS = 3;
-const TERRAIN_RETRY_BASE_MS = 750;
-const TERRAIN_RETRY_MAX_MS = 15_000;
-const TERRAIN_RETRY_JITTER_MS = 1_500;
-const TERRAIN_RETRY_STATUSES = [429, 502, 503, 504];
-/** Shared cooldown: retries wait behind one window, never a second burst. */
-let nextTerrainRetryAt = 0;
-
-function parseTerrainRetryAfter(err) {
-  const headers = err && err.responseHeaders;
-  if (!headers || typeof headers !== 'object') return null;
-  for (const [key, value] of Object.entries(headers)) {
-    if (String(key).toLowerCase() !== 'retry-after') continue;
-    const text = String(value).trim();
-    if (!text) return null;
-    if (/^\d+$/.test(text)) return Number(text) * 1000;
-    const at = Date.parse(text);
-    if (Number.isFinite(at)) return Math.max(0, at - Date.now());
-    return null;
-  }
-  return null;
-}
-
-async function loadTerrainWithRetry() {
-  for (let attempt = 0; attempt < TERRAIN_RETRY_ATTEMPTS; attempt += 1) {
-    try {
-      return await Cesium.CesiumTerrainProvider.fromUrl(REEARTH_TERRAIN);
-    } catch (err) {
-      const status = err && err.statusCode;
-      const last = attempt === TERRAIN_RETRY_ATTEMPTS - 1;
-      if (!TERRAIN_RETRY_STATUSES.includes(status) || last) throw err;
-      const backoff = Math.min(
-        TERRAIN_RETRY_MAX_MS,
-        TERRAIN_RETRY_BASE_MS * 2 ** attempt,
-      );
-      const delay = Math.min(
-        TERRAIN_RETRY_MAX_MS,
-        Math.max(backoff, parseTerrainRetryAfter(err) ?? 0),
-      );
-      const now = Date.now();
-      if (now + delay > nextTerrainRetryAt) nextTerrainRetryAt = now + delay;
-      const wait = Math.max(0, nextTerrainRetryAt + Math.random() * TERRAIN_RETRY_JITTER_MS - now);
-      console.warn(
-        `[globe] terrain ${status} (attempt ${attempt + 1}/${TERRAIN_RETRY_ATTEMPTS}); retrying in ${Math.round(wait)} ms`,
-      );
-      await new Promise((resolve) => setTimeout(resolve, wait));
-    }
-  }
-  throw new Error('terrain retries exhausted');
-}
+const ESRI_TERRAIN = 'https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer';
+const ESRI_TERRAIN_CREDIT = 'Sources: Vantor, Airbus DS, USGS, NGA, NASA, CGIAR, GEBCO, N Robinson, NCEAS, NLS, OS, NMA, Geodatastyrelsen and the GIS User Community';
 
 let viewer = null;
 let stopIdleSpin = null;
@@ -242,18 +185,18 @@ export function createViewer(container) {
     Cesium.RequestScheduler.maximumRequestsPerServer = 18;
   }
 
-  // Real 3D terrain (Re:Earth quantized mesh — same terrain God's Eye View
-  // uses; keyless, CC BY 4.0, CORS-open) — resolves async; the globe starts
-  // on the smooth ellipsoid and upgrades when it arrives. 429 bursts retry
-  // with exponential backoff (F1); final failure stays on the ellipsoid.
-  loadTerrainWithRetry()
-    .then((terrainProvider) => {
-      if (viewer && !viewer.isDestroyed()) {
-        viewer.terrainProvider = terrainProvider;
-        viewer.scene.globe.credit = new Cesium.Credit(REEARTH_TERRAIN_CREDIT, true);
-      }
-    })
-    .catch((err) => console.warn('[globe] terrain unavailable, staying on ellipsoid:', err));
+  // Real 3D terrain (Esri Terrain3D, keyless) — resolves async; the globe
+  // starts on the smooth ellipsoid and upgrades when it arrives.
+  if (Cesium.ArcGISTiledElevationTerrainProvider) {
+    Cesium.ArcGISTiledElevationTerrainProvider.fromUrl(ESRI_TERRAIN)
+      .then((terrainProvider) => {
+        if (viewer && !viewer.isDestroyed()) {
+          viewer.terrainProvider = terrainProvider;
+          viewer.scene.globe.credit = new Cesium.Credit(ESRI_TERRAIN_CREDIT, true);
+        }
+      })
+      .catch((err) => console.warn('[globe] terrain unavailable, staying on ellipsoid:', err));
+  }
 
   // Gentle initial view.
   viewer.camera.setView({

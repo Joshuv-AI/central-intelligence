@@ -1,6 +1,8 @@
 /* Basemap system — the globe's default view and the satellite toggle.
-   CARTO Dark Matter (dark_all) is the default basemap: a lightweight dark
-   raster that keeps tile traffic low and matches the 3D intel aesthetic.
+   Esri World Dark Gray Canvas is the default basemap: keyless, no quota,
+   dark raster that matches the 3D intel aesthetic. (CARTO Dark Matter was
+   the default until CARTO began requiring an API key on the keyless
+   endpoint — restored Esri 2026-10-09 per Joshua.)
    Esri World Imagery + Boundaries & Places stays available as the
    "Satellite" option; if Esri tiles fail repeatedly the satellite path
    falls back to OSM until Esri recovers (audit 2.3).
@@ -11,10 +13,12 @@ const STORAGE_KEY = 'ci-basemap';
 export const BASEMAP_DARK = 'dark';
 export const BASEMAP_SATELLITE = 'satellite';
 
-// CARTO Dark Matter — dark_all raster tiles, keyless, CORS-open.
-const CARTO_DARK = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png';
-const CARTO_DARK_CREDIT = '© OpenStreetMap contributors © CARTO';
-const CARTO_DARK_MAX_LEVEL = 20;
+// Esri World Dark Gray Canvas — keyless, no quota.
+// NOTE: Esri tile order is {z}/{y}/{x} — y before x, unlike most providers.
+const ESRI_DARK_BASE = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+const ESRI_DARK_REF = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}';
+const ESRI_DARK_CREDIT = '© Esri, HERE, Garmin, FAO, NOAA, USGS';
+const ESRI_DARK_MAX_LEVEL = 16;
 
 // Satellite path: Esri World Imagery + boundaries/places reference overlay.
 // NOTE: Esri tile order is {z}/{y}/{x} — y before x, unlike most providers.
@@ -66,15 +70,21 @@ function clearLayers() {
 }
 
 function addDarkBasemap() {
-  const dark = new Cesium.UrlTemplateImageryProvider({
-    url: CARTO_DARK,
-    subdomains: 'abcd',
-    credit: new Cesium.Credit(CARTO_DARK_CREDIT, true),
-    maximumLevel: CARTO_DARK_MAX_LEVEL,
+  const base = new Cesium.UrlTemplateImageryProvider({
+    url: ESRI_DARK_BASE,
+    credit: new Cesium.Credit(ESRI_DARK_CREDIT, true),
+    maximumLevel: ESRI_DARK_MAX_LEVEL,
     // Dark raster is opaque — skipping alpha saves texture memory/upload.
     hasAlphaChannel: false,
   });
-  activeLayers.push(viewer.imageryLayers.addImageryProvider(dark));
+  activeLayers.push(viewer.imageryLayers.addImageryProvider(base));
+  // Reference layer: subtle place labels + boundaries over the dark canvas.
+  const ref = new Cesium.UrlTemplateImageryProvider({
+    url: ESRI_DARK_REF,
+    credit: new Cesium.Credit(ESRI_DARK_CREDIT, true),
+    maximumLevel: ESRI_DARK_MAX_LEVEL,
+  });
+  activeLayers.push(viewer.imageryLayers.addImageryProvider(ref));
 }
 
 function addSatelliteBasemap() {

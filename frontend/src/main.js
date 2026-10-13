@@ -29,7 +29,6 @@ import { initLaunches } from './globe/launches/index.js';
 import { initEarthquakes } from './globe/earthquakes/index.js';
 import { initCameras } from './globe/cameras/index.js';
 import { initInstallations } from './globe/installations/index.js';
-import { initSubmarineCables } from './globe/submarineCables/index.js';
 import { initInfrastructure } from './globe/infrastructure/index.js';
 import { initAwareness } from './globe/awareness/index.js';
 import { readSceneFromHash, applyScene, initShareTracking } from './globe/share.js';
@@ -286,7 +285,6 @@ async function init() {
   initEarthquakes(getViewer());
   initCameras(getViewer());
   initInstallations(getViewer());
-  initSubmarineCables(getViewer());
   initInfrastructure(getViewer());
   initAwareness(getViewer()); // subject-centered proximity awareness (GEV audit T1/L1)
   const sharedScene = readSceneFromHash();

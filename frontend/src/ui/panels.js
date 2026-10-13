@@ -18,7 +18,6 @@ import { earthquakesEnabled, earthquakeCount, setEarthquakes } from '../globe/ea
 import { vesselsEnabled, vesselCount, setVessels, getVesselStatus } from '../globe/vessels/index.js';
 import { camerasEnabled, cameraCount, camerasNoKey, setCameras } from '../globe/cameras/index.js';
 import { installationsEnabled, setInstallations } from '../globe/installations/index.js';
-import { submarineCablesEnabled, setSubmarineCables } from '../globe/submarineCables/index.js';
 import { infrastructureEnabled, setInfrastructure } from '../globe/infrastructure/index.js';
 import { basemapMode, setBasemapMode, BASEMAP_DARK, BASEMAP_SATELLITE } from '../globe/basemap.js';
 import { copySceneLink, scheduleHashWrite } from '../globe/share.js';
@@ -333,10 +332,9 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">Storms: NOAA NHC</span></div>`;
-  // Intel layers (audit T2/T3/T4): tile-sourced military land, bundled
-  // TeleGeography cable routes, bundled OSM infrastructure points.
+  // Intel layers (audit T2/T4): tile-sourced military land, bundled
+  // OSM infrastructure points.
   const instOn = installationsEnabled();
-  const cabOn = submarineCablesEnabled();
   const infOn = infrastructureEnabled();
   html += `<div class="layer-family"><span class="micro">INTEL LAYERS</span>
     <div class="layer-row ${instOn ? '' : 'off'}" data-intel="installations">
@@ -345,12 +343,6 @@ function renderLayers(el) {
       <span class="layer-toggle"></span>
     </div>
     <span class="micro">© OpenMapTiles © OpenStreetMap contributors</span>
-    <div class="layer-row ${cabOn ? '' : 'off'}" data-intel="cables">
-      <span class="layer-swatch" style="background:#2dd4bf"></span>
-      <span class="layer-name">Submarine cables</span>
-      <span class="layer-toggle"></span>
-    </div>
-    <span class="micro">© TeleGeography — submarinecablemap.com</span>
     <div class="layer-row ${infOn ? '' : 'off'}" data-intel="infrastructure">
       <span class="layer-swatch" style="background:#22d3ee"></span>
       <span class="layer-name">Datacenters</span>
@@ -498,13 +490,12 @@ function renderLayers(el) {
       });
     });
   });
-  // Intel layers (audit T2/T3/T4) — simple sync toggles, like weather rows.
+  // Intel layers (audit T2/T4) — simple sync toggles, like weather rows.
   el.querySelectorAll('[data-intel]').forEach((row) => {
     row.addEventListener('click', () => {
       const key = row.dataset.intel;
       let on;
       if (key === 'installations') on = setInstallations(!installationsEnabled());
-      else if (key === 'cables') on = setSubmarineCables(!submarineCablesEnabled());
       else on = setInfrastructure(!infrastructureEnabled());
       row.classList.toggle('off', !on);
     });

@@ -1,5 +1,15 @@
 # Third-party notices
 
+## Removal history — TeleGeography submarine cables (CC BY-NC-SA 3.0)
+
+The submarine-cable layer and its bundled TeleGeography dataset
+(`frontend/src/data/cable-geo.json`, `frontend/src/data/landing-point-geo.json`,
+`frontend/src/globe/submarineCables/`) were **removed in full on 2026-10-13**
+because the dataset's CC BY-NC-SA 3.0 license prohibits commercial use and
+this system is a commercial showcase. No TeleGeography data ships in the
+bundle from that date. This note is the license-history record of the
+removal; it is not a credit for current use.
+
 ## Re:Earth terrain (CC BY 4.0)
 
 3D terrain tiles are served by [Re:Earth](https://terrain.reearth.land/)

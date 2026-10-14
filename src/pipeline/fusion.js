@@ -124,6 +124,44 @@ function cleanTitle(t) {
   return String(t || '').replace(/^[A-Z]+\/[A-Z]+\/[A-Z]+>\s*/, '').trim();
 }
 
+/**
+ * J4-04 (Wave 1): mechanical reason codes for a connection.
+ * Each reason is a code + measured params — no prose. The frontend renders
+ * them with fixed templates. Reasons are additive and fully derived from
+ * the chain that produced the score; a missing signal yields no reason
+ * rather than a fabricated one.
+ */
+function buildReasons(chain, scoreInfo) {
+  const reasons = [];
+  // Shared impact tags (the pairing criterion itself).
+  const tags = [...new Set(chain.flatMap((e) => impactTags(e)))];
+  if (tags.length)
+    reasons.push({ code: 'shared_tags', tags: tags.slice(0, 3).map((t) => t.replace(/_/g, ' ')) });
+  // Actual measured time gap, bucketed honestly (never claims tighter).
+  const ts = chain.map((e) => new Date(e.time).getTime()).filter((t) => !Number.isNaN(t));
+  if (ts.length >= 2) {
+    const gapMs = Math.max(...ts) - Math.min(...ts);
+    const windowHours = gapMs < 6 * 3600_000 ? 6 : gapMs < 24 * 3600_000 ? 24 : 72;
+    reasons.push({ code: 'time_window', windowHours });
+  }
+  // Actual measured max separation, rounded up to a coarse bucket.
+  const geo = chain.filter((e) => Number.isFinite(e.lat) && Number.isFinite(e.lon));
+  if (geo.length >= 2) {
+    let maxKm = 0;
+    for (let i = 0; i < geo.length; i++)
+      for (let j = i + 1; j < geo.length; j++)
+        maxKm = Math.max(maxKm, haversineKm(geo[i], geo[j]));
+    const withinKm = maxKm < 100 ? 100 : maxKm < 500 ? 500 : maxKm < 1500 ? 1500 : 4000;
+    reasons.push({ code: 'proximity_km', withinKm: Math.ceil(withinKm) });
+  }
+  // Cross-source corroboration (the real confidence signal).
+  const sources = new Set(chain.map((e) => e.source).filter(Boolean));
+  if (sources.size >= 2) reasons.push({ code: 'sources', count: sources.size });
+  // Detected causal direction, if the scorer found one.
+  if ((scoreInfo?.parts?.cascade || 0) >= 7) reasons.push({ code: 'causal_link' });
+  return reasons;
+}
+
 function buildConnection(chain, scoreInfo) {
   const [cause, ...rest] = chain;
   const effect = rest[rest.length - 1];
@@ -145,6 +183,11 @@ function buildConnection(chain, scoreInfo) {
     scoreParts: scoreInfo.parts,
     tier: score >= 90 ? 'critical' : score >= 75 ? 'high' : 'standard',
     tags,
+    // J4-04 (Wave 1): mechanical reason codes — additive, no generated prose.
+    // The frontend renders these with fixed templates only ("same 6 h window,
+    // 3 shared impact tags, 2 sources"). Each reason links its source events
+    // via the existing `chain`/`eventIds` fields.
+    reasons: buildReasons(chain, scoreInfo),
     chain: chain.map((e, i) => ({
       eventId: e.id,
       role: i === 0 ? 'cause' : i === chain.length - 1 ? 'effect' : 'link',

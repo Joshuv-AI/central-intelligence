@@ -1,91 +1,96 @@
-# Central Intelligence — Backend
+# Central Intelligence
 
-The intel-pipeline API for the Central Intelligence system: a tiered source
-sweeper, a JSON state store, and a small REST + SSE API. One Docker container
-on one VM. No database, no alerting, no briefings, no bots, no LLM calls.
+A central intelligence dashboard for global events, threats, and major
+things happening around the globe: a tiered intel pipeline (REST + SSE API)
+driving a 3D globe frontend with live contact layers (flights, vessels,
+satellites, cameras), earth/environment layers, ground services, and intel
+surfaces (ranked events, changes, pinned places, proximity).
 
-**License: AGPL-3.0-only** (`LICENSE`). This backend will reuse adapters from
-the Crucix codebase, which is AGPL-3.0 — network use requires offering source.
+One repo, one container, one process. No database — the pipeline keeps a
+JSON state store; no alerting, no bots, no LLM calls.
 
-## Run locally
-
-Requires Node 20+.
-
-```bash
-npm install
-npm start          # listens on :3001
-```
-
-Environment overrides: `PORT`, `DATA_DIR`, `TIER1_MS`, `TIER2_MS`, `TIER3_MS`,
-`FETCH_TIMEOUT_MS`, `FEED_LIMIT`, `AISSTREAM_KEY` (ships layer), `WINDY_API_KEY`
-(public cameras layer — free key at https://api.windy.com).
-
-## Run with Docker (the VM path)
-
-```bash
-docker compose up -d --build
-docker compose logs -f
-```
-
-State lives in `./data/` (mounted volume) and survives rebuilds.
-
-## API
-
-| Endpoint | Purpose |
-|---|---|
-| `GET /api/health` | Source health: total / healthy / stale, last sweep, per-source status |
-| `GET /api/snapshot` | First-load bundle: markers + connections + feed + meta |
-| `GET /api/events?domain=&region=&since=` | Filtered events (e.g. `?domain=conflict&region=middle%20east`) |
-| `GET /api/stream` | SSE: `snapshot` on connect, `update` after every sweep |
-| `/proxy/*` | Live-layer forwarder stub — 501 until Phase 2 wires it |
+**License: AGPL-3.0-only** (`LICENSE`) — network use requires offering
+source. The frontend base is a vendored MIT copy of God's Eye View
+(`frontend/VENDOR.md`, `frontend/GEV-LICENSE`); third-party notices live in
+`THIRD-PARTY-NOTICES.md` and in-app at the credits surface.
 
 ## Layout
 
 ```
 src/
-  index.js            entry point: Express + scheduler + SSE wiring
+  index.js            entry: Express + scheduler + SSE + static frontend
   config.js           env-driven config
-  api/routes.js       /api/* endpoints
-  api/proxy.js        /proxy/* stub
-  lib/sse.js          SSE client registry + broadcast
+  api/routes.js       intel API: /api/health|snapshot|events|stream|changes
+  api/gev.js          adapter: /api/capabilities|flights|vessels|cyclones|
+                      firms|tomtom|gbfs|transit|route|geocode|overpass|
+                      radio|cameras/catalog|celestrak|launches (ARCH §4.2)
+  api/cameras.js      camera catalog + Windy-backed camera search
+  api/proxy.js        /proxy/* upstream forwarder (cached, honest errors)
+  ais/                AISStream hub → /api/vessels/stream (SSE)
   pipeline/
     scheduler.js      tiered sweeps, isolated per-source timeouts
+    adapters/         35 sources: tier1/ (15) + tier2/ (16) + tier3/ (4)
     normalize.js      canonical event schema + validation
     store.js          atomic JSON state store (data/*.json)
-    adapters/
-      index.js        registry: 37 sources across 3 tiers
-      tier1/          13 stubs — ~15 min (conflict, disasters, cyber KEV, space wx…)
-      tier2/          18 stubs — ~30–60 min (sanctions, health, social, environment…)
-      tier3/          6 stubs  — daily (economic: BLS, Treasury…)
+frontend/             vendored GEV base, scrubbed + rebranded (VENDOR.md)
+  src/                layers/, intel/, ui/, data/, app/ …
+  scripts/            dev tooling (layer-state token ledger checker)
 ```
 
-## Pipeline (Phase 1 skeleton)
+## Run locally
 
-```
-tier scheduler (staggered) → parallel fetch (25s timeout, isolated failures)
-  → normalize → replace per-source events → JSON store → SSE broadcast
-```
+Requires Node >=24.14.0 <25.
 
-Adapters are stubs returning `[]` until Phase 2 ports the real fetchers.
-Phase 2 adds: intelligence layer (cascades, anomalies, clustering), delta
-engine, rule-based fusion → `connections` + `feed`.
-
-## Normalized event schema
-
-```json
-{
-  "id": "acled-12345",
-  "source": "acled",
-  "domain": "conflict",
-  "title": "…",
-  "summary": "…",
-  "lat": 33.5, "lon": 44.4,
-  "region": "Middle East",
-  "time": "2026-09-27T12:00:00Z",
-  "severity": "high",
-  "url": "https://…",
-  "attribution": "ACLED"
-}
+```bash
+npm ci && npm start                       # backend on :3001
+cd frontend && npm ci && npm run build     # frontend → frontend/dist
 ```
 
-`severity` is one of `low | moderate | high | critical`.
+The backend serves the built frontend from `./public` (the Docker image
+copies `frontend/dist` there at build time; locally, copy `frontend/dist`
+to `./public` to serve both from one process).
+
+Environment overrides: `PORT`, `DATA_DIR`, `TIER1_MS`, `TIER2_MS`,
+`TIER3_MS`, `FETCH_TIMEOUT_MS`, `FEED_LIMIT`, and the optional provider
+keys (server-side only, never in chat): `AISSTREAM_KEY` (vessels),
+`WINDY_API_KEY` (camera search), `TOMTOM_API_KEY` (traffic flow tiles),
+`FIRMS_MAP_KEY` (NASA fire detections). Every dependent layer ships with
+an honest unkeyed state until its key is provisioned.
+
+## Tests
+
+```bash
+npm test                                   # backend: 7 suites
+cd frontend && node --test "src/**/*.test.mjs"   # frontend suite
+```
+
+## Deploy
+
+`Dockerfile` is multi-stage (`node:24-alpine`): builds the frontend, then
+copies `frontend/dist` to `./public` in the runtime image.
+
+Production host: GCP e2-micro (`us-east1-b`). Deploy flow: push to `main`
+→ the VM's `ci-pull` cron (5 min) → `ci-deploy` build + health gate.
+The `gev-rebuild` branch carries the merged-system build; cutover is a
+single ref move of `main` to the branch head (pre-cutover `main` SHA is
+recorded first; rollback is one ref reset). Never push the rebuild to
+`main` directly — `bin/gh-push-branch.py` (in `central-intelligence-system/`)
+pushes the branch via the Git Data API; `bin/gh-push.py` is hardcoded to
+`main` and must never point at this tree.
+
+## API (core intel contract)
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/health` | Source health: total / healthy / stale, last sweep, deploy SHA |
+| `GET /api/snapshot` | First-load bundle: markers + connections + feed + meta |
+| `GET /api/events?domain=&region=&since=` | Filtered events |
+| `GET /api/stream` | SSE: `snapshot` on connect, `update` ping per sweep |
+| `GET /api/changes?window=` | 1h/6h/24h change log for the Changes view |
+| `GET /api/capabilities` | Feature/key capability flags (drives honest UI states) |
+| `GET /api/vessels/stream` | SSE vessel positions (AISStream hub, server-owned key) |
+| `/proxy/*` | Cached upstream forwarder with `X-Data-Age` / `X-Data-Stale` |
+
+Adapter JSON responses carry `{fetchedAt, stale, ttlMs}`; key-unset is
+`503 {error:"no_key"}` (or the feature's documented honest state) — never
+fabricated data, never silent failure.

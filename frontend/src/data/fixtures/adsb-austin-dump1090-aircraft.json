@@ -1,0 +1,43 @@
+{
+  "_note": "SYNTHETIC test vector created 2026-10-14 (pre-cutover audit). Replaces the S10-excluded capture; values are arbitrary and assert only the normalizer contract in adsbRecords.test.mjs. Not real traffic.",
+  "now": 1790127100.0,
+  "messages": 120,
+  "aircraft": [
+    {
+      "hex": "ae5d8a",
+      "flight": "SHINR42",
+      "alt_baro": 1600,
+      "gs": 129.9,
+      "track": 330.5,
+      "baro_rate": 64,
+      "lat": 30.269662,
+      "lon": -97.793262,
+      "seen": 30.5,
+      "seen_pos": 34.6,
+      "messages": 74,
+      "rssi": -30.0
+    },
+    {
+      "hex": "a3c775",
+      "alt_baro": 34000,
+      "lat": 30.360625,
+      "lon": -97.919659,
+      "seen": 10.0,
+      "seen_pos": 43.4,
+      "messages": 12,
+      "rssi": -28.5
+    },
+    {
+      "hex": "a15c54",
+      "flight": "SKW3301",
+      "seen": 5.0,
+      "messages": 3
+    },
+    {
+      "hex": "a46e6a",
+      "seen": 8.0,
+      "messages": 5,
+      "rssi": -32.0
+    }
+  ]
+}

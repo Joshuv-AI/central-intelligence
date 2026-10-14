@@ -1,0 +1,28 @@
+[
+  {
+    "name": "viirs-basic",
+    "csv": "latitude,longitude,bright_ti4,scan,track,acq_date,acq_time,satellite,instrument,confidence,version,bright_ti5,frp,daynight\n38.99,-121.67,303.6,0.5,0.4,2026-07-16,1100,N20,VIIRS,n,2.0,290.7,0.5,N\n39.10,-121.70,310.2,0.5,0.4,2026-07-16,1200,N20,VIIRS,h,2.0,295.1,1.2,D\n",
+    "parsedCount": 2,
+    "now": "2026-07-16T12:00:00Z",
+    "recentTimes": [
+      "1100",
+      "1200"
+    ]
+  },
+  {
+    "name": "modis-header",
+    "csv": "latitude,longitude,brightness,scan,track,acq_date,acq_time,satellite,instrument,confidence,version,bright_t31,frp,daynight\n38.99,-121.67,303.6,0.5,0.4,2026-07-16,1130,Terra,MODIS,80,6.1,290.7,0.5,N\n39.10,-121.70,310.2,0.5,0.4,2026-07-14,1130,Terra,MODIS,90,6.1,295.1,1.2,D\n",
+    "parsedCount": 2,
+    "now": "2026-07-16T12:00:00Z",
+    "recentTimes": [
+      "1130"
+    ]
+  },
+  {
+    "name": "not-csv",
+    "csv": "<html><body>Invalid MAP_KEY</body></html>",
+    "parsedCount": null,
+    "now": "2026-07-16T12:00:00Z",
+    "recentTimes": []
+  }
+]

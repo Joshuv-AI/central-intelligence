@@ -8,6 +8,8 @@ function addClient(res) {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     Connection: 'keep-alive',
+    // ARCH §4.6 touch 2: keep reverse proxies from buffering the stream.
+    'X-Accel-Buffering': 'no',
   });
   res.write(': connected\n\n');
   clients.add(res);

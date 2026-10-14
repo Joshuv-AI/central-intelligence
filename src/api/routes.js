@@ -47,6 +47,21 @@ function apiRoutes(store) {
     }
   });
 
+  // J4-02 (Wave 2): what changed in the window, from the capped delta
+  // retention log (delta-only, ≤8 MB / 72 h). ?window=1h|6h|24h.
+  router.get('/changes', (req, res) => {
+    const w = String(req.query.window || '6h');
+    const windowMs = w === '1h' ? 3600_000 : w === '24h' ? 24 * 3600_000 : 6 * 3600_000;
+    const canonical = w === '1h' ? '1h' : w === '24h' ? '24h' : '6h';
+    try {
+      const { readChanges } = require('../pipeline/changeLog');
+      res.json({ window: canonical, ...readChanges(store.dir, windowMs) });
+    } catch (err) {
+      console.error('[api] /changes failed:', err && err.message);
+      res.status(500).json({ error: 'internal_error' });
+    }
+  });
+
   return router;
 }
 

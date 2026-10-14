@@ -1,17 +1,18 @@
 {
   "dependencies": {
+    "compression": "^1.8.2",
     "express": "5.2.1"
   },
-  "description": "Central Intelligence \u2014 intel pipeline API backend (proxy + tiered source sweeps + JSON state).",
+  "description": "Central Intelligence — intel pipeline API backend (proxy + tiered source sweeps + JSON state).",
   "engines": {
-    "node": ">=20"
+    "node": ">=24.14.0 <25"
   },
   "license": "AGPL-3.0-only",
   "main": "src/index.js",
   "name": "central-intelligence-backend",
   "scripts": {
     "start": "node src/index.js",
-    "test": "node test/brain.test.js && node test/scheduler.test.js && node test/cameras.test.js"
+    "test": "node test/brain.test.js && node test/scheduler.test.js && node test/cameras.test.js && node test/gev-adapter.test.js && node test/snapshot-contract.test.js && node test/fusion.test.js && node test/changes.test.js"
   },
   "type": "commonjs",
   "version": "0.1.0"

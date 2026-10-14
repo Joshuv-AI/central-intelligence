@@ -228,6 +228,18 @@ function runBrain(store) {
     console.error('[brain] delta failed:', err.message);
   }
 
+  // J4-02 (Wave 2): capped delta retention for the Change view. The first
+  // run ever (no previous delta map) is the baseline — its "everything is
+  // new" flood never enters the log. Guarded like every other stage.
+  try {
+    const { recordChanges } = require('./changeLog');
+    const prevMap = meta.deltaPrev;
+    const baseline = !prevMap || Object.keys(prevMap).length === 0;
+    recordChanges(store.dir, changes, { baseline });
+  } catch (err) {
+    console.error('[brain] change log failed:', err.message);
+  }
+
   // 2. Intelligence: cascades -> anomalies -> clusters.
   let anomalies = [];
   let clusters = [];

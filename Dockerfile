@@ -4,7 +4,7 @@
 # which serves the built frontend as static files (same origin, port 3001).
 
 # ---- Stage 1: frontend build ----
-FROM node:22-alpine AS frontend-build
+FROM node:24-alpine AS frontend-build
 
 WORKDIR /frontend
 COPY frontend/package.json frontend/package-lock.json ./
@@ -13,10 +13,16 @@ COPY frontend ./
 # Public client-side CARTO basemap key (ships in the browser bundle by design —
 # every visitor's tile URLs contain it; restrict by domain in the CARTO dashboard).
 ARG VITE_CARTO_KEY
+# Build stamp (§4.6 step-3): the same GIT_SHA the backend stage bakes in as
+# DEPLOY_SHA (surfaced by /api/health and /api/capabilities build.sha).
+# Exposed to the Vite build as VITE_DEPLOY_SHA so the served app can display
+# the identical SHA and the client can compare it with /api/capabilities.
+ARG GIT_SHA=unknown
+ENV VITE_DEPLOY_SHA=$GIT_SHA
 RUN npm run build
 
 # ---- Stage 2: backend runtime ----
-FROM node:22-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 

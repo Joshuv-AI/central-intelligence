@@ -1,0 +1,238 @@
+/* ── Lane H shell layer: dock search takeover, panel-stack reachability
+      (R12), two-tier chrome a11y, and the mobile-specific layout (§L).
+      Loaded LAST in style.css so these rules win over the base dock styles. */
+
+/* ── Bottom-dock search takeover (Rulings §2) ─────────────────────────── */
+.dock-search-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 12px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(123, 189, 211, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 1.5px;
+}
+.dock-search-btn:focus-visible,
+#dock-search-close:focus-visible,
+.dock-search-result:focus-visible {
+  outline: 2px solid #7bbdd3;
+  outline-offset: 2px;
+}
+
+#dock-search-takeover {
+  display: none;
+}
+#command-dock.search-takeover {
+  display: block;
+}
+#command-dock.search-takeover > #location-bar,
+#command-dock.search-takeover > #control-panel,
+#command-dock.search-takeover > #gev-voice-control {
+  display: none;
+}
+#command-dock.search-takeover #dock-search-takeover {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  padding: 6px 10px;
+  position: relative;
+}
+#dock-search-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  color: #eaf6fa;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(123, 189, 211, 0.4);
+  border-radius: 8px;
+  font-size: 16px; /* ≥16px stops iOS focus zoom */
+}
+#dock-search-close {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(123, 189, 211, 0.35);
+  border-radius: 8px;
+  font-size: 22px;
+  cursor: pointer;
+}
+#dock-search-results {
+  position: absolute;
+  left: 10px;
+  right: 64px;
+  bottom: calc(100% + 8px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#dock-search-results:empty {
+  display: none;
+}
+.dock-search-result {
+  min-height: 44px;
+  padding: 8px 12px;
+  text-align: left;
+  color: #eaf6fa;
+  background: rgba(9, 18, 27, 0.96);
+  border: 1px solid rgba(123, 189, 211, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+}
+.dock-search-result[data-active='true'] {
+  border-color: #7bbdd3;
+  background: rgba(0, 60, 84, 0.96);
+}
+
+/* ── R12: panel-stack reachability ──────────────────────────────────────
+   Desktop stacks were flex columns with no overflow: expanding one panel
+   pushed later panels (SCENES, DISPLAY) off-layout and their collapse
+   buttons reported zero size — the Stage-1 trap. The stacks now scroll,
+   and every collapse affordance keeps a real, tappable box. */
+#left-panel-stack,
+#right-context-rail {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.panel-collapse-btn {
+  min-width: 32px;
+  min-height: 32px;
+  flex: 0 0 auto;
+}
+
+/* ── Two-tier HUD (§7.3): telemetry is opt-in detail ─────────────────────
+   The plain summary line is always visible; the engineering strips
+   (GSD/NIIRS/orbital flavor) render only when the HUD carries the
+   `telemetry-on` class, toggled from the DISPLAY panel. */
+#intel-hud:not(.telemetry-on) .hud-top-right,
+#intel-hud:not(.telemetry-on) .hud-bottom-right,
+#intel-hud:not(.telemetry-on) .hud-left-edge,
+#intel-hud:not(.telemetry-on) .hud-right-edge {
+  display: none;
+}
+
+/* ── Mobile: its own design, not a shrink (§L) ────────────────────────── */
+@media (max-width: 720px) {
+  /* Dock: single row of big targets; takeover is full-width. */
+  #command-dock {
+    width: calc(100vw - 16px);
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .dock-search-btn {
+    min-height: 48px;
+  }
+  #command-dock.search-takeover #dock-search-takeover {
+    min-height: 64px;
+  }
+  #dock-search-results {
+    right: 10px;
+  }
+  /* Feed-card budget on phones: at most 2 intel/feed cards visible —
+     further cards wait instead of stacking over the globe. */
+  .intel-feed-card:nth-of-type(n + 3),
+  .feed-card:nth-of-type(n + 3) {
+    display: none;
+  }
+  /* Chrome touch targets ≥44px. */
+  .panel-collapse-btn,
+  .data-toggle-btn,
+  .scene-btn,
+  .pp-toggle-btn {
+    min-height: 44px;
+  }
+  .data-toggle-btn {
+    min-width: 56px;
+  }
+  /* Panels never stack over the globe two-deep on mobile: an expanded
+     panel takes the rail; siblings stay as collapsed headers. */
+  #left-panel-stack,
+  #right-context-rail {
+    max-height: 46vh;
+  }
+}
+
+/* ── F12: mobile panel docking (§L.1) ─────────────────────────────────── */
+/* At ≤720px the DEFAULT state keeps the globe usable: both panel rails dock
+   off and the INTEL panel starts collapsed behind its pill (see
+   src/intel/ui.js); the PANELS toggle opens the rails as an overlay sheet.
+   State is owned by src/ui/mobilePanelDock.js via body classes. */
+#mobile-panels-toggle {
+  position: fixed;
+  left: 16px;
+  top: 64px;
+  z-index: 95;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0 14px;
+  border-radius: 28px;
+  background: rgba(7, 13, 24, 0.92);
+  border: 1px solid rgba(127, 206, 240, 0.35);
+  color: #e8f2fa;
+  font: 600 11px/1 system-ui, sans-serif;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+#mobile-panels-toggle .material-symbols-outlined {
+  font-size: 20px;
+}
+@media (max-width: 720px) {
+  body.mobile-panels-docked #mobile-panels-toggle,
+  body.mobile-panels-open #mobile-panels-toggle {
+    display: inline-flex;
+  }
+  body.mobile-panels-docked #left-panel-stack,
+  body.mobile-panels-docked #right-context-rail {
+    display: none;
+  }
+  /* The HUD top-left block sat on top of the SCENES panel header; while the
+     mobile sheet is open it is hidden outright (its content duplicates the
+     title bar). In the docked default there is nothing to collide with. */
+  body.mobile-panels-open .hud-top-left {
+    display: none;
+  }
+  /* The open sheet starts below the CLOSE pill so the first panel header
+     (DATA LAYERS) never sits under it. */
+  body.mobile-panels-open #left-panel-stack {
+    top: 128px;
+  }
+
+  /* ── F13: 44px touch floor for the top bar + dock chrome ─────────── */
+  #top-center-actions button {
+    width: 44px;
+    height: 44px;
+  }
+  #top-center-actions .material-symbols-outlined {
+    font-size: 20px;
+  }
+  /* F2 fallback labels stay inside their 44px buttons — no crowding. */
+  .no-icon-font #top-center-actions button:has(> .material-symbols-outlined:only-child)::after {
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+  #command-dock #location-bar .dock-tray-toggle,
+  #command-dock #control-panel .dock-tray-toggle,
+  #command-dock #control-panel.collapsed .dock-tray-toggle,
+  #command-dock .panel-collapse-btn,
+  #command-dock .dock-pin-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  #command-dock #gev-voice-button {
+    height: 44px;
+  }
+}

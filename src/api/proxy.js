@@ -36,28 +36,63 @@ async function fetchUpstream(base, path) {
   }
 }
 
+// ARCH §4.6 touch 3 (additive): staleness headers on every proxied
+// response — X-Data-Age (seconds since the cached copy was fetched) and
+// X-Data-Stale (true when the served copy is past its TTL or was served
+// after an upstream failure). No body/shape change.
+function setDataHeaders(res, at, stale, now = Date.now()) {
+  res.set('X-Data-Age', String(Math.max(0, Math.floor((now - at) / 1000))));
+  res.set('X-Data-Stale', stale ? 'true' : 'false');
+}
+
 function cachedProxy(base, path, cacheMs = CACHE_MS) {
   return async (req, res) => {
     const key = base + path;
     const now = Date.now();
     const hit = cache.get(key);
     if (hit && now - hit.at < cacheMs) {
+      setDataHeaders(res, hit.at, false, now);
       res.status(hit.status).type(hit.contentType).send(hit.body);
       return;
     }
     try {
       const up = await fetchUpstream(base, path);
       if (up.status === 200) cache.set(key, { at: now, ...up });
+      setDataHeaders(res, now, false, now);
       res.status(up.status).type(up.contentType).send(up.body);
     } catch (err) {
       // Serve stale on upstream failure so the globe degrades gracefully.
       if (hit) {
+        setDataHeaders(res, hit.at, true);
         res.status(hit.status).type(hit.contentType).send(hit.body);
         return;
       }
       res.status(502).json({ error: 'upstream_unavailable', detail: String(err && err.message || err) });
     }
   };
+}
+
+// ARCH §4.6 touch 3: ONE cached NHC fetch shared by /proxy/nhc/storms
+// (raw shape, via cachedProxy above — same cache map + key) and
+// /api/cyclones (normalized shape, via src/api/gev.js).
+// Returns { data, fetchedAt, stale, ttlMs }; throws when upstream fails
+// and nothing is cached.
+async function getNhcStorms() {
+  const key = NHC_UPSTREAM + '/CurrentStorms.json';
+  const now = Date.now();
+  const hit = cache.get(key);
+  if (hit && now - hit.at < NHC_CACHE_MS) {
+    return { data: JSON.parse(hit.body), fetchedAt: hit.at, stale: false, ttlMs: NHC_CACHE_MS };
+  }
+  try {
+    const up = await fetchUpstream(NHC_UPSTREAM, '/CurrentStorms.json');
+    if (up.status !== 200) throw new Error(`nhc http ${up.status}`);
+    cache.set(key, { at: now, ...up });
+    return { data: JSON.parse(up.body), fetchedAt: now, stale: false, ttlMs: NHC_CACHE_MS };
+  } catch (err) {
+    if (hit) return { data: JSON.parse(hit.body), fetchedAt: hit.at, stale: true, ttlMs: NHC_CACHE_MS };
+    throw err;
+  }
 }
 
 function proxyRoutes() {
@@ -89,4 +124,4 @@ function proxyRoutes() {
   return router;
 }
 
-module.exports = { proxyRoutes };
+module.exports = { proxyRoutes, getNhcStorms };

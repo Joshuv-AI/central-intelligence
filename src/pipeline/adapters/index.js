@@ -14,6 +14,7 @@ const ADAPTERS = [
   { name: 'usgs_earthquakes', tier: 1, domain: 'disasters', file: './tier1/usgs_earthquakes.js' },
   { name: 'tsunamis', tier: 1, domain: 'disasters', file: './tier1/tsunamis.js' },
   { name: 'noaa_hurricanes', tier: 1, domain: 'disasters', file: './tier1/noaa_hurricanes.js' },
+  { name: 'nws_cap', tier: 1, domain: 'disasters', file: './tier1/nws_cap.js' },
   { name: 'gps_jamming', tier: 1, domain: 'signals', file: './tier1/gps_jamming.js' },
   { name: 'solar', tier: 1, domain: 'space', file: './tier1/solar.js' },
   { name: 'noaa_swpc', tier: 1, domain: 'space', file: './tier1/noaa_swpc.js' },

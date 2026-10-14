@@ -1,0 +1,36 @@
+  <!-- Lane G intel surfaces (B4 feed / B7 status / B8 regions / B9 guide) -->
+  <button id="ci-intel-open" type="button" hidden>Intel feed</button>
+  <div id="ci-intel-banner" role="status" aria-live="polite" hidden>
+    <span id="ci-intel-banner-text"></span>
+    <button id="ci-intel-banner-dismiss" type="button">Dismiss</button>
+  </div>
+  <section id="ci-intel-root" aria-label="Intelligence feed and connections">
+    <div class="ci-head">
+      <span class="ci-title">INTEL</span>
+      <span id="ci-intel-pill" class="ci-pill"><span class="dot"></span>Connecting…</span>
+      <button id="ci-intel-close" class="ci-x" type="button" aria-label="Collapse intel panel">×</button>
+    </div>
+    <div class="ci-tabs" role="tablist" aria-label="Intel panels">
+      <button class="ci-tab" type="button" role="tab" data-tab="top" aria-selected="true">Top</button>
+      <button class="ci-tab" type="button" role="tab" data-tab="feed" aria-selected="false">Feed</button>
+      <button class="ci-tab" type="button" role="tab" data-tab="changes" aria-selected="false">Changes</button>
+      <button class="ci-tab" type="button" role="tab" data-tab="connections" aria-selected="false">Connections</button>
+      <button class="ci-tab" type="button" role="tab" data-tab="regions" aria-selected="false">Regions</button>
+      <button class="ci-tab" type="button" role="tab" data-tab="guide" aria-selected="false">Guide</button>
+      <button class="ci-tab" type="button" role="tab" data-tab="system" aria-selected="false">System</button>
+    </div>
+    <!-- J4-15 severity floor dial: plain-language global filter (feed + connections + markers), share-link encoded -->
+    <div class="ci-sev" role="group" aria-label="Severity filter">
+      <span class="k" id="ci-sev-label">Show me</span>
+      <button class="ci-sev-btn" type="button" data-sev="all" aria-pressed="true" aria-describedby="ci-sev-label">All</button>
+      <button class="ci-sev-btn" type="button" data-sev="notable" aria-pressed="false" aria-describedby="ci-sev-label">Notable+</button>
+      <button class="ci-sev-btn" type="button" data-sev="high" aria-pressed="false" aria-describedby="ci-sev-label">High+</button>
+    </div>
+    <div id="ci-intel-body" class="ci-body"></div>
+  </section>
+  <div id="ci-card" hidden></div>
+  <button id="ci-ticker" type="button" hidden>
+    <span class="ci-ticker-label">LATEST</span>
+    <span id="ci-ticker-dot" class="dot"></span>
+    <span id="ci-ticker-text"></span>
+  </button>
